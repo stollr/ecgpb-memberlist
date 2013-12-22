@@ -1,0 +1,4 @@
+ecgpb_member:
+    resource: "@EcgpbMemberBundle/Resources/config/routing.yml"
+    prefix:   /
+

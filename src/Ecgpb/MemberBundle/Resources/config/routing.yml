@@ -1,0 +1,31 @@
+ecgpb.member.index.index:
+    pattern: /
+    defaults: { _controller: "EcgpbMemberBundle:Index:index", _locale: de }
+
+# person actions
+
+ecgpb.member.person.index:
+    pattern:  /person/index
+    defaults: { _controller: "EcgpbMemberBundle:Person:index", _locale: de }
+
+ecgpb.member.person.new:
+    pattern:  /person/new
+    defaults: { _controller: "EcgpbMemberBundle:Person:new", _locale: de }
+
+ecgpb.member.person.create:
+    pattern:  /person/create
+    defaults: { _controller: "EcgpbMemberBundle:Person:create", _locale: de }
+    requirements: { _method: post }
+
+ecgpb.member.person.edit:
+    pattern:  /person/{id}/edit
+    defaults: { _controller: "EcgpbMemberBundle:Person:edit", _locale: de }
+
+ecgpb.member.person.update:
+    pattern:  /person/{id}/update
+    defaults: { _controller: "EcgpbMemberBundle:Person:update", _locale: de }
+    requirements: { _method: post|put }
+
+ecgpb.member.person.delete:
+    pattern:  /person/{id}/delete
+    defaults: { _controller: "EcgpbMemberBundle:Person:delete", _locale: de }

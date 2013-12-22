@@ -1,0 +1,32 @@
+Ecgpb\MemberBundle\Entity\Person:
+    type: entity
+    table: person
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        firstname:
+            type: string
+            length: '30'
+        birthDate:
+            type: date
+        mobile:
+            type: string
+            length: '30'
+            nullable: true
+        email:
+            type: string
+            length: '100'
+            nullable: true
+        phone2:
+            type: string
+            length: '30'
+            nullable: true
+        maidenName:
+            type: string
+            length: '40'
+            nullable: true
+    lifecycleCallbacks: {  }

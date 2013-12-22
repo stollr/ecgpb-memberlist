@@ -1,0 +1,26 @@
+Ecgpb\MemberBundle\Entity\Address:
+    type: entity
+    table: address
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        familyName:
+            type: string
+            length: '50'
+        phone:
+            type: string
+            length: '30'
+        street:
+            type: string
+            length: '50'
+        zip:
+            type: string
+            length: '5'
+        city:
+            type: string
+            length: '40'
+    lifecycleCallbacks: {  }
