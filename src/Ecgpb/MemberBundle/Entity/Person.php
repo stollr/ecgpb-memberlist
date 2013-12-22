@@ -44,6 +44,11 @@ class Person
      */
     private $maidenName;
 
+    /**
+     * @var \Ecgpb\MemberBundle\Entity\Address
+     */
+    private $address;
+
 
     /**
      * Get id
@@ -191,5 +196,30 @@ class Person
     public function getMaidenName()
     {
         return $this->maidenName;
+    }
+
+    /**
+     * Set address
+     *
+     * @param \Ecgpb\MemberBundle\Entity\Address $address
+     * @return Person
+     */
+    public function setAddress(\Ecgpb\MemberBundle\Entity\Address $address)
+    {
+        $this->address = $address;
+        if (!$address->getPersons()->contain($this)) {
+            $address->getPersons()->add($this);
+        }
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return \Ecgpb\MemberBundle\Entity\Address 
+     */
+    public function getAddress()
+    {
+        return $this->address;
     }
 }

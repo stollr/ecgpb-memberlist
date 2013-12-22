@@ -23,4 +23,8 @@ Ecgpb\MemberBundle\Entity\Address:
         city:
             type: string
             length: '40'
+    oneToMany:
+        persons:
+            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            mappedBy: address
     lifecycleCallbacks: {  }

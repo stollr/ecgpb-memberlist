@@ -29,4 +29,11 @@ Ecgpb\MemberBundle\Entity\Person:
             type: string
             length: '40'
             nullable: true
+    manyToOne:
+        address:
+            targetEntity: Ecgpb\MemberBundle\Entity\Address
+            inversedBy: persons
+            joinColumn:
+                name: address_id
+                nullable: false
     lifecycleCallbacks: {  }

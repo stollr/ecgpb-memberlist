@@ -39,6 +39,18 @@ class Address
      */
     private $city;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $persons;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->persons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -163,5 +175,39 @@ class Address
     public function getCity()
     {
         return $this->city;
+    }
+
+
+    /**
+     * Add persons
+     *
+     * @param \Ecgpb\MemberBundle\Entity\Person $persons
+     * @return Address
+     */
+    public function addPerson(\Ecgpb\MemberBundle\Entity\Person $persons)
+    {
+        $this->persons[] = $persons;
+        $person->setAddress($this);
+        return $this;
+    }
+
+    /**
+     * Remove persons
+     *
+     * @param \Ecgpb\MemberBundle\Entity\Person $persons
+     */
+    public function removePerson(\Ecgpb\MemberBundle\Entity\Person $persons)
+    {
+        $this->persons->removeElement($persons);
+    }
+
+    /**
+     * Get persons
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPersons()
+    {
+        return $this->persons;
     }
 }
