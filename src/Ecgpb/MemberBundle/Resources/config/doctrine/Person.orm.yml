@@ -33,6 +33,7 @@ Ecgpb\MemberBundle\Entity\Person:
         address:
             targetEntity: Ecgpb\MemberBundle\Entity\Address
             inversedBy: persons
+            cascade: [ persist, remove ]
             joinColumn:
                 name: address_id
                 nullable: false

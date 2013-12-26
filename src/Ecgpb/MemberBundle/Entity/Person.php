@@ -207,7 +207,7 @@ class Person
     public function setAddress(\Ecgpb\MemberBundle\Entity\Address $address)
     {
         $this->address = $address;
-        if (!$address->getPersons()->contain($this)) {
+        if (!$address->getPersons()->contains($this)) {
             $address->getPersons()->add($this);
         }
         return $this;

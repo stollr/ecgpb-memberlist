@@ -26,5 +26,6 @@ Ecgpb\MemberBundle\Entity\Address:
     oneToMany:
         persons:
             targetEntity: Ecgpb\MemberBundle\Entity\Person
+            cascade: [ persist, remove ]
             mappedBy: address
     lifecycleCallbacks: {  }
