@@ -77,3 +77,9 @@ mopa_bootstrap:
         horizontal_label_class: "col-sm-4"
         horizontal_input_wrapper_class: "col-sm-7"
     #menu: ~  # enables twig helpers for menu
+
+services:
+    twig.extensions.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
