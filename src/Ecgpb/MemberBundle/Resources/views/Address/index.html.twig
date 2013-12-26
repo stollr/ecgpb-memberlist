@@ -1,6 +1,10 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+    <a class="btn btn-success pull-right" href="{{ path('ecgpb.member.address.new') }}">
+        <span class="glyphicon glyphicon-plus"></span>
+    </a>
+
     <h1>{% trans %}Addresses{% endtrans %}</h1>
 
     <table class="table table-bordered">
@@ -27,7 +31,7 @@
                         <strong>{{ person.firstname }}</strong>
                     </td>
                     <td>
-                        {{ person.birthDate | localizeddate }}
+                        {{ person.birthDate | localizeddate('medium', 'none') }}
                     </td>
                     <td>
                         <p>{{ person.mobile }}</p>
@@ -43,12 +47,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('ecgpb.member.address.new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% endblock %}
