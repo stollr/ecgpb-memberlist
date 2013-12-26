@@ -10,8 +10,42 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <h1>{% trans %}ECGPB Member List{% endtrans %}</h1>
-        {% block body %}{% endblock %}
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-default" role="navigation">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">
+                            {% trans %}ECGPB Member List{% endtrans %}
+                        </a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href="{{ path('ecgpb.member.address.index') }}">
+                                    {% trans %}Addresses{% endtrans %}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('ecgpb.member.person.index') }}">
+                                    {% trans %}Persons{% endtrans %}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">{% trans %}Print{% endtrans %}</a>
+                            </li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div id="body-block" class="col-md-12">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('bundles/ecgpbmember/bootstrap/js/bootstrap.min.js') }}"></script>
         {% endblock %}
