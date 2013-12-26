@@ -2,12 +2,18 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}ECGPB{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('bundles/ecgpbmember/bootstrap/css/bootstrap-theme.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
+            <link href="{{ asset('bundles/ecgpbmember/bootstrap/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+        <h1>{% trans %}ECGPB Member List{% endtrans %}</h1>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('bundles/ecgpbmember/bootstrap/js/bootstrap.min.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
