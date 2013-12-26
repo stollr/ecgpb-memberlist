@@ -1,9 +1,10 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Person edit</h1>
+    <h2>{% trans %}Edit Person{% endtrans %}</h2>
 
-    {{ form(edit_form) }}
+    
+    {{ form(form) }}
 
     <ul class="record_actions">
         <li>

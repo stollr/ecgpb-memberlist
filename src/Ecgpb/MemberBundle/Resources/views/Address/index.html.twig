@@ -1,39 +1,44 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Address list</h1>
+    <h1>{% trans %}Addresses{% endtrans %}</h1>
 
-    <table class="records_list">
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Familyname</th>
-                <th>Phone</th>
-                <th>Street</th>
-                <th>Zip</th>
-                <th>City</th>
-                <th>Actions</th>
+                <th>{% trans %}Name, Address, Phone{% endtrans %}</th>
+                <th>{% trans %}First Name{% endtrans %}</th>
+                <th><small>{% trans %}Date of Birth{% endtrans %}</small></th>
+                <th>{% trans %}Mobile, Email{% endtrans %}</th>
+                <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('address_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.familyName }}</td>
-                <td>{{ entity.phone }}</td>
-                <td>{{ entity.street }}</td>
-                <td>{{ entity.zip }}</td>
-                <td>{{ entity.city }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('address_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('address_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                <td rowspan="{{ entity.persons | length }}">
+                    <p><strong>{{ entity.familyName }}</strong></p>
+                    <p><strong>{{ entity.phone }}</strong></p>
+                    <p><i>{{ entity.street }}</i></p>
+                    <p><i>{{ entity.zip }} {{ entity.city }}</i></p>
                 </td>
+                {% for person in entity.persons %}
+                    <td>
+                        <strong>{{ person.firstname }}</strong>
+                    </td>
+                    <td>
+                        {{ person.birthDate | localizeddate }}
+                    </td>
+                    <td>
+                        <p>{{ person.mobile }}</p>
+                        <p>{{ person.email }}</p>
+                    </td>
+                    <td>
+                        <a href="{{ path('ecgpb.member.person.edit', { 'id': person.id }) }}">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+                {% endfor %}
             </tr>
         {% endfor %}
         </tbody>
@@ -41,7 +46,7 @@
 
         <ul>
         <li>
-            <a href="{{ path('address_new') }}">
+            <a href="{{ path('ecgpb.member.address.new') }}">
                 Create a new entry
             </a>
         </li>

@@ -23,7 +23,13 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('EcgpbMemberBundle:Address')->findAll();
+        $repo = $em->getRepository('EcgpbMemberBundle:Address'); /* @var $repo \Doctrine\Common\Persistence\ObjectRepository */
+        
+        $builder = $repo->createQueryBuilder('address')
+            ->select('address', 'person')
+            ->leftJoin('address.persons', 'person')
+        ;
+        $entities = $builder->getQuery()->getResult();
 
         return $this->render('EcgpbMemberBundle:Address:index.html.twig', array(
             'entities' => $entities,

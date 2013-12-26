@@ -5,7 +5,11 @@ namespace Ecgpb\MemberBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Ecgpb\MemberBundle\Form\PersonType;
 
+/**
+ * Ecgpb\MemberBundle\Form\AddressType
+ */
 class AddressType extends AbstractType
 {
         /**
@@ -20,6 +24,9 @@ class AddressType extends AbstractType
             ->add('street')
             ->add('zip')
             ->add('city')
+            ->add('persons', 'collection', array(
+                'type' => new PersonType(),
+            ))
         ;
     }
     

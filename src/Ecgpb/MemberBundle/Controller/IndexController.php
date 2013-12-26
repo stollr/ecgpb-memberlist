@@ -21,6 +21,6 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        return $this->redirect($this->generateUrl('ecgpb.member.person.index'));
+        return $this->redirect($this->generateUrl('ecgpb.member.address.index'));
     }
 }

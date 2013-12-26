@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Ecgpb\MemberBundle\Entity\Person;
-use Ecgpb\MemberBundle\Form\PersonType;
+use Ecgpb\MemberBundle\Form\AddressType;
 
 /**
  * Person controller.
@@ -36,7 +36,7 @@ class PersonController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Person();
-        $form = $this->createCreateForm($entity);
+        $form = $this->createPersonForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -47,29 +47,10 @@ class PersonController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.person.edit', array('id' => $entity->getId())));
         }
 
-        return $this->render('EcgpbMemberBundle:Person:new.html.twig', array(
+        return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
-    }
-
-    /**
-    * Creates a form to create a Person entity.
-    *
-    * @param Person $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createCreateForm(Person $entity)
-    {
-        $form = $this->createForm(new PersonType(), $entity, array(
-            'action' => $this->generateUrl('ecgpb.member.person.create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
     }
 
     /**
@@ -79,9 +60,9 @@ class PersonController extends Controller
     public function newAction()
     {
         $entity = new Person();
-        $form   = $this->createCreateForm($entity);
+        $form   = $this->createPersonForm($entity);
 
-        return $this->render('EcgpbMemberBundle:Person:new.html.twig', array(
+        return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -101,11 +82,11 @@ class PersonController extends Controller
             throw $this->createNotFoundException('Unable to find Person entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createPersonForm($entity);
 
-        return $this->render('EcgpbMemberBundle:Person:edit.html.twig', array(
+        return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
 
@@ -116,17 +97,24 @@ class PersonController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Person $entity)
+    private function createPersonForm(Person $entity)
     {
-        $form = $this->createForm(new PersonType(), $entity, array(
-            'action' => $this->generateUrl('ecgpb.member.person.update', array('id' => $entity->getId())),
-            'method' => 'PUT',
+        $url = $entity->getId()
+            ? $this->generateUrl('ecgpb.member.person.update', array('id' => $entity->getId()))
+            : $this->generateUrl('ecgpb.member.person.create')
+        ;
+        
+        $form = $this->createForm(new AddressType(), $entity, array(
+            'action' => $url,
+            'method' => 'POST',
+            'attr' => array('class' => 'form-horizontal', 'role' => 'form')
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Save'));
 
         return $form;
     }
+
     /**
      * Edits an existing Person entity.
      *
@@ -141,7 +129,7 @@ class PersonController extends Controller
             throw $this->createNotFoundException('Unable to find Person entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createPersonForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -150,9 +138,9 @@ class PersonController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.person.edit', array('id' => $id)));
         }
 
-        return $this->render('EcgpbMemberBundle:Person:edit.html.twig', array(
+        return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
     /**

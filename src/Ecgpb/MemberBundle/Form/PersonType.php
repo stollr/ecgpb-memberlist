@@ -5,19 +5,24 @@ namespace Ecgpb\MemberBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Ecgpb\MemberBundle\Form\AddressType;
 
 class PersonType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+//            ->add('address', new AddressType(), array(
+//                'label' => false,
+//            ))
             ->add('firstname')
             ->add('birthDate', 'date', array(
                 'widget' => 'single_text',
+                'format' => \IntlDateFormatter::MEDIUM,
             ))
             ->add('mobile', 'text', array(
                 'required' => false,
