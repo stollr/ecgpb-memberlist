@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="de" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="06df33001c1d7187fdd81ea1f5b277aa">
+        <source>Actions</source>
+        <target>Aktionen</target>
+      </trans-unit>
+      <trans-unit id="284b47b0bb63ae2df3b29f0e691d6fcf">
+        <source>Addresses</source>
+        <target>Adressen</target>
+      </trans-unit>
+      <trans-unit id="10803b83a68db8f7e7a33e3b41e184d0">
+        <source>D.o. Birth</source>
+        <target>Geb.datum</target>
+      </trans-unit>
+      <trans-unit id="cc991c5669b278ab24bee4d0c911f3c9">
+        <source>Edit Person</source>
+        <target>__Edit Person</target>
+      </trans-unit>
+      <trans-unit id="bc910f8bdf70f29374f496f05be0330c">
+        <source>First Name</source>
+        <target>Vorname</target>
+      </trans-unit>
+      <trans-unit id="aa0fddd8f71933d63a142b560a39910d">
+        <source>Mobile, Email</source>
+        <target>Mobil, Email</target>
+      </trans-unit>
+      <trans-unit id="c18d316491cbadd7b90f5b224c5eb3ab">
+        <source>Name, Address, Phone</source>
+        <target>Name, Adresse, Telefon</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
