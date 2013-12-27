@@ -19,13 +19,24 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('familyName')
+            ->add('familyName', 'text', array(
+                'label' => 'Family Name',
+            ))
             ->add('phone')
             ->add('street')
             ->add('zip')
             ->add('city')
             ->add('persons', 'collection', array(
                 'type' => new PersonType(),
+                'label' => false,
+                'prototype' => true,
+                'allow_add' => true,
+                'widget_add_btn' => array('label' => 'Add Person'),
+                'allow_delete' => true,
+                'widget_remove_btn' => array('label' => 'remove', 'icon' => ''),
+                'options' => array(
+                    'label' => false,
+                )
             ))
         ;
     }

@@ -42,7 +42,7 @@ class AddressController extends Controller
     public function createAction(Request $request)
     {
         $entity = new Address();
-        $form = $this->createCreateForm($entity);
+        $form = $this->createAddressForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -50,32 +50,13 @@ class AddressController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('ecgpb.member.address.show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $entity->getId())));
         }
 
-        return $this->render('EcgpbMemberBundle:Address:new.html.twig', array(
+        return $this->render('EcgpbMemberBundle:Address:form.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
-    }
-
-    /**
-    * Creates a form to create a Address entity.
-    *
-    * @param Address $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createCreateForm(Address $entity)
-    {
-        $form = $this->createForm(new AddressType(), $entity, array(
-            'action' => $this->generateUrl('ecgpb.member.address.create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
     }
 
     /**
@@ -85,9 +66,9 @@ class AddressController extends Controller
     public function newAction()
     {
         $entity = new Address();
-        $form   = $this->createCreateForm($entity);
+        $form   = $this->createAddressForm($entity);
 
-        return $this->render('EcgpbMemberBundle:Address:new.html.twig', array(
+        return $this->render('EcgpbMemberBundle:Address:form.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -107,32 +88,14 @@ class AddressController extends Controller
             throw $this->createNotFoundException('Unable to find Address entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createAddressForm($entity);
 
-        return $this->render('EcgpbMemberBundle:Address:edit.html.twig', array(
+        return $this->render('EcgpbMemberBundle:Address:form.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
 
-    /**
-    * Creates a form to edit a Address entity.
-    *
-    * @param Address $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Address $entity)
-    {
-        $form = $this->createForm(new AddressType(), $entity, array(
-            'action' => $this->generateUrl('ecgpb.member.address.update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
     /**
      * Edits an existing Address entity.
      *
@@ -147,7 +110,7 @@ class AddressController extends Controller
             throw $this->createNotFoundException('Unable to find Address entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createAddressForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -156,9 +119,9 @@ class AddressController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $id)));
         }
 
-        return $this->render('EcgpbMemberBundle:Address:edit.html.twig', array(
+        return $this->render('EcgpbMemberBundle:Address:form.html.twig', array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
         ));
     }
     /**
@@ -185,4 +148,26 @@ class AddressController extends Controller
         return $this->redirect($this->generateUrl('ecgpb.member.address.index'));
     }
 
+    /**
+    * Creates a form to create a Address entity.
+    *
+    * @param Address $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createAddressForm(Address $entity)
+    {
+        $url = $entity->getId() > 0
+            ? $this->generateUrl('ecgpb.member.address.update', array('id' => $entity->getId()))
+            : $this->generateUrl('ecgpb.member.address.create')
+        ;
+        $form = $this->createForm(new AddressType(), $entity, array(
+            'action' => $url,
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Save'));
+
+        return $form;
+    }
 }

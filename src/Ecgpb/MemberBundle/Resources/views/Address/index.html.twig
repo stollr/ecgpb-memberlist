@@ -37,12 +37,12 @@
                         <p>{{ person.mobile }}</p>
                         <p>{{ person.email }}</p>
                     </td>
-                    <td>
-                        <a href="{{ path('ecgpb.member.person.edit', { 'id': person.id }) }}">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
-                    </td>
                 {% endfor %}
+                <td rowspan="{{ entity.persons | length }}">
+                    <a href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
