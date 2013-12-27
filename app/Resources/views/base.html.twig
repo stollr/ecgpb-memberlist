@@ -6,6 +6,7 @@
         {% block stylesheets %}
             <link href="{{ asset('bundles/ecgpbmember/bootstrap/css/bootstrap-theme.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
             <link href="{{ asset('bundles/ecgpbmember/bootstrap/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
+            <link href="{{ asset('bundles/ecgpbmember/css/style.css') }}" type="text/css" rel="stylesheet" media="screen" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -42,8 +43,10 @@
             </div>
         </div>
         <div class="row">
-            <div id="body-block" class="col-md-12">
-                {% block body %}{% endblock %}
+            <div class="col-md-12">
+                <div id="body-block">
+                    {% block body %}{% endblock %}
+                </div>
             </div>
         </div>
         {% block javascripts %}
