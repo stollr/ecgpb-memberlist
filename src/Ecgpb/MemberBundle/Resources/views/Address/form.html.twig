@@ -1,17 +1,42 @@
 {% extends '::base.html.twig' %}
 
+{% form_theme form _self %}
+
+{% block form_widget_remove_btn %}
+{% spaceless %}
+    {% if widget_remove_btn.wrapper_div is not sameas(false) %}
+        <div class="clearfix">
+    {% endif %}
+    {% if widget_remove_btn|default(null) %}
+    {% set button_type = 'remove' %}
+    {% set button_values = widget_remove_btn %}
+    {{ block('collection_button') }}
+    {% endif %}
+    {% if form.parent.vars['name'] == 'persons' and form.vars['data'] %}
+        {% set person = form.vars['data'] %}
+        <a class="btn btn-default" href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
+            <span class="glyphicon glyphicon-pencil"></span>
+            {% trans %}Edit{% endtrans %}
+        </a>
+    {% endif %}
+    {% if widget_remove_btn.wrapper_div is not sameas(false) %}
+        </div>
+    {% endif %}
+{% endspaceless %}
+{% endblock %}
+
 {% block body -%}
 
     {% if entity.id > 0 %}
         <a class="btn btn-danger pull-right"
          href="{{ path('ecgpb.member.address.delete', {'id': entity.id}) }}"
-         title="{% trans %}Back to List{% endtrans %}">
+         title="{% trans %}Delete Address{% endtrans %}">
             <span class="glyphicon glyphicon-remove"></span>
         </a>
     {% endif %}
     <a class="btn btn-default pull-right"
      href="{{ path('ecgpb.member.address.index') }}"
-     title="{% trans %}Delete Address{% endtrans %}">
+     title="{% trans %}Back to List{% endtrans %}">
         <span class="glyphicon glyphicon-arrow-left"></span>
     </a>
 

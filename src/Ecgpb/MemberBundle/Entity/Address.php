@@ -215,4 +215,13 @@ class Address
     {
         return $this->persons;
     }
+    
+    public function getDropdownLabel()
+    {
+        return implode(', ', array(
+            $this->getFamilyName(),
+            $this->getStreet(),
+            $this->getCity(),
+        ));
+    }
 }

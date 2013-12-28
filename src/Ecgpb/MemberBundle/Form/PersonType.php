@@ -2,10 +2,10 @@
 
 namespace Ecgpb\MemberBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Ecgpb\MemberBundle\Form\AddressType;
 
 class PersonType extends AbstractType
 {
@@ -15,10 +15,20 @@ class PersonType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if ($options['add_address_field']) {
+            $builder->add('address', 'entity', array(
+                'class' => 'Ecgpb\MemberBundle\Entity\Address',
+                'property' => 'dropdownLabel',
+                'query_builder' => function (EntityRepository $repo) {
+                    return $repo->createQueryBuilder('address')
+                        ->select('address')
+                        ->orderBy('address.familyName', 'asc')
+                    ;
+                }
+            ));
+        }
+
         $builder
-//            ->add('address', new AddressType(), array(
-//                'label' => false,
-//            ))
             ->add('firstname', 'text', array(
                 'label' => 'First Name',
             ))
@@ -50,7 +60,8 @@ class PersonType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ecgpb\MemberBundle\Entity\Person'
+            'data_class' => 'Ecgpb\MemberBundle\Entity\Person',
+            'add_address_field' => false,
         ));
     }
 

@@ -10,6 +10,10 @@
                 <source>Add Person</source>
                 <target>Person hinzufügen</target>
             </trans-unit>
+            <trans-unit id="Address">
+                <source>Address</source>
+                <target>Adresse</target>
+            </trans-unit>
             <trans-unit id="284b47b0bb63ae2df3b29f0e691d6fcf">
                 <source>Addresses</source>
                 <target>Adressen</target>
@@ -34,9 +38,17 @@
                 <source>Delete Address</source>
                 <target>Adresse löschen</target>
             </trans-unit>
+            <trans-unit id="Delete Person">
+                <source>Delete Person</source>
+                <target>Person löschen</target>
+            </trans-unit>
             <trans-unit id="10803b83a68db8f7e7a33e3b41e184d0">
                 <source>DOB</source>
                 <target>Geb.</target>
+            </trans-unit>
+            <trans-unit id="Edit">
+                <source>Edit</source>
+                <target>Bearbeiten</target>
             </trans-unit>
             <trans-unit id="Edit Address">
                 <source>Edit Address</source>

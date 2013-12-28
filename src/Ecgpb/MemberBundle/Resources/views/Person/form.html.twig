@@ -1,16 +1,25 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+
+    {% if entity.id > 0 %}
+        <a class="btn btn-danger pull-right"
+         href="{{ path('ecgpb.member.person.delete', {'id': entity.id}) }}"
+         title="{% trans %}Delete Person{% endtrans %}">
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+    {% endif %}
+    {% if entity.address and entity.address.id > 0 %}
+        <a class="btn btn-default pull-right"
+         href="{{ path('ecgpb.member.address.edit', {'id': entity.address.id}) }}"
+         title="{% trans %}Back to List{% endtrans %}">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+        </a>
+    {% endif %}
+
     <h2>{% trans %}Edit Person{% endtrans %}</h2>
 
     
     {{ form(form) }}
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('ecgpb.member.person.index') }}">
-                Back to the list
-            </a>
-        </li>
-    </ul>
 {% endblock %}
