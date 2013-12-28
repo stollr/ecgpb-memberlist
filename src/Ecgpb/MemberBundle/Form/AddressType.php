@@ -33,7 +33,7 @@ class AddressType extends AbstractType
                 'allow_add' => true,
                 'widget_add_btn' => array('label' => 'Add Person'),
                 'allow_delete' => true,
-                'horizontal_input_wrapper_class' => '',
+                'horizontal_input_wrapper_class' => 'clearfix',
                 'options' => array(
                     'label' => false,
                 )
