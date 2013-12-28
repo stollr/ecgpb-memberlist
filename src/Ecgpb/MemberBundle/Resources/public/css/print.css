@@ -1,0 +1,10 @@
+
+/**** print page **************************************************************/
+
+#print-page .page {
+    page-break-after: always;
+    padding: 15mm;
+}
+#print-page .front-logo {
+    padding: 0 0 8mm 0;
+}

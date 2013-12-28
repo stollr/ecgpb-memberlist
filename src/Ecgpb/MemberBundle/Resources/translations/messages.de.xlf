@@ -2,6 +2,10 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file source-language="de" datatype="plaintext" original="file.ext">
         <body>
+            <trans-unit id="Account Number">
+                <source>Account Number</source>
+                <target>Kontonummer</target>
+            </trans-unit>
             <trans-unit id="06df33001c1d7187fdd81ea1f5b277aa">
                 <source>Actions</source>
                 <target>Aktionen</target>
@@ -25,6 +29,14 @@
             <trans-unit id="Back to List">
                 <source>Back to List</source>
                 <target>Zurück zur Liste</target>
+            </trans-unit>
+            <trans-unit id="Bank Account">
+                <source>Bank Account</source>
+                <target>Bankverbindung</target>
+            </trans-unit>
+            <trans-unit id="Bank Code">
+                <source>Bank Code</source>
+                <target>Bankleitzahl</target>
             </trans-unit>
             <trans-unit id="City">
                 <source>City</source>
@@ -62,6 +74,10 @@
                 <source>Edit Person</source>
                 <target>Person bearbeiten</target>
             </trans-unit>
+            <trans-unit id="Effective">
+                <source>Effective</source>
+                <target>Stand</target>
+            </trans-unit>
             <trans-unit id="Family Name">
                 <source>Family Name</source>
                 <target>Familienname</target>
@@ -73,6 +89,10 @@
             <trans-unit id="Maiden Name">
                 <source>Maiden Name</source>
                 <target>Mädchenname</target>
+            </trans-unit>
+            <trans-unit id="Member List">
+                <source>Member List</source>
+                <target>Mitgliederliste</target>
             </trans-unit>
             <trans-unit id="Mobile">
                 <source>Mobile</source>
@@ -93,6 +113,10 @@
             <trans-unit id="Phone">
                 <source>Phone</source>
                 <target>Telefon</target>
+            </trans-unit>
+            <trans-unit id="Please report immediately all changes to Anita oder Christian Stoller!">
+                <source>Please report immediately all changes to Anita oder Christian Stoller!</source>
+                <target>Alle Änderungen bitte unverzüglich bei Anita oder Christian Stoller melden!</target>
             </trans-unit>
             <trans-unit id="Print">
                 <source>Print</source>

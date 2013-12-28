@@ -31,6 +31,17 @@ twig:
     form:
         resources:
             - ":Form:fields.html.twig"
+    globals:
+        ecgpb_contact_name_html: %ecgpb.contact.name_html%
+        ecgpb_contact_street: %ecgpb.contact.street%
+        ecgpb_contact_zip: %ecgpb.contact.zip%
+        ecgpb_contact_city: %ecgpb.contact.city%
+        ecgpb_contact_main_phone: %ecgpb.contact.main_phone%
+        ecgpb_contact_office_phone: %ecgpb.contact.office_phone%
+        ecgpb_contact_lifetime_phone: %ecgpb.contact.lifetime_phone%
+        ecgpb_contact_gfh_phone: %ecgpb.contact.gfh_phone%
+        ecgpb_contact_library_phone: %ecgpb.contact.library_phone%
+        ecgpb_contact_library_email: %ecgpb.contact.library_email%
 
 # Assetic Configuration
 assetic:

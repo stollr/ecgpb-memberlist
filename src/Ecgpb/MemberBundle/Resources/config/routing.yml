@@ -58,3 +58,9 @@ ecgpb.member.address.delete:
     pattern:  /address/{id}/delete
     defaults: { _controller: "EcgpbMemberBundle:Address:delete", _locale: de }
 
+# print actions
+
+ecgpb.member.print.html:
+    pattern:  /print/html
+    defaults: { _controller: "EcgpbMemberBundle:Print:html", _locale: de }
+    
