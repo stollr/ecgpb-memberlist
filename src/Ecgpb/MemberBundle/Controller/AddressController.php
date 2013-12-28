@@ -115,6 +115,8 @@ class AddressController extends Controller
 
         if ($editForm->isValid()) {
             $em->flush();
+            
+            $this->get('session')->getFlashBag()->add('success', 'All changes have been saved.');
 
             return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $id)));
         }

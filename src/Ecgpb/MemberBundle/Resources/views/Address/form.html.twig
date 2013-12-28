@@ -15,7 +15,11 @@
 
     <h2>{% trans %}Edit Address{% endtrans %}</h2>
 
-    <form class="form-horizontal" action="" method="post">
+    {% set actionUrl = entity.id > 0
+        ? path('ecgpb.member.address.update', {'id': entity.id})
+        : path('ecgpb.member.address.create')
+    %}
+    <form class="form-horizontal" action="{{ actionUrl }}" method="post">
         <div class="clearfix">
             {{ form_errors(form) }}
             {{ form_row(form.familyName) }}

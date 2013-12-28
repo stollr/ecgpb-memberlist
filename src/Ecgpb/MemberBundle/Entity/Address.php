@@ -181,12 +181,12 @@ class Address
     /**
      * Add persons
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $persons
+     * @param \Ecgpb\MemberBundle\Entity\Person $person
      * @return Address
      */
-    public function addPerson(\Ecgpb\MemberBundle\Entity\Person $persons)
+    public function addPerson(\Ecgpb\MemberBundle\Entity\Person $person)
     {
-        $this->persons[] = $persons;
+        $this->persons[] = $person;
         $person->setAddress($this);
         return $this;
     }
@@ -194,11 +194,11 @@ class Address
     /**
      * Remove persons
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $persons
+     * @param \Ecgpb\MemberBundle\Entity\Person $person
      */
-    public function removePerson(\Ecgpb\MemberBundle\Entity\Person $persons)
+    public function removePerson(\Ecgpb\MemberBundle\Entity\Person $person)
     {
-        $this->persons->removeElement($persons);
+        $this->persons->removeElement($person);
     }
 
     /**

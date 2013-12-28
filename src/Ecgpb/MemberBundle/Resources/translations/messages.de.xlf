@@ -14,6 +14,10 @@
                 <source>Addresses</source>
                 <target>Adressen</target>
             </trans-unit>
+            <trans-unit id="All changes have been saved.">
+                <source>All changes have been saved.</source>
+                <target>Alle Änderungen wurden gespeichert.</target>
+            </trans-unit>
             <trans-unit id="Back to List">
                 <source>Back to List</source>
                 <target>Zurück zur Liste</target>
