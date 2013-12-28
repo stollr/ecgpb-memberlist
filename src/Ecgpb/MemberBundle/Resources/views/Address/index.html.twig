@@ -12,7 +12,7 @@
             <tr>
                 <th>{% trans %}Name, Address, Phone{% endtrans %}</th>
                 <th>{% trans %}First Name{% endtrans %}</th>
-                <th><small>{% trans %}D.o. Birth{% endtrans %}</small></th>
+                <th><small>{% trans %}DOB{% endtrans %}</small></th>
                 <th>{% trans %}Mobile, Email{% endtrans %}</th>
                 <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
@@ -31,7 +31,7 @@
                         <strong>{{ person.firstname }}</strong>
                     </td>
                     <td>
-                        {{ person.birthDate | localizeddate('medium', 'none') }}
+                        {{ person.dob | localizeddate('medium', 'none') }}
                     </td>
                     <td>
                         <p>{{ person.mobile }}</p>

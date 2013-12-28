@@ -11,7 +11,7 @@ Ecgpb\MemberBundle\Entity\Person:
         firstname:
             type: string
             length: '30'
-        birthDate:
+        dob:
             type: date
         mobile:
             type: string

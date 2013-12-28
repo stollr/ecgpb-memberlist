@@ -2,23 +2,29 @@
 
 {% block body -%}
 
-    <a class="btn btn-danger pull-right" href="{{ path('ecgpb.member.address.delete', {'id': entity.id}) }}">
+    <a class="btn btn-danger pull-right"
+     href="{{ path('ecgpb.member.address.delete', {'id': entity.id}) }}"
+     title="{% trans %}Back to List{% endtrans %}">
         <span class="glyphicon glyphicon-remove"></span>
     </a>
-    <a class="btn btn-default pull-right" href="{{ path('ecgpb.member.address.index') }}">
+    <a class="btn btn-default pull-right"
+     href="{{ path('ecgpb.member.address.index') }}"
+     title="{% trans %}Delete Address{% endtrans %}">
         <span class="glyphicon glyphicon-arrow-left"></span>
     </a>
 
     <h2>{% trans %}Edit Address{% endtrans %}</h2>
 
     <form class="" action="" method="post">
-        {{ form_errors(form) }}
-        {{ form_row(form.familyName) }}
-        {{ form_row(form.phone) }}
-        {{ form_row(form.street) }}
-        {{ form_row(form.zip) }}
-        {{ form_row(form.city) }}
-        
+        <div class="clearfix">
+            {{ form_errors(form) }}
+            {{ form_row(form.familyName) }}
+            {{ form_row(form.phone) }}
+            {{ form_row(form.street) }}
+            {{ form_row(form.zip) }}
+            {{ form_row(form.city) }}
+        </div>
+
         <h3>{% trans %}Persons{% endtrans %}</h3>
         {{ form_row(form.persons) }}
     </form>

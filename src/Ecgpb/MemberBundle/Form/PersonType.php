@@ -19,8 +19,11 @@ class PersonType extends AbstractType
 //            ->add('address', new AddressType(), array(
 //                'label' => false,
 //            ))
-            ->add('firstname')
-            ->add('birthDate', 'date', array(
+            ->add('firstname', 'text', array(
+                'label' => 'First Name',
+            ))
+            ->add('dob', 'date', array(
+                'label' => 'Date of Birth',
                 'widget' => 'single_text',
                 'format' => \IntlDateFormatter::MEDIUM,
             ))
@@ -31,9 +34,11 @@ class PersonType extends AbstractType
                 'required' => false,
             ))
             ->add('phone2', 'text', array(
+                'label' => 'Second Phone',
                 'required' => false,
             ))
             ->add('maidenName', 'text', array(
+                'label' => 'Maiden Name',
                 'required' => false,
             ))
         ;

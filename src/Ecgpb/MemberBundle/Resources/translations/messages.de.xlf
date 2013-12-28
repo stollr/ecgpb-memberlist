@@ -6,13 +6,33 @@
                 <source>Actions</source>
                 <target>Aktionen</target>
             </trans-unit>
+            <trans-unit id="Add Person">
+                <source>Add Person</source>
+                <target>Person hinzufügen</target>
+            </trans-unit>
             <trans-unit id="284b47b0bb63ae2df3b29f0e691d6fcf">
                 <source>Addresses</source>
                 <target>Adressen</target>
             </trans-unit>
+            <trans-unit id="Back to List">
+                <source>Back to List</source>
+                <target>Zurück zur Liste</target>
+            </trans-unit>
+            <trans-unit id="City">
+                <source>City</source>
+                <target>Stadt</target>
+            </trans-unit>
+            <trans-unit id="Date of Birth">
+                <source>Date of Birth</source>
+                <target>Geburtsdatum</target>
+            </trans-unit>
+            <trans-unit id="Delete Address">
+                <source>Delete Address</source>
+                <target>Adresse löschen</target>
+            </trans-unit>
             <trans-unit id="10803b83a68db8f7e7a33e3b41e184d0">
-                <source>D.o. Birth</source>
-                <target>Geb.datum</target>
+                <source>DOB</source>
+                <target>Geb.</target>
             </trans-unit>
             <trans-unit id="Edit Address">
                 <source>Edit Address</source>
@@ -22,9 +42,21 @@
                 <source>Edit Person</source>
                 <target>Person bearbeiten</target>
             </trans-unit>
+            <trans-unit id="Family Name">
+                <source>Family Name</source>
+                <target>Familienname</target>
+            </trans-unit>
             <trans-unit id="bc910f8bdf70f29374f496f05be0330c">
                 <source>First Name</source>
                 <target>Vorname</target>
+            </trans-unit>
+            <trans-unit id="Maiden Name">
+                <source>Maiden Name</source>
+                <target>Mädchenname</target>
+            </trans-unit>
+            <trans-unit id="Mobile">
+                <source>Mobile</source>
+                <target>Mobil</target>
             </trans-unit>
             <trans-unit id="aa0fddd8f71933d63a142b560a39910d">
                 <source>Mobile, Email</source>
@@ -37,6 +69,30 @@
             <trans-unit id="Persons">
                 <source>Persons</source>
                 <target>Personen</target>
+            </trans-unit>
+            <trans-unit id="Phone">
+                <source>Phone</source>
+                <target>Telefon</target>
+            </trans-unit>
+            <trans-unit id="Print">
+                <source>Print</source>
+                <target>Drucken</target>
+            </trans-unit>
+            <trans-unit id="Remove">
+                <source>Remove</source>
+                <target>Entfernen</target>
+            </trans-unit>
+            <trans-unit id="Second Phone">
+                <source>Second Phone</source>
+                <target>Zweites Telefon</target>
+            </trans-unit>
+            <trans-unit id="Street">
+                <source>Street</source>
+                <target>Straße</target>
+            </trans-unit>
+            <trans-unit id="Zip">
+                <source>Zip</source>
+                <target>PLZ</target>
             </trans-unit>
         </body>
     </file>

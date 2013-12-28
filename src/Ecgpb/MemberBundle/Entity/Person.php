@@ -20,9 +20,10 @@ class Person
     private $firstname;
 
     /**
+     * Date of birth
      * @var \DateTime
      */
-    private $birthDate;
+    private $dob;
 
     /**
      * @var string
@@ -84,26 +85,26 @@ class Person
     }
 
     /**
-     * Set birthDate
+     * Set the date of birth
      *
-     * @param \DateTime $birthDate
+     * @param \DateTime $dob
      * @return Person
      */
-    public function setBirthDate($birthDate)
+    public function setDob($dob)
     {
-        $this->birthDate = $birthDate;
+        $this->dob = $dob;
 
         return $this;
     }
 
     /**
-     * Get birthDate
+     * Get the date of birth
      *
      * @return \DateTime 
      */
-    public function getBirthDate()
+    public function getDob()
     {
-        return $this->birthDate;
+        return $this->dob;
     }
 
     /**
