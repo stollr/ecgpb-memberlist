@@ -135,22 +135,17 @@ class AddressController extends Controller
      * Deletes a Address entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $address = $em->getRepository('EcgpbMemberBundle:Address')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('EcgpbMemberBundle:Address')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Address entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$address) {
+            throw $this->createNotFoundException('Unable to find Address entity.');
         }
+
+        $em->remove($address);
+        $em->flush();
 
         return $this->redirect($this->generateUrl('ecgpb.member.address.index'));
     }
