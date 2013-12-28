@@ -105,15 +105,20 @@ class AddressController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('EcgpbMemberBundle:Address')->find($id);
+        /* @var $entity Address */
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Address entity.');
         }
 
-        $editForm = $this->createAddressForm($entity);
-        $editForm->handleRequest($request);
+        $form = $this->createAddressForm($entity);
+        $form->handleRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($form->isValid()) {
+            foreach ($entity->getRemovedEntities() as $removedEntity) {
+                $em->remove($removedEntity);
+            }
+            
             $em->flush();
             
             $this->get('session')->getFlashBag()->add('success', 'All changes have been saved.');
@@ -122,8 +127,8 @@ class AddressController extends Controller
         }
 
         return $this->render('EcgpbMemberBundle:Address:form.html.twig', array(
-            'entity'      => $entity,
-            'form'   => $editForm->createView(),
+            'entity' => $entity,
+            'form'   => $form->createView(),
         ));
     }
     /**

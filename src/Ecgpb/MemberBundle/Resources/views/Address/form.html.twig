@@ -2,11 +2,13 @@
 
 {% block body -%}
 
-    <a class="btn btn-danger pull-right"
-     href="{{ path('ecgpb.member.address.delete', {'id': entity.id}) }}"
-     title="{% trans %}Back to List{% endtrans %}">
-        <span class="glyphicon glyphicon-remove"></span>
-    </a>
+    {% if entity.id > 0 %}
+        <a class="btn btn-danger pull-right"
+         href="{{ path('ecgpb.member.address.delete', {'id': entity.id}) }}"
+         title="{% trans %}Back to List{% endtrans %}">
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+    {% endif %}
     <a class="btn btn-default pull-right"
      href="{{ path('ecgpb.member.address.index') }}"
      title="{% trans %}Delete Address{% endtrans %}">

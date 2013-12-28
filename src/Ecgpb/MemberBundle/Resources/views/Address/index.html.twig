@@ -27,23 +27,33 @@
                     <p><i>{{ entity.zip }} {{ entity.city }}</i></p>
                 </td>
                 {% for person in entity.persons %}
-                    <td>
-                        <strong>{{ person.firstname }}</strong>
-                    </td>
-                    <td>
-                        {{ person.dob | localizeddate('medium', 'none') }}
-                    </td>
-                    <td>
-                        <p>{{ person.mobile }}</p>
-                        <p>{{ person.email }}</p>
-                    </td>
+                    {% if loop.index0 > 0 %}<tr>{% endif %}
+                        <td>
+                            <strong>{{ person.firstname }}</strong>
+                        </td>
+                        <td>
+                            {{ person.dob | localizeddate('medium', 'none') }}
+                        </td>
+                        <td>
+                            <p>{{ person.mobile }}</p>
+                            <p>{{ person.email }}</p>
+                        </td>
+                        {% if loop.index0 == 0 %}
+                        <td rowspan="{{ entity.persons | length }}">
+                            <a class="btn btn-default" href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% else %}
+                        <td>
+                            <a class="btn btn-default" href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        </td>
+                    </tr>
                 {% endfor %}
-                <td rowspan="{{ entity.persons | length }}">
-                    <a href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </a>
-                </td>
-            </tr>
         {% endfor %}
         </tbody>
     </table>

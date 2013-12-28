@@ -86,6 +86,10 @@
                 <source>Remove</source>
                 <target>Entfernen</target>
             </trans-unit>
+            <trans-unit id="Save">
+                <source>Save</source>
+                <target>Speichern</target>
+            </trans-unit>
             <trans-unit id="Second Phone">
                 <source>Second Phone</source>
                 <target>Zweites Telefon</target>

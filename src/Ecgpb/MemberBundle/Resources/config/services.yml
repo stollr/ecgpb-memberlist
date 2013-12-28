@@ -2,6 +2,9 @@ parameters:
 #    ecgpb_member.example.class: Ecgpb\MemberBundle\Example
 
 services:
-#    ecgpb_member.example:
-#        class: %ecgpb_member.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+#    ecgpb.member.event.entity_removal_subscriber:
+#        class: Ecgpb\MemberBundle\Event\EntityRemovalSubscriber
+#        arguments:
+#            - "@doctrine"
+#        tags:
+#            - { name: doctrine.event_subscriber, connection: default }

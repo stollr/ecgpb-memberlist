@@ -3,12 +3,15 @@
 namespace Ecgpb\MemberBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ecgpb\MemberBundle\Traits\EntityRemovalTrait;
 
 /**
  * Address
  */
 class Address
 {
+    use EntityRemovalTrait;
+    
     /**
      * @var integer
      */
@@ -199,6 +202,8 @@ class Address
     public function removePerson(\Ecgpb\MemberBundle\Entity\Person $person)
     {
         $this->persons->removeElement($person);
+        $this->addRemovedEntity($person);
+        return $this;
     }
 
     /**
