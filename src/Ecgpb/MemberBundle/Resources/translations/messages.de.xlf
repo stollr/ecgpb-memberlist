@@ -114,6 +114,14 @@
                 <source>Street</source>
                 <target>Straße</target>
             </trans-unit>
+            <trans-unit id="The entry has been created.">
+                <source>The entry has been created.</source>
+                <target>Der Eintrag wurde erstellt.</target>
+            </trans-unit>
+            <trans-unit id="The entry has been deleted.">
+                <source>The entry has been deleted.</source>
+                <target>Der Eintrag wurde gelöscht.</target>
+            </trans-unit>
             <trans-unit id="Zip">
                 <source>Zip</source>
                 <target>PLZ</target>

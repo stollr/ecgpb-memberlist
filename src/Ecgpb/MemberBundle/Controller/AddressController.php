@@ -49,6 +49,8 @@ class AddressController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
+            
+            $this->get('session')->getFlashBag()->add('success', 'The entry has been created.');
 
             return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $entity->getId())));
         }
@@ -146,6 +148,8 @@ class AddressController extends Controller
 
         $em->remove($address);
         $em->flush();
+            
+        $this->get('session')->getFlashBag()->add('success', 'The entry has been deleted.');
 
         return $this->redirect($this->generateUrl('ecgpb.member.address.index'));
     }
