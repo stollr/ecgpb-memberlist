@@ -12,7 +12,7 @@
             <tr>
                 <th>{% trans %}Name, Address, Phone{% endtrans %}</th>
                 <th>{% trans %}First Name{% endtrans %}</th>
-                <th><small>{% trans %}DOB{% endtrans %}</small></th>
+                <th>{% trans %}DOB{% endtrans %}</th>
                 <th>{% trans %}Mobile, Email{% endtrans %}</th>
                 <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
@@ -40,16 +40,32 @@
                         </td>
                         {% if loop.index0 == 0 %}
                         <td rowspan="{{ entity.persons | length }}">
-                            <a class="btn btn-default" href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}">
+                            <a class="btn btn-default"
+                             href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}"
+                             title="{% trans %}Edit Address{% endtrans %}">
                                 <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a class="btn btn-danger"
+                             href="{{ path('ecgpb.member.address.delete', { 'id': entity.id }) }}"
+                             title="{% trans %}Delete Address{% endtrans %}"
+                             onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
+                                <span class="glyphicon glyphicon-remove"></span>
                             </a>
                         </td>
                         {% endif %}
                     </tr>
                 {% else %}
                         <td>
-                            <a class="btn btn-default" href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}">
+                            <a class="btn btn-default"
+                             href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}"
+                             title="{% trans %}Edit Address{% endtrans %}">
                                 <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a class="btn btn-danger"
+                             href="{{ path('ecgpb.member.address.delete', { 'id': entity.id }) }}"
+                             title="{% trans %}Delete Address{% endtrans %}"
+                             onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
+                                <span class="glyphicon glyphicon-remove"></span>
                             </a>
                         </td>
                     </tr>

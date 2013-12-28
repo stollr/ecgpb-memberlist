@@ -30,7 +30,8 @@
     {% if entity.id > 0 %}
         <a class="btn btn-danger pull-right"
          href="{{ path('ecgpb.member.address.delete', {'id': entity.id}) }}"
-         title="{% trans %}Delete Address{% endtrans %}">
+         title="{% trans %}Delete Address{% endtrans %}"
+         onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
             <span class="glyphicon glyphicon-remove"></span>
         </a>
     {% endif %}
