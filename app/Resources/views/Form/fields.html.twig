@@ -24,7 +24,9 @@
         {% endif %}
         
         {% if 'collection' in form.vars.block_prefixes and widget_add_btn|default(null) %}
-            {{ block('form_widget_add_btn') }}
+            <div class="clearfix">
+                {{ block('form_widget_add_btn') }}
+            </div>
         {% endif %}
     {% else %}
         {% if label_render %}
