@@ -114,9 +114,9 @@
                 <source>Phone</source>
                 <target>Telefon</target>
             </trans-unit>
-            <trans-unit id="Please report immediately all changes to Anita oder Christian Stoller!">
-                <source>Please report immediately all changes to Anita oder Christian Stoller!</source>
-                <target>Alle Änderungen bitte unverzüglich bei Anita oder Christian Stoller melden!</target>
+            <trans-unit id="Please report immediately all changes to %name%!">
+                <source>Please report immediately all changes to %name%!</source>
+                <target>Alle Änderungen bitte unverzüglich bei %name% melden!</target>
             </trans-unit>
             <trans-unit id="Print">
                 <source>Print</source>

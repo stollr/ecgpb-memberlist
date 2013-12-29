@@ -14,13 +14,17 @@ parameters:
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    ecgpb.contact.name_html: Evangeliums&ndash;Christengemeinde e.V.
-    ecgpb.contact.street: Karl-Schurz-Str. 28
-    ecgpb.contact.zip: 33100
-    ecgpb.contact.city: Paderborn
-    ecgpb.contact.main_phone: placeholder
-    ecgpb.contact.office_phone: placeholder
-    ecgpb.contact.lifetime_phone: placeholder
-    ecgpb.contact.gfh_phone: placeholder
-    ecgpb.contact.library_phone: placeholder
-    ecgpb.contact.library_email: placeholder
+    ecgpb.contact.name_html:                Evangeliums &ndash; Christengemeinde e.V.
+    ecgpb.contact.street:                   Karl-Schurz-Str. 28
+    ecgpb.contact.zip:                      33100
+    ecgpb.contact.city:                     Paderborn
+    ecgpb.contact.main_phone:               placeholder
+    ecgpb.contact.office_phone:             placeholder
+    ecgpb.contact.lifetime_phone:           placeholder
+    ecgpb.contact.gfh_phone:                placeholder
+    ecgpb.contact.library_phone:            placeholder
+    ecgpb.contact.library_email:            placeholder
+    ecgpb.contact.bank.account_number:      placeholder
+    ecgpb.contact.bank.code:                placeholder
+    ecgpb.contact.memberlist.responsible:   placeholder
+    ecgpb.contact.memberlist.email:         placeholder
