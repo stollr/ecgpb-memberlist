@@ -53,77 +53,133 @@
             </div>
         </div>
         <div class="page">
-            
-        </div>
-        
-        <h1>Person list</h1>
-
-        <table class="table table-bordered">
-            <thead>
+            <h2 class="font-size-xl bold">{% trans %}Phone Connections of the Church{% endtrans %}</h2>
+            <table class="font-size-xl">
                 <tr>
-                    <th>{% trans %}Name, Address, Phone{% endtrans %}</th>
-                    <th>{% trans %}First Name{% endtrans %}</th>
-                    <th>{% trans %}DOB{% endtrans %}</th>
-                    <th>{% trans %}Mobile, Email{% endtrans %}</th>
-                    <th>{% trans %}Actions{% endtrans %}</th>
+                    <td>Haupteingang</td>
+                    <td>{{ ecgpb_contact_main_phone }}</td>
                 </tr>
-            </thead>
-            <tbody>
-            {% for entity in addresses %}
                 <tr>
-                    <td rowspan="{{ entity.persons | length }}">
-                        <p><strong>{{ entity.familyName }}</strong></p>
-                        <p><strong>{{ entity.phone }}</strong></p>
-                        <p><i>{{ entity.street }}</i></p>
-                        <p><i>{{ entity.zip }} {{ entity.city }}</i></p>
+                    <td>Büro</td>
+                    <td>{{ ecgpb_contact_office_phone }}</td>
+                </tr>
+                <tr>
+                    <td>LifeTime</td>
+                    <td>{{ ecgpb_contact_lifetime_phone }}</td>
+                </tr>
+                <tr>
+                    <td>Gefährdetenhilfe PB</td>
+                    <td>{{ ecgpb_contact_gfh_phone }}</td>
+                </tr>
+            </table>
+            
+            <h2 class="font-size-xl bold">{% trans %}Library{% endtrans %}</h2>
+            <table class="font-size-xl">
+                <tr>
+                    <td>Telefon</td>
+                    <td>{{ ecgpb_contact_library_phone }}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>{{ ecgpb_contact_library_email }}</td>
+                </tr>
+            </table>
+            
+            <p class="font-size-l">Öffnungszeiten</p>
+            <table class="col-md-offset-1 font-size-l">
+                <tr>
+                    <td>Mittwoch:</td>
+                    <td>18:30 &ndash; 20:30 Uhr</td>
+                </tr>
+                <tr>
+                    <td>Donnerstag:</td>
+                    <td>18:00 &ndash; 20:30 Uhr</td>
+                </tr>
+                <tr>
+                    <td>Sonntag:</td>
+                    <td>11:45 &ndash; 12:30 Uhr</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        An Ferien- und Feiertagen geschlossen
                     </td>
-                    {% for person in entity.persons %}
-                        {% if loop.index0 > 0 %}<tr>{% endif %}
-                            <td>
-                                <strong>{{ person.firstname }}</strong>
-                            </td>
-                            <td>
-                                {{ person.dob | localizeddate('medium', 'none') }}
-                            </td>
-                            <td>
-                                <p>{{ person.mobile }}</p>
-                                <p>{{ person.email }}</p>
-                            </td>
-                            {% if loop.index0 == 0 %}
-                            <td rowspan="{{ entity.persons | length }}">
-                                <a class="btn btn-default"
-                                 href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}"
-                                 title="{% trans %}Edit Address{% endtrans %}">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                                <a class="btn btn-danger"
-                                 href="{{ path('ecgpb.member.address.delete', { 'id': entity.id }) }}"
-                                 title="{% trans %}Delete Address{% endtrans %}"
-                                 onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </a>
-                            </td>
-                            {% endif %}
-                        </tr>
-                    {% else %}
-                            <td>
-                                <a class="btn btn-default"
-                                 href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}"
-                                 title="{% trans %}Edit Address{% endtrans %}">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                                <a class="btn btn-danger"
-                                 href="{{ path('ecgpb.member.address.delete', { 'id': entity.id }) }}"
-                                 title="{% trans %}Delete Address{% endtrans %}"
-                                 onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-            {% endfor %}
-            </tbody>
-        </table>
+                </tr>
+            </table>
+            <hr />
+            
+            <h2 class="font-size-xl bold">Mitgliederstand am 01.01.{{ date.format('Y') }}</h2>
+            <table class="font-size-l">
+                <tr>
+                    <td>Gesamtmitgliederzahl:</td>
+                    <td>?</td>
+                </tr>
+                <tr>
+                    <td><br/>Davon männlich:</td>
+                    <td><br/>?</td>
+                </tr>
+                <tr>
+                    <td>Davon weiblich:</td>
+                    <td>?</td>
+                </tr>
+                <tr>
+                    <td><br/>Mitglieder ab 65 Jahren:</td>
+                    <td><br/>?</td>
+                </tr>
+                <tr>
+                    <td>Mitglieder bis 25 Jahren:</td>
+                    <td>?</td>
+                </tr>
+            </table>
+        </div>
 
+        {% set addressOnPage = 0 %}
+        {% set personOnPage = 0 %}
+        {% for entity in addresses %}
+            {% if addressOnPage == 0 %}
+                <div class="page">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="2">
+                                    {% trans %}Name, Address, Phone{% endtrans %}
+                                </th>
+                                <th>{% trans %}First Name{% endtrans %}</th>
+                                <th>{% trans %}DOB{% endtrans %}</th>
+                                <th>{% trans %}Mobile, Email{% endtrans %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            {% endif %}
+            {% for person in entity.persons %}
+                            <tr>
+                                {% if loop.index0 == 0 %}
+                                    <td rowspan="{{ entity.persons | length }}">
+                                        <p><strong>{{ entity.familyName }}</strong></p>
+                                        <p><strong>{{ entity.phone }}</strong></p>
+                                        <p><i>{{ entity.street }}</i></p>
+                                        <p><i>{{ entity.zip }} {{ entity.city }}</i></p>
+                                    </td>
+                                {% endif %}
+                                <td>
+                                    <img src="" alt="photo" />
+                                </td>
+                                <td>
+                                    <strong>{{ person.firstname }}</strong>
+                                </td>
+                                <td>
+                                    {{ person.dob | localizeddate('medium', 'none') }}
+                                </td>
+                                <td>
+                                    <p>{{ person.mobile }}</p>
+                                    <p>{{ person.email }}</p>
+                                </td>
+                            </tr>
+                {% set personOnPage = personOnPage + 1 %}
+            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% set addressOnPage = addressOnPage + 1 %}
+        {% endfor %}
     </div>
 {% endblock %}

@@ -86,6 +86,10 @@
                 <source>First Name</source>
                 <target>Vorname</target>
             </trans-unit>
+            <trans-unit id="Library">
+                <source>Library</source>
+                <target>Bibliothek</target>
+            </trans-unit>
             <trans-unit id="Maiden Name">
                 <source>Maiden Name</source>
                 <target>Mädchenname</target>
@@ -113,6 +117,10 @@
             <trans-unit id="Phone">
                 <source>Phone</source>
                 <target>Telefon</target>
+            </trans-unit>
+            <trans-unit id="Phone Connections of the Church">
+                <source>Phone Connections of the Church</source>
+                <target>Telefonverbindungen des Gemeindehauses</target>
             </trans-unit>
             <trans-unit id="Please report immediately all changes to %name%!">
                 <source>Please report immediately all changes to %name%!</source>
