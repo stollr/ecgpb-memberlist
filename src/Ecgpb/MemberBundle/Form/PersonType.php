@@ -37,6 +37,9 @@ class PersonType extends AbstractType
                 'widget' => 'single_text',
                 'format' => \IntlDateFormatter::MEDIUM,
             ))
+            ->add('gender', 'choice', array(
+                'choices' => array('m' => 'male', 'f' => 'female'),
+            ))
             ->add('mobile', 'text', array(
                 'required' => false,
             ))

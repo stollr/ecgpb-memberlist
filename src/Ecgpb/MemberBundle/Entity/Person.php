@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Person
 {
+    const GENDER_MALE = 'm';
+    const GENDER_FEMALE = 'f';
+    
     /**
      * @var integer
      */
@@ -24,6 +27,12 @@ class Person
      * @var \DateTime
      */
     private $dob;
+    
+    /**
+     * Gender ('m' or 'f')
+     * @var string
+     */
+    private $gender;
 
     /**
      * @var string
@@ -105,6 +114,17 @@ class Person
     public function getDob()
     {
         return $this->dob;
+    }
+    
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+        return $this;
     }
 
     /**

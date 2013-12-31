@@ -13,6 +13,9 @@ Ecgpb\MemberBundle\Entity\Person:
             length: '30'
         dob:
             type: date
+        gender:
+            type: string
+            length: '1'
         mobile:
             type: string
             length: '30'
