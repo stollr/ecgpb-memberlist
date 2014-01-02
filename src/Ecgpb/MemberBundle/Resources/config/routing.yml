@@ -63,4 +63,8 @@ ecgpb.member.address.delete:
 ecgpb.member.print.html:
     pattern:  /print/html
     defaults: { _controller: "EcgpbMemberBundle:Print:html", _locale: de }
+
+ecgpb.member.print.pdf:
+    pattern:  /print/pdf
+    defaults: { _controller: "EcgpbMemberBundle:Print:pdf", _locale: de }
     

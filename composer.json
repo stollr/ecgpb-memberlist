@@ -21,7 +21,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/doctrine-fixtures-bundle": "*",
         "mopa/bootstrap-bundle": "dev-master",
-        "twbs/bootstrap": "dev-master"
+        "twbs/bootstrap": "dev-master",
+        "tecnick.com/tcpdf": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
