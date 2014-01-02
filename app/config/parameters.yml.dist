@@ -15,6 +15,7 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     ecgpb.contact.name_html:                Evangeliums &ndash; Christengemeinde e.V.
+    ecgpb.contact.name:                     Evangeliums – Christengemeinde e.V.
     ecgpb.contact.street:                   Karl-Schurz-Str. 28
     ecgpb.contact.zip:                      33100
     ecgpb.contact.city:                     Paderborn
