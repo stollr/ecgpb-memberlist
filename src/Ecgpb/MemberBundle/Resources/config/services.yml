@@ -2,6 +2,27 @@ parameters:
 #    ecgpb_member.example.class: Ecgpb\MemberBundle\Example
 
 services:
+    ecgpb.member.pdf_generator.member_list_generator:
+        class: Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator
+        arguments:
+            - "@doctrine"
+            - "@templating"
+            - 
+                ecgpb.contact.name: %ecgpb.contact.name%
+                ecgpb.contact.street: %ecgpb.contact.street%
+                ecgpb.contact.zip: %ecgpb.contact.zip%
+                ecgpb.contact.city: %ecgpb.contact.city%
+                ecgpb.contact.main_phone: %ecgpb.contact.main_phone%
+                ecgpb.contact.office_phone: %ecgpb.contact.office_phone%
+                ecgpb.contact.lifetime_phone: %ecgpb.contact.lifetime_phone%
+                ecgpb.contact.gfh_phone: %ecgpb.contact.gfh_phone%
+                ecgpb.contact.library_phone: %ecgpb.contact.library_phone%
+                ecgpb.contact.library_email: %ecgpb.contact.library_email%
+                ecgpb.contact.bank.account_number: %ecgpb.contact.bank.account_number%
+                ecgpb.contact.bank.code: %ecgpb.contact.bank.code%
+                ecgpb.contact.memberlist.responsible: %ecgpb.contact.memberlist.responsible%
+                ecgpb.contact.memberlist.email: %ecgpb.contact.memberlist.email%
+
 #    ecgpb.member.event.entity_removal_subscriber:
 #        class: Ecgpb\MemberBundle\Event\EntityRemovalSubscriber
 #        arguments:
