@@ -21,6 +21,11 @@ abstract class Generator
         $pdf->SetFontSize(11);
     }
     
+    public function useFontSizeS(\TCPDF $pdf)
+    {
+        $pdf->SetFontSize(8);
+    }
+    
     public function useFontWeightBold(\TCPDF $pdf)
     {
         $pdf->SetFont('', 'B');
