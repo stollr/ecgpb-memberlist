@@ -23,7 +23,7 @@ abstract class Generator
     
     public function useFontSizeS(\TCPDF $pdf)
     {
-        $pdf->SetFontSize(8);
+        $pdf->SetFontSize(9);
     }
     
     public function useFontWeightBold(\TCPDF $pdf)
