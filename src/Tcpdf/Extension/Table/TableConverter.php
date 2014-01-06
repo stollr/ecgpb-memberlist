@@ -11,6 +11,8 @@ class TableConverter
 {
     private $table;
     private $fontSettings;
+    private $calculatedRowHeights;
+    private $calculatedCellWidths;
 
     public function __construct(Table $table)
     {
@@ -34,6 +36,68 @@ class TableConverter
             }
         }
         return $cellWidths;
+    }
+    
+    /**
+     * Calculates and returns an 2 dimensional array with the width for each
+     * table cell of each row.
+     * 
+     * @return array
+     */
+    private function _getCalculatedCellWidths()
+    {
+        if (isset($this->calculatedCellWidths)) {
+            return $this->calculatedCellWidths;
+        }
+        
+        $cellWidths = $this->_getCellWidths();
+
+        // check if the sum of cell widths is valid
+        $cellWidthSum = array_sum($cellWidths);
+
+        $margins = $this->getPdf()->getMargins();
+        $maxWidth = $this->getPdf()->getPageWidth() - $margins['left'] - $margins['right'];
+
+        $definedWidth = $this->getTable()->getWidth() ?: null;
+        if ($cellWidthSum > $maxWidth || $definedWidth) {
+//            $cellWordWidths = $this->_getCellWordWidths();
+//            $cellWordWidthsSum = array_sum($cellWordWidths);
+//            $restWidth = $maxWidth;
+            foreach ($cellWidths as $index => $width) {
+//                $wordWidth = current($cellWordWidths);
+//                next($cellWordWidths);
+                if ($definedWidth) {
+                    $newWidth = ($width / $cellWidthSum) * $definedWidth;
+                } else {
+                    $newWidth = ($width / $cellWidthSum) * $maxWidth;
+                }
+//                if ($cellWordWidthsSum < $maxWidth) {
+//                    if ($wordWidth > $newWidth) {
+//                        $newWidth = $wordWidth;
+//                        $restWidth -= $wordWidth;
+//                    }
+//                }
+                $cellWidths[$index] = $newWidth;
+            }
+        }
+
+        // set new calculated widths to the cells
+        $r = 0;
+        foreach ($this->getTable()->getRows() as $row) {
+            $c = $cr = 0; // $cr = real cell index
+            foreach ($row->getCells() as $cell) {
+                $width = 0;
+                for ($i = 0; $i < $cell->getColspan(); $i++) {
+                    $width += $cellWidths[$c];
+                    $c++;
+                }
+                $this->calculatedCellWidths[$r][$cr] = $width;
+                $cr++;
+            }
+            $r++;
+        }
+        
+        return $this->calculatedCellWidths;
     }
 
     private function _getCellWordWidths()
@@ -121,52 +185,8 @@ class TableConverter
 
     private function convert()
     {
-        $cellWidths = $this->_getCellWidths();
-
-        // check if the sum of cell widths is valid
-        $cellWidthSum = array_sum($cellWidths);
-        
-        $margins = $this->getPdf()->getMargins();
-		$maxWidth = $this->getPdf()->getPageWidth();
-        
-        $definedWidth = $this->getTable()->getWidth() ?: null;
-        if ($cellWidthSum > $maxWidth || $definedWidth) {
-//            $cellWordWidths = $this->_getCellWordWidths();
-//            $cellWordWidthsSum = array_sum($cellWordWidths);
-//            $restWidth = $maxWidth;
-            foreach ($cellWidths as $index => $width) {
-//                $wordWidth = current($cellWordWidths);
-//                next($cellWordWidths);
-                if ($definedWidth) {
-                    $newWidth = ($width / $cellWidthSum) * $definedWidth;
-                } else {
-                    $newWidth = ($width / $cellWidthSum) * $maxWidth;
-                }
-//                if ($cellWordWidthsSum < $maxWidth) {
-//                    if ($wordWidth > $newWidth) {
-//                        $newWidth = $wordWidth;
-//                        $restWidth -= $wordWidth;
-//                    }
-//                }
-                $cellWidths[$index] = $newWidth;
-            }
-        }
-
-        // set new calculated widths to the cells
-        foreach ($this->getTable()->getRows() as $row) {
-            $c = 0;
-            foreach ($row->getCells() as $cell) {
-                $width = 0;
-                for ($i = 0; $i < $cell->getColspan(); $i++) {
-                    $width += $cellWidths[$c];
-                    $c++;
-                }
-                $cell->setCalculatedWidth($width);
-            }
-        }
-
+        $cellWidths = $this->_getCalculatedCellWidths();
         $rowHeights = $this->_getRowHeights();
-
 
         // after all sizes are collected, we can start printing the cells
         $x = $this->getPdf()->GetX();
@@ -177,7 +197,7 @@ class TableConverter
             $x2 = $x;
             foreach ($row->getCells() as $cell) {
                 // calculate the width (regard colspan)
-                $width = $cell->getCalculatedWidth();
+                $width = $cellWidths[$r][$c];
 
                 // calculate optimal number of lines and height of the cell
                 $lines = (int) floor($rowHeights[$r] / $cell->getLineHeight());
@@ -195,7 +215,7 @@ class TableConverter
                 $this->getPdf()->SetFont(
                     $this->getPdf()->getFontFamily(),
                     $cell->getFontWeight() == Cell::FONT_WEIGHT_BOLD ? 'B' : '',
-                    $this->getPdf()->getFontSizePt()
+                    $cell->getFontSize()
                 );
 
                 // write cell to pdf

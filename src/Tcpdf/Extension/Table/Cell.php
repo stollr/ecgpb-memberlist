@@ -18,11 +18,13 @@ class Cell
     private $colspan = 1;
     private $width;
     private $calculatedWidth; // calculated width can differ from width, for example if colspan > 1
+    private $minHeight;
     private $lineHeight;
     private $border = 0;
     private $align = 'J';
     private $fill = 0;
     private $lineNumber;
+    private $fontSize;
     private $fontWeight = self::FONT_WEIGHT_INHERIT;
 
     public function __construct(Row $row, $text = '')
@@ -78,6 +80,17 @@ class Cell
     public function setCalculatedWidth($calculatedWidth)
     {
         $this->calculatedWidth = $calculatedWidth;
+        return $this;
+    }
+
+    public function getMinHeight()
+    {
+        return $this->minHeight;
+    }
+
+    public function setMinHeight($minHeight)
+    {
+        $this->minHeight = $minHeight;
         return $this;
     }
 
@@ -210,7 +223,31 @@ class Cell
         $this->fontWeight = $fontWeight;
         return $this;
     }
+    
+    /**
+     * Get the font size in PT.
+     * @return int
+     */
+    public function getFontSize()
+    {
+        return $this->fontSize !== null
+            ? $this->fontSize
+            : $this->getTableRow()->getTable()->getPdf()->getFontSizePt()
+        ;
+    }
 
+    /**
+     * Set the font size in PT.
+     * @param int $fontSize
+     * @return \Tcpdf\Extension\Table\Cell
+     */
+    public function setFontSize($fontSize)
+    {
+        $this->fontSize = $fontSize;
+        return $this;
+    }
+
+    
     /**
      * Return cell padding.
      * @return float
