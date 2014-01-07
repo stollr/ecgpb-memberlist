@@ -11,8 +11,8 @@ class TableConverter
 {
     private $table;
     private $fontSettings;
-    private $calculatedRowHeights;
-    private $calculatedCellWidths;
+    private $rowHeights;
+    private $cellWidths;
 
     public function __construct(Table $table)
     {
@@ -20,7 +20,7 @@ class TableConverter
         $this->convert();
     }
 
-    private function _getCellWidths()
+    private function _getRawCellWidths()
     {
         $cellWidths = array();
         foreach ($this->getTable()->getRows() as $row) {
@@ -44,13 +44,13 @@ class TableConverter
      * 
      * @return array
      */
-    private function _getCalculatedCellWidths()
+    private function _getCellWidths()
     {
-        if (isset($this->calculatedCellWidths)) {
-            return $this->calculatedCellWidths;
+        if (isset($this->cellWidths)) {
+            return $this->cellWidths;
         }
         
-        $cellWidths = $this->_getCellWidths();
+        $cellWidths = $this->_getRawCellWidths();
 
         // check if the sum of cell widths is valid
         $cellWidthSum = array_sum($cellWidths);
@@ -91,13 +91,13 @@ class TableConverter
                     $width += $cellWidths[$c];
                     $c++;
                 }
-                $this->calculatedCellWidths[$r][$cr] = $width;
+                $this->cellWidths[$r][$cr] = $width;
                 $cr++;
             }
             $r++;
         }
         
-        return $this->calculatedCellWidths;
+        return $this->cellWidths;
     }
 
     private function _getCellWordWidths()
@@ -127,19 +127,41 @@ class TableConverter
 
     private function _getRowHeights()
     {
+        if (!empty($this->rowHeights)) {
+            return $this->rowHeights;
+        }
+        
+        $pdf = $this->getPdf();
+        $this->_saveFontSettings();
+        
+        $cellHeights = $this->_getCellWidths();
         $rowHeights = array();
         $r = 0;
         foreach ($this->getTable()->getRows() as $row) {
+            $c = 0;
+            $rowHeight = 0;
             foreach ($row->getCells() as $cell) {
-                $lines = $cell->getLineNumber();
-                $height = $cell->getLineHeight();
-                if (empty($rowHeights[$r]) || $height * $lines > $rowHeights[$r]) {
-                    $rowHeights[$r] = $height * $lines;
+                // set the font size, so that the height can be determined correctly
+                $pdf->SetFont($pdf->getFontFamily(), $pdf->getFontStyle(), $cell->getFontSize());
+                $height = $pdf->getStringHeight(
+                    $cellHeights[$r][$c],
+                    $cell->getText(),
+                    false, // reset
+                    true,  // $autopadding
+                    null,  // cellpadding, if null, use default
+                    $cell->getBorder()
+                );
+                if ($height > $rowHeight) {
+                    $rowHeight = $height;
                 }
+                $c++;
             }
+            $rowHeights[$r] = $rowHeight;
             $r++;
         }
-        return $rowHeights;
+        $this->_restoreFontSettings();
+        
+        return $this->rowHeights = $rowHeights;
     }
 
     private function _saveFontSettings()
@@ -185,7 +207,7 @@ class TableConverter
 
     private function convert()
     {
-        $cellWidths = $this->_getCalculatedCellWidths();
+        $cellWidths = $this->_getCellWidths();
         $rowHeights = $this->_getRowHeights();
 
         // after all sizes are collected, we can start printing the cells
