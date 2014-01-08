@@ -9,7 +9,6 @@ namespace Tcpdf\Extension\Table;
  */
 class Cell
 {
-    const FONT_WEIGHT_INHERIT = 'inherit';
     const FONT_WEIGHT_NORMAL = 'normal';
     const FONT_WEIGHT_BOLD = 'bold';
 
@@ -17,20 +16,24 @@ class Cell
     private $text;
     private $colspan = 1;
     private $width;
-    private $calculatedWidth; // calculated width can differ from width, for example if colspan > 1
     private $minHeight;
     private $lineHeight;
     private $border = 0;
-    private $align = 'J';
+    private $align = 'L';
     private $fill = 0;
     private $lineNumber;
     private $fontSize;
-    private $fontWeight = self::FONT_WEIGHT_INHERIT;
+    private $fontWeight;
 
     public function __construct(Row $row, $text = '')
     {
         $this->row = $row;
         $this->setText($text);
+        $this->setFontSize($row->getTable()->getPdf()->getFontSizePt());
+        $this->setFontWeight(strpos($row->getTable()->getPdf()->getFontStyle(), 'B') !== false
+            ? self::FONT_WEIGHT_BOLD
+            : self::FONT_WEIGHT_NORMAL
+        );
     }
 
     /**
@@ -69,19 +72,6 @@ class Cell
         }
         return $this;
     }
-    public function getCalculatedWidth()
-    {
-        if (null === $this->calculatedWidth) {
-            return $this->getWidth();
-        }
-        return $this->calculatedWidth;
-    }
-
-    public function setCalculatedWidth($calculatedWidth)
-    {
-        $this->calculatedWidth = $calculatedWidth;
-        return $this;
-    }
 
     public function getMinHeight()
     {
@@ -115,10 +105,7 @@ class Cell
 
     public function setText($text)
     {
-        if ($this->text != $text) {
-            $this->text = $text;
-            $this->lineNumber = null; // line number has to be reseted and recalculated
-        }
+        $this->text = $text;
         return $this;
     }
 
@@ -196,11 +183,6 @@ class Cell
 
     public function getFontWeight()
     {
-        if (self::FONT_WEIGHT_INHERIT === $this->fontWeight) {
-            return strpos($this->getTableRow()->getTable()->getPdf()->getFontStyle(), 'B') !== false
-                ? self::FONT_WEIGHT_BOLD
-                : self::FONT_WEIGHT_NORMAL;
-        }
         return $this->fontWeight;
     }
 
@@ -208,7 +190,6 @@ class Cell
      * Set font weight like in CSS.
      *
      * @param string $fontWeight <p>Possible values:</p><ul>
-     *   <li><i>inherit</i>: Cell::FONT_WEIGHT_INHERIT</li>
      *   <li><i>normal</i>: Cell::FONT_WEIGHT_NORMAL</li>
      *   <li><i>bold</i>: Cell::FONT_WEIGHT_BOLD</li>
      * </ul>
@@ -217,7 +198,7 @@ class Cell
      */
     public function setFontWeight($fontWeight)
     {
-        if (!in_array($fontWeight, array(self::FONT_WEIGHT_INHERIT, self::FONT_WEIGHT_NORMAL, self::FONT_WEIGHT_BOLD))) {
+        if (!in_array($fontWeight, array(self::FONT_WEIGHT_NORMAL, self::FONT_WEIGHT_BOLD))) {
             throw new InvalidArgumentException("The font weight '$fontWeight' is not supported.");
         }
         $this->fontWeight = $fontWeight;
@@ -230,10 +211,7 @@ class Cell
      */
     public function getFontSize()
     {
-        return $this->fontSize !== null
-            ? $this->fontSize
-            : $this->getTableRow()->getTable()->getPdf()->getFontSizePt()
-        ;
+        return $this->fontSize;
     }
 
     /**
@@ -250,64 +228,18 @@ class Cell
     
     /**
      * Return cell padding.
-     * @return float
+     *     
+     * @return array like this: array(
+     *     'T' => 0,        // top
+     *     'R' => 1.000125  // right
+     *     'B' => 0         // bottom
+     *     'L' => 1.000125  // left
+     * )
      */
-    public function getPaddings()
+    public function getPadding()
     {
-        $margins = $this->getTableRow()->getTable()->getPdf()->getMargins();
-        return $margins['cell'];
-    }
-
-    public function getLineNumber()
-    {
-        // calculate number of lines
-        if (null === $this->lineNumber) {
-            $pdf = $this->getTableRow()->getTable()->getPdf();
-            $width = $this->getCalculatedWidth();
-            if (!$width) {
-                $margins = $pdf->getMargins();
-                $width = $pdf->getPageWidth() - $margins['left'] - $margins['right'];
-            }
-            
-            $paddings = $this->getPaddings();
-            $maxWidth = ($width - $paddings['L'] - $paddings['R']) * 1000 / $pdf->getFontSize();
-            $text = str_replace("\r", '', $this->getText());
-            $charWidths = $pdf->GetStringWidth($text, '', $pdf->getFontStyle(), $pdf->getFontSize(), true);
-            $length = count($charWidths);
-            if ($length > 0 && $text[$length - 1] == "\n") {
-                $length--;
-            }
-
-            $lastSeparatorPosition = -1;
-            $pos = 0;
-            $widthInCurrentLine = 0;
-            $lines = 1;
-            while ($pos < $length) {
-                // Get next character
-                $char = mb_substr($text, $pos, 1);
-                $widthInCurrentLine += $charWidths[$pos];
-                if ($char == "\n") {
-                    //Explicit line break
-                    $widthInCurrentLine = 0;
-                    $lastSeparatorPosition = -1;
-                    $lines++;
-                } else if (in_array($char, array(' ', '-', '_'))) {
-                    // separators are characters where a line could be broken when it gets too long
-                    $lastSeparatorPosition = $pos;
-                } else if ($widthInCurrentLine > $maxWidth) {
-                    //Automatic line break
-                    if ($lastSeparatorPosition > 0) {
-                        $pos = $lastSeparatorPosition;
-                    }
-                    $widthInCurrentLine = 0;
-                    $lastSeparatorPosition = -1;
-                    $lines++;
-                }
-                $pos++;
-            }
-            $this->lineNumber = $lines;
-        }
-        return $this->lineNumber;
+        $paddings = $this->getTableRow()->getTable()->getPdf()->getCellPaddings();
+        return $paddings;
     }
 
     /**

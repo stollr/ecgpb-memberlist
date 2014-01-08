@@ -134,7 +134,7 @@ class TableConverter
         $pdf = $this->getPdf();
         $this->_saveFontSettings();
         
-        $cellHeights = $this->_getCellWidths();
+        $cellWidths = $this->_getCellWidths();
         $rowHeights = array();
         $r = 0;
         foreach ($this->getTable()->getRows() as $row) {
@@ -142,9 +142,13 @@ class TableConverter
             $rowHeight = 0;
             foreach ($row->getCells() as $cell) {
                 // set the font size, so that the height can be determined correctly
-                $pdf->SetFont($pdf->getFontFamily(), $pdf->getFontStyle(), $cell->getFontSize());
+                $pdf->SetFont(
+                    $pdf->getFontFamily(),
+                    $cell->getFontWeight() == Cell::FONT_WEIGHT_BOLD ? 'B' : '',
+                    $cell->getFontSize()
+                );
                 $height = $pdf->getStringHeight(
-                    $cellHeights[$r][$c],
+                    $cellWidths[$r][$c],
                     $cell->getText(),
                     false, // reset
                     true,  // $autopadding
@@ -171,6 +175,7 @@ class TableConverter
             'style'   => $this->getPdf()->getFontStyle(),
             'size'    => $this->getPdf()->getFontSize(),
             'size_pt' => $this->getPdf()->getFontSizePt(),
+            'cell_height_ratio' => $this->getPdf()->getCellHeightRatio(),
         );
         return $this;
     }
@@ -185,6 +190,7 @@ class TableConverter
             $this->fontSettings['style'],
             $this->fontSettings['size_pt']
         );
+        $this->getPdf()->setCellHeightRatio($this->fontSettings['cell_height_ratio']);
 
         return $this;
     }
@@ -221,13 +227,6 @@ class TableConverter
                 // calculate the width (regard colspan)
                 $width = $cellWidths[$r][$c];
 
-                // calculate optimal number of lines and height of the cell
-                $lines = (int) floor($rowHeights[$r] / $cell->getLineHeight());
-                $height = $cell->getLineHeight() + (fmod($rowHeights[$r], $cell->getLineHeight()) / $lines);
-
-                // now we have to append the difference of lines as line-breaks at the end of our text
-                $text = $cell->getText() . str_repeat("\n", $lines - $cell->getLineNumber() + 1);
-
                 // set correct X/Y position for this cell
                 $this->getPdf()->SetXY($x2, $y2);
                 $x2 = $x2 + $width;
@@ -241,7 +240,7 @@ class TableConverter
                 );
 
                 // write cell to pdf
-                $this->getPdf()->MultiCell($width, $height, $text, $cell->getBorder(), $cell->getAlign(), $cell->getFill());
+                $this->getPdf()->MultiCell($width, $rowHeights[$r], $cell->getText(), $cell->getBorder(), $cell->getAlign(), $cell->getFill());
 
                 $this->_restoreFontSettings();
 
