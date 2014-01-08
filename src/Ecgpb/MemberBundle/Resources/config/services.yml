@@ -6,6 +6,7 @@ services:
         class: Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator
         arguments:
             - "@doctrine"
+            - "@translator"
             - "@templating"
             - 
                 ecgpb.contact.name: %ecgpb.contact.name%

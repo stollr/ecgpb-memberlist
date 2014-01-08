@@ -3,6 +3,7 @@
 namespace Ecgpb\MemberBundle\PdfGenerator;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Bridge\Twig\TwigEngine;
 
 /**
@@ -13,15 +14,18 @@ use Symfony\Bridge\Twig\TwigEngine;
 class MemberListGenerator extends Generator implements GeneratorInterface
 {
     private $doctrine;
+    private $translator;
     private $templating;
     private $parameters;
     
     public function __construct(
         RegistryInterface $doctrine,
+        TranslatorInterface $translator,
         TwigEngine $templating,
         array $parameters
     ) {
         $this->doctrine = $doctrine;
+        $this->translator = $translator;
         $this->templating = $templating;
         $this->parameters = $parameters;
     }
@@ -54,6 +58,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addCover($pdf);
         $this->addPage1($pdf);
         $this->addPage2($pdf);
+        $this->addAddressPages($pdf);
 
 //        foreach (explode('<!--PAGE_BREAK-->', $html) as $htmlPage) {
 //            $pdf->AddPage();
@@ -241,6 +246,125 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 ->end()
             ->end()
         ;
+    }
+    
+    public function addAddressPages(\TCPDF $pdf)
+    {
+        $addresses = $this->getAddresses();
+        
+        $table = null;
+        $totalHeight = 0;
+        
+        foreach ($addresses as $address) {
+            /* @var $address \Ecgpb\MemberBundle\Entity\Address */
+            if (0 == $totalHeight) {
+                $pdf->AddPage();
+                $table = $this->addTable($pdf);
+                $table
+                    ->newRow()
+                        ->newCell()
+                            ->setText($this->translator->trans('Name, Address, Phone'))
+                            ->setBorder(1)
+                            ->setFontSize(self::FONT_SIZE_S)
+                            ->setColspan(2)
+                        ->end()
+                        ->newCell()
+                            ->setText($this->translator->trans('First Name'))
+                            ->setBorder(1)
+                            ->setFontSize(self::FONT_SIZE_S)
+                        ->end()
+                        ->newCell()
+                            ->setText($this->translator->trans('DOB'))
+                            ->setBorder(1)
+                            ->setFontSize(self::FONT_SIZE_S)
+                        ->end()
+                        ->newCell()
+                            ->setText($this->translator->trans('Mobile, Email'))
+                            ->setBorder(1)
+                            ->setFontSize(self::FONT_SIZE_S)
+                        ->end()
+                    ->end()
+                ;
+            }
+            $personRowHeight = 0;
+            $persons = $address->getPersons();
+            if (count($persons) == 1) {
+                $persons[] = null; // dummy entry for second row
+            }
+            foreach ($persons as $index => $person) {
+                /* @var $person \Ecgpb\MemberBundle\Entity\Person */
+                $row = $table->newRow();
+                if (0 == $index) {
+                    $row->newCell()
+                            ->setText($address->getFamilyName() . "\n" . $address->getPhone())
+                            ->setBorder('LTR')
+                            ->setFontWeight('bold')
+                            ->setWidth(35.5)
+                        ->end()
+                    ;
+                } else if (1 == $index) {
+                    $row->newCell()
+                            ->setText($address->getStreet() . "\n" . $address->getZip() . ' ' . $address->getCity())
+                            ->setBorder(count($persons) <= 2 ? 'LRB' : 'LR')
+                            ->setFontWeight('normal')
+                            ->setWidth(35.5)
+                        ->end()
+                    ;
+                } else {
+                    $row->newCell()
+                            ->setText(' ')
+                            ->setBorder(count($persons) - 1 == $index ? 'LRB' : 'LR')
+                            ->setWidth(35.5)
+                        ->end()
+                    ;
+                }
+                $row
+                    ->newCell('img')
+                        ->setBorder(1)
+                        ->setWidth(10.5)
+                    ->end()
+                    ->newCell()
+                        ->setText($person ? $person->getFirstname() : '')
+                        ->setBorder(1)
+                        ->setWidth(22)
+                        ->setFontWeight('bold')
+                    ->end()
+                    ->newCell()
+                        ->setText($person ? $person->getDob()->format('d.m.Y') : '')
+                        ->setBorder(1)
+                        ->setWidth(19)
+                        ->setFontWeight('normal')
+                    ->end()
+                    ->newCell()
+                        ->setText(
+                            ($person && $person->getPhone2() ? $person->getPhone2() . "\n" : '') .
+                            ($person && $person->getMobile() ? $person->getMobile() . "\n" : '') .
+                            ($person && $person->getEmail() ? $person->getEmail() : '')
+                        )
+                        ->setBorder(1)
+                        ->setWidth(44.5)
+                        ->setFontWeight('normal')
+                    ->end()
+                ;
+                $personRowHeight += 2
+                    + ($person && $person->getPhone2() ? 4.9 : 0)
+                    + ($person && $person->getMobile() ? 4.9 : 0)
+                    + 4.9
+                ;
+                $row->end();
+                
+            }
+            
+            if ($totalHeight > 60) {
+                $table->end();
+                $totalHeight = 0;
+            } else {
+                $totalHeight += $personRowHeight > 27.9 + 2
+                    ? $personRowHeight
+                    : 27.9 + 2
+                ;
+            }
+        }
     }
     
     /**

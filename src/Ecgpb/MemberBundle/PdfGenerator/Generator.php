@@ -11,19 +11,25 @@ use Tcpdf\Extension\Table\Table;
  */
 abstract class Generator
 {
+    const FONT_SIZE_L = 15;
+    const FONT_SIZE_M = 11;
+    const FONT_SIZE_S = 9;
+    const FONT_SIZE_XS = 7;
+    
+    
     public function useFontSizeL(\TCPDF $pdf)
     {
-        $pdf->SetFontSize(15);
+        $pdf->SetFontSize(self::FONT_SIZE_L);
     }
     
     public function useFontSizeM(\TCPDF $pdf)
     {
-        $pdf->SetFontSize(11);
+        $pdf->SetFontSize(self::FONT_SIZE_M);
     }
     
     public function useFontSizeS(\TCPDF $pdf)
     {
-        $pdf->SetFontSize(9);
+        $pdf->SetFontSize(self::FONT_SIZE_S);
     }
     
     public function useFontWeightBold(\TCPDF $pdf)
