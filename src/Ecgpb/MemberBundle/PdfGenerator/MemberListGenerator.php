@@ -35,14 +35,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
      */
     public function generate()
     {
-        $addresses = $this->getAddresses();
-        
-//        $templating = $this->get('templating'); /* @var $templating TwigEngine */
-//        
-//        $html = $templating->render('EcgpbMemberBundle:Print:pdf.html.twig', array(
-//            'date' => new \DateTime(),
-//            'addresses' => $addresses,
-//        ));
         $pdf = new \TCPDF('P', 'mm', 'A5', true, 'UTF-8', false);
         $pdf->SetTitle('ECGPB Member List');
         $pdf->SetMargins(9, 9, 9);
@@ -261,32 +253,52 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 $pdf->AddPage();
                 $table = $this->addTable($pdf);
                 $table
+                    ->setFontSize(self::FONT_SIZE_S)
                     ->newRow()
                         ->newCell()
                             ->setText($this->translator->trans('Name, Address, Phone'))
                             ->setBorder(1)
-                            ->setFontSize(self::FONT_SIZE_S)
                             ->setColspan(2)
+                            ->setPadding(0.75)
                         ->end()
                         ->newCell()
                             ->setText($this->translator->trans('First Name'))
                             ->setBorder(1)
-                            ->setFontSize(self::FONT_SIZE_S)
+                            ->setPadding(0.75)
                         ->end()
                         ->newCell()
                             ->setText($this->translator->trans('DOB'))
+                            ->setAlign('C')
                             ->setBorder(1)
-                            ->setFontSize(self::FONT_SIZE_S)
+                            ->setPadding(0.75)
                         ->end()
                         ->newCell()
                             ->setText($this->translator->trans('Mobile, Email'))
+                            ->setAlign('C')
                             ->setBorder(1)
-                            ->setFontSize(self::FONT_SIZE_S)
+                            ->setPadding(0.75)
                         ->end()
                     ->end()
                 ;
             }
-            $personRowHeight = 0;
+            
+            // calculate address row height and check if address fitts on this page
+            $addressRowHeight = 0;
+            foreach ($address->getPersons() as $person) {
+                $addressRowHeight += 13;
+                // TODO: if there is additional text in cell, it must be added here
+            }
+            if (count($address->getPersons()) == 1) {
+                $addressRowHeight += 13;
+            }
+            $totalHeight += $addressRowHeight;
+            
+            if ($totalHeight > 185) {
+                $table->end();
+                $totalHeight = 0;
+            }
+            
+            // add rows and cells to table
             $persons = $address->getPersons();
             if (count($persons) == 1) {
                 $persons[] = null; // dummy entry for second row
@@ -300,14 +312,17 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                             ->setBorder('LTR')
                             ->setFontWeight('bold')
                             ->setWidth(35.5)
+                            ->setPadding(0.75, 0.75, 0, 0.75)
                         ->end()
                     ;
                 } else if (1 == $index) {
                     $row->newCell()
                             ->setText($address->getStreet() . "\n" . $address->getZip() . ' ' . $address->getCity())
                             ->setBorder(count($persons) <= 2 ? 'LRB' : 'LR')
+                            ->setFontSize(self::FONT_SIZE_XS)
                             ->setFontWeight('normal')
                             ->setWidth(35.5)
+                            ->setPadding(0, 0.75, 0.75, 0.75)
                         ->end()
                     ;
                 } else {
@@ -319,21 +334,25 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ;
                 }
                 $row
-                    ->newCell('img')
+                    ->newCell($person ? 'img' : '')
                         ->setBorder(1)
                         ->setWidth(10.5)
                     ->end()
                     ->newCell()
                         ->setText($person ? $person->getFirstname() : '')
                         ->setBorder(1)
-                        ->setWidth(22)
                         ->setFontWeight('bold')
+                        ->setPadding(0.75)
+                        ->setWidth(22)
                     ->end()
                     ->newCell()
                         ->setText($person ? $person->getDob()->format('d.m.Y') : '')
+                        ->setAlign('C')
                         ->setBorder(1)
-                        ->setWidth(19)
+                        ->setFontSize(self::FONT_SIZE_XS)
                         ->setFontWeight('normal')
+                        ->setPadding(0.75)
+                        ->setWidth(19)
                     ->end()
                     ->newCell()
                         ->setText(
@@ -341,28 +360,16 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                             ($person && $person->getMobile() ? $person->getMobile() . "\n" : '') .
                             ($person && $person->getEmail() ? $person->getEmail() : '')
                         )
+                        ->setAlign('C')
                         ->setBorder(1)
-                        ->setWidth(44.5)
+                        ->setFontSize(self::FONT_SIZE_XS)
                         ->setFontWeight('normal')
+                        ->setMinHeight(13)
+                        ->setPadding(0.75)
+                        ->setWidth(44.5)
                     ->end()
                 ;
-                $personRowHeight += 2
-                    + ($person && $person->getPhone2() ? 4.9 : 0)
-                    + ($person && $person->getMobile() ? 4.9 : 0)
-                    + 4.9
-                ;
                 $row->end();
-                
-            }
-            
-            if ($totalHeight > 60) {
-                $table->end();
-                $totalHeight = 0;
-            } else {
-                $totalHeight += $personRowHeight > 27.9 + 2
-                    ? $personRowHeight
-                    : 27.9 + 2
-                ;
             }
         }
     }
