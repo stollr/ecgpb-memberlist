@@ -790,16 +790,16 @@
         },
         {
             "name": "jdorn/sql-formatter",
-            "version": "v1.2.16",
+            "version": "v1.2.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jdorn/sql-formatter.git",
-                "reference": "8859d664737492d313c34796731b35eca851b362"
+                "reference": "64990d96e0959dff8e059dfcdc1af130728d92bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jdorn/sql-formatter/zipball/8859d664737492d313c34796731b35eca851b362",
-                "reference": "8859d664737492d313c34796731b35eca851b362",
+                "url": "https://api.github.com/repos/jdorn/sql-formatter/zipball/64990d96e0959dff8e059dfcdc1af130728d92bc",
+                "reference": "64990d96e0959dff8e059dfcdc1af130728d92bc",
                 "shasum": ""
             },
             "require": {
@@ -836,7 +836,7 @@
                 "highlight",
                 "sql"
             ],
-            "time": "2013-11-27 22:51:13"
+            "time": "2014-01-12 16:20:24"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -1780,12 +1780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "831bbb8b45ca5d6707433a724106b0d23949a3d9"
+                "reference": "d62d7b0733fad9ffc54245f6ae47bdfd08b65dff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/831bbb8b45ca5d6707433a724106b0d23949a3d9",
-                "reference": "831bbb8b45ca5d6707433a724106b0d23949a3d9",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/d62d7b0733fad9ffc54245f6ae47bdfd08b65dff",
+                "reference": "d62d7b0733fad9ffc54245f6ae47bdfd08b65dff",
                 "shasum": ""
             },
             "type": "library",
@@ -1814,7 +1814,7 @@
                 "bootstrap",
                 "css"
             ],
-            "time": "2014-01-10 05:21:51"
+            "time": "2014-01-13 10:37:55"
         },
         {
             "name": "twig/extensions",
