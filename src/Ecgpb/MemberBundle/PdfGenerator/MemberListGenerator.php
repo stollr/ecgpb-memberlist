@@ -69,12 +69,16 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->SetX($margins['left']);
         $pdf->SetY($margins['top']);
         
-        // TODO: add logo
+        // logo
+        $src = realpath(__DIR__ . '/../Resources/public/img/logo.png');
+        //$pdf->Image($file, $x, $y, $w, $h, $type, $link, $align, $resize, $dpi, $palign, $ismask, $imgmask, $border, $fitbox, $hidden, $fitonpage, $alt, $altimgs);
+        $pdf->Image($src, $pdf->GetX(), $pdf->GetY(), 30, 19, 'PNG', null, 'N', true, 300);
         
+        $pdf->SetY($pdf->GetY() + 3);
         $pdf->SetLineWidth(0.75);
         $pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->getPageWidth() - $pdf->GetX(), $pdf->GetY());
         
-        $pdf->SetX($pdf->GetX() + 3);
+        $pdf->SetXY($pdf->GetX() + 3, $pdf->GetY() + 2);
         $pdf->Text($pdf->GetX(), $pdf->GetY(), $this->parameters['ecgpb.contact.name'], false, false, true, 0, 1);
         
         $pdf->SetFontSize(40);
@@ -86,7 +90,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     {
         $pdf->AddPage();
         
-        // TODO: add church image
+        // picture of church front
+        $src = realpath(__DIR__ . '/../Resources/public/img/church_front.png');
+        $pdf->Image($src, $pdf->GetX() + 10, $pdf->GetY(), 100, 81, 'PNG', null, 'N', true, 300);
+        $pdf->SetY($pdf->GetY() + 5);
         
         $this->useFontSizeL($pdf);
         $this->useFontWeightBold($pdf);
@@ -161,9 +168,12 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             ->end()
         ;
         
-        // TODO: library logo
-        
+        // library logo
         $pdf->SetY($pdf->GetY() + 10);
+        $src = realpath(__DIR__ . '/../Resources/public/img/library_logo.png');
+        $pdf->Image($src, $pdf->GetX() + 10, $pdf->GetY(), 40, 18, 'PNG', null, 'T', true, 300, 'R');
+        
+        $pdf->SetY($pdf->GetY() - 1);
         $this->useFontWeightBold($pdf);
         $this->writeText($pdf, 'Bibliothek');
         $pdf->SetY($pdf->GetY() + 5);

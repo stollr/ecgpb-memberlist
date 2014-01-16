@@ -11,7 +11,7 @@ use Tcpdf\Extension\Table\Table;
  */
 abstract class Generator
 {
-    const FONT_SIZE_L = 15;
+    const FONT_SIZE_L = 14;
     const FONT_SIZE_M = 11;
     const FONT_SIZE_S = 9;
     const FONT_SIZE_XS = 7.5;

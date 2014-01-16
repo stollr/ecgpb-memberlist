@@ -1723,7 +1723,7 @@
             "source": {
                 "type": "git",
                 "url": "git://git.code.sf.net/p/tcpdf/code",
-                "reference": "4a7678a1ad47724e466af71163e6f1bd02273c7c"
+                "reference": "9c04ada91fc000905cb4476224e1b2343e7576fe"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -1772,7 +1772,7 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2014-01-03 19:11:14"
+            "time": "2014-01-13 18:14:28"
         },
         {
             "name": "twbs/bootstrap",
@@ -1780,12 +1780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "d62d7b0733fad9ffc54245f6ae47bdfd08b65dff"
+                "reference": "027af6deb4cd1783b4a6cfcc98ec3f64d585958a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/d62d7b0733fad9ffc54245f6ae47bdfd08b65dff",
-                "reference": "d62d7b0733fad9ffc54245f6ae47bdfd08b65dff",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/027af6deb4cd1783b4a6cfcc98ec3f64d585958a",
+                "reference": "027af6deb4cd1783b4a6cfcc98ec3f64d585958a",
                 "shasum": ""
             },
             "type": "library",
@@ -1814,7 +1814,7 @@
                 "bootstrap",
                 "css"
             ],
-            "time": "2014-01-13 10:37:55"
+            "time": "2014-01-14 14:03:35"
         },
         {
             "name": "twig/extensions",
