@@ -52,11 +52,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addPage2($pdf);
         $this->addAddressPages($pdf);
 
-//        foreach (explode('<!--PAGE_BREAK-->', $html) as $htmlPage) {
-//            $pdf->AddPage();
-//            $pdf->writeHTML($html, true, false, true, false, '');
-//        }
-
         return $pdf->Output(null, 'S');
     }
     
@@ -295,11 +290,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             // calculate address row height and check if address fitts on this page
             $addressRowHeight = 0;
             foreach ($address->getPersons() as $person) {
-                $addressRowHeight += 13;
+                $addressRowHeight += 12;
                 // TODO: if there is additional text in cell, it must be added here
             }
             if (count($address->getPersons()) == 1) {
-                $addressRowHeight += 13;
+                $addressRowHeight += 12;
             }
             $totalHeight += $addressRowHeight;
             
@@ -321,6 +316,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                             ->setText($address->getFamilyName() . "\n" . $address->getPhone())
                             ->setBorder('LTR')
                             ->setFontWeight('bold')
+                            ->setLineHeight(1.3)
                             ->setWidth(35.5)
                             ->setPadding(0.75, 0.75, 0, 0.75)
                         ->end()
@@ -331,6 +327,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                             ->setBorder(count($persons) <= 2 ? 'LRB' : 'LR')
                             ->setFontSize(self::FONT_SIZE_XS)
                             ->setFontWeight('normal')
+                            ->setLineHeight(1.2)
                             ->setWidth(35.5)
                             ->setPadding(0, 0.75, 0.75, 0.75)
                         ->end()
@@ -374,7 +371,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setBorder(1)
                         ->setFontSize(self::FONT_SIZE_XS)
                         ->setFontWeight('normal')
-                        ->setMinHeight(13)
+                        ->setMinHeight(12)
                         ->setPadding(0.75)
                         ->setWidth(44.5)
                     ->end()

@@ -983,12 +983,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phiamo/MopaBootstrapBundle.git",
-                "reference": "b1368f6302484bb3f19d989f93612c2db6e1091d"
+                "reference": "0e25e59a4415a1785947b5772778cf3b2455905a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/b1368f6302484bb3f19d989f93612c2db6e1091d",
-                "reference": "b1368f6302484bb3f19d989f93612c2db6e1091d",
+                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/0e25e59a4415a1785947b5772778cf3b2455905a",
+                "reference": "0e25e59a4415a1785947b5772778cf3b2455905a",
                 "shasum": ""
             },
             "require": {
@@ -1040,7 +1040,7 @@
                 "form",
                 "template"
             ],
-            "time": "2014-01-05 15:25:53"
+            "time": "2014-01-16 23:43:43"
         },
         {
             "name": "mopa/composer-bridge",
@@ -1491,17 +1491,17 @@
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v2.4.1",
+            "version": "v2.5.0",
             "target-dir": "Symfony/Bundle/MonologBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/MonologBundle.git",
-                "reference": "e81c2e9c4dc0a9ff794674017069e036f575f278"
+                "reference": "29a17a347dfc41aed34ce9b72cceaf375635c408"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/e81c2e9c4dc0a9ff794674017069e036f575f278",
-                "reference": "e81c2e9c4dc0a9ff794674017069e036f575f278",
+                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/29a17a347dfc41aed34ce9b72cceaf375635c408",
+                "reference": "29a17a347dfc41aed34ce9b72cceaf375635c408",
                 "shasum": ""
             },
             "require": {
@@ -1519,7 +1519,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4.x-dev"
+                    "dev-master": "2.5.x-dev"
                 }
             },
             "autoload": {
@@ -1547,7 +1547,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2013-08-26 10:15:04"
+            "time": "2014-01-19 13:23:40"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -1723,7 +1723,7 @@
             "source": {
                 "type": "git",
                 "url": "git://git.code.sf.net/p/tcpdf/code",
-                "reference": "9c04ada91fc000905cb4476224e1b2343e7576fe"
+                "reference": "ee71246dff8aaf04c649e67c5b457aff2d81d643"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -1772,7 +1772,7 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2014-01-13 18:14:28"
+            "time": "2014-01-26 14:35:08"
         },
         {
             "name": "twbs/bootstrap",
@@ -1780,12 +1780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "027af6deb4cd1783b4a6cfcc98ec3f64d585958a"
+                "reference": "50ad304bb52b344828352e888b6f8ddc042ba176"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/027af6deb4cd1783b4a6cfcc98ec3f64d585958a",
-                "reference": "027af6deb4cd1783b4a6cfcc98ec3f64d585958a",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/50ad304bb52b344828352e888b6f8ddc042ba176",
+                "reference": "50ad304bb52b344828352e888b6f8ddc042ba176",
                 "shasum": ""
             },
             "type": "library",
@@ -1814,7 +1814,7 @@
                 "bootstrap",
                 "css"
             ],
-            "time": "2014-01-14 14:03:35"
+            "time": "2014-01-27 04:46:14"
         },
         {
             "name": "twig/extensions",
