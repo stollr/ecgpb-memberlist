@@ -23,6 +23,8 @@ services:
                 ecgpb.contact.bank.code: %ecgpb.contact.bank.code%
                 ecgpb.contact.memberlist.responsible: %ecgpb.contact.memberlist.responsible%
                 ecgpb.contact.memberlist.email: %ecgpb.contact.memberlist.email%
+                ecgpb.members.picture_path: %ecgpb.members.picture_path%
+                ecgpb.members.picture_path_optimized: %ecgpb.members.picture_path_optimized%
 
 #    ecgpb.member.event.entity_removal_subscriber:
 #        class: Ecgpb\MemberBundle\Event\EntityRemovalSubscriber

@@ -5,6 +5,7 @@ namespace Ecgpb\MemberBundle\PdfGenerator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Bridge\Twig\TwigEngine;
+use Ecgpb\MemberBundle\Entity\Person;
 
 /**
  * Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator
@@ -13,6 +14,9 @@ use Symfony\Bridge\Twig\TwigEngine;
  */
 class MemberListGenerator extends Generator implements GeneratorInterface
 {
+    const GRID_ROW_MIN_HEIGHT = 12; // mm
+    const GRID_PICTURE_CELL_WIDTH = 10.5; // mm
+
     private $doctrine;
     private $translator;
     private $templating;
@@ -241,6 +245,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->newCell('Mitglieder bis 25 Jahren:')->end()
                     ->newCell('?')->end()
                 ->end()
+                ->newRow()
+                    ->newCell('Altersdurchschnitt:')->end()
+                    ->newCell('?')->end()
+                ->end()
             ->end()
         ;
     }
@@ -340,10 +348,15 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->end()
                     ;
                 }
+
                 $row
-                    ->newCell($person ? 'img' : '')
+                    ->newCell()
+                        ->getBackground()
+                            ->setDpi(300)
+                            ->setFormatter($this->getPersonPictureFormatter($person))
+                        ->end()
                         ->setBorder(1)
-                        ->setWidth(10.5)
+                        ->setWidth(self::GRID_PICTURE_CELL_WIDTH) // 10.5 mm
                     ->end()
                     ->newCell()
                         ->setText($person ? $person->getFirstname() : '')
@@ -371,7 +384,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setBorder(1)
                         ->setFontSize(self::FONT_SIZE_XS)
                         ->setFontWeight('normal')
-                        ->setMinHeight(12)
+                        ->setMinHeight(self::GRID_ROW_MIN_HEIGHT)
                         ->setPadding(0.75)
                         ->setWidth(44.5)
                     ->end()
@@ -400,5 +413,58 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         ;
         
         return $builder->getQuery()->getResult();
+    }
+
+    public function getPersonPictureFormatter(Person $person = null)
+    {
+        if (!$person) {
+            return null;
+        }
+
+        $encoded = urlencode($person->getAddress()->getFamilyName() . '_' . $person->getFirstname() . '_' . $person->getDob()->format('Y-m-d') . '.jpg');
+        $filenameOriginal = $this->parameters['ecgpb.members.picture_path'] . '/' . $encoded;
+        $filenameOptimized = $this->parameters['ecgpb.members.picture_path_optimized'] . '/' . $encoded;
+
+        return function(\Tcpdf\Extension\Attribute\BackgroundFormatterOptions $options) use ($person, $filenameOriginal, $filenameOptimized) {
+            if (!file_exists($filenameOriginal)) {
+                $options->setImage(null);
+                return;
+            }
+
+            $options->setImage($filenameOptimized);
+            
+            if (!file_exists($filenameOptimized) || filemtime($filenameOriginal) > filemtime($filenameOptimized)) {
+                list($widthOriginal, $heightOriginal) = getimagesize($filenameOriginal);
+                $dpi = $widthOriginal / ($options->getMaxWidth() / 25.4);
+                if ($dpi > 300) {
+                    $dpi = 300;
+                }
+
+                $dstWidth = $options->getMaxWidth() / 25.4 * $dpi;
+                $dstHeight = $options->getMaxHeight() / 25.4 * $dpi;
+
+                $factor = $dstWidth / $dstHeight;
+
+                if ($factor > $widthOriginal / $heightOriginal) {
+                    $width = $widthOriginal;
+                    $height = $widthOriginal / $factor;
+                } else {
+                    $width = $heightOriginal * $factor;
+                    $height = $heightOriginal;
+                }
+
+                $imageOriginal = imagecreatefromjpeg($filenameOriginal);
+                $imageSnippet = imagecreatetruecolor($width, $height);
+                imagecopy($imageSnippet, $imageOriginal, 0, 0, ($widthOriginal - $width) / 2, ($heightOriginal - $height) / 2, $width, $height);
+                imagedestroy($imageOriginal);
+                $imageOptimized = imagecreatetruecolor($dstWidth, $dstHeight);
+                imagecopyresized($imageOptimized, $imageSnippet, 0, 0, 0, 0, $dstWidth, $dstHeight, $width, $height);
+                imagedestroy($imageSnippet);
+                imagejpeg($imageOptimized, $filenameOptimized);
+                imagedestroy($imageOptimized);
+
+                $options->setDpi($dpi);
+            }
+        };
     }
 }
