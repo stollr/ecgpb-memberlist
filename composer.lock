@@ -983,12 +983,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phiamo/MopaBootstrapBundle.git",
-                "reference": "9c471df4618cf751fdb7671386dd3830ba4f2710"
+                "reference": "a099236f32a7717ed8bdf1e01e2197db6265a419"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/9c471df4618cf751fdb7671386dd3830ba4f2710",
-                "reference": "9c471df4618cf751fdb7671386dd3830ba4f2710",
+                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/a099236f32a7717ed8bdf1e01e2197db6265a419",
+                "reference": "a099236f32a7717ed8bdf1e01e2197db6265a419",
                 "shasum": ""
             },
             "require": {
@@ -1040,7 +1040,7 @@
                 "form",
                 "template"
             ],
-            "time": "2014-02-03 18:33:15"
+            "time": "2014-02-07 15:52:29"
         },
         {
             "name": "mopa/composer-bridge",
@@ -1780,12 +1780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "7eb532262fbd1112215b5a547b9285794b5360ab"
+                "reference": "8f7170abd04a356654d92700d30c006d70bc7778"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/7eb532262fbd1112215b5a547b9285794b5360ab",
-                "reference": "7eb532262fbd1112215b5a547b9285794b5360ab",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/8f7170abd04a356654d92700d30c006d70bc7778",
+                "reference": "8f7170abd04a356654d92700d30c006d70bc7778",
                 "shasum": ""
             },
             "type": "library",
@@ -1814,7 +1814,7 @@
                 "bootstrap",
                 "css"
             ],
-            "time": "2014-02-05 22:11:46"
+            "time": "2014-02-08 02:51:32"
         },
         {
             "name": "twig/extensions",

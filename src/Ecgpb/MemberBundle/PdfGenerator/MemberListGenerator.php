@@ -421,14 +421,22 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             return null;
         }
 
-        $encoded = urlencode($person->getAddress()->getFamilyName() . '_' . $person->getFirstname() . '_' . $person->getDob()->format('Y-m-d') . '.jpg');
-        $filenameOriginal = $this->parameters['ecgpb.members.picture_path'] . '/' . $encoded;
-        $filenameOptimized = $this->parameters['ecgpb.members.picture_path_optimized'] . '/' . $encoded;
+        $filename = urlencode($person->getAddress()->getFamilyName() . '_' . $person->getFirstname() . '_' . $person->getDob()->format('Y-m-d') . '.jpg');
+        $filenameOriginal = $this->parameters['ecgpb.members.picture_path'] . '/' . $filename;
+        $picturePathOptimized = $this->parameters['ecgpb.members.picture_path_optimized'];
 
-        return function(\Tcpdf\Extension\Attribute\BackgroundFormatterOptions $options) use ($person, $filenameOriginal, $filenameOptimized) {
+        return function(\Tcpdf\Extension\Attribute\BackgroundFormatterOptions $options) use ($filename, $filenameOriginal, $picturePathOptimized) {
             if (!file_exists($filenameOriginal)) {
                 $options->setImage(null);
                 return;
+            }
+
+            $filenameOptimized = $picturePathOptimized . '/' 
+                . number_format(round($options->getMaxWidth(), 4), 4) . 'x'
+                . number_format(round($options->getMaxHeight(), 4), 4) . '/' . $filename
+            ;
+            if (!is_dir(dirname($filenameOptimized)) && !mkdir(dirname($filenameOptimized), 0777)) {
+                throw new \RuntimeException('No permissions to create the directory "'.dirname($filenameOptimized).'".');
             }
 
             $options->setImage($filenameOptimized);
