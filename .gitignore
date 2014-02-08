@@ -2,6 +2,8 @@
 /app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml
+/app/data/member_pictures/*
+/app/data/member_pictures_optimized/*
 /app/data/database.sqlite
 /app/logs/*
 !app/cache/.gitkeep
