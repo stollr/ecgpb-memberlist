@@ -2,11 +2,13 @@
 
 namespace Ecgpb\MemberBundle\Controller;
 
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Ecgpb\MemberBundle\Entity\Person;
 use Ecgpb\MemberBundle\Form\PersonType;
+use Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator;
 
 /**
  * Person controller.
@@ -165,4 +167,27 @@ class PersonController extends Controller
         return $this->redirect($this->generateUrl('ecgpb.member.person.index'));
     }
 
+    public function optimizedMemberPictureAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $person = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
+        if (!$person) {
+            throw $this->createNotFoundException('Unable to find Person entity.');
+        }
+
+        $memberListGenerator = $this->get('ecgpb.member.pdf_generator.member_list_generator');
+        $options = new \Tcpdf\Extension\Attribute\BackgroundFormatterOptions(
+            null,
+            MemberListGenerator::GRID_PICTURE_CELL_WIDTH,
+            MemberListGenerator::GRID_ROW_MIN_HEIGHT
+        );
+        $formatter = $memberListGenerator->getPersonPictureFormatter($person);
+        $formatter($options);
+        $filename = $options->getImage();
+
+        return new BinaryFileResponse($filename, 200, array(
+            'Content-Type' => 'image/jpeg',
+            'Content-Length' => filesize($filename),
+        ));
+    }
 }

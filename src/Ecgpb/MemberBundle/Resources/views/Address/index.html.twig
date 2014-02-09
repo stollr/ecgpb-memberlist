@@ -29,14 +29,20 @@
                 {% for person in entity.persons %}
                     {% if loop.index0 > 0 %}<tr>{% endif %}
                         <td>
+                            {% if persons_with_picture[person.id] %}
+                                <img class="person-picture" src="{{ path('ecgpb.member.person.optimized_member_picture', {'id': person.id}) }}" />
+                            {% endif %}
+                        </td>
+                        <td>
                             <strong>{{ person.firstname }}</strong>
                         </td>
                         <td>
                             {{ person.dob | localizeddate('medium', 'none') }}
                         </td>
                         <td>
-                            <p>{{ person.mobile }}</p>
-                            <p>{{ person.email }}</p>
+                            {% if person.phone2 %}{{ person.phone2 }}<br/>{% endif %}
+                            {% if person.mobile %}{{ person.mobile }}<br/>{% endif %}
+                            {% if person.email %}{{ person.email }}<br/>{% endif %}
                         </td>
                         {% if loop.index0 == 0 %}
                         <td rowspan="{{ entity.persons | length }}">

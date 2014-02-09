@@ -29,10 +29,22 @@ class AddressController extends Controller
             ->select('address', 'person')
             ->leftJoin('address.persons', 'person')
         ;
-        $entities = $builder->getQuery()->getResult();
+        $addresses = $builder->getQuery()->getResult();
+
+        // person pictures
+        $picturePath = $this->container->getParameter('ecgpb.members.picture_path');
+
+        $personsWithPicture = array();
+        foreach ($addresses as $address) {
+            foreach ($address->getPersons() as $person) {
+                $filename = $picturePath . '/' . urlencode($address->getFamilyName() . '_' . $person->getFirstname() . '_' . $person->getDob()->format('Y-m-d') . '.jpg');
+                $personsWithPicture[$person->getId()] = file_exists($filename);
+            }
+        }
 
         return $this->render('EcgpbMemberBundle:Address:index.html.twig', array(
-            'entities' => $entities,
+            'entities' => $addresses,
+            'persons_with_picture' => $personsWithPicture,
         ));
     }
     /**

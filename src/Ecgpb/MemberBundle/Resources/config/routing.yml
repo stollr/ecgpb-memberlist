@@ -30,6 +30,11 @@ ecgpb.member.person.delete:
     pattern:  /person/{id}/delete
     defaults: { _controller: "EcgpbMemberBundle:Person:delete", _locale: de }
 
+ecgpb.member.person.optimized_member_picture:
+    pattern:  /person/optimized_member_picture/{id}
+    defaults: { _controller: "EcgpbMemberBundle:Person:optimizedMemberPicture", _locale: de }
+
+
 # address routes
 
 ecgpb.member.address.index:
