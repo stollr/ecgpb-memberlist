@@ -28,6 +28,8 @@ class AddressController extends Controller
         $builder = $repo->createQueryBuilder('address')
             ->select('address', 'person')
             ->leftJoin('address.persons', 'person')
+            ->orderBy('address.familyName', 'asc')
+            ->addOrderBy('person.dob', 'asc')
         ;
         $addresses = $builder->getQuery()->getResult();
 

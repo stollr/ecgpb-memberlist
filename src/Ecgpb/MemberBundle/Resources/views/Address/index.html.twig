@@ -21,10 +21,14 @@
         {% for entity in entities %}
             <tr>
                 <td rowspan="{{ entity.persons | length }}">
-                    <p><strong>{{ entity.familyName }}</strong></p>
-                    <p><strong>{{ entity.phone }}</strong></p>
-                    <p><i>{{ entity.street }}</i></p>
-                    <p><i>{{ entity.zip }} {{ entity.city }}</i></p>
+                    <p>
+                        <strong>{{ entity.familyName }}</strong><br/>
+                        <strong>{{ entity.phone }}</strong><br/>
+                    </p>
+                    <p>
+                        <i>{{ entity.street }}</i><br/>
+                        <i>{{ entity.zip }} {{ entity.city }}</i><br/>
+                    </p>
                 </td>
                 {% for person in entity.persons %}
                     {% if loop.index0 > 0 %}<tr>{% endif %}
