@@ -2,6 +2,10 @@ ecgpb.member.index.index:
     pattern: /
     defaults: { _controller: "EcgpbMemberBundle:Index:index", _locale: de }
 
+ecgpb.member.index.encode_password:
+    pattern: /index/encode_password
+    defaults: { _controller: "EcgpbMemberBundle:Index:encodePassword", _locale: de }
+
 # person actions
 
 ecgpb.member.person.index:

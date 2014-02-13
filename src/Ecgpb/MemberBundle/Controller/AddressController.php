@@ -4,13 +4,13 @@ namespace Ecgpb\MemberBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Ecgpb\MemberBundle\Entity\Address;
 use Ecgpb\MemberBundle\Form\AddressType;
 
 /**
  * Address controller.
- *
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class AddressController extends Controller
 {
@@ -145,6 +145,7 @@ class AddressController extends Controller
             'form'   => $form->createView(),
         ));
     }
+
     /**
      * Deletes a Address entity.
      *

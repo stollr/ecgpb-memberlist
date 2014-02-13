@@ -5,18 +5,17 @@ namespace Ecgpb\MemberBundle\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Ecgpb\MemberBundle\Entity\Person;
 use Ecgpb\MemberBundle\Form\PersonType;
 use Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator;
 
 /**
  * Person controller.
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  */
 class PersonController extends Controller
 {
-
     /**
      * Lists all Person entities.
      *
