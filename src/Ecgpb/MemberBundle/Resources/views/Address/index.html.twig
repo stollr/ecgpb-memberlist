@@ -21,6 +21,7 @@
         {% for entity in entities %}
             <tr>
                 <td rowspan="{{ entity.persons | length }}">
+                    <a name="address-{{ entity.id }}"></a>
                     <p>
                         <strong>{{ entity.familyName }}</strong><br/>
                         <strong>{{ entity.phone }}</strong><br/>
