@@ -468,7 +468,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 $imageOptimized = imagecreatetruecolor($dstWidth, $dstHeight);
                 imagecopyresized($imageOptimized, $imageSnippet, 0, 0, 0, 0, $dstWidth, $dstHeight, $width, $height);
                 imagedestroy($imageSnippet);
-                imagejpeg($imageOptimized, $filenameOptimized);
+                imagejpeg($imageOptimized, $filenameOptimized, 95);
                 imagedestroy($imageOptimized);
 
                 $options->setDpi($dpi);
