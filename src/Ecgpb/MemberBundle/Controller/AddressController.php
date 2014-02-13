@@ -37,7 +37,7 @@ class AddressController extends Controller
         $personsWithPicture = array();
         foreach ($addresses as $address) {
             foreach ($address->getPersons() as $person) {
-                $filename = $picturePath . '/' . urlencode($address->getFamilyName() . '_' . $person->getFirstname() . '_' . $person->getDob()->format('Y-m-d') . '.jpg');
+                $filename = $picturePath . '/' . $person->getId() . '.jpg';
                 $personsWithPicture[$person->getId()] = file_exists($filename);
             }
         }
@@ -118,22 +118,31 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('EcgpbMemberBundle:Address')->find($id);
-        /* @var $entity Address */
+        $address = $em->getRepository('EcgpbMemberBundle:Address')->find($id);
+        /* @var $address Address */
 
-        if (!$entity) {
+        if (!$address) {
             throw $this->createNotFoundException('Unable to find Address entity.');
         }
 
-        $form = $this->createAddressForm($entity);
+        $form = $this->createAddressForm($address);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            foreach ($entity->getRemovedEntities() as $removedEntity) {
+            foreach ($address->getRemovedEntities() as $removedEntity) {
                 $em->remove($removedEntity);
             }
             
             $em->flush();
+
+            // person picture file
+            $picturePath = $this->container->getParameter('ecgpb.members.picture_path');
+            foreach ($request->files->get('person-picture-file', array()) as $index => $file) {
+                /* @var $file UploadedFile */
+                if ($file) {
+                    $file->move($picturePath, $address->getPersons()->get($index)->getId() . '.jpg');
+                }
+            }
             
             $this->get('session')->getFlashBag()->add('success', 'All changes have been saved.');
 
@@ -141,7 +150,7 @@ class AddressController extends Controller
         }
 
         return $this->render('EcgpbMemberBundle:Address:form.html.twig', array(
-            'entity' => $entity,
+            'entity' => $address,
             'form'   => $form->createView(),
         ));
     }
@@ -183,6 +192,9 @@ class AddressController extends Controller
         $form = $this->createForm(new AddressType(), $entity, array(
             'action' => $url,
             'method' => 'POST',
+            'attr' => array(
+                'enctype' => 'multipart/form-data',
+            ),
         ));
 
         $form->add('submit', 'submit', array('label' => 'Save'));

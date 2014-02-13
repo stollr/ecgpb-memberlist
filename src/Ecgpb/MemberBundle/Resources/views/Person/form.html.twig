@@ -2,16 +2,16 @@
 
 {% block body -%}
 
-    {% if entity.id > 0 %}
+    {% if person.id > 0 %}
         <a class="btn btn-danger pull-right"
-         href="{{ path('ecgpb.member.person.delete', {'id': entity.id}) }}"
+         href="{{ path('ecgpb.member.person.delete', {'id': person.id}) }}"
          title="{% trans %}Delete Person{% endtrans %}">
             <span class="glyphicon glyphicon-remove"></span>
         </a>
     {% endif %}
-    {% if entity.address and entity.address.id > 0 %}
+    {% if person.address and person.address.id > 0 %}
         <a class="btn btn-default pull-right"
-         href="{{ path('ecgpb.member.address.edit', {'id': entity.address.id}) }}"
+         href="{{ path('ecgpb.member.address.edit', {'id': person.address.id}) }}"
          title="{% trans %}Back to List{% endtrans %}">
             <span class="glyphicon glyphicon-arrow-left"></span>
         </a>
@@ -20,6 +20,42 @@
     <h2>{% trans %}Edit Person{% endtrans %}</h2>
 
     
-    {{ form(form) }}
+    {{ form_start(form) }}
+    <div class="col-md-3">
+        <p>
+            <img class="-person-picture img-thumbnail"
+             src="{{ path('ecgpb.member.person.optimized_member_picture', {'id': person.id}) }}"
+             alt="No Image"/>
+        </p>
+        <p>
+            <input type="file" name="person-picture-file" />
+        </p>
+    </div>
+    <div class="col-md-9">
+        {{ form_errors(form) }}
+
+        {{ form_row(form.address) }}
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <a href="{{ path('ecgpb.member.address.edit', {'id': person.address.id}) }}">{% trans %}Go to address{% endtrans %}</a>
+            </div>
+        </div>
+        {{ form_row(form.firstname) }}
+        {{ form_row(form.dob) }}
+        {{ form_row(form.gender) }}
+        {{ form_row(form.mobile) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.phone2) }}
+        {{ form_row(form.maidenName) }}
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                {{ form_widget(form.submit) }}
+            </div>
+        </div>
+        
+        {{ form_rest(form) }}
+    </div>
+    {{ form_end(form) }}
 
 {% endblock %}

@@ -92,8 +92,8 @@ mopa_bootstrap:
         show_legend: false       # default is true
         show_child_legend: false # default is true
         error_type: block        # or inline which is default
-        horizontal_label_class: "col-sm-3"
-        horizontal_input_wrapper_class: "col-sm-7"
+        horizontal_label_class: "col-md-3"
+        horizontal_input_wrapper_class: "col-md-7"
         collection:
             widget_remove_btn:
                 attr:

@@ -5,6 +5,7 @@ namespace Ecgpb\MemberBundle\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Ecgpb\MemberBundle\Entity\Person;
 use Ecgpb\MemberBundle\Form\PersonType;
@@ -36,20 +37,20 @@ class PersonController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new Person();
-        $form = $this->createPersonForm($entity);
+        $person = new Person();
+        $form = $this->createPersonForm($person);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $em->persist($person);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('ecgpb.member.person.edit', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('ecgpb.member.person.edit', array('id' => $person->getId())));
         }
 
         return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
-            'entity' => $entity,
+            'person' => $person,
             'form'   => $form->createView(),
         ));
     }
@@ -60,11 +61,11 @@ class PersonController extends Controller
      */
     public function newAction()
     {
-        $entity = new Person();
-        $form   = $this->createPersonForm($entity);
+        $person = new Person();
+        $form   = $this->createPersonForm($person);
 
         return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
-            'entity' => $entity,
+            'person' => $person,
             'form'   => $form->createView(),
         ));
     }
@@ -77,38 +78,42 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
+        $person = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
 
-        if (!$entity) {
+        if (!$person) {
             throw $this->createNotFoundException('Unable to find Person entity.');
         }
 
-        $editForm = $this->createPersonForm($entity);
+        $editForm = $this->createPersonForm($person);
 
         return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
-            'entity'      => $entity,
+            'person'      => $person,
             'form'   => $editForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a Person entity.
+    * Creates a form to edit a Person person.
     *
-    * @param Person $entity The entity
+    * @param Person $person The person
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createPersonForm(Person $entity)
+    private function createPersonForm(Person $person)
     {
-        $url = $entity->getId()
-            ? $this->generateUrl('ecgpb.member.person.update', array('id' => $entity->getId()))
+        $url = $person->getId()
+            ? $this->generateUrl('ecgpb.member.person.update', array('id' => $person->getId()))
             : $this->generateUrl('ecgpb.member.person.create')
         ;
         
-        $form = $this->createForm(new PersonType(), $entity, array(
+        $form = $this->createForm(new PersonType(), $person, array(
             'action' => $url,
             'method' => 'POST',
-            'attr' => array('class' => 'form-horizontal', 'role' => 'form'),
+            'attr' => array(
+                'class' => 'form-horizontal',
+                'role' => 'form',
+                'enctype' => 'multipart/form-data',
+            ),
             'add_address_field' => true,
         ));
 
@@ -125,17 +130,24 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
+        $person = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Person entity.');
+        if (!$person) {
+            throw $this->createNotFoundException('Unable to find Person person.');
         }
 
-        $form = $this->createPersonForm($entity);
+        $form = $this->createPersonForm($person);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em->flush();
+
+            // person picture file
+            if ($file = $request->files->get('person-picture-file')) {
+                /* @var $file UploadedFile */
+                $picturePath = $this->container->getParameter('ecgpb.members.picture_path');
+                $file->move($picturePath, $person->getId() . '.jpg');
+            }
             
             $this->get('session')->getFlashBag()->add('success', 'All changes have been saved.');
 
@@ -143,7 +155,7 @@ class PersonController extends Controller
         }
 
         return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
-            'entity' => $entity,
+            'person' => $person,
             'form'   => $form->createView(),
         ));
     }
@@ -154,13 +166,13 @@ class PersonController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
+        $person = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Person entity.');
+        if (!$person) {
+            throw $this->createNotFoundException('Unable to find Person person.');
         }
 
-        $em->remove($entity);
+        $em->remove($person);
         $em->flush();
 
         return $this->redirect($this->generateUrl('ecgpb.member.person.index'));

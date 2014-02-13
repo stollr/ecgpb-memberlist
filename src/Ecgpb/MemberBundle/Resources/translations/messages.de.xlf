@@ -86,6 +86,10 @@
                 <source>First Name</source>
                 <target>Vorname</target>
             </trans-unit>
+            <trans-unit id="Go to address">
+                <source>Go to address</source>
+                <target>Zur Adresse gehen</target>
+            </trans-unit>
             <trans-unit id="Library">
                 <source>Library</source>
                 <target>Bibliothek</target>

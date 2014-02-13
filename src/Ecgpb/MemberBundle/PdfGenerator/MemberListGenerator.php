@@ -421,7 +421,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             return null;
         }
 
-        $filename = urlencode($person->getAddress()->getFamilyName() . '_' . $person->getFirstname() . '_' . $person->getDob()->format('Y-m-d') . '.jpg');
+        $filename = $person->getId() . '.jpg';
         $filenameOriginal = $this->parameters['ecgpb.members.picture_path'] . '/' . $filename;
         $picturePathOptimized = $this->parameters['ecgpb.members.picture_path_optimized'];
 
