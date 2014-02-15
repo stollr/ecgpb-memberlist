@@ -11,8 +11,10 @@
         <thead>
             <tr>
                 <th>{% trans %}Name, Address, Phone{% endtrans %}</th>
+                <th>{% trans %}Photo{% endtrans %}</th>
+                <th class="text-center">{% trans %}Gender{% endtrans %}</th>
                 <th>{% trans %}First Name{% endtrans %}</th>
-                <th>{% trans %}DOB{% endtrans %}</th>
+                <th class="text-center">{% trans %}DOB{% endtrans %}</th>
                 <th>{% trans %}Mobile, Email{% endtrans %}</th>
                 <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
@@ -38,10 +40,13 @@
                                 <img class="person-picture" src="{{ path('ecgpb.member.person.optimized_member_picture', {'id': person.id}) }}" />
                             {% endif %}
                         </td>
+                        <td class="text-center">
+                            <strong>{{ person.gender }}</strong>
+                        </td>
                         <td>
                             <strong>{{ person.firstname }}</strong>
                         </td>
-                        <td>
+                        <td class="text-center">
                             {{ person.dob | localizeddate('medium', 'none') }}
                         </td>
                         <td>
