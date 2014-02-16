@@ -3,6 +3,7 @@
 namespace Ecgpb\MemberBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Ecgpb\MemberBundle\Traits\EntityRemovalTrait;
 
 /**
@@ -52,7 +53,7 @@ class Address
      */
     public function __construct()
     {
-        $this->persons = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->persons = new ArrayCollection();
     }
 
     /**
@@ -213,7 +214,26 @@ class Address
      */
     public function getPersons()
     {
-        return $this->persons;
+        $persons = new ArrayCollection();
+        foreach ($this->persons as $person) {
+            // sorting for symbolization of Gods family order
+            // the husband should be the head of the family
+            if (count($persons) == 1
+                && $persons->get(0)->getGender() == Person::GENDER_FEMALE
+                && $person->getGender() == Person::GENDER_MALE
+            ) {
+                $dobDiff = $persons->get(0)->getDob()->diff($person->getDob()); /* @var $dobDiff \DateInterval */
+                if ($dobDiff->y <= 15) {
+                    $wife = $persons->get(0);
+                    $persons = new ArrayCollection();
+                    $persons->add($person);
+                    $persons->add($wife);
+                    continue;
+                }
+            }
+            $persons->add($person);
+        }
+        return $persons;
     }
     
     public function getDropdownLabel()
