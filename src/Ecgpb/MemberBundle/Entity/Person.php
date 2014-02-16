@@ -18,6 +18,13 @@ class Person
     private $id;
 
     /**
+     * Last name can be empty. In that case the last name is taken from
+     * address entity (family name)
+     * @var string
+     */
+    private $lastname;
+
+    /**
      * @var string
      */
     private $firstname;
@@ -50,6 +57,12 @@ class Person
     private $phone2;
 
     /**
+     * The label (deutsch: Beschriftung) of the second phone number.
+     * @var string
+     */
+    private $phone2Label;
+
+    /**
      * @var string
      */
     private $maidenName;
@@ -68,6 +81,17 @@ class Person
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname($lastname = null)
+    {
+        $this->lastname = $lastname;
+        return $this;
     }
 
     /**
@@ -194,6 +218,26 @@ class Person
     public function getPhone2()
     {
         return $this->phone2;
+    }
+
+    /**
+     * Get the label (deutsch: Beschriftung) of the second phone number.
+     * @return string
+     */
+    public function getPhone2Label()
+    {
+        return $this->phone2Label;
+    }
+
+    /**
+     * Set the label (deutsch: Beschriftung) of the second phone number.
+     * @param string $phone2Label
+     * @return \Ecgpb\MemberBundle\Entity\Person
+     */
+    public function setPhone2Label($phone2Label = null)
+    {
+        $this->phone2Label = $phone2Label;
+        return $this;
     }
 
     /**

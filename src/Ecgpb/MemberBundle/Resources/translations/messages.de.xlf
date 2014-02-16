@@ -82,13 +82,29 @@
                 <source>Family Name</source>
                 <target>Familienname</target>
             </trans-unit>
+            <trans-unit id="female">
+                <source>female</source>
+                <target>weiblich</target>
+            </trans-unit>
             <trans-unit id="bc910f8bdf70f29374f496f05be0330c">
                 <source>First Name</source>
                 <target>Vorname</target>
             </trans-unit>
+            <trans-unit id="Gender">
+                <source>Gender</source>
+                <target>Geschlecht</target>
+            </trans-unit>
             <trans-unit id="Go to address">
                 <source>Go to address</source>
                 <target>Zur Adresse gehen</target>
+            </trans-unit>
+            <trans-unit id="Differing Last Name">
+                <source>Differing Last Name</source>
+                <target>Abweichender Nachname</target>
+            </trans-unit>
+            <trans-unit id="Leave this field empty to use the family name of the address.">
+                <source>Leave this field empty to use the family name of the address.</source>
+                <target>Dieses Feld kann leer gelassen werden, um den Familiennamen zu nutzen.</target>
             </trans-unit>
             <trans-unit id="Library">
                 <source>Library</source>
@@ -97,6 +113,10 @@
             <trans-unit id="Maiden Name">
                 <source>Maiden Name</source>
                 <target>Mädchenname</target>
+            </trans-unit>
+            <trans-unit id="male">
+                <source>male</source>
+                <target>männlich</target>
             </trans-unit>
             <trans-unit id="Member List">
                 <source>Member List</source>
@@ -146,6 +166,10 @@
                 <source>Second Phone</source>
                 <target>Zweites Telefon</target>
             </trans-unit>
+            <trans-unit id="Second Phone Label">
+                <source>Second Phone Label</source>
+                <target>Beschriftung zweites Telefon</target>
+            </trans-unit>
             <trans-unit id="Street">
                 <source>Street</source>
                 <target>Straße</target>
@@ -157,6 +181,10 @@
             <trans-unit id="The entry has been deleted.">
                 <source>The entry has been deleted.</source>
                 <target>Der Eintrag wurde gelöscht.</target>
+            </trans-unit>
+            <trans-unit id="You can enter a label for the second phone number.">
+                <source>You can enter a label for the second phone number.</source>
+                <target>Hier kannst Du eine Beschriftung für die zweite Telefonnummer eingeben.</target>
             </trans-unit>
             <trans-unit id="Zip">
                 <source>Zip</source>

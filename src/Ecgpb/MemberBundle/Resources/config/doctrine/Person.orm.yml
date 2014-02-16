@@ -8,9 +8,14 @@ Ecgpb\MemberBundle\Entity\Person:
             generator:
                 strategy: AUTO
     fields:
+        lastname:
+            type: string
+            length: 30
+            nullable: true
+            comment: 'Last name can be empty. In that case the last name is taken from address entity (family name)'
         firstname:
             type: string
-            length: '30'
+            length: 30
         dob:
             type: date
         gender:
@@ -27,6 +32,10 @@ Ecgpb\MemberBundle\Entity\Person:
         phone2:
             type: string
             length: '30'
+            nullable: true
+        phone2Label:
+            type: string
+            length: 40
             nullable: true
         maidenName:
             type: string

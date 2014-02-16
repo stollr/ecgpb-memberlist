@@ -29,6 +29,11 @@ class PersonType extends AbstractType
         }
 
         $builder
+            ->add('lastname', 'text', array(
+                'label' => 'Differing Last Name',
+                'required' => false,
+                'help_block' => 'Leave this field empty to use the family name of the address.',
+            ))
             ->add('firstname', 'text', array(
                 'label' => 'First Name',
             ))
@@ -49,6 +54,11 @@ class PersonType extends AbstractType
             ->add('phone2', 'text', array(
                 'label' => 'Second Phone',
                 'required' => false,
+            ))
+            ->add('phone2Label', 'text', array(
+                'label' => 'Second Phone Label',
+                'required' => false,
+                'help_block' => 'You can enter a label for the second phone number.',
             ))
             ->add('maidenName', 'text', array(
                 'label' => 'Maiden Name',
