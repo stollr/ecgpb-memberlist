@@ -24,8 +24,6 @@ services:
                 ecgpb.contact.bank.code: %ecgpb.contact.bank.code%
                 ecgpb.contact.memberlist.responsible: %ecgpb.contact.memberlist.responsible%
                 ecgpb.contact.memberlist.email: %ecgpb.contact.memberlist.email%
-                ecgpb.members.photo_path: %ecgpb.members.photo_path%
-                ecgpb.members.photo_path_optimized: %ecgpb.members.photo_path_optimized%
 
     ecgpb.member.helper.person_helper:
         class: Ecgpb\MemberBundle\Helper\PersonHelper
