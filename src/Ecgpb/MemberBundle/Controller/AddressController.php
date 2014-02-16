@@ -34,12 +34,14 @@ class AddressController extends Controller
         $addresses = $builder->getQuery()->getResult();
 
         // person pictures
-        $picturePath = $this->container->getParameter('ecgpb.members.picture_path');
+        $personHelper = $this->get('ecgpb.members.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
 
         $personsWithPicture = array();
         foreach ($addresses as $address) {
             foreach ($address->getPersons() as $person) {
-                $filename = $picturePath . '/' . $person->getId() . '.jpg';
+                $filename = $personHelper->getPersonPhotoPath() . DIRECTORY_SEPARATOR
+                    . $personHelper->getPersonPhotoFilename($person)
+                ;
                 $personsWithPicture[$person->getId()] = file_exists($filename);
             }
         }
@@ -138,11 +140,12 @@ class AddressController extends Controller
             $em->flush();
 
             // person picture file
-            $picturePath = $this->container->getParameter('ecgpb.members.picture_path');
+            $personHelper = $this->get('ecgpb.members.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
             foreach ($request->files->get('person-picture-file', array()) as $index => $file) {
                 /* @var $file UploadedFile */
                 if ($file) {
-                    $file->move($picturePath, $address->getPersons()->get($index)->getId() . '.jpg');
+                    $person = $address->getPersons()->get($index);
+                    $file->move($personHelper->getPersonPhotoPath(), $personHelper->getPersonPhotoFilename($person));
                 }
             }
             

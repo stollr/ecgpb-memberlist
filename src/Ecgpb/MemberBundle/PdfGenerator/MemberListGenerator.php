@@ -6,6 +6,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Bridge\Twig\TwigEngine;
 use Ecgpb\MemberBundle\Entity\Person;
+use Ecgpb\MemberBundle\Helper\PersonHelper;
 
 /**
  * Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator
@@ -20,17 +21,20 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     private $doctrine;
     private $translator;
     private $templating;
+    private $personHelper;
     private $parameters;
     
     public function __construct(
         RegistryInterface $doctrine,
         TranslatorInterface $translator,
         TwigEngine $templating,
+        PersonHelper $personHelper,
         array $parameters
     ) {
         $this->doctrine = $doctrine;
         $this->translator = $translator;
         $this->templating = $templating;
+        $this->personHelper = $personHelper;
         $this->parameters = $parameters;
     }
     
@@ -421,17 +425,17 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             return null;
         }
 
-        $filename = $person->getId() . '.jpg';
-        $filenameOriginal = $this->parameters['ecgpb.members.picture_path'] . '/' . $filename;
-        $picturePathOptimized = $this->parameters['ecgpb.members.picture_path_optimized'];
+        $filename = $this->personHelper->getPersonPhotoFilename($person);
+        $filenameOriginal = $this->personHelper->getPersonPhotoPath() . '/' . $filename;
+        $photoPathOptimized = $this->personHelper->getPersonPhotoPathOptimized();
 
-        return function(\Tcpdf\Extension\Attribute\BackgroundFormatterOptions $options) use ($filename, $filenameOriginal, $picturePathOptimized) {
+        return function(\Tcpdf\Extension\Attribute\BackgroundFormatterOptions $options) use ($filename, $filenameOriginal, $photoPathOptimized) {
             if (!file_exists($filenameOriginal)) {
                 $options->setImage(null);
                 return;
             }
 
-            $filenameOptimized = $picturePathOptimized . '/' 
+            $filenameOptimized = $photoPathOptimized . '/'
                 . number_format(round($options->getMaxWidth(), 4), 4) . 'x'
                 . number_format(round($options->getMaxHeight(), 4), 4) . '/' . $filename
             ;

@@ -142,11 +142,12 @@ class PersonController extends Controller
         if ($form->isValid()) {
             $em->flush();
 
-            // person picture file
+            // person photo file
             if ($file = $request->files->get('person-picture-file')) {
                 /* @var $file UploadedFile */
-                $picturePath = $this->container->getParameter('ecgpb.members.picture_path');
-                $file->move($picturePath, $person->getId() . '.jpg');
+                $personHelper = $this->get('ecgpb.members.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
+                $filename = $personHelper->getPersonPhotoFilename($person);
+                $file->move($personHelper->getPersonPhotoPath(), $filename);
             }
             
             $this->get('session')->getFlashBag()->add('success', 'All changes have been saved.');

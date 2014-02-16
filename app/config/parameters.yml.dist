@@ -32,5 +32,5 @@ parameters:
     ecgpb.contact.memberlist.responsible:   placeholder
     ecgpb.contact.memberlist.email:         placeholder
 
-    ecgpb.members.picture_path:               %kernel.root_dir%/data/member_pictures
-    ecgpb.members.picture_path_optimized:     %kernel.root_dir%/data/member_pictures_optimized
+    ecgpb.members.photo_path:               %kernel.root_dir%/data/member_pictures
+    ecgpb.members.photo_path_optimized:     %kernel.root_dir%/data/member_pictures_optimized
