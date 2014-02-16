@@ -29,7 +29,7 @@ services:
         class: Ecgpb\MemberBundle\Helper\PersonHelper
         arguments:
             -
-                ecgpb.members.photo_path: %ecgpb.members.photo_path&
+                ecgpb.members.photo_path: %ecgpb.members.photo_path%
                 ecgpb.members.photo_path_optimized: %ecgpb.members.photo_path_optimized%
 
 #    ecgpb.member.event.entity_removal_subscriber:

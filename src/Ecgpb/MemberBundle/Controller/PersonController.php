@@ -145,7 +145,7 @@ class PersonController extends Controller
             // person photo file
             if ($file = $request->files->get('person-picture-file')) {
                 /* @var $file UploadedFile */
-                $personHelper = $this->get('ecgpb.members.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
+                $personHelper = $this->get('ecgpb.member.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
                 $filename = $personHelper->getPersonPhotoFilename($person);
                 $file->move($personHelper->getPersonPhotoPath(), $filename);
             }

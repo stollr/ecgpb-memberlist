@@ -34,7 +34,7 @@ class AddressController extends Controller
         $addresses = $builder->getQuery()->getResult();
 
         // person pictures
-        $personHelper = $this->get('ecgpb.members.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
+        $personHelper = $this->get('ecgpb.member.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
 
         $personsWithPicture = array();
         foreach ($addresses as $address) {
@@ -140,7 +140,7 @@ class AddressController extends Controller
             $em->flush();
 
             // person picture file
-            $personHelper = $this->get('ecgpb.members.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
+            $personHelper = $this->get('ecgpb.member.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
             foreach ($request->files->get('person-picture-file', array()) as $index => $file) {
                 /* @var $file UploadedFile */
                 if ($file) {
