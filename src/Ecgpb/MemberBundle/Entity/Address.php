@@ -217,7 +217,7 @@ class Address
         $persons = new ArrayCollection();
         foreach ($this->persons as $person) {
             // sorting for symbolization of Gods family order
-            // the husband should be the head of the family
+            // the husband should be the "head" of the family
             if (count($persons) == 1
                 && $persons->get(0)->getGender() == Person::GENDER_FEMALE
                 && $person->getGender() == Person::GENDER_MALE
