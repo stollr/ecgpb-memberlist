@@ -58,7 +58,7 @@ class PersonType extends AbstractType
             ->add('phone2Label', 'text', array(
                 'label' => 'Second Phone Label',
                 'required' => false,
-                'help_block' => 'You can enter a label for the second phone number.',
+                'help_block' => 'You can enter a label for the second phone number. Enter "\\n" for line break.',
             ))
             ->add('maidenName', 'text', array(
                 'label' => 'Maiden Name',

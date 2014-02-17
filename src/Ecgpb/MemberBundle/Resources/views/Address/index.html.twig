@@ -50,6 +50,7 @@
                             {{ person.dob | localizeddate('medium', 'none') }}
                         </td>
                         <td>
+                            {% if person.phone2Label %}{{ person.phone2Label | replace({'\\n': '<br/>'}) | raw }}{% endif %}
                             {% if person.phone2 %}{{ person.phone2 }}<br/>{% endif %}
                             {% if person.mobile %}{{ person.mobile }}<br/>{% endif %}
                             {% if person.email %}{{ person.email }}<br/>{% endif %}

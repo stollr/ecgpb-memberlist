@@ -98,18 +98,18 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->Image($src, $pdf->GetX() + 10, $pdf->GetY(), 100, 81, 'PNG', null, 'N', true, 300);
         $pdf->SetY($pdf->GetY() + 5);
         
-        $this->useFontSizeL($pdf);
+        $this->useFontSizeXL($pdf);
         $this->useFontWeightBold($pdf);
         $this->writeText($pdf, $this->parameters['ecgpb.contact.name']);
         $this->useFontWeightNormal($pdf);
         $this->writeText($pdf, $this->parameters['ecgpb.contact.street']);
         $this->writeText($pdf, $this->parameters['ecgpb.contact.zip'] . ' ' . $this->parameters['ecgpb.contact.city']);
         $this->writeText($pdf, $this->parameters['ecgpb.contact.main_phone']);
-        $this->useFontSizeM($pdf);
+        $this->useFontSizeL($pdf);
         $this->writeText($pdf, 'Homepage: www.ecgpb.de');
         
         $pdf->SetY($pdf->GetY() + 10);
-        $this->useFontSizeL($pdf);
+        $this->useFontSizeXL($pdf);
         $this->useFontWeightBold($pdf);
         $this->writeText($pdf, 'Bankverbindung');
         $this->useFontWeightNormal($pdf);
@@ -132,7 +132,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->useFontWeightNormal($pdf);
         
         $pdf->SetY(190);
-        $this->useFontSizeS($pdf);
+        $this->useFontSizeM($pdf);
         $this->writeText($pdf, 'Alle Änderungen bitte unverzüglich bei ' .
             $this->parameters['ecgpb.contact.memberlist.responsible'] .
             ' melden!'
@@ -146,7 +146,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     {
         $pdf->AddPage();
         
-        $this->useFontSizeL($pdf);
+        $this->useFontSizeXL($pdf);
         $this->useFontWeightBold($pdf);
         $this->writeText($pdf, 'Telefonverbindungen des Gemeindehauses');
         $pdf->SetY($pdf->GetY() + 5);
@@ -194,7 +194,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         ;
         
         $pdf->SetY($pdf->GetY() + 5);
-        $this->useFontSizeM($pdf);
+        $this->useFontSizeL($pdf);
         $this->useFontWeightBold($pdf);
         $this->writeText($pdf, 'Öffnungszeiten');
         $this->useFontWeightNormal($pdf);
@@ -222,12 +222,12 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->getPageWidth() - $pdf->GetX(), $pdf->GetY());
         
         $pdf->SetY($pdf->GetY() + 10);
-        $this->useFontSizeL($pdf);
+        $this->useFontSizeXL($pdf);
         $this->useFontWeightBold($pdf);
         $this->writeText($pdf, 'Mitgliederstand am 01.01.' . date('Y'));
         $pdf->SetY($pdf->GetY() + 5);
         $this->useFontWeightNormal($pdf);
-        $this->useFontSizeM($pdf);
+        $this->useFontSizeL($pdf);
         $this->addTable($pdf)
                 ->newRow()
                     ->newCell('Gesamtmitgliederzahl')->setWidth(60)->end()
@@ -270,7 +270,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 $pdf->AddPage();
                 $table = $this->addTable($pdf);
                 $table
-                    ->setFontSize(self::FONT_SIZE_S)
+                    ->setFontSize(self::FONT_SIZE_M)
                     ->newRow()
                         ->newCell()
                             ->setText($this->translator->trans('Name, Address, Phone'))
@@ -302,8 +302,21 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             // calculate address row height and check if address fitts on this page
             $addressRowHeight = 0;
             foreach ($address->getPersons() as $person) {
-                $addressRowHeight += 12;
-                // TODO: if there is additional text in cell, it must be added here
+                $personRowHeight = 0;
+                if ($person->getPhone2Label()) {
+                    $lineBreaks = substr_count($person->getPhone2Label(), "\n");
+                    $personRowHeight += $lineBreaks > 0 ? $lineBreaks * 4 : 4;
+                }
+                if ($person->getPhone2()) {
+                    $personRowHeight += 4;
+                }
+                if ($person->getMobile()) {
+                    $personRowHeight += 4;
+                }
+                if ($person->getEmail()) {
+                    $personRowHeight += 4;
+                }
+                $addressRowHeight += $personRowHeight < 12 ? 12 : $personRowHeight;
             }
             if (count($address->getPersons()) == 1) {
                 $addressRowHeight += 12;
@@ -327,6 +340,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     $row->newCell()
                             ->setText($address->getFamilyName() . "\n" . $address->getPhone())
                             ->setBorder('LTR')
+                            ->setFontSize(strlen($address->getFamilyName()) < 18 && strlen($address->getPhone()) < 18
+                                ? self::FONT_SIZE_S + 0.5
+                                : self::FONT_SIZE_XS
+                            )
                             ->setFontWeight('bold')
                             ->setLineHeight(1.3)
                             ->setWidth(35.5)
@@ -337,9 +354,9 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     $row->newCell()
                             ->setText($address->getStreet() . "\n" . $address->getZip() . ' ' . $address->getCity())
                             ->setBorder(count($persons) <= 2 ? 'LRB' : 'LR')
-                            ->setFontSize(self::FONT_SIZE_XS)
+                            ->setFontSize(self::FONT_SIZE_S)
                             ->setFontWeight('normal')
-                            ->setLineHeight(1.2)
+                            ->setLineHeight(1.3)
                             ->setWidth(35.5)
                             ->setPadding(0, 0.75, 0.75, 0.75)
                         ->end()
@@ -365,6 +382,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->newCell()
                         ->setText($person ? $person->getFirstname() : '')
                         ->setBorder(1)
+                        ->setFontSize(self::FONT_SIZE_S + 0.5)
                         ->setFontWeight('bold')
                         ->setPadding(0.75)
                         ->setWidth(22)
@@ -373,20 +391,21 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setText($person ? $person->getDob()->format('d.m.Y') : '')
                         ->setAlign('C')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_XS)
+                        ->setFontSize(self::FONT_SIZE_S)
                         ->setFontWeight('normal')
                         ->setPadding(0.75)
                         ->setWidth(19)
                     ->end()
                     ->newCell()
                         ->setText(
+                            ($person && $person->getPhone2Label() ? str_replace('\\n', "\n", $person->getPhone2Label()) : '') .
                             ($person && $person->getPhone2() ? $person->getPhone2() . "\n" : '') .
                             ($person && $person->getMobile() ? $person->getMobile() . "\n" : '') .
                             ($person && $person->getEmail() ? $person->getEmail() : '')
                         )
                         ->setAlign('C')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_XS)
+                        ->setFontSize(self::FONT_SIZE_S)
                         ->setFontWeight('normal')
                         ->setMinHeight(self::GRID_ROW_MIN_HEIGHT)
                         ->setPadding(0.75)

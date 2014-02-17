@@ -183,8 +183,8 @@
                 <target>Der Eintrag wurde gelöscht.</target>
             </trans-unit>
             <trans-unit id="You can enter a label for the second phone number.">
-                <source>You can enter a label for the second phone number.</source>
-                <target>Hier kannst Du eine Beschriftung für die zweite Telefonnummer eingeben.</target>
+                <source>You can enter a label for the second phone number. Enter &quot;\n&quot; for line break.</source>
+                <target>Hier kannst Du eine Beschriftung für die zweite Telefonnummer eingeben. Um einen Zeilenumbruch zu erhalten, gebe &quot;\n&quot; ein.</target>
             </trans-unit>
             <trans-unit id="Zip">
                 <source>Zip</source>
