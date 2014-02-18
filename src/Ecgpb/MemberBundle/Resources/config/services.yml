@@ -2,13 +2,25 @@ parameters:
 #    ecgpb_member.example.class: Ecgpb\MemberBundle\Example
 
 services:
+    ecgpb.member.helper.person_helper:
+        class: Ecgpb\MemberBundle\Helper\PersonHelper
+        arguments:
+            -
+                ecgpb.members.photo_path: %ecgpb.members.photo_path%
+                ecgpb.members.photo_path_optimized: %ecgpb.members.photo_path_optimized%
+
+    ecgpb.member.statistic.statistic_service:
+        class: Ecgpb\MemberBundle\Statistic\StatisticService
+        arguments:
+            - "@doctrine"
+
     ecgpb.member.pdf_generator.member_list_generator:
         class: Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator
         arguments:
             - "@doctrine"
             - "@translator"
-            - "@templating"
             - "@ecgpb.member.helper.person_helper"
+            - "@ecgpb.member.statistic.statistic_service"
             - 
                 ecgpb.contact.name: %ecgpb.contact.name%
                 ecgpb.contact.street: %ecgpb.contact.street%
@@ -24,13 +36,6 @@ services:
                 ecgpb.contact.bank.code: %ecgpb.contact.bank.code%
                 ecgpb.contact.memberlist.responsible: %ecgpb.contact.memberlist.responsible%
                 ecgpb.contact.memberlist.email: %ecgpb.contact.memberlist.email%
-
-    ecgpb.member.helper.person_helper:
-        class: Ecgpb\MemberBundle\Helper\PersonHelper
-        arguments:
-            -
-                ecgpb.members.photo_path: %ecgpb.members.photo_path%
-                ecgpb.members.photo_path_optimized: %ecgpb.members.photo_path_optimized%
 
 #    ecgpb.member.event.entity_removal_subscriber:
 #        class: Ecgpb\MemberBundle\Event\EntityRemovalSubscriber

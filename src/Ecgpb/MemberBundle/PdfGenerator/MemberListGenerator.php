@@ -4,9 +4,9 @@ namespace Ecgpb\MemberBundle\PdfGenerator;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Bridge\Twig\TwigEngine;
 use Ecgpb\MemberBundle\Entity\Person;
 use Ecgpb\MemberBundle\Helper\PersonHelper;
+use Ecgpb\MemberBundle\Statistic\StatisticService;
 
 /**
  * Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator
@@ -20,21 +20,21 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
     private $doctrine;
     private $translator;
-    private $templating;
+    private $statisticService;
     private $personHelper;
     private $parameters;
     
     public function __construct(
         RegistryInterface $doctrine,
         TranslatorInterface $translator,
-        TwigEngine $templating,
         PersonHelper $personHelper,
+        StatisticService $statisticService,
         array $parameters
     ) {
         $this->doctrine = $doctrine;
         $this->translator = $translator;
-        $this->templating = $templating;
         $this->personHelper = $personHelper;
+        $this->statisticService = $statisticService;
         $this->parameters = $parameters;
     }
     
@@ -231,27 +231,27 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addTable($pdf)
                 ->newRow()
                     ->newCell('Gesamtmitgliederzahl')->setWidth(60)->end()
-                    ->newCell('?')->setWidth(30)->end()
+                    ->newCell($this->statisticService->getPersonStatistics()->getTotal())->setWidth(30)->end()
                 ->end()
                 ->newRow()
                     ->newCell('Davon männlich:')->end()
-                    ->newCell('?')->end()
+                    ->newCell($this->statisticService->getPersonStatistics()->getMaleTotal())->end()
                 ->end()
                 ->newRow()
                     ->newCell('Davon weiblich:')->end()
-                    ->newCell('?')->end()
+                    ->newCell($this->statisticService->getPersonStatistics()->getFemaleTotal())->end()
                 ->end()
                 ->newRow()
                     ->newCell('Mitglieder ab 65 Jahren:')->end()
-                    ->newCell('?')->end()
+                    ->newCell($this->statisticService->getPersonStatistics()->getAtLeast65YearsOld())->end()
                 ->end()
                 ->newRow()
                     ->newCell('Mitglieder bis 25 Jahren:')->end()
-                    ->newCell('?')->end()
+                    ->newCell($this->statisticService->getPersonStatistics()->getAtMaximum25YearsOld())->end()
                 ->end()
                 ->newRow()
                     ->newCell('Altersdurchschnitt:')->end()
-                    ->newCell('?')->end()
+                    ->newCell(round($this->statisticService->getPersonStatistics()->getAverageAge()))->end()
                 ->end()
             ->end()
         ;
