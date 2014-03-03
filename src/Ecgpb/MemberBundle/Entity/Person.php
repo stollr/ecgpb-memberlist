@@ -94,6 +94,11 @@ class Person
         return $this;
     }
 
+    public function getLastnameAndFirstname()
+    {
+        return ($this->getLastname() ?: $this->getAddress()->getFamilyName()) . ', ' . $this->getFirstname();
+    }
+
     /**
      * Set firstname
      *
@@ -286,5 +291,32 @@ class Person
     public function getAddress()
     {
         return $this->address;
+    }
+    /**
+     * @var \Ecgpb\MemberBundle\Entity\WorkingGroup
+     */
+    private $workingGroup;
+
+
+    /**
+     * Set workingGroup
+     *
+     * @param \Ecgpb\MemberBundle\Entity\WorkingGroup $workingGroup
+     * @return Person
+     */
+    public function setWorkingGroup(\Ecgpb\MemberBundle\Entity\WorkingGroup $workingGroup = null)
+    {
+        $this->workingGroup = $workingGroup;
+        return $this;
+    }
+
+    /**
+     * Get workingGroup
+     *
+     * @return \Ecgpb\MemberBundle\Entity\WorkingGroup 
+     */
+    public function getWorkingGroup()
+    {
+        return $this->workingGroup;
     }
 }

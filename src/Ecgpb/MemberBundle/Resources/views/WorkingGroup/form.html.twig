@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    {% if working_group.id > 0 %}
+        <a class="btn btn-danger pull-right"
+         href="{{ path('ecgpb.member.workinggroup.delete', {'id': working_group.id}) }}"
+         title="{% trans %}Delete Working Group{% endtrans %}"
+         onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+    {% endif %}
+    <a class="btn btn-default pull-right"
+     href="{{ path('ecgpb.member.workinggroup.index') }}"
+     title="{% trans %}Back to List{% endtrans %}">
+        <span class="glyphicon glyphicon-arrow-left"></span>
+    </a>
+
+    <h2>{% trans %}Working Group{% endtrans %}</h2>
+
+    {{ form(form) }}
+
+{% endblock %}

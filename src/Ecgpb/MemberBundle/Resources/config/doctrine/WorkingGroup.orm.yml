@@ -1,0 +1,29 @@
+Ecgpb\MemberBundle\Entity\WorkingGroup:
+    type: entity
+    table: working_group
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        number:
+            type: integer
+        gender:
+            type: string
+            length: 1
+    manyToOne:
+        leader:
+            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            joinColumn:
+                name: leader_person_id
+                nullable: true
+    oneToMany:
+        persons:
+            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            mappedBy: workingGroup
+    uniqueConstraints:
+        uniqueGenderNumber:
+            columns: [gender, number]
+    lifecycleCallbacks: {  }

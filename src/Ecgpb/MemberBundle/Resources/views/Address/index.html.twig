@@ -87,6 +87,12 @@
                         </td>
                     </tr>
                 {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7">
+                    {% trans %}There are no entries existing, yet.{% endtrans %}
+                </td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>

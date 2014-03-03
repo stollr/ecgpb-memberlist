@@ -199,6 +199,8 @@ class AddressController extends Controller
             'method' => 'POST',
             'attr' => array(
                 'enctype' => 'multipart/form-data',
+                'class' => 'form-horizontal',
+                'role' => 'form',
             ),
         ));
 

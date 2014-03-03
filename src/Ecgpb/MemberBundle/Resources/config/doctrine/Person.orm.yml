@@ -49,4 +49,11 @@ Ecgpb\MemberBundle\Entity\Person:
             joinColumn:
                 name: address_id
                 nullable: false
+        workingGroup:
+            targetEntity: Ecgpb\MemberBundle\Entity\WorkingGroup
+            inversedBy: persons
+            joinColumn:
+                name: working_group_id
+                nullable: true
+                onDelete: 'SET NULL'
     lifecycleCallbacks: {  }

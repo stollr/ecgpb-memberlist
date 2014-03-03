@@ -64,6 +64,12 @@ class PersonType extends AbstractType
                 'label' => 'Maiden Name',
                 'required' => false,
             ))
+            ->add('workingGroup', 'entity', array(
+                'class' => 'Ecgpb\MemberBundle\Entity\WorkingGroup',
+                'property' => 'number',
+                'label' => 'Working Group',
+                'required' => false,
+            ))
         ;
     }
     

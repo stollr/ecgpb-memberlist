@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <a class="btn btn-success pull-right" href="{{ path('ecgpb.member.workinggroup.new') }}">
+        <span class="glyphicon glyphicon-plus"></span>
+    </a>
+
+    <h2>{% trans %}Working Groups{% endtrans %}</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>{% trans %}Group{% endtrans %}</th>
+                <th>{% trans %}Leader{% endtrans %}</th>
+                <th class="col-md-2">{% trans %}Actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for working_group in working_groups %}
+            <tr>
+                <td>
+                    {{ working_group.number }}.
+                    {{ (working_group.gender == 'w' ? 'Group of Women' : 'Group of Men') | trans }}
+                </td>
+                <td>
+                    {{ working_group.leader ? working_group.leader.firstname ~ ' ' ~ working_group.leader.address.familyName : '' }}
+                </td>
+                <td>
+                    <a class="btn btn-default" href="{{ path('ecgpb.member.workinggroup.edit', { 'id': working_group.id }) }}">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a class="btn btn-danger"
+                     href="{{ path('ecgpb.member.workinggroup.delete', { 'id': working_group.id }) }}"
+                     onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">
+                    {% trans %}There are no entries existing, yet.{% endtrans %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

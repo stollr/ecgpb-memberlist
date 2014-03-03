@@ -42,6 +42,10 @@
                 <source>City</source>
                 <target>Stadt</target>
             </trans-unit>
+            <trans-unit id="Create">
+                <source>Create</source>
+                <target>Erstellen</target>
+            </trans-unit>
             <trans-unit id="Date of Birth">
                 <source>Date of Birth</source>
                 <target>Geburtsdatum</target>
@@ -98,6 +102,26 @@
                 <source>Go to address</source>
                 <target>Zur Adresse gehen</target>
             </trans-unit>
+            <trans-unit id="Group">
+                <source>Group</source>
+                <target>Gruppe</target>
+            </trans-unit>
+            <trans-unit id="Group Number">
+                <source>Group Number</source>
+                <target>Gruppennummer</target>
+            </trans-unit>
+            <trans-unit id="Group of Men">
+                <source>Group of Men</source>
+                <target>Männergruppe</target>
+            </trans-unit>
+            <trans-unit id="Group of Women/Men">
+                <source>Group of Women/Men</source>
+                <target>Frauen- oder Männergruppe</target>
+            </trans-unit>
+            <trans-unit id="Group of Women">
+                <source>Group of Women</source>
+                <target>Frauengruppe</target>
+            </trans-unit>
             <trans-unit id="Differing Last Name">
                 <source>Differing Last Name</source>
                 <target>Abweichender Nachname</target>
@@ -105,6 +129,10 @@
             <trans-unit id="Leave this field empty to use the family name of the address.">
                 <source>Leave this field empty to use the family name of the address.</source>
                 <target>Dieses Feld kann leer gelassen werden, um den Familiennamen zu nutzen.</target>
+            </trans-unit>
+            <trans-unit id="Leader">
+                <source>Leader</source>
+                <target>Leiter</target>
             </trans-unit>
             <trans-unit id="Library">
                 <source>Library</source>
@@ -122,6 +150,10 @@
                 <source>Member List</source>
                 <target>Mitgliederliste</target>
             </trans-unit>
+            <trans-unit id="Men">
+                <source>Men</source>
+                <target>Männer</target>
+            </trans-unit>
             <trans-unit id="Mobile">
                 <source>Mobile</source>
                 <target>Mobil</target>
@@ -133,6 +165,10 @@
             <trans-unit id="c18d316491cbadd7b90f5b224c5eb3ab">
                 <source>Name, Address, Phone</source>
                 <target>Name, Adresse, Telefon</target>
+            </trans-unit>
+            <trans-unit id="Number">
+                <source>Number</source>
+                <target>Nummer</target>
             </trans-unit>
             <trans-unit id="Persons">
                 <source>Persons</source>
@@ -181,6 +217,26 @@
             <trans-unit id="The entry has been deleted.">
                 <source>The entry has been deleted.</source>
                 <target>Der Eintrag wurde gelöscht.</target>
+            </trans-unit>
+            <trans-unit id="There are no entries existing, yet.">
+                <source>There are no entries existing, yet.</source>
+                <target>Es gibt noch keine Einträge.</target>
+            </trans-unit>
+            <trans-unit id="Update">
+                <source>Update</source>
+                <target>Aktualisieren</target>
+            </trans-unit>
+            <trans-unit id="Women">
+                <source>Women</source>
+                <target>Frauen</target>
+            </trans-unit>
+            <trans-unit id="Working Group">
+                <source>Working Group</source>
+                <target>Arbeitsgruppe</target>
+            </trans-unit>
+            <trans-unit id="Working Groups">
+                <source>Working Groups</source>
+                <target>Arbeitsgruppen</target>
             </trans-unit>
             <trans-unit id="You can enter a label for the second phone number.">
                 <source>You can enter a label for the second phone number. Enter &quot;\n&quot; for line break.</source>

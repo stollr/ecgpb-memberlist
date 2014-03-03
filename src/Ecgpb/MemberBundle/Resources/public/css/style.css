@@ -22,8 +22,10 @@
     font-weight: normal;
 }
 .collection-item {
-    clear: both;
-    padding-bottom: 15px;
+    padding: 7px 0 5px 0;
+}
+.collection-item .col-md-10 {
+    padding-left: 0;
 }
 
 /**** address listing **************************************************************/
