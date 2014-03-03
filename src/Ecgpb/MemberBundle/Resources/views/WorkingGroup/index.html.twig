@@ -20,7 +20,7 @@
             <tr>
                 <td>
                     {{ working_group.number }}.
-                    {{ (working_group.gender == 'w' ? 'Group of Women' : 'Group of Men') | trans }}
+                    {{ (working_group.gender == 'f' ? 'Group of Women' : 'Group of Men') | trans }}
                 </td>
                 <td>
                     {{ working_group.leader ? working_group.leader.firstname ~ ' ' ~ working_group.leader.address.familyName : '' }}
