@@ -23,7 +23,7 @@ class WorkingGroupController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $workingGroups = $em->getRepository('EcgpbMemberBundle:WorkingGroup')->findAll();
+        $workingGroups = $em->getRepository('EcgpbMemberBundle:WorkingGroup')->findAllForListing();
 
         return $this->render('EcgpbMemberBundle:WorkingGroup:index.html.twig', array(
             'working_groups' => $workingGroups,

@@ -1,6 +1,7 @@
 Ecgpb\MemberBundle\Entity\WorkingGroup:
     type: entity
     table: working_group
+    repositoryClass: Ecgpb\MemberBundle\Repository\WorkingGroupRepository
     id:
         id:
             type: integer
