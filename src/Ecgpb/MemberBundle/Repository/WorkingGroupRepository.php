@@ -22,4 +22,20 @@ class WorkingGroupRepository extends EntityRepository
             ->getResult()
         ;
     }
+
+    public function findAllForMemberPdf()
+    {
+        return $this->createQueryBuilder('workingGroup')
+            ->select('workingGroup', 'person', 'leader')
+            ->join('workingGroup.persons', 'person')
+            ->join('person.address', 'address')
+            ->leftJoin('workingGroup.leader', 'leader')
+            ->orderBy('workingGroup.gender')
+            ->addOrderBy('workingGroup.number')
+            ->addOrderBy('address.familyName')
+            ->addOrderBy('person.firstname')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

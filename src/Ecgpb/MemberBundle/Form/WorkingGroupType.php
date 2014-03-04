@@ -70,11 +70,13 @@ class WorkingGroupType extends AbstractType
                                 ->select('person')
                                 ->leftJoin('person.address', 'address')
                                 ->where('person.gender = :gender')
-                                ->orderBy('address.familyName')
+                                ->orderBy('person.workingGroup')
+                                ->addOrderBy('address.familyName')
                                 ->addOrderBy('person.firstname')
                                 ->setParameter('gender', $workingGroup->getGender())
                             ;
                         },
+                        'group_by' => 'optgroupLabelInWorkingGroupDropdown',
                     )
                 ))
             ;

@@ -12,6 +12,7 @@
             <tr>
                 <th>{% trans %}Group{% endtrans %}</th>
                 <th>{% trans %}Leader{% endtrans %}</th>
+                <th>{% trans %}Persons{% endtrans %}</th>
                 <th class="col-md-2">{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
@@ -24,6 +25,11 @@
                 </td>
                 <td>
                     {{ working_group.leader ? working_group.leader.firstname ~ ' ' ~ working_group.leader.address.familyName : '' }}
+                </td>
+                <td>
+                    {% for person in working_group.persons %}
+                        {{ person.lastnameAndFirstname }}<br/>
+                    {% endfor %}
                 </td>
                 <td>
                     <a class="btn btn-default" href="{{ path('ecgpb.member.workinggroup.edit', { 'id': working_group.id }) }}">

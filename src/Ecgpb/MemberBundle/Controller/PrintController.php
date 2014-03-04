@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bridge\Twig\TwigEngine;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
 
 /**
  * Ecgpb\MemberBundle\Controller\PrintController
@@ -21,7 +22,8 @@ class PrintController extends Controller
         $generator = $this->get('ecgpb.member.pdf_generator.member_list_generator');
         /* @var $generator \Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator */
         
-        return new Response($generator->generate(), 200, array(
+        $pdf = $generator->generate();
+        return new Response($pdf, 200, array(
             'Content-Type' => 'application/pdf',
             //'Content-Type' => 'application/octet-stream',
             //'Content-Disposition' => 'attachment; filename="ECGPB Member List.pdf"',

@@ -26,6 +26,10 @@
                 <source>All changes have been saved.</source>
                 <target>Alle Änderungen wurden gespeichert.</target>
             </trans-unit>
+            <trans-unit id="Assigned">
+                <source>Assigned</source>
+                <target>Zugeordnet</target>
+            </trans-unit>
             <trans-unit id="Back to List">
                 <source>Back to List</source>
                 <target>Zurück zur Liste</target>
@@ -166,6 +170,10 @@
                 <source>Name, Address, Phone</source>
                 <target>Name, Adresse, Telefon</target>
             </trans-unit>
+            <trans-unit id="Not assigned">
+                <source>Not assigned</source>
+                <target>Nicht zugeordnet</target>
+            </trans-unit>
             <trans-unit id="Number">
                 <source>Number</source>
                 <target>Nummer</target>
@@ -217,6 +225,10 @@
             <trans-unit id="The entry has been deleted.">
                 <source>The entry has been deleted.</source>
                 <target>Der Eintrag wurde gelöscht.</target>
+            </trans-unit>
+            <trans-unit id="The working group {number} of the {gender} does not have a leader, yet.">
+                <source>The working group {number} of the {gender} does not have a leader, yet.</source>
+                <target>Die Arbeitsgruppe {number} der {gender}, hat noch keinen Verantwortlichen.</target>
             </trans-unit>
             <trans-unit id="There are no entries existing, yet.">
                 <source>There are no entries existing, yet.</source>

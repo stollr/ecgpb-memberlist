@@ -72,6 +72,10 @@ class Person
      */
     private $address;
 
+    /**
+     * @var \Ecgpb\MemberBundle\Entity\WorkingGroup
+     */
+    private $workingGroup;
 
     /**
      * Get id
@@ -292,11 +296,6 @@ class Person
     {
         return $this->address;
     }
-    /**
-     * @var \Ecgpb\MemberBundle\Entity\WorkingGroup
-     */
-    private $workingGroup;
-
 
     /**
      * Set workingGroup
@@ -318,5 +317,10 @@ class Person
     public function getWorkingGroup()
     {
         return $this->workingGroup;
+    }
+
+    public function getOptgroupLabelInWorkingGroupDropdown()
+    {
+        return $this->getWorkingGroup() ? 'Assigned' : 'Not assigned';
     }
 }

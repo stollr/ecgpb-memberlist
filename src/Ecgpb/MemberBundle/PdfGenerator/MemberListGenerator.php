@@ -5,6 +5,7 @@ namespace Ecgpb\MemberBundle\PdfGenerator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Ecgpb\MemberBundle\Entity\Person;
+use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
 use Ecgpb\MemberBundle\Helper\PersonHelper;
 use Ecgpb\MemberBundle\Statistic\StatisticService;
 
@@ -59,6 +60,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addPage1($pdf);
         $this->addPage2($pdf);
         $this->addAddressPages($pdf);
+        $this->addWorkingGroups($pdf);
 
         return $pdf->Output(null, 'S');
     }
@@ -416,6 +418,70 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             }
         }
     }
+
+    private function addWorkingGroups(\TCPDF $pdf)
+    {
+        $groupTypes = array();
+        foreach ($this->getWorkingGroups() as $group) {
+            if (!$group->getLeader()) {
+                throw new WorkingGroupWithoutLeaderException($group->getNumber(), $group->getGender());
+            }
+            $groupTypes[$group->getGender()][] = $group;
+        }
+
+        $margins = $pdf->getMargins();
+        $halfWidth = ($pdf->getPageWidth() - $margins['left'] - $margins['right']) / 2;
+        if ($pdf->GetY() > $margins['top']) {
+            $pdf->AddPage();
+        }
+
+        foreach ($groupTypes as $gender => $groups) {
+            $topY = 0;
+            foreach ($groups as $index => $group) {
+                if ($index % 4 == 0) {
+                    if ($index > 0) {
+                        $pdf->AddPage();
+                    }
+                    $txt = sprintf('Arbeitsgruppen (%s)', Person::GENDER_FEMALE == $gender ? 'Frauen' : 'Männer');
+                    $this->useFontWeightBold($pdf);
+                    $this->useFontSizeM($pdf);
+                    $pdf->MultiCell(0, 0, $txt, 1, 'C');
+                    $pdf->SetY($nextY = $pdf->GetY() + 3);
+                }
+                if ($index % 2 == 0) {
+                    $x = $margins['left'];
+                    $y = $nextY;
+                } else {
+                    $x = $margins['left'] + (($pdf->getPageWidth() - $margins['left'] - $margins['right']) / 2);
+                }
+
+                $leaderId = $group->getLeader()->getId();
+
+                $txt = sprintf('Gruppe %s', $group->getNumber());
+                $this->useFontWeightBold($pdf);
+                $this->useFontSizeM($pdf);
+                $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x, $y);
+
+                $pdf->SetY($pdf->GetY() + 2);
+                $txt = $group->getLeader()->getLastnameAndFirstname() . ' (Verantwortliche)';
+                $this->useFontWeightNormal($pdf);
+                $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x);
+
+                foreach ($group->getPersons() as $person) {
+                    if ($person->getId() == $leaderId) {
+                        continue;
+                    }
+                    $txt = $person->getLastnameAndFirstname();
+                    $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x);
+                }
+
+                if ($pdf->GetY() > $nextY) {
+                    $nextY = $pdf->GetY() + 10;
+                }
+            }
+            $pdf->AddPage();
+        }
+    }
     
     /**
      * Returns all addresses with the corresponding persons.
@@ -436,6 +502,18 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         ;
         
         return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * Returns all working groups
+     * @return \Ecgpb\MemberBundle\Entity\WorkingGroup[]
+     */
+    private function getWorkingGroups()
+    {
+        $repo = $this->doctrine->getManager()->getRepository('EcgpbMemberBundle:WorkingGroup');
+        /* @var $repo \Ecgpb\MemberBundle\Repository\WorkingGroupRepository */
+
+        return $repo->findAllForMemberPdf();
     }
 
     public function getPersonPictureFormatter(Person $person = null)
