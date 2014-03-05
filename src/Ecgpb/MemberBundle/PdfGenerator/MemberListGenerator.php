@@ -262,6 +262,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     public function addAddressPages(\TCPDF $pdf)
     {
         $addresses = $this->getAddresses();
+        $personRepo = $this->doctrine->getRepository('EcgpbMemberBundle:Person'); /* @var $personRepo \Ecgpb\MemberBundle\Repository\PersonRepository */
         
         $table = null;
         $totalHeight = 0;
@@ -372,6 +373,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ;
                 }
 
+                $maidenName = !$person || !$person->getMaidenName() || $personRepo->isNameUnique($person)
+                    ? '' : ' (geb. ' . $person->getMaidenName() . ')'
+                ;
+
                 $row
                     ->newCell()
                         ->getBackground()
@@ -382,7 +387,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setWidth(self::GRID_PICTURE_CELL_WIDTH) // 10.5 mm
                     ->end()
                     ->newCell()
-                        ->setText($person ? $person->getFirstname() : '')
+                        ->setText($person ? $person->getFirstname() . $maidenName : '')
                         ->setBorder(1)
                         ->setFontSize(self::FONT_SIZE_S + 0.5)
                         ->setFontWeight('bold')
@@ -428,6 +433,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             }
             $groupTypes[$group->getGender()][] = $group;
         }
+        $personRepo = $this->doctrine->getRepository('EcgpbMemberBundle:Person'); /* @var $personRepo \Ecgpb\MemberBundle\Repository\PersonRepository */
+        
 
         $margins = $pdf->getMargins();
         $halfWidth = ($pdf->getPageWidth() - $margins['left'] - $margins['right']) / 2;
@@ -438,6 +445,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         foreach ($groupTypes as $gender => $groups) {
             $topY = 0;
             foreach ($groups as $index => $group) {
+                // page header
                 if ($index % 4 == 0) {
                     if ($index > 0) {
                         $pdf->AddPage();
@@ -457,21 +465,28 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
                 $leaderId = $group->getLeader()->getId();
 
+                // group name
                 $txt = sprintf('Gruppe %s', $group->getNumber());
                 $this->useFontWeightBold($pdf);
                 $this->useFontSizeM($pdf);
                 $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x, $y);
 
+                // group leader
+                $born = $group->getLeader()->getMaidenName() ?: $group->getLeader()->getDob()->format('Y');
+                $leaderMaidenName = $personRepo->isNameUnique($group->getLeader()) ? '' : 'geb. ' . $born . ', ';
                 $pdf->SetY($pdf->GetY() + 2);
-                $txt = $group->getLeader()->getLastnameAndFirstname() . ' (Verantwortliche)';
+                $txt = $group->getLeader()->getLastnameAndFirstname() . ' (' . $leaderMaidenName . 'verantwortlich)';
                 $this->useFontWeightNormal($pdf);
                 $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x);
 
+                // group members
                 foreach ($group->getPersons() as $person) {
                     if ($person->getId() == $leaderId) {
                         continue;
                     }
-                    $txt = $person->getLastnameAndFirstname();
+                    $born = $person->getMaidenName() ?: $person->getDob()->format('Y');
+                    $maidenName = $personRepo->isNameUnique($person) ? '' : ' (geb. ' . $born . ')';
+                    $txt = $person->getLastnameAndFirstname() . $maidenName;
                     $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x);
                 }
 

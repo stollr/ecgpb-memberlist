@@ -1,6 +1,7 @@
 Ecgpb\MemberBundle\Entity\Person:
     type: entity
     table: person
+    repositoryClass: Ecgpb\MemberBundle\Repository\PersonRepository
     id:
         id:
             type: integer
