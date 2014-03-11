@@ -10,7 +10,7 @@
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
+    {% block body_start%}<body>{% endblock %}
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-default" role="navigation">
@@ -70,6 +70,7 @@
             <script type="text/javascript" src="{{ asset('bundles/ecgpbmember/jquery/jquery-2.0.3.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/ecgpbmember/bootstrap/js/bootstrap.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/mopabootstrap/js/mopabootstrap-collection.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/angular/angular.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>
