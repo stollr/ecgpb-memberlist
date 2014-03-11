@@ -1,0 +1,26 @@
+Ecgpb\MemberBundle\Entity\Ministry\Group:
+    type: entity
+    table: ministry_group
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 50
+    manyToMany:
+        persons:
+            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            inversedBy: ministryGroups
+            joinTable:
+                name: ministry_group_to_person
+                joinColumns:
+                    ministry_group_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    person_id:
+                        referencedColumnName: id
+    lifecycleCallbacks: {  }

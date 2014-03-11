@@ -1,0 +1,18 @@
+Ecgpb\MemberBundle\Entity\Ministry\Category:
+    type: entity
+    table: ministry_category
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: '40'
+    oneToMany:
+        ministries:
+            targetEntity: Ecgpb\MemberBundle\Entity\Ministry
+            mappedBy: category
+    lifecycleCallbacks: {  }

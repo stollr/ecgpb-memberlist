@@ -323,4 +323,49 @@ class Person
     {
         return $this->getWorkingGroup() ? 'Assigned' : 'Not assigned';
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $ministryGroups;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->ministryGroups = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add ministryGroups
+     *
+     * @param \Ecgpb\MemberBundle\Entity\Ministry\Group $ministryGroups
+     * @return Person
+     */
+    public function addMinistryGroup(\Ecgpb\MemberBundle\Entity\Ministry\Group $ministryGroups)
+    {
+        $this->ministryGroups[] = $ministryGroups;
+
+        return $this;
+    }
+
+    /**
+     * Remove ministryGroups
+     *
+     * @param \Ecgpb\MemberBundle\Entity\Ministry\Group $ministryGroups
+     */
+    public function removeMinistryGroup(\Ecgpb\MemberBundle\Entity\Ministry\Group $ministryGroups)
+    {
+        $this->ministryGroups->removeElement($ministryGroups);
+    }
+
+    /**
+     * Get ministryGroups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMinistryGroups()
+    {
+        return $this->ministryGroups;
+    }
 }

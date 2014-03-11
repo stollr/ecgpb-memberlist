@@ -57,4 +57,8 @@ Ecgpb\MemberBundle\Entity\Person:
                 name: working_group_id
                 nullable: true
                 onDelete: 'SET NULL'
+    manyToMany:
+        ministryGroups:
+            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\Group
+            mappedBy: persons
     lifecycleCallbacks: {  }

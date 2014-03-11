@@ -1,0 +1,28 @@
+Ecgpb\MemberBundle\Entity\Ministry:
+    type: entity
+    table: ministry
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: '40'
+    manyToOne:
+        category:
+            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\Category
+            inversedBy: ministries
+            joinColumn:
+                name: category_id
+                nullable: false
+    oneToMany:
+        contactAssignments:
+            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment
+            mappedBy: ministry
+        responsibleAssignments:
+            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment
+            mappedBy: ministry
+    lifecycleCallbacks: {  }
