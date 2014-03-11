@@ -23,7 +23,8 @@
         "mopa/bootstrap-bundle": "dev-master",
         "twbs/bootstrap": "dev-master",
         "tecnick.com/tcpdf": "dev-master",
-        "naitsirch/tcpdf-extension": "dev-master"
+        "naitsirch/tcpdf-extension": "dev-master",
+        "jms/serializer-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

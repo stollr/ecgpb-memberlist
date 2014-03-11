@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             // third party bundles
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
             // own bundles
             new Ecgpb\MemberBundle\EcgpbMemberBundle(),
         );
