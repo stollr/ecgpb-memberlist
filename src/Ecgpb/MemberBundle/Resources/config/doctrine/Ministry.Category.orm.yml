@@ -1,6 +1,7 @@
 Ecgpb\MemberBundle\Entity\Ministry\Category:
     type: entity
     table: ministry_category
+    repositoryClass: Ecgpb\MemberBundle\Repository\Ministry\CategoryRepository
     id:
         id:
             type: integer

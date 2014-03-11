@@ -95,6 +95,12 @@ ecgpb.member.workinggroup.delete:
     pattern:  /workinggroup/{id}/delete
     defaults: { _controller: "EcgpbMemberBundle:WorkingGroup:delete" }
 
+# ministry category actions
+
+ecgpb.member.ministry_category.index:
+    pattern:  /ministry_category/
+    defaults: { _controller: "EcgpbMemberBundle:MinistryCategory:index" }
+
 # print actions
 
 ecgpb.member.print.html:

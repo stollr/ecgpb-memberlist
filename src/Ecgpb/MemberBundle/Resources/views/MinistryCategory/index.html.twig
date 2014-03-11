@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+
+{% block body_start %}<body ng-app="app" ng-controller="ListingController">{% endblock %}
+
+
+{% block body %}
+    <a class="btn btn-success pull-right" href="{{ path('ecgpb.member.address.new') }}">
+        <span class="glyphicon glyphicon-plus"></span>
+    </a>
+
+    <h2>{% trans %}Ministries{% endtrans %}</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>{% trans %}Bereich{% endtrans %}</th>
+                <th>{% trans %}Unterbereich{% endtrans %}</th>
+                <th>{% trans %}Tasks{% endtrans %}</th>
+                <th>{% trans %}Contact Persons{% endtrans %}</th>
+                <th>{% trans %}Responsible Elders / Deacon{% endtrans %}</th>
+                <th>{% trans %}Actions{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="7">
+                    {% trans %}There are no entries existing, yet.{% endtrans %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        // <![CDATA[
+        angular.module('app', [])
+            .constant('ministryCategories', {{ categoriesJson | raw }})
+            .controller('ListingController', function($scope, ministryCategories) {
+
+            })
+        ;
+        // ]]>
+    </script>
+{% endblock %}

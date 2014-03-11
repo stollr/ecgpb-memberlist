@@ -5,6 +5,7 @@ namespace Ecgpb\MemberBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use JMS\Serializer\SerializationContext;
 
 /**
  * Ecgpb\MemberBundle\Controller\MinistryCategoryController
@@ -15,38 +16,19 @@ class MinistryCategoryController extends Controller
 {
     /**
      * Lists all Address entities.
-     *
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Category'); /* @var $repo \Doctrine\Common\Persistence\ObjectRepository */
+        $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Category'); /* @var $repo \Ecgpb\MemberBundle\Repository\Ministry\CategoryRepository */
+        $categories = $repo->findAllForListing();
 
-        $builder = $repo->createQueryBuilder('address')
-            ->select('address', 'person')
-            ->leftJoin('address.persons', 'person')
-            ->orderBy('address.familyName', 'asc')
-            ->addOrderBy('person.dob', 'asc')
-        ;
-        $addresses = $builder->getQuery()->getResult();
-
-        // person pictures
-        $personHelper = $this->get('ecgpb.member.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
-
-        $personsWithPicture = array();
-        foreach ($addresses as $address) {
-            foreach ($address->getPersons() as $person) {
-                $filename = $personHelper->getPersonPhotoPath() . DIRECTORY_SEPARATOR
-                    . $personHelper->getPersonPhotoFilename($person)
-                ;
-                $personsWithPicture[$person->getId()] = file_exists($filename);
-            }
-        }
+        $serializer = $this->get('jms_serializer');
+        $categoriesJson = $serializer->serialize($categories, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
 
         return $this->render('EcgpbMemberBundle:MinistryCategory:index.html.twig', array(
-            'entities' => $addresses,
-            'persons_with_picture' => $personsWithPicture,
+            'categoriesJson' => $categoriesJson,
         ));
     }
     /**
