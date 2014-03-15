@@ -1,9 +1,8 @@
-Ecgpb\MemberBundle\Entity\Ministry\Category:
+Ecgpb\MemberBundle\Entity\Address:
     properties:
         id:
             serialized_name: id
             groups: [MinistryCategoryListing]
-        name:
-            groups: [MinistryCategoryListing]
-        ministries:
+        familyName:
+            serialized_name: familyName
             groups: [MinistryCategoryListing]

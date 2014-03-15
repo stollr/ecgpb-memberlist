@@ -32,4 +32,13 @@ class PersonRepository extends EntityRepository
         $key = $person->getAddress()->getFamilyName() . ',' . $person->getFirstname();
         return isset(self::$nameCache[$key]) && self::$nameCache[$key] <= 1;
     }
+
+    public function findAllForMinistryListing()
+    {
+        $qb = $this->createQueryBuilder('person')
+            ->select('person', 'address')
+            ->join('person.address', 'address')
+        ;
+        return $qb->getQuery()->getResult();
+    }
 }
