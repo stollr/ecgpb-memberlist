@@ -20,6 +20,11 @@ class Ministry
     private $name;
 
     /**
+     * @var string
+     */
+    private $description;
+
+    /**
      * @var Category
      */
     private $category;
@@ -73,6 +78,17 @@ class Ministry
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
     }
 
     /**

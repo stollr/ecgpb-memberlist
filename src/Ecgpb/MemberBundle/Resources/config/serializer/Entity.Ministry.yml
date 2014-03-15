@@ -3,5 +3,5 @@ Ecgpb\MemberBundle\Entity\Ministry:
         name:
             serialized_name: name
             groups: [MinistryCategoryListing]
-#        ministries:
-#            groups: [MinistryCategoryListing]
+        description:
+            groups: [MinistryCategoryListing]

@@ -11,6 +11,9 @@ Ecgpb\MemberBundle\Entity\Ministry:
         name:
             type: string
             length: '40'
+        description:
+            type: text
+            nullable: true
     manyToOne:
         category:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry\Category
