@@ -24,11 +24,22 @@ class MinistryCategoryController extends Controller
         $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Category'); /* @var $repo \Ecgpb\MemberBundle\Repository\Ministry\CategoryRepository */
         $categories = $repo->findAllForListing();
 
+        $personRepo = $em->getRepository('EcgpbMemberBundle:Person');
+        $persons = $personRepo->findAllForMinistryListing();
+
+        $groupRepo = $em->getRepository('EcgpbMemberBundle:Ministry\Group');
+        $groups = $groupRepo->findAll();
+
+        // serializations
         $serializer = $this->get('jms_serializer');
         $categoriesJson = $serializer->serialize($categories, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
+        $personsJson = $serializer->serialize($persons, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
+        $groupsJson = $serializer->serialize($groups, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
 
         return $this->render('EcgpbMemberBundle:MinistryCategory:index.html.twig', array(
-            'categoriesJson' => $categoriesJson,
+            'categories_json' => $categoriesJson,
+            'persons_json' => $personsJson,
+            'groups_json' => $groupsJson,
         ));
     }
     /**
