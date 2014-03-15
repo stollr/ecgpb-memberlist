@@ -5,30 +5,76 @@
 
 
 {% block body %}
-    <a class="btn btn-success pull-right" href="{{ path('ecgpb.member.address.new') }}">
+    <button type="button" class="btn btn-success pull-right" ng-click="addCategory()" title="{% trans %}Add Ministry Category{% endtrans %}">
         <span class="glyphicon glyphicon-plus"></span>
-    </a>
+    </button>
 
     <h2>{% trans %}Ministries{% endtrans %}</h2>
 
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>{% trans %}Bereich{% endtrans %}</th>
-                <th>{% trans %}Unterbereich{% endtrans %}</th>
+                <th class="col-md-2">{% trans %}Bereich{% endtrans %}</th>
+                <th class="col-md-2">{% trans %}Unterbereich{% endtrans %}</th>
                 <th>{% trans %}Tasks{% endtrans %}</th>
                 <th>{% trans %}Contact Persons{% endtrans %}</th>
                 <th>{% trans %}Responsible Elders / Deacon{% endtrans %}</th>
                 <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
+        <tbody ng-repeat="ministryCategory in ministryCategories">
+            <tr ng-repeat="ministry in ministryCategory.ministries">
+                <td rowspan="{{ '{{ ministryCategory.ministries.length }}' }}" ng-if="$first">
+                    <input type="text" ng-model="ministryCategory.name" class="form-control" />
+                    {{ '{{ ministryCategory.name }}' }}
+                </td>
+                <td>
+                    <input type="text" ng-model="ministry.name" class="form-control" />
+                    {{ '{{ ministry.name }}' }}
+                </td>
+                <td>
+                    <textarea ng-model="ministry.description" class="form-control"></textarea>
+                    {{ '{{ ministry.description }}' }}
+                </td>
+                <td>
+                    <div ng-repeat="assignment in ministry.contactAssignments" class="row">
+                        <div class="col-md-6">
+                            <select class="form-control"
+                             ng-model="assignment.group"
+                             ng-options="group as group.name for group in groups track by group.id">
+                                <option value="">- {% trans %}Group{% endtrans %} -</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-control col-md-4"
+                             ng-model="assignment.person"
+                             ng-options="person as person.address.familyName for person in persons track by person.id">
+                                <option value="">- {% trans %}Person{% endtrans %} -</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>
+                                {{ '{{ assignment.group ? assignment.group.name : assignment.person.firstname }}' }}
+                            </strong>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success pull-right" ng-click="ministry.newContact()">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        {% trans %}Add Contact{% endtrans %}
+                    </button>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr ng-show="ministryCategories.length == 0">
                 <td colspan="7">
                     {% trans %}There are no entries existing, yet.{% endtrans %}
                 </td>
             </tr>
-        </tbody>
+        </tfoot>
     </table>
 {% endblock %}
 
@@ -39,9 +85,56 @@
     <script type="text/javascript">
         // <![CDATA[
         angular.module('app', [])
-            .constant('ministryCategories', {{ categoriesJson | raw }})
-            .controller('ListingController', function($scope, ministryCategories) {
+            .constant('ministryCategories', {{ categories_json | raw }})
+            .constant('persons', {{ persons_json | raw }})
+            .constant('groups', {{ groups_json | raw }})
+            .controller('ListingController', function(
+                $scope, MinistryCategory, Ministry, ministryCategories, persons, groups
+            ) {
+                $scope.ministryCategories = ministryCategories;
+                $scope.persons = persons;
+                $scope.groups = groups;
 
+                $scope.addCategory = function() {
+                    var category = new MinistryCategory;
+                    $scope.ministryCategories.push(category);
+                    $scope.activeCategory = category;
+                };
+            })
+            .factory('Ministry', function() {
+                var Ministry = function() {
+                    var parent = this;
+                    this.name = '';
+                    this.description = '';
+                    this.contactAssignments = [];
+                    this.responsibleAssignments = [];
+                    this.newContact = function() {
+                        var last = null;
+                        if (parent.contactAssignments.length > 0) {
+                            last = parent.contactAssignments[parent.contactAssignments.length - 1];
+                        }
+                        if (!last || last.person || last.group) {
+                            parent.contactAssignments.push({});
+                        }
+                    };
+                    this.newResponsible = function() {
+                        var last = null;
+                        if (parent.responsibleAssignments.length > 0) {
+                            last = parent.responsibleAssignments[parent.responsibleAssignments.length - 1];
+                        }
+                        if (!last || last.person || last.group) {
+                            parent.responsibleAssignments.push({});
+                        }
+                    };
+                };
+                return Ministry;
+            })
+            .factory('MinistryCategory', function(Ministry) {
+                var MinistryCategory = function() {
+                    this.name = '';
+                    this.ministries = [new Ministry()];
+                };
+                return MinistryCategory;
             })
         ;
         // ]]>
