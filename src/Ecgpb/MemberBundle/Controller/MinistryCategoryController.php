@@ -3,9 +3,12 @@
 namespace Ecgpb\MemberBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use JMS\Serializer\SerializationContext;
+use Ecgpb\MemberBundle\Entity\Ministry\Category;
+use Ecgpb\MemberBundle\Form\Ministry\CategoryType;
 
 /**
  * Ecgpb\MemberBundle\Controller\MinistryCategoryController
@@ -42,124 +45,59 @@ class MinistryCategoryController extends Controller
             'groups_json' => $groupsJson,
         ));
     }
-    /**
-     * Creates a new Address entity.
-     *
-     */
-    public function createAction(Request $request)
-    {
-        $entity = new Address();
-        $form = $this->createMinistryCategoryForm($entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            $this->get('session')->getFlashBag()->add('success', 'The entry has been created.');
-
-            return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $entity->getId())));
-        }
-
-        return $this->render('EcgpbMemberBundle:MinistryCategory:form.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Displays a form to create a new Address entity.
-     *
-     */
-    public function newAction()
-    {
-        $entity = new Address();
-        $form   = $this->createMinistryCategoryForm($entity);
-
-        return $this->render('EcgpbMemberBundle:MinistryCategory:form.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Displays a form to edit an existing Address entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('EcgpbMemberBundle:Ministry\Category')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Address entity.');
-        }
-
-        $editForm = $this->createMinistryCategoryForm($entity);
-
-        return $this->render('EcgpbMemberBundle:MinistryCategory:form.html.twig', array(
-            'entity'      => $entity,
-            'form'   => $editForm->createView(),
-        ));
-    }
 
     /**
      * Edits an existing Address entity.
      *
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $address = $em->getRepository('EcgpbMemberBundle:Ministry\Category')->find($id);
-        /* @var $address Address */
-
-        if (!$address) {
-            throw $this->createNotFoundException('Unable to find Address entity.');
+        if ('json' != $request->getContentType()) {
+            throw new \InvalidArgumentException('Wrong content type provided. JSON is expected.');
         }
 
-        $form = $this->createMinistryCategoryForm($address);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $clientMinistryCategories = json_decode($request->getContent(), true);
 
-        if ($form->isValid()) {
-            foreach ($address->getRemovedEntities() as $removedEntity) {
-                $em->remove($removedEntity);
+        $categories = $em->getRepository('EcgpbMemberBundle:Ministry\Category')->findBy(array(
+            'id' => array_map(function($element) {
+                return isset($element['id']) ? $element['id'] : 0;
+
+            },
+            $clientMinistryCategories
+        )));
+        /* @var $categories Category[] */
+
+        foreach ($clientMinistryCategories as $clientMinistryCategory) {
+            if (empty($clientMinistryCategory['id'])) {
+                $category = new Category();
+            } else {
+                list($category) = array_filter($categories, function($category) use ($clientMinistryCategory) {
+                    return $category->getId() == $clientMinistryCategory['id'];
+                });
             }
+            $form = $this->createForm(new \Ecgpb\MemberBundle\Form\Ministry\CategoryType(), $category, array(
+                'csrf_protection' => false,
+            ));
+            $form->submit($clientMinistryCategory);
 
-            $em->flush();
-
-            $this->get('session')->getFlashBag()->add('success', 'All changes have been saved.');
-
-            return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $id)));
+            if ($form->isValid()) {
+                $em->persist($category);
+                $categories[] = $category;
+            } else {
+                return new Response('Invalid entity', 400, array('Content-Type' => 'application/json'));
+            }
         }
 
-        return $this->render('EcgpbMemberBundle:MinistryCategory:form.html.twig', array(
-            'entity' => $address,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Deletes a Address entity.
-     *
-     */
-    public function deleteAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $address = $em->getRepository('EcgpbMemberBundle:Ministry\Category')->find($id);
-
-        if (!$address) {
-            throw $this->createNotFoundException('Unable to find Address entity.');
-        }
-
-        $em->remove($address);
         $em->flush();
 
-        $this->get('session')->getFlashBag()->add('success', 'The entry has been deleted.');
-
-        return $this->redirect($this->generateUrl('ecgpb.member.address.index'));
+        // response
+        $serializer = $this->get('jms_serializer');
+        return new Response(
+            $serializer->serialize($categories, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing'))),
+            200,
+            array('Content-Type' => 'application/json')
+        );
     }
 
     /**

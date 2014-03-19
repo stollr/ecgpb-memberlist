@@ -1,0 +1,9 @@
+Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment:
+    properties:
+        id:
+            serialized_name: id
+            groups: [MinistryCategoryListing]
+        person:
+            groups: [MinistryCategoryListing]
+        group:
+            groups: [MinistryCategoryListing]

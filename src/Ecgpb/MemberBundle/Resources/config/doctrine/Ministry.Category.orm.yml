@@ -15,5 +15,6 @@ Ecgpb\MemberBundle\Entity\Ministry\Category:
     oneToMany:
         ministries:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry
+            cascade: [persist]
             mappedBy: category
     lifecycleCallbacks: {  }

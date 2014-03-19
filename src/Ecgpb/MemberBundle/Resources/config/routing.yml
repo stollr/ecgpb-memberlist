@@ -99,7 +99,15 @@ ecgpb.member.workinggroup.delete:
 
 ecgpb.member.ministry_category.index:
     pattern:  /ministry_category/
+    methods: [GET]
     defaults: { _controller: "EcgpbMemberBundle:MinistryCategory:index" }
+
+ecgpb.member.ministry_category.update:
+    pattern:  /ministry_category/
+    methods: [POST, PUT]
+    defaults: { _controller: "EcgpbMemberBundle:MinistryCategory:update" }
+    requirements:
+        _format: json
 
 # print actions
 

@@ -24,8 +24,10 @@ Ecgpb\MemberBundle\Entity\Ministry:
     oneToMany:
         contactAssignments:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment
+            cascade: [persist]
             mappedBy: ministry
         responsibleAssignments:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment
+            cascade: [persist]
             mappedBy: ministry
     lifecycleCallbacks: {  }

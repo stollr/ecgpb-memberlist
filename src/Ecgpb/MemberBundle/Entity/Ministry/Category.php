@@ -65,12 +65,13 @@ class Category
     /**
      * Add ministries
      *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry $ministries
+     * @param \Ecgpb\MemberBundle\Entity\Ministry $ministry
      * @return Category
      */
-    public function addMinistry(\Ecgpb\MemberBundle\Entity\Ministry $ministries)
+    public function addMinistry(\Ecgpb\MemberBundle\Entity\Ministry $ministry)
     {
-        $this->ministries[] = $ministries;
+        $this->ministries[] = $ministry;
+        $ministry->setCategory($this);
         return $this;
     }
 

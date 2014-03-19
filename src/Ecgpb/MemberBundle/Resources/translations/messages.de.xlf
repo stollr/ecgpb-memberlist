@@ -10,6 +10,10 @@
                 <source>Actions</source>
                 <target>Aktionen</target>
             </trans-unit>
+            <trans-unit id="Add Ministry Category">
+                <source>Add Ministry Category</source>
+                <target>Dienstbereich hinzufügen</target>
+            </trans-unit>
             <trans-unit id="Add Person">
                 <source>Add Person</source>
                 <target>Person hinzufügen</target>
@@ -158,6 +162,14 @@
                 <source>Men</source>
                 <target>Männer</target>
             </trans-unit>
+            <trans-unit id="Ministries">
+                <source>Ministries</source>
+                <target>Dienste</target>
+            </trans-unit>
+            <trans-unit id="Ministry">
+                <source>Ministry</source>
+                <target>Dienst</target>
+            </trans-unit>
             <trans-unit id="Mobile">
                 <source>Mobile</source>
                 <target>Mobil</target>
@@ -214,9 +226,17 @@
                 <source>Second Phone Label</source>
                 <target>Beschriftung zweites Telefon</target>
             </trans-unit>
+            <trans-unit id="Saving">
+                <source>Saving</source>
+                <target>Speichern</target>
+            </trans-unit>
             <trans-unit id="Street">
                 <source>Street</source>
                 <target>Straße</target>
+            </trans-unit>
+            <trans-unit id="Tasks">
+                <source>Tasks</source>
+                <target>Aufgaben</target>
             </trans-unit>
             <trans-unit id="The entry has been created.">
                 <source>The entry has been created.</source>
