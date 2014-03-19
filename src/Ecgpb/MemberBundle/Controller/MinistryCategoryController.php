@@ -71,10 +71,12 @@ class MinistryCategoryController extends Controller
         foreach ($clientMinistryCategories as $clientMinistryCategory) {
             if (empty($clientMinistryCategory['id'])) {
                 $category = new Category();
+                $categories[] = $category;
             } else {
-                list($category) = array_filter($categories, function($category) use ($clientMinistryCategory) {
+                $filtered = array_filter($categories, function($category) use ($clientMinistryCategory) {
                     return $category->getId() == $clientMinistryCategory['id'];
                 });
+                $category = reset($filtered);
             }
             $form = $this->createForm(new \Ecgpb\MemberBundle\Form\Ministry\CategoryType(), $category, array(
                 'csrf_protection' => false,
@@ -83,7 +85,6 @@ class MinistryCategoryController extends Controller
 
             if ($form->isValid()) {
                 $em->persist($category);
-                $categories[] = $category;
             } else {
                 return new Response('Invalid entity', 400, array('Content-Type' => 'application/json'));
             }

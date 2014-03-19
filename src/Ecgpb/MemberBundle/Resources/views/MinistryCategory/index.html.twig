@@ -5,14 +5,20 @@
 
 
 {% block body %}
-    <button type="button" class="btn btn-default pull-right" ng-click="save()" title="{% trans %}Save Changes{% endtrans %}">
-        <span class="glyphicon glyphicon-floppy-disk"></span>
-    </button>
-    <button type="button" class="btn btn-default pull-right" ng-click="addCategory()" title="{% trans %}Add Ministry Category{% endtrans %}">
-        <span class="glyphicon glyphicon-plus"></span>
-    </button>
+    <div class="btn-group pull-right">
+        <button type="button" class="btn btn-default" ng-click="addCategory()" title="{% trans %}Add Ministry Category{% endtrans %}">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <button type="button" class="btn btn-default" ng-click="save()" title="{% trans %}Save Changes{% endtrans %}">
+            <span class="glyphicon glyphicon-floppy-disk"></span>
+        </button>
+    </div>
 
     <h2>{% trans %}Ministries{% endtrans %}</h2>
+
+    <div class="alert alert-danger ng-hide" ng-show="error">
+        {{ '{{ error }}' }}
+    </div>
 
     <table class="table table-bordered">
         <thead>
@@ -34,6 +40,9 @@
                 <td>
                     <input type="text" ng-model="ministry.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" />
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.name }}' }}</span>
+                    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministryCategory.newMinistry()" ng-show="isEditable(ministryCategory)">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
                 </td>
                 <td>
                     <textarea ng-model="ministry.description" class="form-control input-sm" ng-show="isEditable(ministryCategory)"></textarea>
@@ -140,6 +149,7 @@
                 $scope.ministryCategories = ministryCategories.map(function(value) { return new MinistryCategory(value); });
                 $scope.persons = persons;
                 $scope.groups = groups;
+                $scope.error = null;
                 $scope.editableCategory = null;
                 $scope.backupCategory = null;
 
@@ -170,11 +180,11 @@
 
                     $http.post(updateUrl, $scope.ministryCategories)
                         .success(function(data, status, headers, config) {
-                            console.log(data);
+                            $scope.error = null;
                             savingModal.close('success');
                         })
                         .error(function(data, status, headers, config) {
-                            console.log(data);
+                            $scope.error = data;
                             savingModal.close('error');
                         })
                     ;
@@ -188,6 +198,9 @@
                         ? properties.ministries.map(function(value) { return new Ministry(value); })
                         : [new Ministry()]
                     ;
+                    this.newMinistry = function() {
+                        this.ministries.push(new Ministry());
+                    };
                 };
                 return MinistryCategory;
             })
