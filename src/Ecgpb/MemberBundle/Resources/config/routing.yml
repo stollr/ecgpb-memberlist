@@ -109,6 +109,20 @@ ecgpb.member.ministry_category.update:
     requirements:
         _format: json
 
+# ministry groups actions
+
+ecgpb.member.ministry_group.index:
+    pattern:  /ministry_group/
+    methods: [GET]
+    defaults: { _controller: "EcgpbMemberBundle:MinistryGroup:index" }
+
+ecgpb.member.ministry_group.update:
+    pattern:  /ministry_group/
+    methods: [POST, PUT]
+    defaults: { _controller: "EcgpbMemberBundle:MinistryGroup:update" }
+    requirements:
+        _format: json
+
 # print actions
 
 ecgpb.member.print.html:
