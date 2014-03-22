@@ -78,7 +78,7 @@ class MinistryCategoryController extends Controller
                 });
                 $category = reset($filtered);
             }
-            $form = $this->createForm(new \Ecgpb\MemberBundle\Form\Ministry\CategoryType(), $category, array(
+            $form = $this->createForm(new CategoryType(), $category, array(
                 'csrf_protection' => false,
             ));
             $form->submit($clientMinistryCategory);
@@ -99,33 +99,5 @@ class MinistryCategoryController extends Controller
             200,
             array('Content-Type' => 'application/json')
         );
-    }
-
-    /**
-    * Creates a form to create a Address entity.
-    *
-    * @param Address $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createMinistryCategoryForm(Address $entity)
-    {
-        $url = $entity->getId() > 0
-            ? $this->generateUrl('ecgpb.member.address.update', array('id' => $entity->getId()))
-            : $this->generateUrl('ecgpb.member.address.create')
-        ;
-        $form = $this->createForm(new AddressType(), $entity, array(
-            'action' => $url,
-            'method' => 'POST',
-            'attr' => array(
-                'enctype' => 'multipart/form-data',
-                'class' => 'form-horizontal',
-                'role' => 'form',
-            ),
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Save'));
-
-        return $form;
     }
 }
