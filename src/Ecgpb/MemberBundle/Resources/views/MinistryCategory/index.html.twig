@@ -40,7 +40,7 @@
                 <td>
                     <input type="text" ng-model="ministry.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" />
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.name }}' }}</span>
-                    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministryCategory.newMinistry()" ng-show="isEditable(ministryCategory)">
+                    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministryCategory.newMinistry()" ng-show="isEditable(ministryCategory) && $last">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
                 </td>
@@ -60,7 +60,7 @@
                         <div class="col-md-5" ng-show="isEditable(ministryCategory)">
                             <select class="form-control input-sm"
                              ng-model="assignment.person"
-                             ng-options="person as (person.address.familyName + ', ' + person.firstname) for person in persons track by person.id">
+                             ng-options="person as getPersonsLabel(person) for person in persons track by person.id">
                                 <option value="">- {% trans %}Person{% endtrans %} -</option>
                             </select>
                         </div>
@@ -71,7 +71,7 @@
                         </div>
                         <div class="col-md-12" ng-show="!isEditable(ministryCategory)">
                             <strong>
-                                {{ '{{ assignment.group ? assignment.group.name : (assignment.person.address.familyName + ", " + assignment.person.firstname) }}' }}
+                                {{ '{{ assignment.group ? assignment.group.name : getPersonsLabel(assignment.person) }}' }}
                             </strong>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                         <div class="col-md-5" ng-show="isEditable(ministryCategory)">
                             <select class="form-control input-sm"
                              ng-model="assignment.person"
-                             ng-options="person as (person.address.familyName + ', ' + person.firstname) for person in persons track by person.id">
+                             ng-options="person as getPersonsLabel(person) for person in persons track by person.id">
                                 <option value="">- {% trans %}Person{% endtrans %} -</option>
                             </select>
                         </div>
@@ -102,7 +102,7 @@
                         </div>
                         <div class="col-md-12" ng-show="!isEditable(ministryCategory)">
                             <strong>
-                                {{ '{{ assignment.group ? assignment.group.name : (assignment.person.address.familyName + ", " + assignment.person.firstname) }}' }}
+                                {{ '{{ assignment.group ? assignment.group.name : getPersonsLabel(assignment.person) }}' }}
                             </strong>
                         </div>
                     </div>
@@ -111,10 +111,14 @@
                     </button>
                 </td>
                 <td class="text-center" rowspan="{{ '{{ ministryCategory.ministries.length }}' }}" ng-if="$first">
-                    <button type="button" class="btn btn-default btn-sm" ng-click="setEditable(ministryCategory)" ng-show="!isEditable(ministryCategory)">
+                    <button type="button" class="btn btn-default btn-sm" title="{% trans %}Edit Ministry Category{% endtrans %}"
+                     ng-click="setEditable(ministryCategory)"
+                     ng-show="!isEditable(ministryCategory)">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
-                    <button type="button" class="btn btn-default btn-sm" ng-click="cancelEditing()" ng-show="isEditable(ministryCategory)">
+                    <button type="button" class="btn btn-default btn-sm" title="{% trans %}Undo Changes{% endtrans %}"
+                     ng-click="cancelEditing()"
+                     ng-show="isEditable(ministryCategory)">
                         <span class="glyphicon glyphicon-ban-circle"></span>
                     </button>
                 </td>
@@ -172,6 +176,13 @@
                     var index = $scope.ministryCategories.indexOf($scope.editableCategory);
                     $scope.editableCategory = null;
                     $scope.ministryCategories[index] = $scope.backupCategory;
+                };
+
+                $scope.getPersonsLabel = function(person) {
+                    if (!person || !person.address) {
+                        return '';
+                    }
+                    return person.address.familyName + ', ' + person.firstname + ' (' + new Date(person.dob).getFullYear() + ')';
                 };
 
                 $scope.save = function() {

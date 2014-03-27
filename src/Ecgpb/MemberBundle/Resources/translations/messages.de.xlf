@@ -86,6 +86,10 @@
                 <source>Edit Address</source>
                 <target>Adresse bearbeiten</target>
             </trans-unit>
+            <trans-unit id="Edit Ministry Category">
+                <source>Edit Ministry Category</source>
+                <target>Dienstbereich bearbeiten</target>
+            </trans-unit>
             <trans-unit id="cc991c5669b278ab24bee4d0c911f3c9">
                 <source>Edit Person</source>
                 <target>Person bearbeiten</target>
@@ -269,6 +273,10 @@
             <trans-unit id="There are no entries existing, yet.">
                 <source>There are no entries existing, yet.</source>
                 <target>Es gibt noch keine Einträge.</target>
+            </trans-unit>
+            <trans-unit id="Undo Changes">
+                <source>Undo Changes</source>
+                <target>Änderungen rückgängig machen</target>
             </trans-unit>
             <trans-unit id="Update">
                 <source>Update</source>
