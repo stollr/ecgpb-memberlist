@@ -551,7 +551,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 . number_format(round($options->getMaxWidth(), 4), 4) . 'x'
                 . number_format(round($options->getMaxHeight(), 4), 4) . '/' . $filename
             ;
-            if (!is_dir(dirname($filenameOptimized)) && !mkdir(dirname($filenameOptimized), 0777)) {
+            if (!is_dir(dirname($filenameOptimized)) && !mkdir(dirname($filenameOptimized), 0777, true)) {
                 throw new \RuntimeException('No permissions to create the directory "'.dirname($filenameOptimized).'".');
             }
 
