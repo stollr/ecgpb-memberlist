@@ -564,8 +564,9 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     $dpi = 300;
                 }
 
-                $dstWidth = $options->getMaxWidth() / 25.4 * $dpi;
-                $dstHeight = $options->getMaxHeight() / 25.4 * $dpi;
+                $sizeFactor = 300 / $dpi;
+                $dstWidth = $options->getMaxWidth() / 25.4 * $dpi * $sizeFactor;
+                $dstHeight = $options->getMaxHeight() / 25.4 * $dpi * $sizeFactor;
 
                 $factor = $dstWidth / $dstHeight;
 
