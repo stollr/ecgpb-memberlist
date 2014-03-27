@@ -5,7 +5,7 @@ namespace Ecgpb\MemberBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Person
+ * Ecgpb\MemberBundle\Entity\Person
  */
 class Person
 {

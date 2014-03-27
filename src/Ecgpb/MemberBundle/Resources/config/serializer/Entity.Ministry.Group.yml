@@ -2,6 +2,8 @@ Ecgpb\MemberBundle\Entity\Ministry\Group:
     properties:
         id:
             serialized_name: id
-            groups: [MinistryCategoryListing]
+            groups: [MinistryCategoryListing, MinistryGroupListing]
         name:
-            groups: [MinistryCategoryListing]
+            groups: [MinistryCategoryListing, MinistryGroupListing]
+        persons:
+            groups: [MinistryGroupListing]

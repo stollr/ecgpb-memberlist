@@ -2,8 +2,10 @@ Ecgpb\MemberBundle\Entity\Person:
     properties:
         id:
             serialized_name: id
-            groups: [MinistryCategoryListing]
+            groups: [MinistryCategoryListing, MinistryGroupListing]
         firstname:
-            groups: [MinistryCategoryListing]
+            groups: [MinistryCategoryListing, MinistryGroupListing]
         address:
-            groups: [MinistryCategoryListing]
+            groups: [MinistryCategoryListing, MinistryGroupListing]
+        dob:
+            groups: [MinistryCategoryListing, MinistryGroupListing]

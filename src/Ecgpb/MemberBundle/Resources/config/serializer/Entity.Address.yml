@@ -2,7 +2,7 @@ Ecgpb\MemberBundle\Entity\Address:
     properties:
         id:
             serialized_name: id
-            groups: [MinistryCategoryListing]
+            groups: [MinistryCategoryListing, MinistryGroupListing]
         familyName:
             serialized_name: familyName
-            groups: [MinistryCategoryListing]
+            groups: [MinistryCategoryListing, MinistryGroupListing]

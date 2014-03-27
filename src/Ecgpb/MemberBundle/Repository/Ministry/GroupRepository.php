@@ -11,5 +11,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class GroupRepository extends EntityRepository
 {
-    //put your code here
+    public function findAllForListing()
+    {
+        return $this->createQueryBuilder('ministryGroup')
+            ->select('ministryGroup', 'person')
+            ->leftJoin('ministryGroup.persons', 'person')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -67,24 +67,25 @@ class Group
     /**
      * Add persons
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $persons
+     * @param \Ecgpb\MemberBundle\Entity\Person $person
      * @return Group
      */
-    public function addPerson(\Ecgpb\MemberBundle\Entity\Person $persons)
+    public function addPerson(\Ecgpb\MemberBundle\Entity\Person $person)
     {
-        $this->persons[] = $persons;
-
+        $this->persons[] = $person;
+        $person->addMinistryGroup($this);
         return $this;
     }
 
     /**
      * Remove persons
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $persons
+     * @param \Ecgpb\MemberBundle\Entity\Person $person
      */
-    public function removePerson(\Ecgpb\MemberBundle\Entity\Person $persons)
+    public function removePerson(\Ecgpb\MemberBundle\Entity\Person $person)
     {
-        $this->persons->removeElement($persons);
+        $this->persons->removeElement($person);
+        $person->removeMinistryGroup($this);
     }
 
     /**
