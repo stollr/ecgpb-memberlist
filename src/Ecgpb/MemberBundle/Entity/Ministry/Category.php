@@ -18,6 +18,11 @@ class Category
     private $name;
 
     /**
+     * @var integer
+     */
+    private $position;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $ministries;
@@ -60,6 +65,17 @@ class Category
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        return $this;
     }
 
     /**

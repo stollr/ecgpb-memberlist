@@ -12,6 +12,9 @@ Ecgpb\MemberBundle\Entity\Ministry\Category:
         name:
             type: string
             length: '40'
+        position:
+            type: smallint
+            nullable: true
     oneToMany:
         ministries:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry
