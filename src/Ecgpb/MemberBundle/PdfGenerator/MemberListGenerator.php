@@ -16,7 +16,7 @@ use Ecgpb\MemberBundle\Statistic\StatisticService;
  */
 class MemberListGenerator extends Generator implements GeneratorInterface
 {
-    const GRID_ROW_MIN_HEIGHT = 12; // mm
+    const GRID_ROW_MIN_HEIGHT = 13; // mm
     const GRID_PICTURE_CELL_WIDTH = 10.5; // mm
 
     private $doctrine;
@@ -266,10 +266,40 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         
         $table = null;
         $totalHeight = 0;
-        
-        foreach ($addresses as $address) {
+        foreach ($addresses as $index => $address) {
             /* @var $address \Ecgpb\MemberBundle\Entity\Address */
-            if (0 == $totalHeight) {
+
+            // calculate address row height and check if address fitts on this page
+            $addressRowHeight = 0;
+            foreach ($address->getPersons() as $person) {
+                $personRowHeight = 0;
+                if ($person->getPhone2Label()) {
+                    $lineBreaks = substr_count($person->getPhone2Label(), "\n");
+                    $personRowHeight += $lineBreaks > 0 ? $lineBreaks * 4 : 4;
+                }
+                if ($person->getPhone2()) {
+                    $personRowHeight += 4;
+                }
+                if ($person->getMobile()) {
+                    $personRowHeight += 4;
+                }
+                if ($person->getEmail()) {
+                    $personRowHeight += 4;
+                }
+                $addressRowHeight += $personRowHeight < self::GRID_ROW_MIN_HEIGHT ? self::GRID_ROW_MIN_HEIGHT : $personRowHeight;
+            }
+            if (count($address->getPersons()) == 1) {
+                $addressRowHeight += self::GRID_ROW_MIN_HEIGHT;
+            }
+            $totalHeight += $addressRowHeight;
+
+            // end current page and start a new page
+            if ($totalHeight > 185 || 0 == $index) {
+                if ($index > 0) {
+                    $table->end();
+                }
+                $totalHeight = $addressRowHeight;
+
                 $pdf->AddPage();
                 $table = $this->addTable($pdf);
                 $table
@@ -300,35 +330,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->end()
                     ->end()
                 ;
-            }
-            
-            // calculate address row height and check if address fitts on this page
-            $addressRowHeight = 0;
-            foreach ($address->getPersons() as $person) {
-                $personRowHeight = 0;
-                if ($person->getPhone2Label()) {
-                    $lineBreaks = substr_count($person->getPhone2Label(), "\n");
-                    $personRowHeight += $lineBreaks > 0 ? $lineBreaks * 4 : 4;
-                }
-                if ($person->getPhone2()) {
-                    $personRowHeight += 4;
-                }
-                if ($person->getMobile()) {
-                    $personRowHeight += 4;
-                }
-                if ($person->getEmail()) {
-                    $personRowHeight += 4;
-                }
-                $addressRowHeight += $personRowHeight < 12 ? 12 : $personRowHeight;
-            }
-            if (count($address->getPersons()) == 1) {
-                $addressRowHeight += 12;
-            }
-            $totalHeight += $addressRowHeight;
-            
-            if ($totalHeight > 185) {
-                $table->end();
-                $totalHeight = 0;
             }
             
             // add rows and cells to table
@@ -421,6 +422,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 ;
                 $row->end();
             }
+        }
+        
+        if ($table) {
+            $table->end();
         }
     }
 
