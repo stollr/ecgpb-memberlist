@@ -40,6 +40,12 @@ class ImportCsvCommand extends ContainerAwareCommand
         while ($row = fgetcsv($fp, 0, ',', '"')) {
             if (!$headerRow) {
                 $headerRow = $row;
+                if (!in_array('NAME', $headerRow)) {
+                    throw new \InvalidArgumentException('The file syntax is not correct. Either '
+                        . 'you have not given the correct header columns or you have not used "," '
+                        . 'as column separator.'
+                    );
+                }
                 continue;
             }
 
