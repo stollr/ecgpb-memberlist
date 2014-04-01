@@ -49,7 +49,7 @@ class ImportCsvCommand extends ContainerAwareCommand
             $person->setDob(new \DateTime($row['Geburtsdat.']));
             $person->setEmail(empty($row['EMAIL']) ? null : $row['EMAIL']);
             $person->setFirstname($row['VORNAME']);
-            $person->setGender(Person::GENDER_FEMALE);
+            $person->setGender($row['Geschlecht'] == Person::GENDER_FEMALE ? Person::GENDER_FEMALE : Person::GENDER_MALE);
             $person->setMobile(empty($row['Handy']) ? null : $row['Handy']);
             $em->persist($person);
 
