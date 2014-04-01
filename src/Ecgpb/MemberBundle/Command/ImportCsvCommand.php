@@ -23,12 +23,14 @@ class ImportCsvCommand extends ContainerAwareCommand
             ->setName('ecgpb:member:import-csv')
             ->setDescription('Import a CSV file with all members.')
             ->addOption('file', null, InputOption::VALUE_REQUIRED, 'The absolute filename of the CSV file to import.')
+            ->addOption('separator', null, InputOption::VALUE_OPTIONAL, 'The absolute filename of the CSV file to import.', ',')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $filename = $input->getOption('file');
+        $separator = $input->getOption('separator');
         if (!file_exists($filename)) {
             throw new \InvalidArgumentException("The file '$filename' does not exist.");
         }
@@ -37,7 +39,7 @@ class ImportCsvCommand extends ContainerAwareCommand
         $headerRow = null;
         $addresses = array();
         $fp = fopen($filename, 'r');
-        while ($row = fgetcsv($fp, 0, ',', '"')) {
+        while ($row = fgetcsv($fp, 0, $separator, '"')) {
             if (!$headerRow) {
                 $headerRow = $row;
                 if (!in_array('NAME', $headerRow)) {
@@ -52,11 +54,11 @@ class ImportCsvCommand extends ContainerAwareCommand
             $row = array_combine($headerRow, $row);
 
             $person = new Person();
-            $person->setDob(new \DateTime($row['Geburtsdat.']));
-            $person->setEmail(empty($row['EMAIL']) ? null : $row['EMAIL']);
-            $person->setFirstname($row['VORNAME']);
-            $person->setGender($row['Geschlecht'] == Person::GENDER_FEMALE ? Person::GENDER_FEMALE : Person::GENDER_MALE);
-            $person->setMobile(empty($row['Handy']) ? null : $row['Handy']);
+            $person->setDob(new \DateTime(trim($row['Geburtsdat.'])));
+            $person->setEmail(empty($row['EMAIL']) ? null : trim($row['EMAIL']));
+            $person->setFirstname(trim($row['VORNAME']));
+            $person->setGender(trim($row['Geschlecht']) == Person::GENDER_FEMALE ? Person::GENDER_FEMALE : Person::GENDER_MALE);
+            $person->setMobile(empty($row['Handy']) ? null : trim($row['Handy']));
             $em->persist($person);
 
             $addressKey = implode('|', array(trim($row['NAME']), trim($row['STRASSE']), trim($row['PLZ']), trim($row['Nummer'])));
@@ -65,11 +67,11 @@ class ImportCsvCommand extends ContainerAwareCommand
                 $address = $addresses[$addressKey];
             } else {
                 $address = new Address();
-                $address->setCity($row['ORT']);
-                $address->setFamilyName($row['NAME']);
-                $address->setPhone(empty($row['Nummer']) ? null : $row['Nummer']);
-                $address->setStreet($row['STRASSE']);
-                $address->setZip($row['PLZ']);
+                $address->setCity(trim($row['ORT']));
+                $address->setFamilyName(trim($row['NAME']));
+                $address->setPhone(empty($row['Nummer']) ? null : trim($row['Nummer']));
+                $address->setStreet(trim($row['STRASSE']));
+                $address->setZip(trim($row['PLZ']));
                 $addresses[$addressKey] = $address;
             }
 
