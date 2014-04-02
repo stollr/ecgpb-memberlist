@@ -18,12 +18,15 @@ Ecgpb\MemberBundle\Entity\Address:
         street:
             type: string
             length: '50'
+            nullable: true
         zip:
             type: string
             length: '5'
+            nullable: true
         city:
             type: string
             length: '40'
+            nullable: true
     oneToMany:
         persons:
             targetEntity: Ecgpb\MemberBundle\Entity\Person

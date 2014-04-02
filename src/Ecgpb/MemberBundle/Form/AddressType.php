@@ -22,10 +22,18 @@ class AddressType extends AbstractType
             ->add('familyName', 'text', array(
                 'label' => 'Family Name',
             ))
-            ->add('phone')
-            ->add('street')
-            ->add('zip')
-            ->add('city')
+            ->add('phone', 'text', array(
+                'required' => false,
+            ))
+            ->add('street', 'text', array(
+                'required' => false,
+            ))
+            ->add('zip', 'text', array(
+                'required' => false,
+            ))
+            ->add('city', 'text', array(
+                'required' => false,
+            ))
             ->add('persons', 'collection', array(
                 'type' => new PersonType(),
                 'label' => false,
