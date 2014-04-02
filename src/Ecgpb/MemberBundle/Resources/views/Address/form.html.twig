@@ -5,9 +5,7 @@
 {% block form_widget_remove_btn %}
 {% spaceless %}
     {% if widget_remove_btn.wrapper_div is not sameas(false) %}
-        <div class="clearfix form-group">
-            <div class="col-md-offset-3 col-md-9">
-                <div class="col-md-offset-3 col-md-7">
+        <div class="col-md-2">
     {% endif %}
     {% if widget_remove_btn|default(null) %}
     {% set button_type = 'remove' %}
@@ -22,8 +20,6 @@
         </a>
     {% endif %}
     {% if widget_remove_btn.wrapper_div is not sameas(false) %}
-                </div>
-            </div>
         </div>
     {% endif %}
 {% endspaceless %}
