@@ -356,7 +356,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ;
                 } else if (1 == $index) {
                     $row->newCell()
-                            ->setText($address->getStreet() . "\n" . $address->getZip() . ' ' . $address->getCity())
+                            ->setText(
+                                $address->getStreet() . "\n" .
+                                ($address->getZip() ? $address->getZip() . ' ' : '') . $address->getCity()
+                            )
                             ->setBorder(count($persons) <= 2 ? 'LRB' : 'LR')
                             ->setFontSize(self::FONT_SIZE_S)
                             ->setFontWeight('normal')
