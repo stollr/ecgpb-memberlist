@@ -24,7 +24,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     private $statisticService;
     private $personHelper;
     private $parameters;
-    
+
     public function __construct(
         RegistryInterface $doctrine,
         TranslatorInterface $translator,
@@ -38,7 +38,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->statisticService = $statisticService;
         $this->parameters = $parameters;
     }
-    
+
     /**
      * @return string
      */
@@ -55,51 +55,52 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
         $pdf->SetFont('dejavusans', '', 10);
-        
+
         $this->addCover($pdf);
         $this->addPage1($pdf);
         $this->addPage2($pdf);
         $this->addAddressPages($pdf);
         $this->addWorkingGroups($pdf);
+        $this->addMinistryCategories($pdf);
 
         return $pdf->Output(null, 'S');
     }
-    
+
     private function addCover(\TCPDF $pdf)
     {
         $pdf->AddPage();
-        
+
         // initiate XY positions
         $margins = $pdf->getMargins();
         $pdf->SetX($margins['left']);
         $pdf->SetY($margins['top']);
-        
+
         // logo
         $src = realpath(__DIR__ . '/../Resources/public/img/logo.png');
         //$pdf->Image($file, $x, $y, $w, $h, $type, $link, $align, $resize, $dpi, $palign, $ismask, $imgmask, $border, $fitbox, $hidden, $fitonpage, $alt, $altimgs);
         $pdf->Image($src, $pdf->GetX(), $pdf->GetY(), 30, 19, 'PNG', null, 'N', true, 300);
-        
+
         $pdf->SetY($pdf->GetY() + 3);
         $pdf->SetLineWidth(0.75);
         $pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->getPageWidth() - $pdf->GetX(), $pdf->GetY());
-        
+
         $pdf->SetXY($pdf->GetX() + 3, $pdf->GetY() + 2);
         $pdf->Text($pdf->GetX(), $pdf->GetY(), $this->parameters['ecgpb.contact.name'], false, false, true, 0, 1);
-        
+
         $pdf->SetFontSize(40);
         $pdf->Text($pdf->GetX(), $pdf->GetY() + 50, "Mitgliederliste", false, false, true, 0, 1, 'C');
         $pdf->Text($pdf->GetX(), $pdf->GetY() + 10, date('Y'), false, false, true, 0, 1, 'C');
     }
-    
+
     private function addPage1(\TCPDF $pdf)
     {
         $pdf->AddPage();
-        
+
         // picture of church front
         $src = realpath(__DIR__ . '/../Resources/public/img/church_front.png');
         $pdf->Image($src, $pdf->GetX() + 10, $pdf->GetY(), 100, 81, 'PNG', null, 'N', true, 300);
         $pdf->SetY($pdf->GetY() + 5);
-        
+
         $this->useFontSizeXL($pdf);
         $this->useFontWeightBold($pdf);
         $this->writeText($pdf, $this->parameters['ecgpb.contact.name']);
@@ -109,7 +110,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->writeText($pdf, $this->parameters['ecgpb.contact.main_phone']);
         $this->useFontSizeL($pdf);
         $this->writeText($pdf, 'Homepage: www.ecgpb.de');
-        
+
         $pdf->SetY($pdf->GetY() + 10);
         $this->useFontSizeXL($pdf);
         $this->useFontWeightBold($pdf);
@@ -132,7 +133,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->useFontWeightBold($pdf);
         $this->writeText($pdf, 'Stand: 01.01.' . date('Y'));
         $this->useFontWeightNormal($pdf);
-        
+
         $pdf->SetY(190);
         $this->useFontSizeM($pdf);
         $this->writeText($pdf, 'Alle Änderungen bitte unverzüglich bei ' .
@@ -143,11 +144,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->writeText($pdf, 'gemeindeliste@ecgpb.de');
         $this->useFontWeightNormal($pdf);
     }
-    
+
     private function addPage2(\TCPDF $pdf)
     {
         $pdf->AddPage();
-        
+
         $this->useFontSizeXL($pdf);
         $this->useFontWeightBold($pdf);
         $this->writeText($pdf, 'Telefonverbindungen des Gemeindehauses');
@@ -172,12 +173,12 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 ->end()
             ->end()
         ;
-        
+
         // library logo
         $pdf->SetY($pdf->GetY() + 10);
         $src = realpath(__DIR__ . '/../Resources/public/img/library_logo.png');
         $pdf->Image($src, $pdf->GetX() + 10, $pdf->GetY(), 40, 18, 'PNG', null, 'T', true, 300, 'R');
-        
+
         $pdf->SetY($pdf->GetY() - 1);
         $this->useFontWeightBold($pdf);
         $this->writeText($pdf, 'Bibliothek');
@@ -194,7 +195,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 ->end()
             ->end()
         ;
-        
+
         $pdf->SetY($pdf->GetY() + 5);
         $this->useFontSizeL($pdf);
         $this->useFontWeightBold($pdf);
@@ -218,11 +219,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 ->end()
             ->end()
         ;
-        
+
         $pdf->SetLineWidth(0.25);
         $pdf->SetY($pdf->GetY() + 5);
         $pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->getPageWidth() - $pdf->GetX(), $pdf->GetY());
-        
+
         $pdf->SetY($pdf->GetY() + 10);
         $this->useFontSizeXL($pdf);
         $this->useFontWeightBold($pdf);
@@ -258,12 +259,12 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             ->end()
         ;
     }
-    
+
     public function addAddressPages(\TCPDF $pdf)
     {
         $addresses = $this->getAddresses();
         $personRepo = $this->doctrine->getRepository('EcgpbMemberBundle:Person'); /* @var $personRepo \Ecgpb\MemberBundle\Repository\PersonRepository */
-        
+
         $table = null;
         $totalHeight = 0;
         foreach ($addresses as $index => $address) {
@@ -331,7 +332,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->end()
                 ;
             }
-            
+
             // add rows and cells to table
             $persons = $address->getPersons();
             if (count($persons) == 1) {
@@ -341,29 +342,28 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 /* @var $person \Ecgpb\MemberBundle\Entity\Person */
                 $row = $table->newRow();
                 if (0 == $index) {
+                    $usualSize = strlen($address->getFamilyName()) < 18 && strlen($address->getPhone()) < 18;
                     $row->newCell()
                             ->setText($address->getFamilyName() . "\n" . $address->getPhone())
                             ->setBorder('LTR')
-                            ->setFontSize(strlen($address->getFamilyName()) < 18 && strlen($address->getPhone()) < 18
-                                ? self::FONT_SIZE_S + 0.5
-                                : self::FONT_SIZE_XS
-                            )
+                            ->setFontSize($usualSize ? self::FONT_SIZE_S + 0.5 : self::FONT_SIZE_XS + 0.5)
                             ->setFontWeight('bold')
-                            ->setLineHeight(1.3)
+                            ->setLineHeight($usualSize ? 1.3 : 1)
                             ->setWidth(35.5)
                             ->setPadding(0.75, 0.75, 0, 0.75)
                         ->end()
                     ;
                 } else if (1 == $index) {
+                    $usualSize = strlen($address->getStreet()) < 20 && strlen($address->getZip() .$address->getCity()) < 20;
                     $row->newCell()
                             ->setText(
                                 $address->getStreet() . "\n" .
                                 ($address->getZip() ? $address->getZip() . ' ' : '') . $address->getCity()
                             )
                             ->setBorder(count($persons) <= 2 ? 'LRB' : 'LR')
-                            ->setFontSize(self::FONT_SIZE_S)
+                            ->setFontSize($usualSize ? self::FONT_SIZE_S : self::FONT_SIZE_XS)
                             ->setFontWeight('normal')
-                            ->setLineHeight(1.3)
+                            ->setLineHeight($usualSize ? 1.3 : 1)
                             ->setWidth(35.5)
                             ->setPadding(0, 0.75, 0.75, 0.75)
                         ->end()
@@ -416,7 +416,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         )
                         ->setAlign('C')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S)
+                        ->setFontSize($person && strlen($person->getEmail()) < 27 ? self::FONT_SIZE_S : self::FONT_SIZE_XS + 0.5)
                         ->setFontWeight('normal')
                         ->setMinHeight(self::GRID_ROW_MIN_HEIGHT)
                         ->setPadding(0.75)
@@ -426,7 +426,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 $row->end();
             }
         }
-        
+
         if ($table) {
             $table->end();
         }
@@ -442,7 +442,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             $groupTypes[$group->getGender()][] = $group;
         }
         $personRepo = $this->doctrine->getRepository('EcgpbMemberBundle:Person'); /* @var $personRepo \Ecgpb\MemberBundle\Repository\PersonRepository */
-        
 
         $margins = $pdf->getMargins();
         $halfWidth = ($pdf->getPageWidth() - $margins['left'] - $margins['right']) / 2;
@@ -505,7 +504,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             $pdf->AddPage();
         }
     }
-    
+
+    private function addMinistryCategories(\TCPDF $pdf)
+    {
+    }
+
     /**
      * Returns all addresses with the corresponding persons.
      * @return \Ecgpb\MemberBundle\Entity\Address[]
@@ -516,15 +519,30 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $repo = $em->getRepository('EcgpbMemberBundle:Address');
         /* @var $repo \Doctrine\Common\Persistence\ObjectRepository */
-        
+
         $builder = $repo->createQueryBuilder('address')
             ->select('address', 'person')
             ->leftJoin('address.persons', 'person')
             ->orderBy('address.familyName', 'asc')
             ->addOrderBy('person.dob', 'asc')
         ;
-        
+
         return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * Returns all addresses with the corresponding persons.
+     * @return \Ecgpb\MemberBundle\Entity\Ministry\Category[]
+     */
+    private function getMinistryCategories()
+    {
+        $em = $this->doctrine->getManager();
+
+        $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Category');
+        /* @var $repo \Ecgpb\MemberBundle\Repository\Ministry\CategoryRepository */
+        $categories = $repo->findAllForListing();
+
+        return $categories;
     }
 
     /**
@@ -564,7 +582,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             }
 
             $options->setImage($filenameOptimized);
-            
+
             if (!file_exists($filenameOptimized) || filemtime($filenameOriginal) > filemtime($filenameOptimized)) {
                 list($widthOriginal, $heightOriginal) = getimagesize($filenameOriginal);
                 $dpi = $widthOriginal / ($options->getMaxWidth() / 25.4);
