@@ -121,6 +121,15 @@
                      ng-show="isEditable(ministryCategory)">
                         <span class="glyphicon glyphicon-ban-circle"></span>
                     </button>
+                    <button type="button" class="btn btn-default btn-sm"
+                     nait-confirm-click
+                     confirm="{% trans %}Do you really want to remove this record?{% endtrans %}"
+                     confirm-if=""
+                     confirm-button-text="{% trans %}Yes{% endtrans %}"
+                     cancel-button-text="{% trans %}No{% endtrans %}"
+                     do="removeCategory(ministryCategory)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
                 </td>
             </tr>
         </tbody>
@@ -140,7 +149,7 @@
 
     <script type="text/javascript">
         // <![CDATA[
-        angular.module('app', ['ui.bootstrap'])
+        angular.module('app', ['ui.bootstrap', 'naitsirch.helpers'])
             .constant('ministryCategories', {{ categories_json | raw }})
             .constant('persons', {{ persons_json | raw }})
             .constant('groups', {{ groups_json | raw }})
@@ -161,6 +170,11 @@
                     var category = new MinistryCategory();
                     $scope.ministryCategories.push(category);
                     $scope.setEditable(category);
+                };
+
+                $scope.removeCategory = function (ministryCategory) {
+                    var index = $scope.ministryCategories.indexOf(ministryCategory);
+                    $scope.ministryCategories.splice(index, 1);
                 };
 
                 $scope.setEditable = function(ministryCategory) {
