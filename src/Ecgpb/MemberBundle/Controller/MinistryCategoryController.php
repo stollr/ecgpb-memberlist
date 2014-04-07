@@ -62,8 +62,22 @@ class MinistryCategoryController extends Controller
         $categories = $em->getRepository('EcgpbMemberBundle:Ministry\Category')->findAll();
         /* @var $categories Category[] */
 
-        // create and update entities
+        // get all ids of already existing categories
         $existingCategoryIds = array();
+        foreach ($clientMinistryCategories as $clientMinistryCategory) {
+            if (!empty($clientMinistryCategory['id'])) {
+                $existingCategoryIds[] = $clientMinistryCategory['id'];
+            }
+        }
+
+        // delete obsolete entities
+        foreach ($categories as $category) {
+            if (!in_array($category->getId(), $existingCategoryIds)) {
+                $em->remove($category);
+            }
+        }
+
+        // create and update entities
         foreach ($clientMinistryCategories as $clientMinistryCategory) {
             if (empty($clientMinistryCategory['id'])) {
                 $category = new Category();
@@ -84,13 +98,6 @@ class MinistryCategoryController extends Controller
                 $em->persist($category);
             } else {
                 return new Response('Invalid entity', 400, array('Content-Type' => 'application/json'));
-            }
-        }
-
-        // delete entities
-        foreach ($categories as $category) {
-            if (!in_array($category->getId(), $existingCategoryIds)) {
-                $em->remove($category);
             }
         }
 
