@@ -21,6 +21,7 @@ Ecgpb\MemberBundle\Entity\Ministry:
             joinColumn:
                 name: category_id
                 nullable: false
+                onDelete: CASCADE
     oneToMany:
         contactAssignments:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment

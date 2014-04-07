@@ -59,15 +59,11 @@ class MinistryCategoryController extends Controller
         $em = $this->getDoctrine()->getManager();
         $clientMinistryCategories = json_decode($request->getContent(), true);
 
-        $categories = $em->getRepository('EcgpbMemberBundle:Ministry\Category')->findBy(array(
-            'id' => array_map(function($element) {
-                return isset($element['id']) ? $element['id'] : 0;
-
-            },
-            $clientMinistryCategories
-        )));
+        $categories = $em->getRepository('EcgpbMemberBundle:Ministry\Category')->findAll();
         /* @var $categories Category[] */
 
+        // create and update entities
+        $existingCategoryIds = array();
         foreach ($clientMinistryCategories as $clientMinistryCategory) {
             if (empty($clientMinistryCategory['id'])) {
                 $category = new Category();
@@ -77,6 +73,7 @@ class MinistryCategoryController extends Controller
                     return $category->getId() == $clientMinistryCategory['id'];
                 });
                 $category = reset($filtered);
+                $existingCategoryIds[] = $clientMinistryCategory['id'];
             }
             $form = $this->createForm(new CategoryType(), $category, array(
                 'csrf_protection' => false,
@@ -90,14 +87,19 @@ class MinistryCategoryController extends Controller
             }
         }
 
+        // delete entities
+        foreach ($categories as $category) {
+            if (!in_array($category->getId(), $existingCategoryIds)) {
+                $em->remove($category);
+            }
+        }
+
         $em->flush();
 
         // response
         $serializer = $this->get('jms_serializer');
-        return new Response(
-            $serializer->serialize($categories, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing'))),
-            200,
-            array('Content-Type' => 'application/json')
-        );
+        $categoriesJson = $serializer->serialize($categories, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
+        
+        return new Response($categoriesJson, 200, array('Content-Type' => 'application/json'));
     }
 }
