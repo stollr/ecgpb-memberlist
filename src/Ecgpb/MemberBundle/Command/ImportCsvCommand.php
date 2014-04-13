@@ -36,6 +36,15 @@ class ImportCsvCommand extends ContainerAwareCommand
         }
 
         $em = $this->getContainer()->get('doctrine')->getManager(); /* @var $em \Doctrine\Common\Persistence\ObjectManager */
+
+        // load existing members
+        $existingPersons = array();
+        foreach ($em->getRepository('EcgpbMemberBundle:Person')->findAll() as $person) {
+            $index = $person->getLastnameAndFirstname() . ', ' . $person->getDob()->format('d.m.Y');
+            $existingPersons[$index] = $person;
+        }
+
+
         $headerRow = null;
         $addresses = array();
         $fp = fopen($filename, 'r');
@@ -53,7 +62,14 @@ class ImportCsvCommand extends ContainerAwareCommand
 
             $row = array_combine($headerRow, $row);
 
-            $person = new Person();
+            // check if user exists already
+            $index = trim($row['NAME']) . ', ' . trim($row['VORNAME']) . ', ' . trim($row['Geburtsdat.']);
+            if (isset($existingPersons[$index])) {
+                $person = $existingPersons[$index];
+            } else {
+                $person = new Person();
+            }
+            
             $person->setDob(new \DateTime(trim($row['Geburtsdat.'])));
             $person->setEmail(empty($row['EMAIL']) ? null : trim($row['EMAIL']));
             $person->setFirstname(trim($row['VORNAME']));
@@ -63,20 +79,26 @@ class ImportCsvCommand extends ContainerAwareCommand
 
             $addressKey = implode('|', array(trim($row['NAME']), trim($row['STRASSE']), trim($row['PLZ']), trim($row['Nummer'])));
 
-            if (isset($addresses[$addressKey])) {
-                $address = $addresses[$addressKey];
+            if ($person->getId()) {
+                $output->writeln('Updated ' . $index);
             } else {
-                $address = new Address();
-                $address->setCity(trim($row['ORT']));
-                $address->setFamilyName(trim($row['NAME']));
-                $address->setPhone(empty($row['Nummer']) ? null : trim($row['Nummer']));
-                $address->setStreet(trim($row['STRASSE']));
-                $address->setZip(trim($row['PLZ']));
-                $addresses[$addressKey] = $address;
-            }
+                if (isset($addresses[$addressKey])) {
+                    $address = $addresses[$addressKey];
+                } else {
+                    $address = new Address();
+                    $address->setCity(trim($row['ORT']));
+                    $address->setFamilyName(trim($row['NAME']));
+                    $address->setPhone(empty($row['Nummer']) ? null : trim($row['Nummer']));
+                    $address->setStreet(trim($row['STRASSE']));
+                    $address->setZip(trim($row['PLZ']));
+                    $addresses[$addressKey] = $address;
+                }
 
-            $address->addPerson($person);
-            $em->persist($address);
+                $address->addPerson($person);
+                $em->persist($address);
+
+                $output->writeln('Persisted ' . $index);
+            }
         }
 
         $em->flush();
