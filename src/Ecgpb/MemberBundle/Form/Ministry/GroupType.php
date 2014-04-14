@@ -21,6 +21,7 @@ class GroupType extends AbstractType
             ->add('persons', 'collection', array(
                 'type' => 'entity',
                 'label' => false,
+                'required' => false,
                 'prototype' => true,
                 'allow_add' => true,
                 'by_reference' => false,
@@ -31,6 +32,7 @@ class GroupType extends AbstractType
                     'label' => false,
                     'class' => 'Ecgpb\MemberBundle\Entity\Person',
                     'property' => 'lastnameAndFirstname',
+                    'required' => false,
                     'csrf_protection' => $options['csrf_protection'],
                 )
             ))
@@ -41,6 +43,10 @@ class GroupType extends AbstractType
             unset($data['id']);
             if (isset($data['persons']) && is_array($data['persons'])) {
                 foreach ($data['persons'] as $index => $person) {
+                    if (!$person) {
+                        unset($data['persons'][$index]);
+                        continue;
+                    }
                     $data['persons'][$index] = $person['id'];
                 }
             }
