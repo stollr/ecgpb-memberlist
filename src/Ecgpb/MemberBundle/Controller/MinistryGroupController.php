@@ -4,6 +4,7 @@ namespace Ecgpb\MemberBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use JMS\Serializer\SerializationContext;
@@ -51,48 +52,49 @@ class MinistryGroupController extends Controller
             throw new \InvalidArgumentException('Wrong content type provided. JSON is expected.');
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $clientMinistryGroups = json_decode($request->getContent(), true);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $clientMinistryGroups = json_decode($request->getContent(), true);
 
-        $groups = $em->getRepository('EcgpbMemberBundle:Ministry\Group')->findBy(array(
-            'id' => array_map(function($element) {
-                return isset($element['id']) ? $element['id'] : 0;
+            $groups = $em->getRepository('EcgpbMemberBundle:Ministry\Group')->findBy(array(
+                'id' => array_map(function($element) {
+                    return isset($element['id']) ? $element['id'] : 0;
 
-            },
-            $clientMinistryGroups
-        )));
-        /* @var $groups Group[] */
+                },
+                $clientMinistryGroups
+            )));
+            /* @var $groups Group[] */
 
-        foreach ($clientMinistryGroups as $clientMinistryGroup) {
-            if (empty($clientMinistryGroup['id'])) {
-                $group = new Group();
-                $groups[] = $group;
-            } else {
-                $filtered = array_filter($groups, function($group) use ($clientMinistryGroup) {
-                    return $group->getId() == $clientMinistryGroup['id'];
-                });
-                $group = reset($filtered);
+            foreach ($clientMinistryGroups as $clientMinistryGroup) {
+                if (empty($clientMinistryGroup['id'])) {
+                    $group = new Group();
+                    $groups[] = $group;
+                } else {
+                    $filtered = array_filter($groups, function($group) use ($clientMinistryGroup) {
+                        return $group->getId() == $clientMinistryGroup['id'];
+                    });
+                    $group = reset($filtered);
+                }
+                $form = $this->createForm(new GroupType(), $group, array(
+                    'csrf_protection' => false,
+                ));
+                $form->submit($clientMinistryGroup);
+
+                if ($form->isValid()) {
+                    $em->persist($group);
+                } else {
+                    return new Response('Invalid entity', 400, array('Content-Type' => 'application/json'));
+                }
             }
-            $form = $this->createForm(new GroupType(), $group, array(
-                'csrf_protection' => false,
-            ));
-            $form->submit($clientMinistryGroup);
 
-            if ($form->isValid()) {
-                $em->persist($group);
-            } else {
-                return new Response('Invalid entity', 400, array('Content-Type' => 'application/json'));
-            }
+            $em->flush();
+
+            // response
+            $serializer = $this->get('jms_serializer');
+            $json = $serializer->serialize($groups, 'json', SerializationContext::create()->setGroups(array('MinistryGroupListing')));
+            return new Response($json, 200, array('Content-Type' => 'application/json'));
+        } catch (\Exception $e) {
+            return new JsonResponse($e->getMessage(), 401);
         }
-
-        $em->flush();
-
-        // response
-        $serializer = $this->get('jms_serializer');
-        return new Response(
-            $serializer->serialize($groups, 'json', SerializationContext::create()->setGroups(array('MinistryGroupListing'))),
-            200,
-            array('Content-Type' => 'application/json')
-        );
     }
 }
