@@ -67,3 +67,51 @@ angular.module('naitsirch.helpers').directive('naitConfirmClick', function($moda
         }
     };
 });
+
+/**
+ * This directive can be used to improve performance, by stop applying model changes
+ * after each key-up/down/whatever.
+ *
+ * This is an iprovement of a code snippet taken from stackoverflow.com
+ * @see http://stackoverflow.com/a/11870341/1119601 by Gloopy
+ */
+angular.module('naitsirch.helpers').directive('naitModelUpdate', function() {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        priority: 2, // must be grater than ngModel's priority, which is '0'
+        link: function(scope, element, attr, ngModelCtrl) {
+            if (attr.type === 'radio' || attr.type === 'checkbox') {
+                return;
+            }
+
+            try {
+                element.unbind('input');
+            } catch (e) { }
+            element.unbind('keydown').unbind('keyup').unbind('change');
+
+            var timeout = null;
+
+            element.bind('keyup', function() {
+                if (timeout) {
+                    window.clearTimeout(timeout);
+                }
+                timeout = window.setTimeout(function() {
+                    scope.$apply(function() {
+                        ngModelCtrl.$setViewValue(element.val());
+                    });
+                }, 500);
+            });
+
+            element.bind('blur', function() {
+                if (timeout) {
+                    window.clearTimeout(timeout);
+                    timeout = null;
+                }
+                scope.$apply(function() {
+                    ngModelCtrl.$setViewValue(element.val());
+                });
+            });
+        }
+    };
+});
