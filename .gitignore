@@ -3,7 +3,7 @@
 /app/cache/*
 /app/config/parameters.yml
 /app/data/member_photos/*
-/app/data/database.sqlite
+/app/data/database.sqlite*
 /app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
