@@ -54,6 +54,10 @@
                 <source>Category [Ministry]</source>
                 <target>Dienstbereich</target>
             </trans-unit>
+            <trans-unit id="Category [Ministry] [PDF]">
+                <source>Category [Ministry] [PDF]</source>
+                <target>Dienst- bereich</target>
+            </trans-unit>
             <trans-unit id="City">
                 <source>City</source>
                 <target>Stadt</target>
@@ -234,6 +238,14 @@
                 <source>Remove</source>
                 <target>Entfernen</target>
             </trans-unit>
+            <trans-unit id="Responsible Elders / Deacons">
+                <source>Responsible Elders / Deacons</source>
+                <target>Verantwortliche Älteste / Diakone</target>
+            </trans-unit>
+            <trans-unit id="Responsible Persons">
+                <source>Responsible Persons</source>
+                <target>Verantwortliche Personen</target>
+            </trans-unit>
             <trans-unit id="Save">
                 <source>Save</source>
                 <target>Speichern</target>
@@ -260,6 +272,10 @@
             </trans-unit>
             <trans-unit id="Subcategory [Ministry]">
                 <source>Subcategory [Ministry]</source>
+                <target>Unterbereich</target>
+            </trans-unit>
+            <trans-unit id="Subcategory [Ministry] [PDF]">
+                <source>Subcategory [Ministry] [PDF]</source>
                 <target>Unterbereich</target>
             </trans-unit>
             <trans-unit id="Tasks">

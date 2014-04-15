@@ -6,8 +6,16 @@
                 <source>Category [Ministry]</source>
                 <target>Ministry Category</target>
             </trans-unit>
+            <trans-unit id="Category [Ministry] [PDF]">
+                <source>Category [Ministry] [PDF]</source>
+                <target>Ministry Category</target>
+            </trans-unit>
             <trans-unit id="Subcategory [Ministry]">
                 <source>Subcategory [Ministry]</source>
+                <target>Subcategory</target>
+            </trans-unit>
+            <trans-unit id="Subcategory [Ministry] [PDF]">
+                <source>Subcategory [Ministry] [PDF]</source>
                 <target>Subcategory</target>
             </trans-unit>
         </body>

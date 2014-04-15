@@ -507,6 +507,175 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
     private function addMinistryCategories(\TCPDF $pdf)
     {
+        $categories = $this->getMinistryCategories();
+
+        $table = null;
+        $totalHeight = 0;
+        foreach ($categories as $index => $category) {
+            // calculate address row height and check if category fitts on this page
+            $categoryRowHeight = 0;
+//            foreach ($category->getMinistries() as $ministry) {
+//                $ministryRowHeight = 0;
+//                if ($ministry->getPhone2Label()) {
+//                    $lineBreaks = substr_count($ministry->getPhone2Label(), "\n");
+//                    $ministryRowHeight += $lineBreaks > 0 ? $lineBreaks * 4 : 4;
+//                }
+//                if ($ministry->getPhone2()) {
+//                    $ministryRowHeight += 4;
+//                }
+//                if ($ministry->getMobile()) {
+//                    $ministryRowHeight += 4;
+//                }
+//                if ($ministry->getEmail()) {
+//                    $ministryRowHeight += 4;
+//                }
+//                $categoryRowHeight += $ministryRowHeight < self::GRID_ROW_MIN_HEIGHT ? self::GRID_ROW_MIN_HEIGHT : $ministryRowHeight;
+//            }
+            if (count($category->getMinistries()) == 1) {
+                $categoryRowHeight += self::GRID_ROW_MIN_HEIGHT;
+            }
+            $totalHeight += $categoryRowHeight;
+
+            // end current page and start a new page
+            if ($totalHeight > 185 || 0 == $index) {
+                if ($index > 0) {
+                    $table->end();
+                }
+                $totalHeight = $categoryRowHeight;
+
+                $pdf->AddPage();
+                $table = $this->addTable($pdf);
+                $table
+                    ->setFontSize(self::FONT_SIZE_S - 0.5)
+                    ->newRow()
+                        ->newCell()
+                            ->setText($this->translator->trans('Category [Ministry] [PDF]'))
+                            ->setAlign('C')
+                            ->setVerticalAlign('middle')
+                            ->setBorder(1)
+                            ->setPadding(0.5)
+                            ->setWidth(22)
+                            ->setFontWeight('bold')
+                        ->end()
+                        ->newCell()
+                            ->setText($this->translator->trans('Subcategory [Ministry] [PDF]'))
+                            ->setAlign('C')
+                            ->setVerticalAlign('middle')
+                            ->setBorder(1)
+                            ->setPadding(0.5)
+                            ->setWidth(25)
+                            ->setFontWeight('bold')
+                        ->end()
+                        ->newCell()
+                            ->setText($this->translator->trans('Tasks'))
+                            ->setAlign('L')
+                            ->setVerticalAlign('middle')
+                            ->setBorder(1)
+                            ->setPadding(0.5)
+                            ->setWidth(40)
+                            ->setFontWeight('bold')
+                        ->end()
+                        ->newCell()
+                            ->setText($this->translator->trans('Responsible Persons'))
+                            ->setAlign('C')
+                            ->setVerticalAlign('middle')
+                            ->setBorder(1)
+                            ->setPadding(0.5)
+                            ->setWidth(22)
+                            ->setFontWeight('bold')
+                        ->end()
+                        ->newCell()
+                            ->setText($this->translator->trans('Responsible Elders / Deacons'))
+                            ->setAlign('C')
+                            ->setVerticalAlign('middle')
+                            ->setBorder(1)
+                            ->setPadding(0.5)
+                            ->setWidth(22)
+                            ->setFontWeight('bold')
+                        ->end()
+                    ->end()
+                ;
+            }
+
+            $row = $table->newRow();
+            $row->newCell()
+                    ->setText($category->getName())
+                    ->setRowspan(count($category->getMinistries()))
+                    ->setAlign('C')
+                    ->setVerticalAlign('middle')
+                    ->setBorder(1)
+                    ->setFontSize(self::FONT_SIZE_S)
+                    ->setPadding(0.5, 0.5, 0, 0.5)
+                ->end()
+            ;
+
+            // add rows and cells to table
+            foreach ($category->getMinistries() as $index => $ministry) {
+                /* @var $ministry \Ecgpb\MemberBundle\Entity\Ministry */
+                $contacts = array();
+                foreach ($ministry->getContactAssignments() as $contactAssignment) {
+                    if ($contactAssignment->getPerson()) {
+                        $contacts[] = $contactAssignment->getPerson()->getFirstname() . ' ' . $contactAssignment->getPerson()->getAddress()->getFamilyName();
+                    } else if ($contactAssignment->getGroup()) {
+                        $contacts[] = $contactAssignment->getGroup()->getName();
+                    }
+                }
+                $responsibles = array();
+                foreach ($ministry->getResponsibleAssignments() as $responsibleAssignment) {
+                    if ($responsibleAssignment->getPerson()) {
+                        $responsibles[] = $responsibleAssignment->getPerson()->getFirstname() . ' ' . $responsibleAssignment->getPerson()->getAddress()->getFamilyName();
+                    } else if ($responsibleAssignment->getGroup()) {
+                        $responsibles[] = $responsibleAssignment->getGroup()->getName();
+                    }
+                }
+                $row
+                    ->newCell()
+                        ->setText($ministry->getName())
+                        ->setAlign('C')
+                        ->setVerticalAlign('middle')
+                        ->setBorder(1)
+                        ->setFontSize(self::FONT_SIZE_S)
+                        ->setPadding(0.5)
+                    ->end()
+                    ->newCell()
+                        ->setText($ministry->getDescription())
+                        ->setAlign('L')
+                        ->setVerticalAlign('middle')
+                        ->setBorder(1)
+                        ->setFontSize(self::FONT_SIZE_XS)
+                        ->setFontWeight('normal')
+                        ->setPadding(0.5)
+                    ->end()
+                    ->newCell()
+                        ->setText(implode("\n", $contacts))
+                        ->setAlign('C')
+                        ->setVerticalAlign('middle')
+                        ->setBorder(1)
+                        ->setFontSize(self::FONT_SIZE_S)
+                        ->setFontWeight('normal')
+                        ->setPadding(0.5)
+                    ->end()
+                    ->newCell()
+                        ->setText(implode("\n", $responsibles))
+                        ->setAlign('C')
+                        ->setVerticalAlign('middle')
+                        ->setBorder(1)
+                        ->setFontSize(self::FONT_SIZE_S)
+                        ->setFontWeight('normal')
+                        ->setPadding(0.5)
+                    ->end()
+                ;
+                $row->end();
+
+                if ($index < count($category->getMinistries()) - 1) {
+                    $row = $table->newRow();
+                }
+            }
+        }
+
+        if ($table) {
+            $table->end();
+        }
     }
 
     /**
