@@ -38,6 +38,13 @@ class CategoryType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
             $data = $event->getData();
             unset($data['id']);
+            if (isset($data['ministries']) && is_array($data['ministries'])) {
+                foreach ($data['ministries'] as $index => $ministryData) {
+                    if (empty($ministryData['name'])) {
+                        unset($data['ministries'][$index]);
+                    }
+                }
+            }
             $event->setData($data);
         });
     }
