@@ -57,11 +57,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $pdf->SetFont('dejavusans', '', 10);
 
-//        $this->addCover($pdf);
-//        $this->addPage1($pdf);
-//        $this->addPage2($pdf);
-//        $this->addAddressPages($pdf);
-//        $this->addWorkingGroups($pdf);
+        $this->addCover($pdf);
+        $this->addPage1($pdf);
+        $this->addPage2($pdf);
+        $this->addAddressPages($pdf);
+        $this->addWorkingGroups($pdf);
         $this->addMinistryCategories($pdf);
 
         return $pdf->Output(null, 'S');
