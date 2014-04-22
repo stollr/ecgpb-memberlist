@@ -242,9 +242,17 @@
                 <source>Responsible Elders / Deacons</source>
                 <target>Verantwortliche Älteste / Diakone</target>
             </trans-unit>
+            <trans-unit id="Responsible Elders / Deacons [PDF]">
+                <source>Responsible Elders / Deacons [PDF]</source>
+                <target>Verantw. Älteste / Diakone</target>
+            </trans-unit>
             <trans-unit id="Responsible Persons">
                 <source>Responsible Persons</source>
                 <target>Verantwortliche Personen</target>
+            </trans-unit>
+            <trans-unit id="Responsible Persons [PDF]">
+                <source>Responsible Persons [PDF]</source>
+                <target>Verant- wortliche Personen</target>
             </trans-unit>
             <trans-unit id="Save">
                 <source>Save</source>

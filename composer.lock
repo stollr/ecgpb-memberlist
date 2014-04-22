@@ -1138,16 +1138,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "392ef35fd470638e08d0160d6b1cbab63cb23174"
+                "reference": "1afc39690e7414412face1f8cbf67b73db34485c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/392ef35fd470638e08d0160d6b1cbab63cb23174",
-                "reference": "392ef35fd470638e08d0160d6b1cbab63cb23174",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1afc39690e7414412face1f8cbf67b73db34485c",
+                "reference": "1afc39690e7414412face1f8cbf67b73db34485c",
                 "shasum": ""
             },
             "require": {
@@ -1175,7 +1175,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8.x-dev"
+                    "dev-master": "1.9.x-dev"
                 }
             },
             "autoload": {
@@ -1202,7 +1202,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-03-23 19:50:26"
+            "time": "2014-04-20 16:41:26"
         },
         {
             "name": "mopa/bootstrap-bundle",
@@ -1327,12 +1327,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/naitsirch/tcpdf-extension.git",
-                "reference": "ddd930c31529aa6a37fe8ae83e2a08b61df42d10"
+                "reference": "5f6e1dec01e666590a163b9264bd746904673d86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/naitsirch/tcpdf-extension/zipball/ddd930c31529aa6a37fe8ae83e2a08b61df42d10",
-                "reference": "ddd930c31529aa6a37fe8ae83e2a08b61df42d10",
+                "url": "https://api.github.com/repos/naitsirch/tcpdf-extension/zipball/5f6e1dec01e666590a163b9264bd746904673d86",
+                "reference": "5f6e1dec01e666590a163b9264bd746904673d86",
                 "shasum": ""
             },
             "require": {
@@ -1340,11 +1340,6 @@
                 "tecnick.com/tcpdf": "dev-master"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "master-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
                     "Tcpdf\\Extension\\": "src/"
@@ -1356,11 +1351,11 @@
             ],
             "authors": [
                 {
-                    "name": "Christian S.",
+                    "name": "naitsirch",
                     "email": "login.naitsirch@arcor.de"
                 }
             ],
-            "description": "This repository contains a library which extends the TCPDF library for example with smart tables in an OOP style.",
+            "description": "This library extends the TCPDF library for example with a smart API for creating tables.",
             "homepage": "https://github.com/naitsirch/tcpdf-extension",
             "keywords": [
                 "TCPDF",
@@ -1368,7 +1363,7 @@
                 "pdf",
                 "php"
             ],
-            "time": "2014-01-10 14:06:34"
+            "time": "2014-04-19 17:25:15"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -2058,7 +2053,7 @@
             "source": {
                 "type": "git",
                 "url": "git://git.code.sf.net/p/tcpdf/code",
-                "reference": "ce07b409874a7ac0567b3401c765febef9efb413"
+                "reference": "0eb0152409e05e1481cfbebd5976061df1f638c4"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -2107,7 +2102,7 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2014-04-10 16:47:45"
+            "time": "2014-04-20 14:24:26"
         },
         {
             "name": "twbs/bootstrap",
@@ -2115,18 +2110,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "ee7498a69366c516ccba01ca7c977fb83ea23a7b"
+                "reference": "d971ddb730c5577bd533e7c598e2990c128b1265"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/ee7498a69366c516ccba01ca7c977fb83ea23a7b",
-                "reference": "ee7498a69366c516ccba01ca7c977fb83ea23a7b",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/d971ddb730c5577bd533e7c598e2990c128b1265",
+                "reference": "d971ddb730c5577bd533e7c598e2990c128b1265",
                 "shasum": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.x-dev"
+                    "dev-master": "3.1.x-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2155,7 +2150,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-04-09 19:07:27"
+            "time": "2014-04-20 23:33:23"
         },
         {
             "name": "twig/extensions",

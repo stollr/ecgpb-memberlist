@@ -4,6 +4,7 @@ namespace Ecgpb\MemberBundle\PdfGenerator;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Tcpdf\Extension\Table\Table;
 use Ecgpb\MemberBundle\Entity\Person;
 use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
 use Ecgpb\MemberBundle\Helper\PersonHelper;
@@ -56,11 +57,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $pdf->SetFont('dejavusans', '', 10);
 
-        $this->addCover($pdf);
-        $this->addPage1($pdf);
-        $this->addPage2($pdf);
-        $this->addAddressPages($pdf);
-        $this->addWorkingGroups($pdf);
+//        $this->addCover($pdf);
+//        $this->addPage1($pdf);
+//        $this->addPage2($pdf);
+//        $this->addAddressPages($pdf);
+//        $this->addWorkingGroups($pdf);
         $this->addMinistryCategories($pdf);
 
         return $pdf->Output(null, 'S');
@@ -509,94 +510,70 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     {
         $categories = $this->getMinistryCategories();
 
-        $table = null;
-        $totalHeight = 0;
-        foreach ($categories as $index => $category) {
-            // calculate address row height and check if category fitts on this page
-            $categoryRowHeight = 0;
-//            foreach ($category->getMinistries() as $ministry) {
-//                $ministryRowHeight = 0;
-//                if ($ministry->getPhone2Label()) {
-//                    $lineBreaks = substr_count($ministry->getPhone2Label(), "\n");
-//                    $ministryRowHeight += $lineBreaks > 0 ? $lineBreaks * 4 : 4;
-//                }
-//                if ($ministry->getPhone2()) {
-//                    $ministryRowHeight += 4;
-//                }
-//                if ($ministry->getMobile()) {
-//                    $ministryRowHeight += 4;
-//                }
-//                if ($ministry->getEmail()) {
-//                    $ministryRowHeight += 4;
-//                }
-//                $categoryRowHeight += $ministryRowHeight < self::GRID_ROW_MIN_HEIGHT ? self::GRID_ROW_MIN_HEIGHT : $ministryRowHeight;
-//            }
-            if (count($category->getMinistries()) == 1) {
-                $categoryRowHeight += self::GRID_ROW_MIN_HEIGHT;
-            }
-            $totalHeight += $categoryRowHeight;
+        if (count($categories) == 0) {
+            return;
+        }
 
-            // end current page and start a new page
-            if ($totalHeight > 185 || 0 == $index) {
-                if ($index > 0) {
-                    $table->end();
-                }
-                $totalHeight = $categoryRowHeight;
+        $pdf->AddPage();
 
-                $pdf->AddPage();
-                $table = $this->addTable($pdf);
-                $table
-                    ->setFontSize(self::FONT_SIZE_S - 0.5)
-                    ->newRow()
-                        ->newCell()
-                            ->setText($this->translator->trans('Category [Ministry] [PDF]'))
-                            ->setAlign('C')
-                            ->setVerticalAlign('middle')
-                            ->setBorder(1)
-                            ->setPadding(0.5)
-                            ->setWidth(22)
-                            ->setFontWeight('bold')
-                        ->end()
-                        ->newCell()
-                            ->setText($this->translator->trans('Subcategory [Ministry] [PDF]'))
-                            ->setAlign('C')
-                            ->setVerticalAlign('middle')
-                            ->setBorder(1)
-                            ->setPadding(0.5)
-                            ->setWidth(25)
-                            ->setFontWeight('bold')
-                        ->end()
-                        ->newCell()
-                            ->setText($this->translator->trans('Tasks'))
-                            ->setAlign('L')
-                            ->setVerticalAlign('middle')
-                            ->setBorder(1)
-                            ->setPadding(0.5)
-                            ->setWidth(40)
-                            ->setFontWeight('bold')
-                        ->end()
-                        ->newCell()
-                            ->setText($this->translator->trans('Responsible Persons'))
-                            ->setAlign('C')
-                            ->setVerticalAlign('middle')
-                            ->setBorder(1)
-                            ->setPadding(0.5)
-                            ->setWidth(22)
-                            ->setFontWeight('bold')
-                        ->end()
-                        ->newCell()
-                            ->setText($this->translator->trans('Responsible Elders / Deacons'))
-                            ->setAlign('C')
-                            ->setVerticalAlign('middle')
-                            ->setBorder(1)
-                            ->setPadding(0.5)
-                            ->setWidth(22)
-                            ->setFontWeight('bold')
-                        ->end()
+        $drawHeaderCallback = function(Table $table) {
+            $table->setFontSize(self::FONT_SIZE_S - 0.5)
+                ->newRow()
+                    ->newCell()
+                        ->setText($this->translator->trans('Category [Ministry] [PDF]'))
+                        ->setAlign('C')
+                        ->setVerticalAlign('middle')
+                        ->setBorder(1)
+                        ->setPadding(0.5)
+                        ->setWidth(22)
+                        ->setFontWeight('bold')
                     ->end()
-                ;
-            }
+                    ->newCell()
+                        ->setText($this->translator->trans('Subcategory [Ministry] [PDF]'))
+                        ->setAlign('C')
+                        ->setVerticalAlign('middle')
+                        ->setBorder(1)
+                        ->setPadding(0.5)
+                        ->setWidth(25)
+                        ->setFontWeight('bold')
+                    ->end()
+                    ->newCell()
+                        ->setText($this->translator->trans('Tasks'))
+                        ->setAlign('L')
+                        ->setVerticalAlign('middle')
+                        ->setBorder(1)
+                        ->setPadding(0.5)
+                        ->setWidth(40)
+                        ->setFontWeight('bold')
+                    ->end()
+                    ->newCell()
+                        ->setText($this->translator->trans('Responsible Persons [PDF]'))
+                        ->setAlign('C')
+                        ->setVerticalAlign('middle')
+                        ->setBorder(1)
+                        ->setPadding(0.5)
+                        ->setWidth(22)
+                        ->setFontWeight('bold')
+                    ->end()
+                    ->newCell()
+                        ->setText($this->translator->trans('Responsible Elders / Deacons [PDF]'))
+                        ->setAlign('C')
+                        ->setVerticalAlign('middle')
+                        ->setBorder(1)
+                        ->setPadding(0.5)
+                        ->setWidth(22)
+                        ->setFontWeight('bold')
+                    ->end()
+                ->end()
+            ;
+        };
 
+        $table = $this->addTable($pdf);
+
+        $drawHeaderCallback($table);
+        $table->setPageBreakCallback($drawHeaderCallback);
+
+        foreach ($categories as $index => $category) {
             $row = $table->newRow();
             $row->newCell()
                     ->setText($category->getName())
@@ -673,9 +650,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             }
         }
 
-        if ($table) {
-            $table->end();
-        }
+        $table->end();
     }
 
     /**
