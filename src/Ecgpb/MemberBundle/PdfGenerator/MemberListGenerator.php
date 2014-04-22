@@ -132,7 +132,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $pdf->SetY($pdf->GetY() + 10);
         $this->useFontWeightBold($pdf);
-        $this->writeText($pdf, 'Stand: 01.01.' . date('Y'));
+        $this->writeText($pdf, 'Stand: 01.' . date('m.Y'));
         $this->useFontWeightNormal($pdf);
 
         $pdf->SetY(190);
@@ -228,7 +228,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->SetY($pdf->GetY() + 10);
         $this->useFontSizeXL($pdf);
         $this->useFontWeightBold($pdf);
-        $this->writeText($pdf, 'Mitgliederstand am 01.01.' . date('Y'));
+        $this->writeText($pdf, 'Mitgliederstand am 01.' . date('m.Y'));
         $pdf->SetY($pdf->GetY() + 5);
         $this->useFontWeightNormal($pdf);
         $this->useFontSizeL($pdf);
@@ -611,7 +611,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setAlign('C')
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S)
+                        ->setFontSize(self::FONT_SIZE_S - 0.5)
                         ->setPadding(0.5)
                     ->end()
                     ->newCell()
@@ -624,20 +624,20 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setPadding(0.5)
                     ->end()
                     ->newCell()
-                        ->setText(implode("\n", $contacts))
+                        ->setText(implode(",\n", $contacts))
                         ->setAlign('C')
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S)
+                        ->setFontSize(self::FONT_SIZE_S - 0.5)
                         ->setFontWeight('normal')
                         ->setPadding(0.5)
                     ->end()
                     ->newCell()
-                        ->setText(implode("\n", $responsibles))
+                        ->setText(implode(",\n", $responsibles))
                         ->setAlign('C')
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S)
+                        ->setFontSize(self::FONT_SIZE_S - 0.5)
                         ->setFontWeight('normal')
                         ->setPadding(0.5)
                     ->end()
