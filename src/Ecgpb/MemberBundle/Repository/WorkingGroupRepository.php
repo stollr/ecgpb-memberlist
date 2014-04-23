@@ -15,7 +15,7 @@ class WorkingGroupRepository extends EntityRepository
     {
         return $this->createQueryBuilder('workingGroup')
             ->select('workingGroup', 'person')
-            ->join('workingGroup.persons', 'person')
+            ->leftJoin('workingGroup.persons', 'person')
             ->orderBy('workingGroup.gender')
             ->addOrderBy('workingGroup.number')
             ->getQuery()
