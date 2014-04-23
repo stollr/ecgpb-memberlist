@@ -23,6 +23,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>{% trans %}Pos.{% endtrans %}</th>
                 <th class="col-md-2">{% trans %}Bereich{% endtrans %}</th>
                 <th class="col-md-2">{% trans %}Unterbereich{% endtrans %}</th>
                 <th class="col-md-2">{% trans %}Tasks{% endtrans %}</th>
@@ -31,8 +32,13 @@
                 <th class="col-md-1 text-center">{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
-        <tbody ng-repeat="ministryCategory in ministryCategories">
+        <tbody ng-repeat="ministryCategory in ministryCategories | orderBy:['position', 'id']: false"
+               ng-init="$ministryCategoryIndex = $index">
             <tr ng-repeat="ministry in ministryCategory.ministries">
+                <td rowspan="{{ '{{ ministryCategory.ministries.length }}' }}" ng-if="$first">
+                    <input type="number" ng-model="ministryCategory.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
+                    <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministryCategory.position }}' }}</span>
+                </td>
                 <td rowspan="{{ '{{ ministryCategory.ministries.length }}' }}" ng-if="$first">
                     <input type="text" ng-model="ministryCategory.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministryCategory.name }}' }}</span>
@@ -167,7 +173,7 @@
                 $scope.backupCategory = null;
 
                 $scope.addCategory = function() {
-                    var category = new MinistryCategory();
+                    var category = new MinistryCategory({position: $scope.ministryCategories.length});
                     $scope.ministryCategories.push(category);
                     $scope.setEditable(category);
                 };
@@ -217,9 +223,10 @@
             })
             .factory('MinistryCategory', function(Ministry) {
                 var MinistryCategory = function(properties) {
-                    this.id = properties ? properties.id : null;
-                    this.name = properties ? properties.name : '';
-                    this.ministries = properties
+                    this.id = properties && properties.id ? properties.id : null;
+                    this.name = properties && properties.name ? properties.name : '';
+                    this.position = properties && properties.position ? properties.position : 0;
+                    this.ministries = properties && properties.ministries
                         ? properties.ministries.map(function(value) { return new Ministry(value); })
                         : [new Ministry()]
                     ;

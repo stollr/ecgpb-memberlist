@@ -33,6 +33,9 @@ class CategoryType extends AbstractType
                     'csrf_protection' => $options['csrf_protection'],
                 )
             ))
+            ->add('position', 'integer', array(
+                'required' => false,
+            ))
         ;
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
