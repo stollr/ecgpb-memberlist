@@ -26,6 +26,8 @@ class CategoryRepository extends EntityRepository
             ->leftJoin('ministry.responsibleAssignments', 'responsibleAssignment')
             ->leftJoin('responsibleAssignment.person', 'responsiblePerson')
             ->leftJoin('responsibleAssignment.group', 'responsibleGroup')
+            ->orderBy('category.position', 'asc')
+            ->addOrderBy('category.name', 'asc')
             ->getQuery()
             ->getResult()
         ;
