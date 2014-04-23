@@ -103,6 +103,16 @@ class Person
         return ($this->getLastname() ?: $this->getAddress()->getFamilyName()) . ', ' . $this->getFirstname();
     }
 
+    public function getLastnameFirstnameAndDob()
+    {
+        return sprintf(
+            '%s, %s (%d)',
+            $this->getLastname() ?: $this->getAddress()->getFamilyName(),
+            $this->getFirstname(),
+            $this->getDob()->format('Y')
+        );
+    }
+
     /**
      * Set firstname
      *

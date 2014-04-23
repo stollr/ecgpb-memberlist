@@ -39,7 +39,7 @@ class WorkingGroupType extends AbstractType
             $builder
                 ->add('leader', 'entity', array(
                     'class' => 'Ecgpb\MemberBundle\Entity\Person',
-                    'property' => 'lastnameAndFirstname',
+                    'property' => 'lastnameFirstnameAndDob',
                     'required' => false,
                     'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
                         return $repo->createQueryBuilder('person')
@@ -64,7 +64,7 @@ class WorkingGroupType extends AbstractType
                     'options' => array(
                         'label' => false,
                         'class' => 'Ecgpb\MemberBundle\Entity\Person',
-                        'property' => 'lastnameAndFirstname',
+                        'property' => 'lastnameFirstnameAndDob',
                         'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
                             return $repo->createQueryBuilder('person')
                                 ->select('person')
