@@ -5,6 +5,7 @@ namespace Ecgpb\MemberBundle\PdfGenerator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Tcpdf\Extension\Table\Table;
+use Tcpdf\Extension\Helper;
 use Ecgpb\MemberBundle\Entity\Person;
 use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
 use Ecgpb\MemberBundle\Helper\PersonHelper;
@@ -63,6 +64,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addAddressPages($pdf);
         $this->addWorkingGroups($pdf);
         $this->addMinistryCategories($pdf);
+        $this->addPersonalNotes($pdf);
 
         return $pdf->Output(null, 'S');
     }
@@ -655,6 +657,27 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         }
 
         $table->end();
+    }
+
+    private function addPersonalNotes(\TCPDF $pdf)
+    {
+        $margins = $pdf->getMargins();
+        $pageWidth = $pdf->getPageWidth();
+        
+        for ($i = 0; $i < 2; $i++) {
+            $pdf->AddPage();
+
+            $this->useFontSizeXL($pdf);
+            $this->useFontWeightBold($pdf);
+            //$this->writeText($pdf, 'Persönliche Notizen');
+            $pdf->Write(10, 'Persönliche Notizen', false, false, 'C', 1);
+            $pdf->SetY($pdf->GetY() + 2);
+
+            while (Helper::getRemainingYPageSpace($pdf, $pdf->getPage(), $pdf->GetY()) > 12) {
+                $pdf->SetY($y = $pdf->GetY() + 6);
+                $pdf->Line($margins['left'], $y, $pageWidth - $margins['right'], $y);
+            }
+        }
     }
 
     /**
