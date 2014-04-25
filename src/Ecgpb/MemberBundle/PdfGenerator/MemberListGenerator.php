@@ -450,6 +450,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             $pdf->AddPage();
         }
 
+        $t = 0;
         foreach ($groupTypes as $gender => $groups) {
             $topY = 0;
             foreach ($groups as $index => $group) {
@@ -502,7 +503,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     $nextY = $pdf->GetY() + 10;
                 }
             }
-            $pdf->AddPage();
+            $t++;
+            if ($t < count($groupTypes)) {
+                $pdf->AddPage();
+            }
         }
     }
 
