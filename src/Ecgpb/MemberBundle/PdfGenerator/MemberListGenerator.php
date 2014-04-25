@@ -65,6 +65,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addWorkingGroups($pdf);
         $this->addMinistryCategories($pdf);
         $this->addPersonalNotes($pdf);
+        $this->addLastPage($pdf);
 
         return $pdf->Output(null, 'S');
     }
@@ -678,6 +679,31 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 $pdf->Line($margins['left'], $y, $pageWidth - $margins['right'], $y);
             }
         }
+    }
+
+    public function addLastPage(\TCPDF $pdf)
+    {
+        $pdf->AddPage();
+
+        $pdf->SetY(150);
+
+        $this->useFontSizeL($pdf);
+        $this->useFontWeightBold($pdf);
+        $this->writeText($pdf, 'Herausgeber:');
+
+        $this->useFontWeightNormal($pdf);
+        $this->writeText($pdf, $this->parameters['ecgpb.contact.name']);
+        $this->writeText($pdf, $this->parameters['ecgpb.contact.street']);
+        $this->writeText($pdf, $this->parameters['ecgpb.contact.zip'] . ' '. $this->parameters['ecgpb.contact.city']);
+        $pdf->SetFont('', 'U');
+        $this->writeText($pdf, 'www.ecgpb.de');
+
+        $pdf->SetY($pdf->GetY() + 6);
+        $this->useFontWeightBold($pdf);
+        $this->writeText($pdf, 'Nur für den privaten Gebrauch! Die Weitergabe von '
+            . 'Daten an Drittpersonen ist aus Gründen des Datenschutzes nicht '
+            . 'erlaubt!'
+        );
     }
 
     /**
