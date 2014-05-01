@@ -123,13 +123,13 @@ ecgpb.member.ministry_group.update:
     requirements:
         _format: json
 
-# print actions
+# export actions
 
-ecgpb.member.print.html:
-    pattern:  /print/html
-    defaults: { _controller: "EcgpbMemberBundle:Print:html", _locale: de }
+ecgpb.member.export.pdf:
+    pattern:  /export/pdf
+    defaults: { _controller: "EcgpbMemberBundle:Export:pdf", _locale: de }
 
-ecgpb.member.print.pdf:
-    pattern:  /print/pdf
-    defaults: { _controller: "EcgpbMemberBundle:Print:pdf", _locale: de }
+ecgpb.member.export.birthday_excel_xml:
+    pattern:  /export/birthday_excel_xml
+    defaults: { _controller: "EcgpbMemberBundle:Export:birthdayExcelXml", _locale: de }
     

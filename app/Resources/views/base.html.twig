@@ -59,9 +59,22 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="{{ path('ecgpb.member.print.pdf') }}">
-                                        {% trans %}Print{% endtrans %}
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        {% trans %}Export{% endtrans %}
+                                        <b class="caret"></b>
                                     </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ path('ecgpb.member.export.pdf') }}">
+                                                {% trans %}Member List PDF{% endtrans %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('ecgpb.member.export.birthday_excel_xml') }}">
+                                                {% trans %}Birthday List (Excel XML){% endtrans %}
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </div><!-- /.navbar-collapse -->

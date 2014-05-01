@@ -41,4 +41,13 @@ class PersonRepository extends EntityRepository
         ;
         return $qb->getQuery()->getResult();
     }
+
+    public function findAllForBirthdayList()
+    {
+        $qb = $this->createQueryBuilder('person')
+            ->select('person', 'address')
+            ->join('person.address', 'address')
+        ;
+        return $qb->getQuery()->getResult();
+    }
 }
