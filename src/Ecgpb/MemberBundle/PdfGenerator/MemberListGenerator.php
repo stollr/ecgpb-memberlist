@@ -231,10 +231,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             ->end()
         ;
 
-        $pdf->SetLineWidth(0.25);
-        $pdf->SetY($pdf->GetY() + 5);
-        $pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->getPageWidth() - $pdf->GetX(), $pdf->GetY());
-
         $this->addParagraphMargin($pdf);
         $this->useFontSizeXL($pdf);
         $this->useFontWeightBold($pdf);
