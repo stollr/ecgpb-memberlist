@@ -351,28 +351,44 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 /* @var $person \Ecgpb\MemberBundle\Entity\Person */
                 $row = $table->newRow();
                 if (0 == $index) {
-                    $usualSize = strlen($address->getFamilyName()) < 18 && strlen($address->getPhone()) < 18;
+                    if (strlen($address->getFamilyName()) < 15 && strlen($address->getPhone()) < 15) {
+                        $fontSize = self::FONT_SIZE_S + 1;
+                    } else if (strlen($address->getFamilyName()) < 18 && strlen($address->getPhone()) < 18) {
+                        $fontSize = self::FONT_SIZE_S + 0.75;
+                    } else if (strlen($address->getFamilyName()) < 21 && strlen($address->getPhone()) < 21) {
+                        $fontSize = self::FONT_SIZE_S + 0.5;
+                    } else {
+                        $fontSize = self::FONT_SIZE_S;
+                    }
                     $row->newCell()
                             ->setText($address->getFamilyName() . "\n" . $address->getPhone())
                             ->setBorder('LTR')
-                            ->setFontSize($usualSize ? self::FONT_SIZE_S + 0.5 : self::FONT_SIZE_XS + 0.5)
+                            ->setFontSize($fontSize)
                             ->setFontWeight('bold')
-                            ->setLineHeight($usualSize ? 1.3 : 1)
+                            ->setLineHeight($fontSize >= self::FONT_SIZE_S + 0.75 ? 1.3 : 1)
                             ->setWidth(35.5)
                             ->setPadding(0.75, 0.75, 0, 0.75)
                         ->end()
                     ;
                 } else if (1 == $index) {
-                    $usualSize = strlen($address->getStreet()) < 20 && strlen($address->getZip() .$address->getCity()) < 20;
+                    if (strlen($address->getStreet()) < 16 && strlen($address->getZip().' '.$address->getCity()) < 16) {
+                        $fontSize = self::FONT_SIZE_S + 1;
+                    } else if (strlen($address->getStreet()) < 19 && strlen($address->getZip().' '.$address->getCity()) < 19) {
+                        $fontSize = self::FONT_SIZE_S + 0.75;
+                    } else if (strlen($address->getStreet()) < 22 && strlen($address->getZip().' '.$address->getCity()) < 22) {
+                        $fontSize = self::FONT_SIZE_S + 0.5;
+                    } else {
+                        $fontSize = self::FONT_SIZE_S;
+                    }
                     $row->newCell()
                             ->setText(
                                 $address->getStreet() . "\n" .
                                 ($address->getZip() ? $address->getZip() . ' ' : '') . $address->getCity()
                             )
                             ->setBorder(count($persons) <= 2 ? 'LRB' : 'LR')
-                            ->setFontSize($usualSize ? self::FONT_SIZE_S : self::FONT_SIZE_XS)
+                            ->setFontSize($fontSize)
                             ->setFontWeight('normal')
-                            ->setLineHeight($usualSize ? 1.3 : 1)
+                            ->setLineHeight($fontSize >= self::FONT_SIZE_S + 0.75 ? 1.3 : 1)
                             ->setWidth(35.5)
                             ->setPadding(0, 0.75, 0.75, 0.75)
                         ->end()
