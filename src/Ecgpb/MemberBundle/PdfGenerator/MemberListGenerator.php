@@ -101,8 +101,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->AddPage();
 
         // picture of church front
-        $src = realpath(__DIR__ . '/../Resources/public/img/church_front.png');
-        $pdf->Image($src, $pdf->GetX() + 10, $pdf->GetY(), 100, 81, 'PNG', null, 'N', true, 300);
+        $src = realpath(__DIR__ . '/../Resources/public/img/church_front.jpg');
+        $pdf->Image($src, $pdf->GetX() + 1.5, $pdf->GetY(), 100, null, 'JPG', null, 'N', true, 300);
         $pdf->SetY($pdf->GetY() + 5);
 
         $this->useFontSizeXL($pdf);
