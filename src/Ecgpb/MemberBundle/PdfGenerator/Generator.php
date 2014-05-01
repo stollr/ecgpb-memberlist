@@ -16,7 +16,16 @@ abstract class Generator
     const FONT_SIZE_M = 9;
     const FONT_SIZE_S = 7.5;
     const FONT_SIZE_XS = 6.5;
-    
+
+    public function addHeadlineMargin(\TCPDF $pdf)
+    {
+        $pdf->SetY($pdf->GetY() + 1.5);
+    }
+
+    public function addParagraphMargin(\TCPDF $pdf)
+    {
+        $pdf->SetY($pdf->GetY() + 10);
+    }
 
     public function useFontSizeXL(\TCPDF $pdf)
     {
