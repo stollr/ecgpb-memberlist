@@ -272,6 +272,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $addresses = $this->getAddresses();
         $personRepo = $this->doctrine->getRepository('EcgpbMemberBundle:Person'); /* @var $personRepo \Ecgpb\MemberBundle\Repository\PersonRepository */
 
+        $pdf->SetLineWidth(0.25);
+
         $table = null;
         $totalHeight = 0;
         foreach ($addresses as $index => $address) {
