@@ -140,7 +140,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $pdf->SetY(190);
         $this->useFontSizeM($pdf);
-        $this->writeText($pdf, 'Alle Änderungen bitte unverzüglich bei ' .
+        $this->writeText($pdf, 'Alle Änderungen bitte umgehend bei ' .
             $this->parameters['ecgpb.contact.memberlist.responsible'] .
             ' melden!'
         );
