@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "36617dd8cbb7cb53c5faebb635a1376e",
+    "hash": "537e476a873ec21756c20045dec32137",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1137,17 +1137,82 @@
             "time": "2013-07-19 00:03:27"
         },
         {
-            "name": "monolog/monolog",
-            "version": "1.9.0",
+            "name": "liuggio/ExcelBundle",
+            "version": "dev-master",
+            "target-dir": "Liuggio/ExcelBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1afc39690e7414412face1f8cbf67b73db34485c"
+                "url": "https://github.com/liuggio/ExcelBundle.git",
+                "reference": "ce7b0955a24dc87e30099af9a1c0c360e18111b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1afc39690e7414412face1f8cbf67b73db34485c",
-                "reference": "1afc39690e7414412face1f8cbf67b73db34485c",
+                "url": "https://api.github.com/repos/liuggio/ExcelBundle/zipball/ce7b0955a24dc87e30099af9a1c0c360e18111b4",
+                "reference": "ce7b0955a24dc87e30099af9a1c0c360e18111b4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "phpoffice/phpexcel": "1.7.9",
+                "symfony/framework-bundle": "~2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "sensio/framework-extra-bundle": "~2.1",
+                "symfony/browser-kit": "~2.1",
+                "symfony/class-loader": "~2.1",
+                "symfony/finder": "~2.0",
+                "symfony/form": "~2.1",
+                "symfony/validator": "~2.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Liuggio\\ExcelBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Giulio De Donato",
+                    "email": "liuggio@gmail.com",
+                    "homepage": "http://www.welcometothebundle.com"
+                },
+                {
+                    "name": "ExcelBundle Contributors",
+                    "homepage": "https://github.com/liuggio/ExcelBundle#contributors"
+                }
+            ],
+            "description": "This is a Symfony2 Bundle helps you to read and write Excel files (including pdf, xlsx, odt), thanks to the PHPExcel library",
+            "homepage": "http://www.welcometothebundle.com",
+            "keywords": [
+                "Symfony2",
+                "bundle",
+                "excel",
+                "xls"
+            ],
+            "time": "2014-04-08 10:43:46"
+        },
+        {
+            "name": "monolog/monolog",
+            "version": "1.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/65026b610f8c19e61d7242f600530677b0466aac",
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac",
                 "shasum": ""
             },
             "require": {
@@ -1202,7 +1267,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-20 16:41:26"
+            "time": "2014-04-24 13:29:03"
         },
         {
             "name": "mopa/bootstrap-bundle",
@@ -1211,12 +1276,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phiamo/MopaBootstrapBundle.git",
-                "reference": "79a0e9cc21608e36d425fd36b5447ab5c9f02e97"
+                "reference": "5d37be4f42c10ba9da04ef745b6c339ede8dfb21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/79a0e9cc21608e36d425fd36b5447ab5c9f02e97",
-                "reference": "79a0e9cc21608e36d425fd36b5447ab5c9f02e97",
+                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/5d37be4f42c10ba9da04ef745b6c339ede8dfb21",
+                "reference": "5d37be4f42c10ba9da04ef745b6c339ede8dfb21",
                 "shasum": ""
             },
             "require": {
@@ -1268,7 +1333,7 @@
                 "form",
                 "template"
             ],
-            "time": "2014-04-09 10:36:13"
+            "time": "2014-04-28 21:28:41"
         },
         {
             "name": "mopa/composer-bridge",
@@ -1327,12 +1392,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/naitsirch/tcpdf-extension.git",
-                "reference": "e991602b85469143fa0bb6a9b1067338e576bc1a"
+                "reference": "667eb7603bf5c50641b9713885250e2e095547b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/naitsirch/tcpdf-extension/zipball/e991602b85469143fa0bb6a9b1067338e576bc1a",
-                "reference": "e991602b85469143fa0bb6a9b1067338e576bc1a",
+                "url": "https://api.github.com/repos/naitsirch/tcpdf-extension/zipball/667eb7603bf5c50641b9713885250e2e095547b0",
+                "reference": "667eb7603bf5c50641b9713885250e2e095547b0",
                 "shasum": ""
             },
             "require": {
@@ -1363,7 +1428,7 @@
                 "pdf",
                 "php"
             ],
-            "time": "2014-04-22 18:17:02"
+            "time": "2014-04-22 20:29:44"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -1414,6 +1479,62 @@
                 "set"
             ],
             "time": "2014-03-11 13:46:42"
+        },
+        {
+            "name": "phpoffice/phpexcel",
+            "version": "1.7.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "7a7634fba664249a04fc771df677a9b9f755d7ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/7a7634fba664249a04fc771df677a9b9f755d7ec",
+                "reference": "7a7634fba664249a04fc771df677a9b9f755d7ec",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
+                },
+                {
+                    "name": "Erik Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "time": "2013-05-24 11:57:42"
         },
         {
             "name": "phpoption/phpoption",
@@ -1934,16 +2055,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.4.3",
+            "version": "v2.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "3199b2e0d194f71fe2e13c95768b2ef22206682b"
+                "reference": "4697c33cdfb520dcf83fd6e4f7864fa26ddaebea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/3199b2e0d194f71fe2e13c95768b2ef22206682b",
-                "reference": "3199b2e0d194f71fe2e13c95768b2ef22206682b",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/4697c33cdfb520dcf83fd6e4f7864fa26ddaebea",
+                "reference": "4697c33cdfb520dcf83fd6e4f7864fa26ddaebea",
                 "shasum": ""
             },
             "require": {
@@ -2045,7 +2166,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2014-04-04 10:27:02"
+            "time": "2014-04-27 13:39:18"
         },
         {
             "name": "tecnick.com/tcpdf",
@@ -2053,7 +2174,7 @@
             "source": {
                 "type": "git",
                 "url": "git://git.code.sf.net/p/tcpdf/code",
-                "reference": "f545d6dce7c3c611abcd6f81274ae72d6d504160"
+                "reference": "04215e835942a3c27bce531f3504d23c3b0d87f9"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -2102,7 +2223,7 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2014-04-21 11:46:00"
+            "time": "2014-05-05 09:05:23"
         },
         {
             "name": "twbs/bootstrap",
@@ -2110,12 +2231,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "9c4afc577253ada54d3ff27965e380a5c9f4e60e"
+                "reference": "9444df247698f65df05e345f525c14fbf14aead6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/9c4afc577253ada54d3ff27965e380a5c9f4e60e",
-                "reference": "9c4afc577253ada54d3ff27965e380a5c9f4e60e",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/9444df247698f65df05e345f525c14fbf14aead6",
+                "reference": "9444df247698f65df05e345f525c14fbf14aead6",
                 "shasum": ""
             },
             "type": "library",
@@ -2150,7 +2271,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-04-21 20:08:42"
+            "time": "2014-05-06 05:55:05"
         },
         {
             "name": "twig/extensions",
@@ -2269,7 +2390,8 @@
         "twbs/bootstrap": 20,
         "tecnick.com/tcpdf": 20,
         "naitsirch/tcpdf-extension": 20,
-        "jms/serializer-bundle": 20
+        "jms/serializer-bundle": 20,
+        "liuggio/excelbundle": 20
     },
     "platform": {
         "php": ">=5.3.3"

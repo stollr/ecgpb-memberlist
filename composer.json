@@ -24,7 +24,8 @@
         "twbs/bootstrap": "dev-master",
         "tecnick.com/tcpdf": "dev-master",
         "naitsirch/tcpdf-extension": "dev-master",
-        "jms/serializer-bundle": "dev-master"
+        "jms/serializer-bundle": "dev-master",
+        "liuggio/ExcelBundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
