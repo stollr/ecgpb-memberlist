@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Liuggio\ExcelBundle\LiuggioExcelBundle(),
             // own bundles
             new Ecgpb\MemberBundle\EcgpbMemberBundle(),
         );
