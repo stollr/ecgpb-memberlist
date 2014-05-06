@@ -35,125 +35,25 @@ class ExportController extends Controller
         $repo = $this->getDoctrine()->getManager()->getRepository('EcgpbMemberBundle:Person');
         $persons = $repo->findAllForBirthdayList();
 
-        // build xml
-        $xw = new \XMLWriter();
-        $xw->openMemory();
-        $xw->startDocument('1.0', 'UTF-8');
-            $xw->startElement('Workbook');
-                $xw->startElementNs('ss', 'Worksheet', 'urn:schemas-microsoft-com:office:spreadsheet');
-                    $xw->startElement('Table');
+        $spreadsheet = $this->get('phpexcel')->createPHPExcelObject(); /* @var $spreadsheet \PHPExcel */
+        $worksheet = $spreadsheet->getActiveSheet();
 
-                    foreach ($persons as $person) {
-                        $xw->startElement('Row');
-                            $xw->startElement('Cell');
-                                $xw->startElement('Data');
-                                    $xw->writeAttributeNs('ss', 'Type', 'urn:schemas-microsoft-com:office:spreadsheet', 'String');
-                                    $xw->text($person->getDob()->format('d.m.Y'));
-                                $xw->endElement();
-                            $xw->endElement();
-                            $xw->startElement('Cell');
-                                $xw->startElement('Data');
-                                    $xw->writeAttributeNs('ss', 'Type', 'urn:schemas-microsoft-com:office:spreadsheet', 'String');
-                                    $xw->text($person->getAddress()->getFamilyName());
-                                $xw->endElement();
-                            $xw->endElement();
-                            $xw->startElement('Cell');
-                                $xw->startElement('Data');
-                                    $xw->writeAttributeNs('ss', 'Type', 'urn:schemas-microsoft-com:office:spreadsheet', 'String');
-                                    $xw->text($person->getFirstname());
-                                $xw->endElement();
-                            $xw->endElement();
-                        $xw->endElement();
-                    }
+        $worksheet->setCellValueByColumnAndRow(0, 1, 'Date of Birth');
+        $worksheet->setCellValueByColumnAndRow(1, 1, 'Full Name');
+        $worksheet->setCellValueByColumnAndRow(2, 1, 'Age');
 
-                    $xw->endElement();
-                $xw->endElement();
-            $xw->endElement();
-        $xw->endDocument();
+        foreach ($persons as $index => $person) {
+            $row = $index + 2;
+            $worksheet->setCellValueByColumnAndRow(0, $row, $person->getDob()->format('d.m.Y'));
+            $worksheet->setCellValueByColumnAndRow(1, $row, $person->getFirstname().' '.($person->getLastname() ?: $person->getAddress()->getFamilyName()));
+            $worksheet->setCellValueByColumnAndRow(2, $row, date('Y') - $person->getDob()->format('Y'));
+        }
 
-        $xml = $xw->outputMemory(true);
+        $writer = $this->get('phpexcel')->createWriter($spreadsheet, 'Excel2007');
 
-        return new Response($xml, 200, array(
-            'Content-Type' => 'application/xml',
-            'Content-Disposition' => 'attachment; filename="dob.xml"',
-            'Content-Length' => strlen($xml),
+        return $this->get('phpexcel')->createStreamedResponse($writer, 200, array(
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => 'attachment; filename="Birthday List.xlsx"',
         ));
-
-/*
-<?xml version="1.0" encoding="UTF-8"?>
-<?mso-application progid="Excel.Sheet"?>
-<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
-          xmlns:c="urn:schemas-microsoft-com:office:component:spreadsheet"
-          xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:o="urn:schemas-microsoft-com:office:office"
-          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x2="http://schemas.microsoft.com/office/excel/2003/xml"
-          xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
-        <Colors>
-            <Color>
-                <Index>3</Index>
-                <RGB>#c0c0c0</RGB>
-            </Color>
-            <Color><Index>4</Index><RGB>#ff0000</RGB></Color>
-        </Colors>
-    </OfficeDocumentSettings>
-    <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
-        <WindowHeight>9000</WindowHeight>
-        <WindowWidth>13860</WindowWidth>
-        <WindowTopX>240</WindowTopX>
-        <WindowTopY>75</WindowTopY>
-        <ProtectStructure>False</ProtectStructure>
-        <ProtectWindows>False</ProtectWindows>
-    </ExcelWorkbook>
-    <Styles>
-        <Style ss:ID="Default" ss:Name="Default"/>
-        <Style ss:ID="Result" ss:Name="Result">
-            <Font ss:Bold="1" ss:Italic="1" ss:Underline="Single"/>
-        </Style>
-        <Style ss:ID="Result2" ss:Name="Result2">
-            <Font ss:Bold="1" ss:Italic="1" ss:Underline="Single"/>
-            <NumberFormat ss:Format="Euro Currency"/>
-        </Style>
-        <Style ss:ID="Heading" ss:Name="Heading">
-            <Font ss:Bold="1" ss:Italic="1" ss:Size="16"/>
-        </Style>
-        <Style ss:ID="Heading1" ss:Name="Heading1">
-            <Font ss:Bold="1" ss:Italic="1" ss:Size="16"/>
-        </Style>
-        <Style ss:ID="co1"/>
-        <Style ss:ID="ta1"/>
-        <Style ss:ID="ce1"/>
-    </Styles>
-    <ss:Worksheet ss:Name="Tabelle1">
-        <Table ss:StyleID="ta1">
-            <Column ss:Span="1" ss:Width="64,0063"/>
-            <Row ss:Height="12,1039">
-                <Cell ss:StyleID="ce1">
-                    <Data ss:Type="String">Name</Data>
-                </Cell>
-                <Cell ss:StyleID="ce1">
-                    <Data ss:Type="String">Vorname</Data>
-                </Cell>
-            </Row>
-            <Row ss:Height="12,8126">
-                <Cell>
-                    <Data ss:Type="String">Stoller</Data>
-                </Cell>
-                <Cell>
-                    <Data ss:Type="String">Christian</Data>
-                </Cell>
-            </Row>
-            <Row ss:Height="12,8126">
-                <Cell>
-                    <Data ss:Type="String">Stoller</Data>
-                </Cell>
-                <Cell>
-                    <Data ss:Type="String">Anita</Data>
-                </Cell>
-            </Row>
-        </Table>
-        <x:WorksheetOptions/>
-    </ss:Worksheet>
-</Workbook>
-         */
     }
 }

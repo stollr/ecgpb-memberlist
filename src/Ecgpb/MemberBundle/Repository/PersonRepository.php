@@ -47,7 +47,18 @@ class PersonRepository extends EntityRepository
         $qb = $this->createQueryBuilder('person')
             ->select('person', 'address')
             ->join('person.address', 'address')
+            ->orderBy('person.dob')
         ;
-        return $qb->getQuery()->getResult();
+
+        $persons = $qb->getQuery()->getResult();
+
+        usort($persons, function (Person $a, Person $b) {
+            if ($a->getDob()->format('md') == $b->getDob()->format('md')) {
+                return (int) $a->getDob()->format('Y') >= (int) $b->getDob()->format('Y');
+            }
+            return (int) $a->getDob()->format('md') >= (int) $b->getDob()->format('md');
+        });
+
+        return $persons;
     }
 }
