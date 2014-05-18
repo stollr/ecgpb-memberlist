@@ -90,7 +90,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         // logo
         $src = realpath(__DIR__ . '/../Resources/public/img/logo.png');
         //$pdf->Image($file, $x, $y, $w, $h, $type, $link, $align, $resize, $dpi, $palign, $ismask, $imgmask, $border, $fitbox, $hidden, $fitonpage, $alt, $altimgs);
-        $pdf->Image($src, $pdf->GetX(), $pdf->GetY(), 30, 19, 'PNG', null, 'N', true, 300);
+        $pdf->Image($src, $pdf->GetX() + 3.5, $pdf->GetY(), 30, 19, 'PNG', null, 'N', true, 300);
 
         $pdf->SetY($pdf->GetY() + 3);
         $pdf->SetLineWidth(0.75);
