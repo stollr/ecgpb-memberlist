@@ -3,7 +3,7 @@
 namespace Ecgpb\MemberBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Bridge\Twig\TwigEngine;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
@@ -16,13 +16,22 @@ use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
  * @Security("is_granted('ROLE_ADMIN')")
  */
 class ExportController extends Controller
-{   
-    public function pdfAction()
+{
+    public function pdfConfigAction()
+    {
+        return $this->render('EcgpbMemberBundle:Export:pdf_config.html.twig');
+    }
+
+    public function pdfAction(Request $request)
     {
         $generator = $this->get('ecgpb.member.pdf_generator.member_list_generator');
         /* @var $generator \Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator */
         
-        $pdf = $generator->generate();
+        $pdf = $generator->generate(array(
+            'pages_with_member_placeholders' => $request->get('pages_with_member_placeholders', 1),
+            'pages_for_notes' => $request->get('pages_for_notes', 3),
+        ));
+
         return new Response($pdf, 200, array(
             'Content-Type' => 'application/pdf',
             //'Content-Type' => 'application/octet-stream',
@@ -30,7 +39,7 @@ class ExportController extends Controller
         ));
     }
 
-    public function birthdayExcelXmlAction()
+    public function birthdayExcelAction()
     {
         $repo = $this->getDoctrine()->getManager()->getRepository('EcgpbMemberBundle:Person');
         $persons = $repo->findAllForBirthdayList();

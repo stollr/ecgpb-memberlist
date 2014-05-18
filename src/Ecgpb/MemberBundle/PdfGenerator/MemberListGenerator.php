@@ -44,8 +44,15 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     /**
      * @return string
      */
-    public function generate()
+    public function generate(array $options = array())
     {
+        // default options
+        $options = array_replace(array(
+            'pages_with_member_placeholders' => 1,
+            'pages_for_notes' => 2,
+        ), $options);
+        
+        // set up tcpdf
         $pdf = new \TCPDF('P', 'mm', 'A5', true, 'UTF-8', false);
         $pdf->SetTitle('ECGPB Member List');
         $pdf->SetMargins(9, 9, 9);
@@ -62,9 +69,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addPage1($pdf);
         $this->addPage2($pdf);
         $this->addAddressPages($pdf);
+        $this->addAddressPlaceholders($pdf, $options['pages_with_member_placeholders']);
         $this->addWorkingGroups($pdf);
         $this->addMinistryCategories($pdf);
-        $this->addPersonalNotes($pdf);
+        $this->addPersonalNotes($pdf, $options['pages_for_notes']);
         $this->addLastPage($pdf);
 
         return $pdf->Output(null, 'S');
@@ -452,7 +460,77 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             }
         }
 
+        // dirty workaround to get empty templates
+        while ($totalHeight + (2 * self::GRID_ROW_MIN_HEIGHT) < 185) {
+            for ($i = 0; $i < 2; $i++) {
+                $row = $table->newRow();
+                $row->newCell()
+                        ->setBorder($i % 2 == 0 ? 'LTR' : 'LRB')
+                        ->setWidth(35.5)
+                    ->end()
+                    ->newCell()
+                        ->setBorder(1)
+                        ->setWidth(self::GRID_PICTURE_CELL_WIDTH) // 10.5 mm
+                    ->end()
+                    ->newCell()
+                        ->setBorder(1)
+                        ->setWidth(22)
+                    ->end()
+                    ->newCell()
+                        ->setBorder(1)
+                        ->setWidth(19)
+                    ->end()
+                    ->newCell()
+                        ->setBorder(1)
+                        ->setMinHeight(self::GRID_ROW_MIN_HEIGHT)
+                        ->setWidth(44.5)
+                    ->end()
+                ;
+                $row->end();
+            }
+            $totalHeight += 2 * self::GRID_ROW_MIN_HEIGHT;
+        }
+
         if ($table) {
+            $table->end();
+        }
+    }
+
+    private function addAddressPlaceholders(\TCPDF $pdf, $numberOfPages = 1)
+    {
+        if (empty($numberOfPages)) {
+            return;
+        }
+
+        for ($p = 0; $p < $numberOfPages; $p++) {
+            $pdf->AddPage();
+            $table = $this->addTable($pdf);
+            for ($i = 0; $i < 14; $i++) {
+                $row = $table->newRow();
+                $row->newCell()
+                        ->setBorder($i % 2 == 0 ? 'LTR' : 'LRB')
+                        ->setWidth(35.5)
+                    ->end()
+                    ->newCell()
+                        ->setBorder(1)
+                        ->setWidth(self::GRID_PICTURE_CELL_WIDTH) // 10.5 mm
+                    ->end()
+                    ->newCell()
+                        ->setBorder(1)
+                        ->setWidth(22)
+                    ->end()
+                    ->newCell()
+                        ->setBorder(1)
+                        ->setWidth(19)
+                    ->end()
+                    ->newCell()
+                        ->setBorder(1)
+                        ->setMinHeight(self::GRID_ROW_MIN_HEIGHT)
+                        ->setWidth(44.5)
+                    ->end()
+                ;
+                $row->end();
+            }
             $table->end();
         }
     }
@@ -681,17 +759,21 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $table->end();
     }
 
-    private function addPersonalNotes(\TCPDF $pdf)
+    private function addPersonalNotes(\TCPDF $pdf, $numberOfPages = 3)
     {
+        if (empty($numberOfPages)) {
+            return;
+        }
+
         $margins = $pdf->getMargins();
         $pageWidth = $pdf->getPageWidth();
         
-        for ($i = 0; $i < 2; $i++) {
+        for ($i = 0; $i < $numberOfPages; $i++) {
             $pdf->AddPage();
 
             $this->useFontSizeXL($pdf);
             $this->useFontWeightBold($pdf);
-            //$this->writeText($pdf, 'Persönliche Notizen');
+
             $pdf->Write(10, 'Persönliche Notizen', false, false, 'C', 1);
             $pdf->SetY($pdf->GetY() + 2);
 

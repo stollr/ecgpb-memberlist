@@ -50,6 +50,10 @@
                 <source>Bank Code</source>
                 <target>Bankleitzahl</target>
             </trans-unit>
+            <trans-unit id="Birthday List">
+                <source>Birthday List</source>
+                <target>Geburtstagsliste</target>
+            </trans-unit>
             <trans-unit id="Category [Ministry]">
                 <source>Category [Ministry]</source>
                 <target>Dienstbereich</target>
@@ -213,6 +217,18 @@
             <trans-unit id="Number">
                 <source>Number</source>
                 <target>Nummer</target>
+            </trans-unit>
+            <trans-unit id="Pages for personal notes">
+                <source>Pages for personal notes</source>
+                <target>Seiten für persönliche Notizen</target>
+            </trans-unit>
+            <trans-unit id="Pages with member placeholders">
+                <source>Pages with member placeholders</source>
+                <target>Seiten mit Mitglieder-Platzhaltern</target>
+            </trans-unit>
+            <trans-unit id="PDF Settings">
+                <source>PDF Settings</source>
+                <target>PDF Einstellungen</target>
             </trans-unit>
             <trans-unit id="Persons">
                 <source>Persons</source>
