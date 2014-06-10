@@ -297,8 +297,15 @@ class Person
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(\DateTime $deletedAt = null)
+    public function setDeletedAt($deletedAt = null)
     {
+        if (is_bool($deletedAt)) {
+            if ($this->isDeleted() == $deletedAt) {
+                // no change needed
+                return $this;
+            }
+            $deletedAt = $deletedAt ? new \DateTime() : null;
+        }
         $this->deletedAt = $deletedAt;
         return $this;
     }

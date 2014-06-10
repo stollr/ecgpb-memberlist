@@ -45,6 +45,7 @@ Ecgpb\MemberBundle\Entity\Person:
         deletedAt:
             type: datetime
             nullable: true
+            column: deleted_at
     manyToOne:
         address:
             targetEntity: Ecgpb\MemberBundle\Entity\Address
