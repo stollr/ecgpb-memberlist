@@ -413,6 +413,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 $maidenName = !$person || !$person->getMaidenName() || $personRepo->isNameUnique($person)
                     ? '' : ' (geb. ' . $person->getMaidenName() . ')'
                 ;
+                $phone2Label = $person && $person->getPhone2Label() ? str_replace('\\n', "\n", $person->getPhone2Label()) : false;
+                $email = $person && $person->getEmail() ? str_replace('@googlemail.com', '@gmail.com', $person->getEmail()) : false;
 
                 $row
                     ->newCell()
@@ -442,10 +444,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->end()
                     ->newCell()
                         ->setText(
-                            ($person && $person->getPhone2Label() ? str_replace('\\n', "\n", $person->getPhone2Label()) : '') .
+                            ($person && $person->getPhone2Label() ? $phone2Label : '') .
+                            ($person && $person->getPhone2Label() && $phone2Label == rtrim($phone2Label) ? ' ' : '') .
                             ($person && $person->getPhone2() ? $person->getPhone2() . "\n" : '') .
                             ($person && $person->getMobile() ? $person->getMobile() . "\n" : '') .
-                            ($person && $person->getEmail() ? $person->getEmail() : '')
+                            ($person && $person->getEmail() ? $email : '')
                         )
                         ->setAlign('C')
                         ->setBorder(1)
