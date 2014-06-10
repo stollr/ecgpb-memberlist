@@ -42,6 +42,9 @@ Ecgpb\MemberBundle\Entity\Person:
             type: string
             length: '40'
             nullable: true
+        deletedAt:
+            type: datetime
+            nullable: true
     manyToOne:
         address:
             targetEntity: Ecgpb\MemberBundle\Entity\Address

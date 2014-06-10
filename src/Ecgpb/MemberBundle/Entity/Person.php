@@ -68,6 +68,11 @@ class Person
     private $maidenName;
 
     /**
+     * @var \DateTime
+     */
+    private $deletedAt;
+
+    /**
      * @var \Ecgpb\MemberBundle\Entity\Address
      */
     private $address;
@@ -280,6 +285,22 @@ class Person
     public function getMaidenName()
     {
         return $this->maidenName;
+    }
+    
+    public function isDeleted()
+    {
+        return !empty($this->deletedAt);
+    }
+
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(\DateTime $deletedAt = null)
+    {
+        $this->deletedAt = $deletedAt;
+        return $this;
     }
 
     /**
