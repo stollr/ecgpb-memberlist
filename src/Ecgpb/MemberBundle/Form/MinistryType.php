@@ -59,6 +59,20 @@ class MinistryType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
             $data = $event->getData();
             unset($data['id']);
+            if (isset($data['contactAssignments']) && is_array($data['contactAssignments'])) {
+                foreach ($data['contactAssignments'] as $index => $assignmentData) {
+                    if (empty($assignmentData['group']['id']) && empty($assignmentData['person']['id'])) {
+                        unset($data['contactAssignments'][$index]);
+                    }
+                }
+            }
+            if (isset($data['responsibleAssignments']) && is_array($data['responsibleAssignments'])) {
+                foreach ($data['responsibleAssignments'] as $index => $assignmentData) {
+                    if (empty($assignmentData['group']['id']) && empty($assignmentData['person']['id'])) {
+                        unset($data['responsibleAssignments'][$index]);
+                    }
+                }
+            }
             $event->setData($data);
         });
     }
