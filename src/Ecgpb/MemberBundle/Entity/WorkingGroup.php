@@ -3,6 +3,7 @@
 namespace Ecgpb\MemberBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ecgpb\MemberBundle\Entity\Person;
 
 /**
  * Ecgpb\MemberBundle\Entity\WorkingGroup
@@ -153,5 +154,11 @@ class WorkingGroup
     public function getNumber()
     {
         return $this->number;
+    }
+
+    public function getDisplayName()
+    {
+        $gender = $this->getGender() == Person::GENDER_FEMALE ? 'Female' : 'Male';
+        return $gender . ' Group' . ' ' . $this->getNumber();
     }
 }
