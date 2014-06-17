@@ -66,7 +66,7 @@ class PersonType extends AbstractType
             ))
             ->add('workingGroup', 'entity', array(
                 'class' => 'Ecgpb\MemberBundle\Entity\WorkingGroup',
-                'property' => 'number',
+                'property' => 'displayName',
                 'label' => 'Working Group',
                 'required' => false,
             ))
