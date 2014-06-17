@@ -68,11 +68,6 @@ class Person
     private $maidenName;
 
     /**
-     * @var \DateTime
-     */
-    private $deletedAt;
-
-    /**
      * @var \Ecgpb\MemberBundle\Entity\Address
      */
     private $address;
@@ -81,6 +76,24 @@ class Person
      * @var \Ecgpb\MemberBundle\Entity\WorkingGroup
      */
     private $workingGroup;
+
+    /**
+     * @var \Ecgpb\MemberBundle\Entity\WorkingGroup
+     */
+    private $leaderOf;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $ministryGroups;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->ministryGroups = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -286,29 +299,6 @@ class Person
     {
         return $this->maidenName;
     }
-    
-    public function isDeleted()
-    {
-        return !empty($this->deletedAt);
-    }
-
-    public function getDeletedAt()
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt($deletedAt = null)
-    {
-        if (is_bool($deletedAt)) {
-            if ($this->isDeleted() == $deletedAt) {
-                // no change needed
-                return $this;
-            }
-            $deletedAt = $deletedAt ? new \DateTime() : null;
-        }
-        $this->deletedAt = $deletedAt;
-        return $this;
-    }
 
     /**
      * Set address
@@ -357,21 +347,28 @@ class Person
         return $this->workingGroup;
     }
 
+    /**
+     * @return WorkingGroup|null
+     */
+    public function getLeaderOf()
+    {
+        return $this->leaderOf;
+    }
+
+    /**
+     * This method exists only for documentation.
+     * 
+     * @param \Ecgpb\MemberBundle\Entity\WorkingGroup $workingGroup
+     * @throws \RuntimeException
+     */
+    public function setLeaderOf(\Ecgpb\MemberBundle\Entity\WorkingGroup $workingGroup = null)
+    {
+        throw new \RuntimeException('The leading person of a working group cannot be changed within person entity.');
+    }
+
     public function getOptgroupLabelInWorkingGroupDropdown()
     {
         return $this->getWorkingGroup() ? 'Assigned' : 'Not assigned';
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $ministryGroups;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->ministryGroups = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

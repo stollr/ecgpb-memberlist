@@ -17,6 +17,7 @@ Ecgpb\MemberBundle\Entity\WorkingGroup:
     manyToOne:
         leader:
             targetEntity: Ecgpb\MemberBundle\Entity\Person
+            inversedBy: leaderOf
             joinColumn:
                 name: leader_person_id
                 nullable: true

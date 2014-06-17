@@ -7,7 +7,6 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Tcpdf\Extension\Table\Table;
 use Tcpdf\Extension\Helper;
 use Ecgpb\MemberBundle\Entity\Person;
-use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
 use Ecgpb\MemberBundle\Helper\PersonHelper;
 use Ecgpb\MemberBundle\Statistic\StatisticService;
 
@@ -542,9 +541,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     {
         $groupTypes = array();
         foreach ($this->getWorkingGroups() as $group) {
-            if (!$group->getLeader()) {
-                throw new WorkingGroupWithoutLeaderException($group->getNumber(), $group->getGender());
-            }
             $groupTypes[$group->getGender()][] = $group;
         }
         $personRepo = $this->doctrine->getRepository('EcgpbMemberBundle:Person'); /* @var $personRepo \Ecgpb\MemberBundle\Repository\PersonRepository */
@@ -577,8 +573,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     $x = $margins['left'] + (($pdf->getPageWidth() - $margins['left'] - $margins['right']) / 2);
                 }
 
-                $leaderId = $group->getLeader()->getId();
-
                 // group name
                 $txt = sprintf('Gruppe %s', $group->getNumber());
                 $this->useFontWeightBold($pdf);
@@ -586,10 +580,16 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x, $y);
 
                 // group leader
-                $born = $group->getLeader()->getMaidenName() ?: $group->getLeader()->getDob()->format('Y');
-                $leaderMaidenName = $personRepo->isNameUnique($group->getLeader()) ? '' : 'geb. ' . $born . ', ';
+                if ($group->getLeader()) {
+                    $leaderId = $group->getLeader()->getId();
+                    $born = $group->getLeader()->getMaidenName() ?: $group->getLeader()->getDob()->format('Y');
+                    $leaderMaidenName = $personRepo->isNameUnique($group->getLeader()) ? '' : 'geb. ' . $born . ', ';
+                    $txt = $group->getLeader()->getLastnameAndFirstname() . ' (' . $leaderMaidenName . 'verantwortlich)';
+                } else {
+                    $leaderId = 0;
+                    $txt = '-';
+                }
                 $pdf->SetY($pdf->GetY() + 2);
-                $txt = $group->getLeader()->getLastnameAndFirstname() . ' (' . $leaderMaidenName . 'verantwortlich)';
                 $this->useFontWeightNormal($pdf);
                 $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x);
 

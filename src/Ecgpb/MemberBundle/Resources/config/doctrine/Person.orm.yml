@@ -42,10 +42,10 @@ Ecgpb\MemberBundle\Entity\Person:
             type: string
             length: '40'
             nullable: true
-        deletedAt:
-            type: datetime
-            nullable: true
-            column: deleted_at
+    oneToMany:
+        leaderOf:
+            targetEntity: Ecgpb\MemberBundle\Entity\WorkingGroup
+            mappedBy: leader
     manyToOne:
         address:
             targetEntity: Ecgpb\MemberBundle\Entity\Address

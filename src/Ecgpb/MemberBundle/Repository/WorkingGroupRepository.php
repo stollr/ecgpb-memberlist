@@ -14,7 +14,8 @@ class WorkingGroupRepository extends EntityRepository
     public function findAllForListing()
     {
         return $this->createQueryBuilder('workingGroup')
-            ->select('workingGroup', 'person')
+            ->select('workingGroup', 'leader', 'person')
+            ->leftJoin('workingGroup.leader', 'leader')
             ->leftJoin('workingGroup.persons', 'person')
             ->orderBy('workingGroup.gender')
             ->addOrderBy('workingGroup.number')
