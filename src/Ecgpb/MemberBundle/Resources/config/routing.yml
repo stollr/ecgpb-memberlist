@@ -136,4 +136,8 @@ ecgpb.member.export.pdf:
 ecgpb.member.export.birthday_excel:
     pattern:  /export/birthday_excel
     defaults: { _controller: "EcgpbMemberBundle:Export:birthdayExcel", _locale: de }
+
+ecgpb.member.export.seniors_excel:
+    pattern:  /export/seniors_excel
+    defaults: { _controller: "EcgpbMemberBundle:Export:seniorsExcel", _locale: de }
     

@@ -61,4 +61,35 @@ class PersonRepository extends EntityRepository
 
         return $persons;
     }
+
+    /**
+     * Returns all persons who are (or will become) at least 65 years old (in this year).
+     * @return Person[]
+     */
+    public function findSeniors()
+    {
+        $maxDate = new \DateTime();
+        $maxDate->setDate((int) $maxDate->format('Y'), 1, 1);
+        $maxDate->setTime(0, 0, 0);
+        $maxDate->modify('-64 year');
+
+        $qb = $this->createQueryBuilder('person')
+            ->select('person', 'address')
+            ->join('person.address', 'address')
+            ->where('person.dob < :max_date')
+            ->orderBy('person.dob')
+            ->setParameter('max_date', $maxDate)
+        ;
+
+        $persons = $qb->getQuery()->getResult();
+
+        usort($persons, function (Person $a, Person $b) {
+            if ($a->getDob()->format('md') == $b->getDob()->format('md')) {
+                return (int) $a->getDob()->format('Y') >= (int) $b->getDob()->format('Y');
+            }
+            return (int) $a->getDob()->format('md') >= (int) $b->getDob()->format('md');
+        });
+
+        return $persons;
+    }
 }

@@ -30,6 +30,10 @@
                 <source>Addresses</source>
                 <target>Adressen</target>
             </trans-unit>
+            <trans-unit id="Age">
+                <source>Age</source>
+                <target>Alter</target>
+            </trans-unit>
             <trans-unit id="All changes have been saved.">
                 <source>All changes have been saved.</source>
                 <target>Alle Änderungen wurden gespeichert.</target>
@@ -81,6 +85,10 @@
             <trans-unit id="Delete Person">
                 <source>Delete Person</source>
                 <target>Person löschen</target>
+            </trans-unit>
+            <trans-unit id="Differing Last Name">
+                <source>Differing Last Name</source>
+                <target>Abweichender Nachname</target>
             </trans-unit>
             <trans-unit id="Do you really want to delete this entry?">
                 <source>Do you really want to delete this entry?</source>
@@ -150,9 +158,9 @@
                 <source>Group of Women</source>
                 <target>Frauengruppe</target>
             </trans-unit>
-            <trans-unit id="Differing Last Name">
-                <source>Differing Last Name</source>
-                <target>Abweichender Nachname</target>
+            <trans-unit id="Keep in mind that the number of pages has be devideable by four, for printing.">
+                <source>Keep in mind that the number of pages has be devideable by four, for printing.</source>
+                <target>Es ist zu beachten, dass die Anzahl an Seiten für den Druck durch vier teilbar sein muss.</target>
             </trans-unit>
             <trans-unit id="Leave this field empty to use the family name of the address.">
                 <source>Leave this field empty to use the family name of the address.</source>
@@ -274,6 +282,14 @@
                 <source>Save</source>
                 <target>Speichern</target>
             </trans-unit>
+            <trans-unit id="Save Changes">
+                <source>Save Changes</source>
+                <target>Änderungen speichern</target>
+            </trans-unit>
+            <trans-unit id="Saving">
+                <source>Saving</source>
+                <target>Speichern</target>
+            </trans-unit>
             <trans-unit id="Second Phone">
                 <source>Second Phone</source>
                 <target>Zweites Telefon</target>
@@ -282,13 +298,9 @@
                 <source>Second Phone Label</source>
                 <target>Beschriftung zweites Telefon</target>
             </trans-unit>
-            <trans-unit id="Save Changes">
-                <source>Save Changes</source>
-                <target>Änderungen speichern</target>
-            </trans-unit>
-            <trans-unit id="Saving">
-                <source>Saving</source>
-                <target>Speichern</target>
+            <trans-unit id="Seniors List">
+                <source>Seniors List</source>
+                <target>Seniorenliste</target>
             </trans-unit>
             <trans-unit id="Street">
                 <source>Street</source>

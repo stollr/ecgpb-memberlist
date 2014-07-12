@@ -44,25 +44,71 @@ class ExportController extends Controller
         $repo = $this->getDoctrine()->getManager()->getRepository('EcgpbMemberBundle:Person');
         $persons = $repo->findAllForBirthdayList();
 
+        $translator = $this->get('translator');
+        $title = $translator->trans('Birthday List') . ' ' . date('Y');
+
         $spreadsheet = $this->get('phpexcel')->createPHPExcelObject(); /* @var $spreadsheet \PHPExcel */
         $worksheet = $spreadsheet->getActiveSheet();
 
-        $worksheet->setCellValueByColumnAndRow(0, 1, 'Date of Birth');
-        $worksheet->setCellValueByColumnAndRow(1, 1, 'Full Name');
-        $worksheet->setCellValueByColumnAndRow(2, 1, 'Age');
+        $worksheet->setCellValueByColumnAndRow(0, 1, $title);
+        $worksheet->mergeCells('A1:C1');
+        $worksheet->setCellValueByColumnAndRow(0, 3, $translator->trans('DOB'));
+        $worksheet->setCellValueByColumnAndRow(1, 3, $translator->trans('Name'));
+        $worksheet->setCellValueByColumnAndRow(2, 3, $translator->trans('Age'));
 
         foreach ($persons as $index => $person) {
-            $row = $index + 2;
+            $row = $index + 4;
             $worksheet->setCellValueByColumnAndRow(0, $row, $person->getDob()->format('d.m.Y'));
             $worksheet->setCellValueByColumnAndRow(1, $row, $person->getFirstname().' '.($person->getLastname() ?: $person->getAddress()->getFamilyName()));
             $worksheet->setCellValueByColumnAndRow(2, $row, date('Y') - $person->getDob()->format('Y'));
         }
 
+        $worksheet->getColumnDimension('A')->setAutoSize(true);
+        $worksheet->getColumnDimension('B')->setAutoSize(true);
+        $worksheet->getColumnDimension('C')->setAutoSize(true);
+
         $writer = $this->get('phpexcel')->createWriter($spreadsheet, 'Excel2007');
 
         return $this->get('phpexcel')->createStreamedResponse($writer, 200, array(
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'Content-Disposition' => 'attachment; filename="Birthday List.xlsx"',
+            'Content-Disposition' => sprintf('attachment; filename="%s.xlsx"', $title),
+        ));
+    }
+
+    public function seniorsExcelAction()
+    {
+        $repo = $this->getDoctrine()->getManager()->getRepository('EcgpbMemberBundle:Person');
+        $persons = $repo->findSeniors();
+        /* @var $persons Person[] Array of all persons who are (or will become) at least 65 years old (in this year). */
+
+        $translator = $this->get('translator');
+        $title = $translator->trans('Seniors List') . ' ' . date('Y');
+
+        $spreadsheet = $this->get('phpexcel')->createPHPExcelObject(); /* @var $spreadsheet \PHPExcel */
+        $worksheet = $spreadsheet->getActiveSheet();
+
+        $worksheet->setCellValueByColumnAndRow(0, 1, $title);
+        $worksheet->mergeCells('A1:C1');
+        $worksheet->setCellValueByColumnAndRow(0, 3, $translator->trans('DOB'));
+        $worksheet->setCellValueByColumnAndRow(1, 3, $translator->trans('Name'));
+        $worksheet->setCellValueByColumnAndRow(2, 3, $translator->trans('Age'));
+
+        foreach ($persons as $index => $person) {
+            $row = $index + 4;
+            $worksheet->setCellValueByColumnAndRow(0, $row, $person->getDob()->format('d.m.Y'));
+            $worksheet->setCellValueByColumnAndRow(1, $row, $person->getFirstname().' '.($person->getLastname() ?: $person->getAddress()->getFamilyName()));
+            $worksheet->setCellValueByColumnAndRow(2, $row, date('Y') - $person->getDob()->format('Y'));
+        }
+
+        $worksheet->getColumnDimension('A')->setAutoSize(true);
+        $worksheet->getColumnDimension('B')->setAutoSize(true);
+        $worksheet->getColumnDimension('C')->setAutoSize(true);
+
+        $writer = $this->get('phpexcel')->createWriter($spreadsheet, 'Excel2007');
+
+        return $this->get('phpexcel')->createStreamedResponse($writer, 200, array(
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => sprintf('attachment; filename="%s.xlsx"', $title),
         ));
     }
 }
