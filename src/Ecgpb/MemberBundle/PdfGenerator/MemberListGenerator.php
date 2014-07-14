@@ -133,12 +133,12 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->writeText($pdf, 'Sparkasse Paderborn');
         $this->addTable($pdf)
                 ->newRow()
-                    ->newCell('Kontonummer:')->setWidth(50)->end()
-                    ->newCell($this->parameters['ecgpb.contact.bank.account_number'])->setWidth(50)->end()
+                    ->newCell('IBAN:')->setWidth(20)->end()
+                    ->newCell($this->parameters['ecgpb.contact.bank.iban'])->setWidth(70)->end()
                 ->end()
                 ->newRow()
-                    ->newCell('Bankleitzahl:')->setWidth(50)->end()
-                    ->newCell($this->parameters['ecgpb.contact.bank.code'])->setWidth(50)->end()
+                    ->newCell('BIC:')->end()
+                    ->newCell($this->parameters['ecgpb.contact.bank.bic'])->end()
                 ->end()
             ->end()
         ;

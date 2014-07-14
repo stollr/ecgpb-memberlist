@@ -32,8 +32,8 @@ services:
                 ecgpb.contact.gfh_phone: %ecgpb.contact.gfh_phone%
                 ecgpb.contact.library_phone: %ecgpb.contact.library_phone%
                 ecgpb.contact.library_email: %ecgpb.contact.library_email%
-                ecgpb.contact.bank.account_number: %ecgpb.contact.bank.account_number%
-                ecgpb.contact.bank.code: %ecgpb.contact.bank.code%
+                ecgpb.contact.bank.iban: %ecgpb.contact.bank.iban%
+                ecgpb.contact.bank.bic: %ecgpb.contact.bank.bic%
                 ecgpb.contact.memberlist.responsible: %ecgpb.contact.memberlist.responsible%
                 ecgpb.contact.memberlist.email: %ecgpb.contact.memberlist.email%
 

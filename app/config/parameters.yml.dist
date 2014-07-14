@@ -27,8 +27,8 @@ parameters:
     ecgpb.contact.gfh_phone:                placeholder
     ecgpb.contact.library_phone:            placeholder
     ecgpb.contact.library_email:            placeholder
-    ecgpb.contact.bank.account_number:      placeholder
-    ecgpb.contact.bank.code:                placeholder
+    ecgpb.contact.bank.iban:                placeholder
+    ecgpb.contact.bank.bic:                 placeholder
     ecgpb.contact.memberlist.responsible:   placeholder
     ecgpb.contact.memberlist.email:         placeholder
 

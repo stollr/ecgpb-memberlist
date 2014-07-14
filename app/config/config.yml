@@ -42,8 +42,8 @@ twig:
         ecgpb_contact_gfh_phone:                %ecgpb.contact.gfh_phone%
         ecgpb_contact_library_phone:            %ecgpb.contact.library_phone%
         ecgpb_contact_library_email:            %ecgpb.contact.library_email%
-        ecgpb_contact_bank_account_number:      %ecgpb.contact.bank.account_number%
-        ecgpb_contact_bank_code:                %ecgpb.contact.bank.code%
+        ecgpb_contact_bank_iban:                %ecgpb.contact.bank.iban%
+        ecgpb_contact_bank_bic:                 %ecgpb.contact.bank.bic%
         ecgpb_contact_memberlist_responsible:   %ecgpb.contact.memberlist.responsible%
         ecgpb_contact_memberlist_email:         %ecgpb.contact.memberlist.email%
 
