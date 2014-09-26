@@ -10,7 +10,7 @@ use Ecgpb\MemberBundle\Form\AddressType;
 
 /**
  * Address controller.
- * @Security("has_role('ROLE_ADMIN')")
+ * @/Security("has_role('ROLE_ADMIN')")
  */
 class AddressController extends Controller
 {
@@ -19,7 +19,7 @@ class AddressController extends Controller
      * Lists all Address entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -31,13 +31,17 @@ class AddressController extends Controller
             ->orderBy('address.familyName', 'asc')
             ->addOrderBy('person.dob', 'asc')
         ;
-        $addresses = $builder->getQuery()->getResult();
+        $pagination = $this->get('knp_paginator')->paginate(
+            $builder,
+            $request->query->get('page', 1)/*page number*/,
+            30/*limit per page*/
+        );
 
         // person pictures
         $personHelper = $this->get('ecgpb.member.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
 
         $personsWithPicture = array();
-        foreach ($addresses as $address) {
+        foreach ($pagination as $address) {
             foreach ($address->getPersons() as $person) {
                 $filename = $personHelper->getPersonPhotoPath() . DIRECTORY_SEPARATOR
                     . $personHelper->getPersonPhotoFilename($person)
@@ -47,7 +51,7 @@ class AddressController extends Controller
         }
 
         return $this->render('EcgpbMemberBundle:Address:index.html.twig', array(
-            'entities' => $addresses,
+            'pagination' => $pagination,
             'persons_with_picture' => $personsWithPicture,
         ));
     }

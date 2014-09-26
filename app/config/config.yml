@@ -105,6 +105,10 @@ mopa_bootstrap:
                 icon_inverted:        false
     #menu: ~  # enables twig helpers for menu
 
+knp_paginator:
+    template:
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig
+
 services:
     twig.extensions.intl:
         class: Twig_Extensions_Extension_Intl

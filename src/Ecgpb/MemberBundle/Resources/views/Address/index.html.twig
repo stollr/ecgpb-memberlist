@@ -20,20 +20,20 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+        {% for address in pagination %}
             <tr>
-                <td rowspan="{{ entity.persons | length }}">
-                    <a name="address-{{ entity.id }}"></a>
+                <td rowspan="{{ address.persons | length }}">
+                    <a name="address-{{ address.id }}"></a>
                     <p>
-                        <strong>{{ entity.familyName }}</strong><br/>
-                        <strong>{{ entity.phone }}</strong><br/>
+                        <strong>{{ address.familyName }}</strong><br/>
+                        <strong>{{ address.phone }}</strong><br/>
                     </p>
                     <p>
-                        <i>{{ entity.street }}</i><br/>
-                        <i>{{ entity.zip }} {{ entity.city }}</i><br/>
+                        <i>{{ address.street }}</i><br/>
+                        <i>{{ address.zip }} {{ address.city }}</i><br/>
                     </p>
                 </td>
-                {% for person in entity.persons %}
+                {% for person in address.persons %}
                     {% if loop.index0 > 0 %}<tr>{% endif %}
                         <td>
                             {% if persons_with_picture[person.id] %}
@@ -56,14 +56,14 @@
                             {% if person.email %}{{ person.email }}<br/>{% endif %}
                         </td>
                         {% if loop.index0 == 0 %}
-                        <td rowspan="{{ entity.persons | length }}">
+                        <td rowspan="{{ address.persons | length }}">
                             <a class="btn btn-default"
-                             href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}"
+                             href="{{ path('ecgpb.member.address.edit', { 'id': address.id }) }}"
                              title="{% trans %}Edit Address{% endtrans %}">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
                             <a class="btn btn-danger"
-                             href="{{ path('ecgpb.member.address.delete', { 'id': entity.id }) }}"
+                             href="{{ path('ecgpb.member.address.delete', { 'id': address.id }) }}"
                              title="{% trans %}Delete Address{% endtrans %}"
                              onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
                                 <span class="glyphicon glyphicon-remove"></span>
@@ -74,12 +74,12 @@
                 {% else %}
                         <td>
                             <a class="btn btn-default"
-                             href="{{ path('ecgpb.member.address.edit', { 'id': entity.id }) }}"
+                             href="{{ path('ecgpb.member.address.edit', { 'id': address.id }) }}"
                              title="{% trans %}Edit Address{% endtrans %}">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
                             <a class="btn btn-danger"
-                             href="{{ path('ecgpb.member.address.delete', { 'id': entity.id }) }}"
+                             href="{{ path('ecgpb.member.address.delete', { 'id': address.id }) }}"
                              title="{% trans %}Delete Address{% endtrans %}"
                              onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
                                 <span class="glyphicon glyphicon-remove"></span>
@@ -96,4 +96,8 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}
