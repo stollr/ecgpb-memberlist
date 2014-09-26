@@ -23,18 +23,12 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repo = $em->getRepository('EcgpbMemberBundle:Address'); /* @var $repo \Doctrine\Common\Persistence\ObjectRepository */
-        
-        $builder = $repo->createQueryBuilder('address')
-            ->select('address', 'person')
-            ->leftJoin('address.persons', 'person')
-            ->orderBy('address.familyName', 'asc')
-            ->addOrderBy('person.dob', 'asc')
-        ;
+        $repo = $em->getRepository('EcgpbMemberBundle:Address'); /* @var $repo \Ecgpb\MemberBundle\Repository\AddressRepository */
+
         $pagination = $this->get('knp_paginator')->paginate(
-            $builder,
+            $repo->getListFilterQb($request->get('filter')),
             $request->query->get('page', 1)/*page number*/,
-            30/*limit per page*/
+            15 /*limit per page*/
         );
 
         // person pictures

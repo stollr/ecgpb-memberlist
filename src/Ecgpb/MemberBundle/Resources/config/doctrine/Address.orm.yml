@@ -1,5 +1,6 @@
 Ecgpb\MemberBundle\Entity\Address:
     type: entity
+    repositoryClass: Ecgpb\MemberBundle\Repository\AddressRepository
     table: address
     id:
         id:
