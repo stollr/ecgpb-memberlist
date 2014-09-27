@@ -12,7 +12,7 @@
     {% set button_values = widget_remove_btn %}
     {{ block('collection_button') }}
     {% endif %}
-    {% if form.parent.vars['name'] == 'persons' and form.vars['data'] %}
+    {% if form.parent.vars['name'] == 'persons' and form.vars['data'] and form.vars['data'].id %}
         {% set person = form.vars['data'] %}
         <a class="btn btn-default" href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
             <span class="glyphicon glyphicon-pencil"></span>
@@ -29,7 +29,7 @@
     <div class="col-md-3">
         <p>
             <img class="-person-picture img-thumbnail"
-             src="{{ form.vars['data'] ? path('ecgpb.member.person.optimized_member_picture', {'id': form.vars['data'].id}) : '#' }}"
+             src="{{ form.vars['data'] and form.vars['data'].id ? path('ecgpb.member.person.optimized_member_picture', {'id': form.vars['data'].id}) : '#' }}"
              alt="No Image"/>
         </p>
         <p>
