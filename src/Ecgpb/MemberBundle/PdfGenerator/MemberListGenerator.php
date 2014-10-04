@@ -912,7 +912,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 imagecopy($imageSnippet, $imageOriginal, 0, 0, ($widthOriginal - $width) / 2, ($heightOriginal - $height) / 2, $width, $height);
                 imagedestroy($imageOriginal);
                 $imageOptimized = imagecreatetruecolor($dstWidth, $dstHeight);
-                imagecopyresized($imageOptimized, $imageSnippet, 0, 0, 0, 0, $dstWidth, $dstHeight, $width, $height);
+                //imagecopyresized($imageOptimized, $imageSnippet, 0, 0, 0, 0, $dstWidth, $dstHeight, $width, $height);
+                imagecopyresampled($imageOptimized, $imageSnippet, 0, 0, 0, 0, $dstWidth, $dstHeight, $width, $height);
                 imagedestroy($imageSnippet);
                 imagejpeg($imageOptimized, $filenameOptimized, 95);
                 imagedestroy($imageOptimized);
