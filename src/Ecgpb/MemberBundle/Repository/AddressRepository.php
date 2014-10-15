@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class AddressRepository extends EntityRepository
 {
-    public function getListFilterQb($term)
+    public function getListFilterQb($term, $personIdsWithoutPhoto = null)
     {
         $qb = $this->createQueryBuilder('address')
             ->select('address', 'person')
@@ -34,6 +34,11 @@ class AddressRepository extends EntityRepository
                 $qb->setParameter('word_' . $wordIndex, '%' . $word . '%');
             }
             $qb->andWhere($andExpr);
+        }
+
+        if (is_array($personIdsWithoutPhoto) && count($personIdsWithoutPhoto) > 0) {
+            $qb->andWhere('person.id IN (:person_ids_without_photo)');
+            $qb->setParameter('person_ids_without_photo', $personIdsWithoutPhoto);
         }
 
         return $qb;

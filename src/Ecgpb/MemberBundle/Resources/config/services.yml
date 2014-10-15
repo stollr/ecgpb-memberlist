@@ -2,9 +2,10 @@ parameters:
 #    ecgpb_member.example.class: Ecgpb\MemberBundle\Example
 
 services:
-    ecgpb.member.helper.person_helper:
+    person_helper:
         class: Ecgpb\MemberBundle\Helper\PersonHelper
         arguments:
+            - "@doctrine"
             -
                 ecgpb.members.photo_path: %ecgpb.members.photo_path%
                 ecgpb.members.photo_path_optimized: %ecgpb.members.photo_path_optimized%
@@ -19,7 +20,7 @@ services:
         arguments:
             - "@doctrine"
             - "@translator"
-            - "@ecgpb.member.helper.person_helper"
+            - "@person_helper"
             - "@ecgpb.member.statistic.statistic_service"
             - 
                 ecgpb.contact.name: %ecgpb.contact.name%

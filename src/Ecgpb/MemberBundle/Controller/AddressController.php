@@ -23,17 +23,20 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $personHelper = $this->get('person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
+
         $repo = $em->getRepository('EcgpbMemberBundle:Address'); /* @var $repo \Ecgpb\MemberBundle\Repository\AddressRepository */
 
         $pagination = $this->get('knp_paginator')->paginate(
-            $repo->getListFilterQb($request->get('filter')),
+            $repo->getListFilterQb(
+                $request->get('filter'),
+                $request->get('no-photo') ? $personHelper->getPersonIdsWithoutPhoto() : null
+            ),
             $request->query->get('page', 1)/*page number*/,
             15 /*limit per page*/
         );
 
         // person pictures
-        $personHelper = $this->get('ecgpb.member.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
-
         $personsWithPicture = array();
         foreach ($pagination as $address) {
             foreach ($address->getPersons() as $person) {
@@ -138,7 +141,7 @@ class AddressController extends Controller
             $em->flush();
 
             // person picture file
-            $personHelper = $this->get('ecgpb.member.helper.person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
+            $personHelper = $this->get('person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
             foreach ($request->files->get('person-picture-file', array()) as $index => $file) {
                 /* @var $file UploadedFile */
                 if ($file) {
