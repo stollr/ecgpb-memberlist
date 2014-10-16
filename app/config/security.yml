@@ -29,8 +29,8 @@ security:
         secured_area:
             pattern:    ^/
             anonymous: ~
-            http_basic:
-                realm: "Secured Demo Area"
+#            http_basic:
+#                realm: "Secured Demo Area"
 
     access_control:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
