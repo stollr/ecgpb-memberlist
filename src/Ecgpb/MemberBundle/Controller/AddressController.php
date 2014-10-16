@@ -27,29 +27,21 @@ class AddressController extends Controller
 
         $repo = $em->getRepository('EcgpbMemberBundle:Address'); /* @var $repo \Ecgpb\MemberBundle\Repository\AddressRepository */
 
+        $filter = $request->get('filter', array());
+        if (!empty($filter['no-photo'])) {
+            $filter['no-photo'] = $personHelper->getPersonIdsWithoutPhoto();
+        }
+
         $pagination = $this->get('knp_paginator')->paginate(
-            $repo->getListFilterQb(
-                $request->get('filter'),
-                $request->get('no-photo') ? $personHelper->getPersonIdsWithoutPhoto() : null
-            ),
+            $repo->getListFilterQb($filter),
             $request->query->get('page', 1)/*page number*/,
             15 /*limit per page*/
         );
 
-        // person pictures
-        $personsWithPicture = array();
-        foreach ($pagination as $address) {
-            foreach ($address->getPersons() as $person) {
-                $filename = $personHelper->getPersonPhotoPath() . DIRECTORY_SEPARATOR
-                    . $personHelper->getPersonPhotoFilename($person)
-                ;
-                $personsWithPicture[$person->getId()] = file_exists($filename);
-            }
-        }
-
         return $this->render('EcgpbMemberBundle:Address:index.html.twig', array(
             'pagination' => $pagination,
-            'persons_with_picture' => $personsWithPicture,
+            'person_ids_without_photo' => $personHelper->getPersonIdsWithoutPhoto(),
+            //'persons_with_picture' => $personsWithPicture,
         ));
     }
     /**

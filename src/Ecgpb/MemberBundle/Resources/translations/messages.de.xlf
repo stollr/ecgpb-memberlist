@@ -158,6 +158,10 @@
                 <source>Group of Women</source>
                 <target>Frauengruppe</target>
             </trans-unit>
+            <trans-unit id="Has Email Address">
+                <source>Has Email Address</source>
+                <target>Hat Emailadresse</target>
+            </trans-unit>
             <trans-unit id="Keep in mind that the number of pages has be devideable by four, for printing.">
                 <source>Keep in mind that the number of pages has be devideable by four, for printing.</source>
                 <target>Es ist zu beachten, dass die Anzahl an Seiten für den Druck durch vier teilbar sein muss.</target>
@@ -289,6 +293,10 @@
             <trans-unit id="Saving">
                 <source>Saving</source>
                 <target>Speichern</target>
+            </trans-unit>
+            <trans-unit id="Search Term">
+                <source>Search Term</source>
+                <target>Suchbegriff</target>
             </trans-unit>
             <trans-unit id="Second Phone">
                 <source>Second Phone</source>

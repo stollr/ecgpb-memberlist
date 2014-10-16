@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class AddressRepository extends EntityRepository
 {
-    public function getListFilterQb($term, $personIdsWithoutPhoto = null)
+    public function getListFilterQb(array $filter = array())
     {
         $qb = $this->createQueryBuilder('address')
             ->select('address', 'person')
@@ -20,8 +20,8 @@ class AddressRepository extends EntityRepository
             ->addOrderBy('person.dob', 'asc')
         ;
 
-        if ('' !== trim($term)) {
-            $words = explode(' ', trim($term));
+        if (isset($filter['term']) && '' !== trim($filter['term'])) {
+            $words = explode(' ', trim($filter['term']));
             $attributes = array('address.familyName', 'person.firstname');
 
             $andExpr = new \Doctrine\ORM\Query\Expr\Andx();
@@ -36,9 +36,14 @@ class AddressRepository extends EntityRepository
             $qb->andWhere($andExpr);
         }
 
-        if (is_array($personIdsWithoutPhoto) && count($personIdsWithoutPhoto) > 0) {
+        if (!empty($filter['has-email'])) {
+            $qb->andWhere('person.email IS NOT NULL');
+            $qb->andWhere("person.email != ''");
+        }
+
+        if (isset($filter['no-photo']) && is_array($filter['no-photo']) && count($filter['no-photo']) > 0) {
             $qb->andWhere('person.id IN (:person_ids_without_photo)');
-            $qb->setParameter('person_ids_without_photo', $personIdsWithoutPhoto);
+            $qb->setParameter('person_ids_without_photo', $filter['no-photo']);
         }
 
         return $qb;

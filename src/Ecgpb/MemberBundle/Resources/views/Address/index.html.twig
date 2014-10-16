@@ -7,12 +7,19 @@
         </div>
         <div class="col-md-7 h2-margin">
             <form action="{{ path('ecgpb.member.address.index') }}" method="get" role="form" class="form-inline text-right">
+                {% set filter = app.request.get('filter') %}
                 <div class="form-group">
-                    <input type="text" name="filter" class="form-control" value="{{ app.request.get('filter') }}" />
+                    <input type="text" name="filter[term]" class="form-control" value="{{ filter['term'] is defined ? filter['term'] : '' }}" placeholder="{% trans %}Search Term{% endtrans %}" />
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="no-photo" class="" value="1" {% if app.request.get('no-photo') %}checked="1"{% endif %} />
+                        <input type="checkbox" name="filter[has-email]" value="1" {% if filter['has-email'] is defined and filter['has-email'] is not empty %}checked="1"{% endif %} />
+                        {% trans %}Has Email Address{% endtrans %}
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="filter[no-photo]" value="1" {% if filter['no-photo'] is defined and filter['no-photo'] is not empty %}checked="1"{% endif %} />
                         {% trans %}Without Photo{% endtrans %}
                     </label>
                 </div>
@@ -57,7 +64,7 @@
                 {% for person in address.persons %}
                     {% if loop.index0 > 0 %}<tr>{% endif %}
                         <td>
-                            {% if persons_with_picture[person.id] %}
+                            {% if person.id not in person_ids_without_photo %}
                                 <img class="person-picture" src="{{ path('ecgpb.member.person.optimized_member_picture', {'id': person.id}) }}" />
                             {% endif %}
                         </td>
@@ -119,6 +126,6 @@
     </table>
 
     <div class="navigation">
-        {{ knp_pagination_render(pagination, null, {'filter': app.request.get('filter'), 'no-photo': app.request.get('no-photo')}) }}
+        {{ knp_pagination_render(pagination, null, {'filter': app.request.get('filter')}) }}
     </div>
 {% endblock %}
