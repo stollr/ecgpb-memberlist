@@ -1,13 +1,18 @@
-/**** helper classes **********************************************************/
-
-.bold {
-    font-weight: bold;
-}
-
 /**** general *****************************************************************/
+
+h2, .h2 {
+    font-size: 25px;
+}
+.h2-margin {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
 
 #body-block {
     padding: 0 10px 50px 10px;
+}
+.navbar {
+    margin-bottom: 0;
 }
 
 /**** helpers *****************************************************************/

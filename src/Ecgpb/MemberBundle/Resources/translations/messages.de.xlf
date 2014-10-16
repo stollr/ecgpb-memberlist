@@ -342,6 +342,10 @@
                 <source>Update</source>
                 <target>Aktualisieren</target>
             </trans-unit>
+            <trans-unit id="Without Photo">
+                <source>Without Photo</source>
+                <target>Ohne Foto</target>
+            </trans-unit>
             <trans-unit id="Women">
                 <source>Women</source>
                 <target>Frauen</target>
