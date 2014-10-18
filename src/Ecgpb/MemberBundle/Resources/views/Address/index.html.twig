@@ -5,7 +5,7 @@
         <div class="col-md-4">
             <h2>{% trans %}Addresses{% endtrans %}</h2>
         </div>
-        <div class="col-md-7 h2-margin">
+        <div class="col-md-7 h2-margin print-not">
             <form action="{{ path('ecgpb.member.address.index') }}" method="get" role="form" class="form-inline text-right">
                 {% set filter = app.request.get('filter') %}
                 <div class="form-group">
