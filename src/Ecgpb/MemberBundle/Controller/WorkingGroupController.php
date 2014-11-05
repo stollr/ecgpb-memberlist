@@ -10,7 +10,7 @@ use Ecgpb\MemberBundle\Form\WorkingGroupType;
 
 /**
  * WorkingGroup controller.
- * @Security("has_role('ROLE_ADMIN')")
+ * @/Security("has_role('ROLE_ADMIN')")
  */
 class WorkingGroupController extends Controller
 {
