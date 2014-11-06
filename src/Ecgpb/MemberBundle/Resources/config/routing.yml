@@ -41,31 +41,10 @@ ecgpb.member.person.optimized_member_picture:
 
 # address routes
 
-ecgpb.member.address.index:
-    pattern:  /address/index
-    defaults: { _controller: "EcgpbMemberBundle:Address:index", _locale: de }
-
-ecgpb.member.address.new:
-    pattern:  /address/new
-    defaults: { _controller: "EcgpbMemberBundle:Address:new", _locale: de }
-
-ecgpb.member.address.create:
-    pattern:  /address/create
-    defaults: { _controller: "EcgpbMemberBundle:Address:create", _locale: de }
-    requirements: { _method: post }
-
-ecgpb.member.address.edit:
-    pattern:  /address/{id}/edit
-    defaults: { _controller: "EcgpbMemberBundle:Address:edit", _locale: de }
-
-ecgpb.member.address.update:
-    pattern:  /address/{id}/update
-    defaults: { _controller: "EcgpbMemberBundle:Address:update", _locale: de }
-    requirements: { _method: post|put }
-
-ecgpb.member.address.delete:
-    pattern:  /address/{id}/delete
-    defaults: { _controller: "EcgpbMemberBundle:Address:delete", _locale: de }
+ecgpb.member.address:
+    resource: "@EcgpbMemberBundle/Controller/AddressController.php"
+    type: annotation
+    prefix: /address
 
 # working group actions
 

@@ -4,6 +4,8 @@ namespace Ecgpb\MemberBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Ecgpb\MemberBundle\Entity\Address;
 use Ecgpb\MemberBundle\Form\AddressType;
@@ -18,6 +20,7 @@ class AddressController extends Controller
     /**
      * Lists all Address entities.
      *
+     * @Route("/index", name="ecgpb.member.address.index", defaults={"_locale"="de"})
      */
     public function indexAction(Request $request)
     {
@@ -47,6 +50,8 @@ class AddressController extends Controller
     /**
      * Creates a new Address entity.
      *
+     * @Route("/create", name="ecgpb.member.address.create", defaults={"_locale"="de"})
+     * @Method({"POST"})
      */
     public function createAction(Request $request)
     {
@@ -73,6 +78,7 @@ class AddressController extends Controller
     /**
      * Displays a form to create a new Address entity.
      *
+     * @Route("/new", name="ecgpb.member.address.new", defaults={"_locale"="de"})
      */
     public function newAction()
     {
@@ -88,6 +94,7 @@ class AddressController extends Controller
     /**
      * Displays a form to edit an existing Address entity.
      *
+     * @Route("/{id}/edit", name="ecgpb.member.address.edit", defaults={"_locale"="de"})
      */
     public function editAction($id)
     {
@@ -110,6 +117,8 @@ class AddressController extends Controller
     /**
      * Edits an existing Address entity.
      *
+     * @Route("/{id}/update", name="ecgpb.member.address.update", defaults={"_locale"="de"})
+     * @Method({"POST", "PUT"})
      */
     public function updateAction(Request $request, $id)
     {
@@ -156,6 +165,7 @@ class AddressController extends Controller
     /**
      * Deletes a Address entity.
      *
+     * @Route("/{id}/delete", name="ecgpb.member.address.delete", defaults={"_locale"="de"})
      */
     public function deleteAction($id)
     {
