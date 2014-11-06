@@ -25,9 +25,11 @@
                 </td>
                 <td>
                     {{ working_group.leader ? working_group.leader.firstname ~ ' ' ~ working_group.leader.address.familyName : '' }}
+                    {% if working_group.leader %}({{ working_group.leader.dob.format('Y') }}){% endif %}
                 </td>
                 <td>
                     {% for person in working_group.persons %}
+                        <span class="text-muted">{{ loop.index }}.</span>
                         {{ person.lastnameFirstnameAndDob }}<br/>
                     {% endfor %}
                 </td>
