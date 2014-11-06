@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Ecgpb\MemberBundle\Entity\Person;
 
 class PersonType extends AbstractType
 {
@@ -68,6 +69,16 @@ class PersonType extends AbstractType
                 'class' => 'Ecgpb\MemberBundle\Entity\WorkingGroup',
                 'property' => 'displayName',
                 'label' => 'Working Group',
+                'required' => false,
+            ))
+            ->add('workerStatus', 'choice', array(
+                'choices' => array(
+                    Person::WORKER_STATUS_UNABLE => 'No',
+                    Person::WORKER_STATUS_STILL_ABLE => 'Yes',
+                ),
+                'empty_data' => Person::WORKER_STATUS_DEPENDING,
+                'empty_value' => 'Depending on Age (< 60)',
+                'label' => 'Able to work',
                 'required' => false,
             ))
         ;

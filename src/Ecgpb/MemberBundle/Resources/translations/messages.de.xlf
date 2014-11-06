@@ -2,6 +2,10 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
+            <trans-unit id="Able to work">
+                <source>Able to work</source>
+                <target>Arbeitsfähig</target>
+            </trans-unit>
             <trans-unit id="Account Number">
                 <source>Account Number</source>
                 <target>Kontonummer</target>
@@ -85,6 +89,10 @@
             <trans-unit id="Delete Person">
                 <source>Delete Person</source>
                 <target>Person löschen</target>
+            </trans-unit>
+            <trans-unit id="Depending on Age (&lt; 60)">
+                <source>Depending on Age (&lt; 60)</source>
+                <target>Abhängig vom Alter (&lt; 60)</target>
             </trans-unit>
             <trans-unit id="Differing Last Name">
                 <source>Differing Last Name</source>
@@ -221,6 +229,10 @@
             <trans-unit id="c18d316491cbadd7b90f5b224c5eb3ab">
                 <source>Name, Address, Phone</source>
                 <target>Name, Adresse, Telefon</target>
+            </trans-unit>
+            <trans-unit id="No">
+                <source>No</source>
+                <target>Nein</target>
             </trans-unit>
             <trans-unit id="Not assigned">
                 <source>Not assigned</source>
@@ -365,6 +377,10 @@
             <trans-unit id="Working Groups">
                 <source>Working Groups</source>
                 <target>Arbeitsgruppen</target>
+            </trans-unit>
+            <trans-unit id="Yes">
+                <source>Yes</source>
+                <target>Ja</target>
             </trans-unit>
             <trans-unit id="You can enter a label for the second phone number.">
                 <source>You can enter a label for the second phone number. Enter &quot;\n&quot; for line break.</source>

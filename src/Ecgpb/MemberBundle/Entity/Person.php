@@ -11,6 +11,21 @@ class Person
 {
     const GENDER_MALE = 'm';
     const GENDER_FEMALE = 'f';
+
+    /**
+     * Persons whose working status depends on their age.
+     */
+    const WORKER_STATUS_DEPENDING = null;
+
+    /**
+     * People younger than 60 years, but not able to work anymore.
+     */
+    const WORKER_STATUS_UNABLE = 0;
+
+    /**
+     * People 60 years old or older, but still want to work.
+     */
+    const WORKER_STATUS_STILL_ABLE = 1;
     
     /**
      * @var integer
@@ -76,6 +91,13 @@ class Person
      * @var \Ecgpb\MemberBundle\Entity\WorkingGroup
      */
     private $workingGroup;
+
+    /**
+     * Defines whether person is able to work or not.
+     * See class constants self::WORKER_STATUS_*
+     * @var int
+     */
+    private $workerStatus;
 
     /**
      * @var \Ecgpb\MemberBundle\Entity\WorkingGroup
@@ -345,6 +367,29 @@ class Person
     public function getWorkingGroup()
     {
         return $this->workingGroup;
+    }
+
+    public function getWorkerStatus()
+    {
+        return $this->workerStatus;
+    }
+
+    public function setWorkerStatus($workerStatus)
+    {
+        if (!in_array($workerStatus, self::getAllWorkerStatus(), true)) {
+            throw new \InvalidArgumentException('Given worker status is invalid.');
+        }
+        $this->workerStatus = $workerStatus;
+        return $this;
+    }
+
+    public static function getAllWorkerStatus()
+    {
+        return array(
+            self::WORKER_STATUS_DEPENDING,
+            self::WORKER_STATUS_UNABLE,
+            self::WORKER_STATUS_STILL_ABLE,
+        );
     }
 
     /**
