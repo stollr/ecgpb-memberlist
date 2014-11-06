@@ -4,6 +4,8 @@ namespace Ecgpb\MemberBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Ecgpb\MemberBundle\Entity\WorkingGroup;
 use Ecgpb\MemberBundle\Form\WorkingGroupType;
@@ -18,6 +20,7 @@ class WorkingGroupController extends Controller
     /**
      * Lists all WorkingGroup workingGroups.
      *
+     * @Route("/", name="ecgpb.member.workinggroup.index", defaults={"_locale"="de"})
      */
     public function indexAction()
     {
@@ -29,9 +32,28 @@ class WorkingGroupController extends Controller
             'working_groups' => $workingGroups,
         ));
     }
+
+    /**
+     * Displays a form to create a new WorkingGroup entity.
+     *
+     * @Route("/new", name="ecgpb.member.workinggroup.new", defaults={"_locale"="de"})
+     */
+    public function newAction()
+    {
+        $workingGroup = new WorkingGroup();
+        $form   = $this->createCreateForm($workingGroup);
+
+        return $this->render('EcgpbMemberBundle:WorkingGroup:form.html.twig', array(
+            'working_group' => $workingGroup,
+            'form'   => $form->createView(),
+        ));
+    }
+
     /**
      * Creates a new WorkingGroup entity.
      *
+     * @Route("/create", name="ecgpb.member.workinggroup.create", defaults={"_locale"="de"})
+     * @Method({"POST"})
      */
     public function createAction(Request $request)
     {
@@ -77,23 +99,9 @@ class WorkingGroupController extends Controller
     }
 
     /**
-     * Displays a form to create a new WorkingGroup entity.
-     *
-     */
-    public function newAction()
-    {
-        $workingGroup = new WorkingGroup();
-        $form   = $this->createCreateForm($workingGroup);
-
-        return $this->render('EcgpbMemberBundle:WorkingGroup:form.html.twig', array(
-            'working_group' => $workingGroup,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
      * Displays a form to edit an existing WorkingGroup entity.
      *
+     * @Route("/{id}/edit", name="ecgpb.member.workinggroup.edit", defaults={"_locale"="de"})
      */
     public function editAction($id)
     {
@@ -135,9 +143,12 @@ class WorkingGroupController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing WorkingGroup entity.
      *
+     * @Route("/{id}/update", name="ecgpb.member.workinggroup.update", defaults={"_locale"="de"})
+     * @Method({"POST"})
      */
     public function updateAction(Request $request, $id)
     {
@@ -174,9 +185,11 @@ class WorkingGroupController extends Controller
             'form'   => $editForm->createView(),
         ));
     }
+
     /**
      * Deletes a WorkingGroup entity.
      *
+     * @Route("/{id}/delete", name="ecgpb.member.workinggroup.delete", defaults={"_locale"="de"})
      */
     public function deleteAction(Request $request, $id)
     {

@@ -48,31 +48,10 @@ ecgpb.member.address:
 
 # working group actions
 
-ecgpb.member.workinggroup.index:
-    pattern:  /workinggroup/
-    defaults: { _controller: "EcgpbMemberBundle:WorkingGroup:index" }
-
-ecgpb.member.workinggroup.new:
-    pattern:  /workinggroup/new
-    defaults: { _controller: "EcgpbMemberBundle:WorkingGroup:new" }
-
-ecgpb.member.workinggroup.create:
-    pattern:  /workinggroup/create
-    defaults: { _controller: "EcgpbMemberBundle:WorkingGroup:create" }
-    requirements: { _method: post }
-
-ecgpb.member.workinggroup.edit:
-    pattern:  /workinggroup/{id}/edit
-    defaults: { _controller: "EcgpbMemberBundle:WorkingGroup:edit" }
-
-ecgpb.member.workinggroup.update:
-    pattern:  /workinggroup/{id}/update
-    defaults: { _controller: "EcgpbMemberBundle:WorkingGroup:update" }
-    requirements: { _method: post|put }
-
-ecgpb.member.workinggroup.delete:
-    pattern:  /workinggroup/{id}/delete
-    defaults: { _controller: "EcgpbMemberBundle:WorkingGroup:delete" }
+ecgpb.member.workinggroup:
+    resource: "@EcgpbMemberBundle/Controller/WorkingGroupController.php"
+    type: annotation
+    prefix: /workinggroup
 
 # ministry category actions
 
