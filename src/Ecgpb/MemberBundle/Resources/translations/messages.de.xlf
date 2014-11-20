@@ -174,6 +174,10 @@
                 <source>Keep in mind that the number of pages has be devideable by four, for printing.</source>
                 <target>Es ist zu beachten, dass die Anzahl an Seiten für den Druck durch vier teilbar sein muss.</target>
             </trans-unit>
+            <trans-unit id="Last Name">
+                <source>Last Name</source>
+                <target>Nachname</target>
+            </trans-unit>
             <trans-unit id="Leave this field empty to use the family name of the address.">
                 <source>Leave this field empty to use the family name of the address.</source>
                 <target>Dieses Feld kann leer gelassen werden, um den Familiennamen zu nutzen.</target>
@@ -257,6 +261,10 @@
             <trans-unit id="Persons">
                 <source>Persons</source>
                 <target>Personen</target>
+            </trans-unit>
+            <trans-unit id="Persons assignable to a Working Group">
+                <source>Persons assignable to a Working Group</source>
+                <target>Personen, die zu einer Arbeitsgruppe zuweisbar sind</target>
             </trans-unit>
             <trans-unit id="Phone">
                 <source>Phone</source>

@@ -92,4 +92,25 @@ class PersonRepository extends EntityRepository
 
         return $persons;
     }
+
+    public function findPersonsToBeAssignedToWorkingGroup()
+    {
+        $minimumAge = new \DateTime();
+        $minimumAge->modify('-60 year');
+
+        $dql = 'SELECT person, address
+                FROM EcgpbMemberBundle:Person person
+                JOIN person.address address
+                WHERE person.workingGroup IS NULL
+                AND (person.workerStatus = :able
+                    OR (person.workerStatus IS NULL AND person.dob > :minimum_age))
+                ORDER By address.familyName, person.firstname'
+        ;
+        
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('able', Person::WORKER_STATUS_STILL_ABLE);
+        $query->setParameter('minimum_age', $minimumAge->format('Y-m-d'));
+
+        return $query->getResult();
+    }
 }

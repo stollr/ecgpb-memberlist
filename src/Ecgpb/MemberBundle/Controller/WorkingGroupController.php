@@ -207,4 +207,38 @@ class WorkingGroupController extends Controller
 
         return $this->redirect($this->generateUrl('ecgpb.member.workinggroup.index'));
     }
+
+    /**
+     * @Route("/assignables", name="ecgpb.member.workinggroup.assignables", defaults={"_locale"="de"}))
+     */
+    public function assignablesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $personRepo = $em->getRepository('EcgpbMemberBundle:Person');
+        $persons = $personRepo->findPersonsToBeAssignedToWorkingGroup();
+
+        $workingGroups = $em->getRepository('EcgpbMemberBundle:WorkingGroup')->findAll();
+
+        return $this->render('EcgpbMemberBundle:WorkingGroup:assignables.html.twig', array(
+            'persons' => $persons,
+            'working_groups' => $workingGroups,
+        ));
+    }
+
+    /**
+     * @Route("/assign", name="ecgpb.member.workinggroup.assign", defaults={"_locale"="de"}))
+     * @Method({"POST"})
+     */
+    public function assignAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $personRepo = $em->getRepository('EcgpbMemberBundle:Person');
+        $persons = $personRepo->findPersonsToBeAssignedToWorkingGroup();
+
+        $workingGroups = $em->getRepository('EcgpbMemberBundle:WorkingGroup')->findAll();
+
+        return $this->redirect($this->generateUrl('ecgpb.member.workinggroup.assignables'));
+    }
 }

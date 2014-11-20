@@ -37,9 +37,22 @@
                                     </a>
                                 </li>#}
                                 <li>
-                                    <a href="{{ path('ecgpb.member.workinggroup.index') }}">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         {% trans %}Working Groups{% endtrans %}
+                                        <b class="caret"></b>
                                     </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ path('ecgpb.member.workinggroup.index') }}">
+                                                {% trans %}Working Groups{% endtrans %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('ecgpb.member.workinggroup.assignables') }}">
+                                                {% trans %}Unassigned Persons{% endtrans %}
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -100,7 +113,7 @@
                             {% endfor %}
                         {% endfor %}
                     </div>
-                    <div id="body-block">
+                    <div id="body-block" class="clearfix">
                         {% block body %}{% endblock %}
                     </div>
                 </div>
