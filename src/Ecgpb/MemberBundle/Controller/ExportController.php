@@ -13,7 +13,7 @@ use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
  *
  * @author naitsirch
  *
- * @Security("is_granted('ROLE_ADMIN')")
+ * @/Security("is_granted('ROLE_ADMIN')")
  */
 class ExportController extends Controller
 {
