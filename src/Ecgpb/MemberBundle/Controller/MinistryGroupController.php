@@ -14,7 +14,7 @@ use Ecgpb\MemberBundle\Form\Ministry\GroupType;
 /**
  * Ecgpb\MemberBundle\Controller\MinistryGroupController
  *
- * @Security("has_role('ROLE_ADMIN')")
+ * @/Security("has_role('ROLE_ADMIN')")
  */
 class MinistryGroupController extends Controller
 {
