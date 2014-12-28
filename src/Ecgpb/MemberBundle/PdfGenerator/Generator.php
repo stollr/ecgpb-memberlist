@@ -47,14 +47,19 @@ abstract class Generator
         $pdf->SetFontSize(self::FONT_SIZE_S);
     }
     
-    public function useFontWeightBold(\TCPDF $pdf)
+    public function useFontStyleBold(\TCPDF $pdf)
     {
         $pdf->SetFont('', 'B');
     }
     
-    public function useFontWeightNormal(\TCPDF $pdf)
+    public function useFontStyleNormal(\TCPDF $pdf)
     {
         $pdf->SetFont('', '');
+    }
+
+    public function useFontStyleUnderlined(\TCPDF $pdf)
+    {
+        $pdf->SetFont('', 'U');
     }
 
     public function writeText(\TCPDF $pdf, $text)
