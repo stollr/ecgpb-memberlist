@@ -91,10 +91,33 @@ class MinistryCategoryController extends Controller
                     $category = reset($filtered);
                     $existingCategoryIds[] = $clientMinistryCategory['id'];
                 }
+
+                // cache old assignments
+                $oldContactAssignments = array();
+                $oldResponsibleAssignments = array();
+                foreach ($category->getMinistries() as $ministry) {
+                    $oldContactAssignments[$ministry->getId()] = $ministry->getContactAssignments()->toArray();
+                    $oldResponsibleAssignments[$ministry->getId()] = $ministry->getResponsibleAssignments()->toArray();
+                }
+
                 $form = $this->createForm(new CategoryType(), $category, array(
                     'csrf_protection' => false,
                 ));
                 $form->submit($clientMinistryCategory);
+
+                // delete assignments, that have been removed by user
+                foreach ($category->getMinistries() as $ministry) {
+                    foreach ($oldContactAssignments[$ministry->getId()] as $oldContactAssignment) {
+                        if (!$ministry->getContactAssignments()->contains($oldContactAssignment)) {
+                            $em->remove($oldContactAssignment);
+                        }
+                    }
+                    foreach ($oldResponsibleAssignments[$ministry->getId()] as $oldResponsibleAssignment) {
+                        if (!$ministry->getResponsibleAssignments()->contains($oldResponsibleAssignment)) {
+                            $em->remove($oldResponsibleAssignment);
+                        }
+                    }
+                }
 
                 if ($form->isValid()) {
                     $em->persist($category);
