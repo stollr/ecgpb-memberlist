@@ -7,6 +7,16 @@ h2, .h2 {
     margin-top: 20px;
     margin-bottom: 10px;
 }
+.input-sm, select.input-sm {
+    height: 24px;
+    line-height: 1.5;
+}
+.input-sm {
+    padding: 3px;
+}
+select.input-sm {
+    padding: 0;
+}
 
 #body-block {
     padding: 0 10px 50px 10px;
@@ -46,4 +56,10 @@ h2, .h2 {
 
 .person-picture {
     height: 60px;
+}
+
+/**** ministry category listing ***********************************************/
+
+.ministry-category-list .remove-assignment-btn {
+    margin-top: 10px;
 }
