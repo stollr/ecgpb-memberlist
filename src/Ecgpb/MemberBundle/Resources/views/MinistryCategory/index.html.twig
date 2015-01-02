@@ -25,7 +25,10 @@
             <tr>
                 <th>{% trans %}Pos.{% endtrans %}</th>
                 <th class="col-md-2">{% trans %}Bereich{% endtrans %}</th>
-                <th class="col-md-2">{% trans %}Unterbereich{% endtrans %}</th>
+                <th class="col-md-2">
+                    {% trans %}Pos.{% endtrans %},
+                    {% trans %}Unterbereich{% endtrans %}
+                </th>
                 <th class="col-md-2">{% trans %}Tasks{% endtrans %}</th>
                 <th>{% trans %}Contact Persons{% endtrans %}</th>
                 <th>{% trans %}Responsible Elders / Deacon{% endtrans %}</th>
@@ -34,7 +37,7 @@
         </thead>
         <tbody ng-repeat="ministryCategory in ministryCategories | orderBy:['position', 'id']: false"
                ng-init="$ministryCategoryIndex = $index">
-            <tr ng-repeat="ministry in ministryCategory.ministries">
+            <tr ng-repeat="ministry in ministryCategory.ministries | orderBy:['position', 'id']: false">
                 <td rowspan="{{ '{{ ministryCategory.ministries.length }}' }}" ng-if="$first">
                     <input type="number" ng-model="ministryCategory.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministryCategory.position }}' }}</span>
@@ -44,6 +47,10 @@
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministryCategory.name }}' }}</span>
                 </td>
                 <td>
+                    <!-- ministry position -->
+                    <input type="number" ng-model="ministry.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
+                    <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.position }}' }}</span> &dash;
+                    <!-- ministry name -->
                     <input type="text" ng-model="ministry.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.name }}' }}</span>
                     <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministryCategory.newMinistry()" ng-show="isEditable(ministryCategory) && $last">
@@ -236,6 +243,7 @@
                 var Ministry = function(properties) {
                     this.name = properties ? properties.name : '';
                     this.description = properties ? properties.description : '';
+                    this.position = properties ? properties.position : 0;
                     this.contactAssignments = properties
                         ? properties.contactAssignments.map(function(value) { return new Assignment(value); })
                         : [new Assignment()]

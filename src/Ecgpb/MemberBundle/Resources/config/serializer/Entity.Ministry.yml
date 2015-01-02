@@ -7,6 +7,8 @@ Ecgpb\MemberBundle\Entity\Ministry:
             groups: [MinistryCategoryListing]
         description:
             groups: [MinistryCategoryListing]
+        position:
+            groups: [MinistryCategoryListing]
         contactAssignments:
             serialized_name: contactAssignments
             groups: [MinistryCategoryListing]

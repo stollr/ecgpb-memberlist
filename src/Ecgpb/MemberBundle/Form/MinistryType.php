@@ -21,6 +21,9 @@ class MinistryType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
+            ->add('position', 'integer', array(
+                'required' => false,
+            ))
 //            ->add('category', 'entity', array(
 //                'class' => 'Ecgpb\MemberBundle\Entity\Ministry\Category',
 //                'property' => 'name',

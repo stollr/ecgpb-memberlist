@@ -25,6 +25,11 @@ class Ministry
     private $description;
 
     /**
+     * @var integer
+     */
+    private $position;
+
+    /**
      * @var Category
      */
     private $category;
@@ -88,6 +93,17 @@ class Ministry
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    public function setPosition($position)
+    {
+        $this->position = $position;
         return $this;
     }
 
