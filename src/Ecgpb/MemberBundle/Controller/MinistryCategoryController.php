@@ -107,6 +107,10 @@ class MinistryCategoryController extends Controller
 
                 // delete assignments, that have been removed by user
                 foreach ($category->getMinistries() as $ministry) {
+                    if (!$ministry->getId()) {
+                        // for new ministries, there aren't any assignments
+                        continue;
+                    }
                     foreach ($oldContactAssignments[$ministry->getId()] as $oldContactAssignment) {
                         if (!$ministry->getContactAssignments()->contains($oldContactAssignment)) {
                             $em->remove($oldContactAssignment);
