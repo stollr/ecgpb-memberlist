@@ -148,7 +148,7 @@ class WorkingGroupController extends Controller
      * Edits an existing WorkingGroup entity.
      *
      * @Route("/{id}/update", name="ecgpb.member.workinggroup.update", defaults={"_locale"="de"})
-     * @Method({"POST"})
+     * @Method({"POST", "PUT"})
      */
     public function updateAction(Request $request, $id)
     {
