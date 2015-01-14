@@ -5,6 +5,7 @@ namespace Ecgpb\MemberBundle\PdfGenerator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Tcpdf\Extension\Table\Table;
+use Tcpdf\Extension\Table\Cell;
 use Tcpdf\Extension\Helper;
 use Ecgpb\MemberBundle\Entity\Person;
 use Ecgpb\MemberBundle\Helper\PersonHelper;
@@ -71,6 +72,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addAddressPlaceholders($pdf, $options['pages_with_member_placeholders']);
         $this->addWorkingGroups($pdf);
         $this->addMinistryCategories($pdf);
+        $this->addBuildingUsageCosts($pdf);
         $this->addPersonalNotes($pdf, $options['pages_for_notes']);
         $this->addLastPage($pdf);
 
@@ -761,6 +763,104 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             }
         }
 
+        $table->end();
+    }
+
+    private function addBuildingUsageCosts(\TCPDF $pdf)
+    {
+        $pdf->AddPage();
+
+        // headline
+        $this->useFontSizeXL($pdf);
+        $this->useFontStyleBold($pdf);
+        $pdf->Write(10, 'Nutzung der Gemeinderäumlichkeiten', false, false, 'L', 1);
+        $this->addHeadlineMargin($pdf);
+
+        // description text
+        $this->useFontSizeL($pdf);
+        $this->useFontStyleNormal($pdf);
+        $pdf->Write(4, "Die Räumlichkeiten unseres Gemeindehauses können auch für private Veranstaltungen gegen einen entsprechenden Kostenbeitrag genutzt werden.");
+        $this->addParagraphMargin($pdf);
+
+        // private parties
+        $this->useFontStyleBold($pdf);
+        $pdf->Write(4, "1. Privatfeiern, wie z.B. Weihnachtsfeiern, Geburtstagsfeiern oder Hochzeiten (Küche und Trauung)");
+        $this->useFontStyleNormal($pdf);
+        $this->addParagraphMargin($pdf);
+        $pdf->SetX($pdf->GetX() + 10);
+        $table = $this->addTable($pdf);
+        $table
+            ->newRow()
+                ->newCell('Für Gemeindeglieder:')->setWidth(50)->end()
+                ->newCell('1,50 EUR/Pers.')->setWidth(50)->end()
+            ->end()
+            ->newRow()
+                ->newCell('Für Auswärtige:')->end()
+                ->newCell('3,00 EUR/Pers.')->end()
+            ->end()
+            ->newRow()
+                ->newCell("\nNur Trauung\n\n")->setColspan(2)->end()
+            ->end()
+            ->newRow()
+                ->newCell('Für Gemeindeglieder:')->end()
+                ->newCell('Kostenfrei')->end()
+            ->end()
+            ->newRow()
+                ->newCell('Für Auswärtige:')->end()
+                ->newCell('100,00 EUR pauschal')->end()
+            ->end()
+        ;
+        $table->end();
+        $this->addParagraphMargin($pdf);
+        $pdf->SetY($pdf->GetY() - 5);
+
+        // funeral
+        $this->useFontStyleBold($pdf);
+        $pdf->Write(4, '2. Beerdigung');
+        $this->useFontStyleNormal($pdf);
+        $this->addParagraphMargin($pdf);
+        $pdf->SetX($pdf->GetX() + 10);
+        $table = $this->addTable($pdf);
+        $table
+            ->newRow()
+                ->newCell('Für Gemeindeglieder:')->setWidth(50)->end()
+                ->newCell('1,00 EUR/Pers.')->setWidth(50)->end()
+            ->end()
+            ->newRow()
+                ->newCell("")->setColspan(2)->end()
+            ->end()
+            ->newRow()
+                ->newCell('Für Auswärtige bis 150 Personen:')->end()
+                ->newCell('3,00 EUR/Pers.')->setVerticalAlign(Cell::VERTICAL_ALIGN_BOTTOM)->end()
+            ->end()
+            ->newRow()
+                ->newCell("")->setColspan(2)->end()
+            ->end()
+            ->newRow()
+                ->newCell('Ab 150 Personen:')->end()
+                ->newCell('500,00 EUR pauschal')->end()
+            ->end()
+        ;
+        $table->end();
+        $this->addParagraphMargin($pdf);
+        $pdf->SetY($pdf->GetY() - 5);
+
+        // kitchen with external party
+        $this->useFontStyleBold($pdf);
+        $pdf->Write(4, '3. Nutzung der Küche mit auswärtiger Feier (nur Gemeindeglieder)');
+        $this->useFontStyleNormal($pdf);
+        $this->addParagraphMargin($pdf);
+        $pdf->SetX($pdf->GetX() + 10);
+        $table = $this->addTable($pdf);
+        $table
+            ->newRow()
+                ->newCell('Pauschal:')->setWidth(50)->end()
+                ->newCell('300,00 EUR')->setWidth(50)->end()
+            ->end()
+            ->newRow()
+                ->newCell("\nFür den Transport des Essens sorgt der Veranstalter der Feier")->setColspan(2)->end()
+            ->end()
+        ;
         $table->end();
     }
 
