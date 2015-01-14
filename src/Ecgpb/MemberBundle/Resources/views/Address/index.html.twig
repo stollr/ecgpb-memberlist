@@ -50,7 +50,7 @@
         <tbody>
         {% for address in pagination %}
             <tr>
-                <td rowspan="{{ address.persons | length }}">
+                <td rowspan="{{ address.persons | length > 0 ? address.persons | length : 1 }}">
                     <a name="address-{{ address.id }}"></a>
                     <p>
                         <strong>{{ address.familyName }}</strong><br/>
@@ -100,6 +100,11 @@
                         {% endif %}
                     </tr>
                 {% else %}
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td>
                             <a class="btn btn-default"
                              href="{{ path('ecgpb.member.address.edit', { 'id': address.id }) }}"
