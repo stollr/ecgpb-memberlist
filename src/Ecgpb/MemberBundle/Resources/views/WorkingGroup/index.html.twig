@@ -20,8 +20,14 @@
         {% for working_group in working_groups %}
             <tr>
                 <td>
-                    {{ working_group.number }}.
-                    {{ (working_group.gender == 'f' ? 'Group of Women' : 'Group of Men') | trans }}
+                    <p>
+                        {{ working_group.number }}.
+                        {{ (working_group.gender == 'f' ? 'Group of Women' : 'Group of Men') | trans }}
+                    </p>
+                    <p class="text-muted">
+                        {% trans %}Average Age{% endtrans %}: {{ working_group.avgAge | round(2) }}<br/>
+                        {% trans %}Variance of Age{% endtrans %}: {{ working_group.varianceOfAge | round(2) }}<br/>
+                    </p>
                 </td>
                 <td>
                     {{ working_group.leader ? working_group.leader.firstname ~ ' ' ~ working_group.leader.address.familyName : '' }}

@@ -161,4 +161,26 @@ class WorkingGroup
         $gender = $this->getGender() == Person::GENDER_FEMALE ? 'Female' : 'Male';
         return $gender . ' Group' . ' ' . $this->getNumber();
     }
+
+    public function getAvgAge()
+    {
+        $years = 0;
+        foreach ($this->getPersons() as $person) {
+            $years += date('Y') - $person->getDob()->format('Y');
+        }
+        return $years / count($this->getPersons());
+    }
+
+    public function getVarianceOfAge()
+    {
+        $avg = $this->getAvgAge();
+        $powedSum = 0;
+        $sum = 0;
+        foreach ($this->getPersons() as $person) {
+            $year = date('Y') - $person->getDob()->format('Y');
+            $powedSum += pow($year - $avg, 2);
+            $sum = $year;
+        }
+        return $powedSum / $sum;
+    }
 }

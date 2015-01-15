@@ -1500,12 +1500,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/naitsirch/tcpdf-extension.git",
-                "reference": "1bebacdb60c14b3e85dfa95d1b3d4ab080ce505a"
+                "reference": "c98e61ea58f103736259e49ed76f4939593225ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/naitsirch/tcpdf-extension/zipball/1bebacdb60c14b3e85dfa95d1b3d4ab080ce505a",
-                "reference": "1bebacdb60c14b3e85dfa95d1b3d4ab080ce505a",
+                "url": "https://api.github.com/repos/naitsirch/tcpdf-extension/zipball/c98e61ea58f103736259e49ed76f4939593225ea",
+                "reference": "c98e61ea58f103736259e49ed76f4939593225ea",
                 "shasum": ""
             },
             "require": {
@@ -1536,7 +1536,7 @@
                 "pdf",
                 "php"
             ],
-            "time": "2014-08-28 07:03:40"
+            "time": "2015-01-14 23:36:24"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -2507,6 +2507,7 @@
         "liuggio/excelbundle": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.3"
     },

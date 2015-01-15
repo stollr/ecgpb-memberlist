@@ -46,6 +46,10 @@
                 <source>Assigned</source>
                 <target>Zugeordnet</target>
             </trans-unit>
+            <trans-unit id="Average Age">
+                <source>Average Age</source>
+                <target>Durchschnittsalter</target>
+            </trans-unit>
             <trans-unit id="Back to List">
                 <source>Back to List</source>
                 <target>Zurück zur Liste</target>
@@ -362,6 +366,10 @@
                 <source>There are no entries existing, yet.</source>
                 <target>Es gibt noch keine Einträge.</target>
             </trans-unit>
+            <trans-unit id="Unassigned Persons">
+                <source>Unassigned Persons</source>
+                <target>Nicht-zugeordnete Personen</target>
+            </trans-unit>
             <trans-unit id="Undo Changes">
                 <source>Undo Changes</source>
                 <target>Änderungen rückgängig machen</target>
@@ -369,6 +377,10 @@
             <trans-unit id="Update">
                 <source>Update</source>
                 <target>Aktualisieren</target>
+            </trans-unit>
+            <trans-unit id="Variance of Age">
+                <source>Variance of Age</source>
+                <target>Varianz des Alters</target>
             </trans-unit>
             <trans-unit id="Without Photo">
                 <source>Without Photo</source>
