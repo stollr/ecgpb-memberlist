@@ -34,10 +34,16 @@
                     {% if working_group.leader %}({{ working_group.leader.dob.format('Y') }}){% endif %}
                 </td>
                 <td>
-                    {% for person in working_group.persons %}
-                        <span class="text-muted">{{ loop.index }}.</span>
-                        {{ person.lastnameFirstnameAndDob }}<br/>
-                    {% endfor %}
+                    <div class="col-md-6">
+                        {% for person in working_group.persons %}
+                            <span class="text-muted">{{ loop.index }}.</span>
+                            {{ person.lastnameFirstnameAndDob }}<br/>
+
+                            {% if loop.index == (working_group.persons | length / 2) | round %}
+                                </div><div class="col-md-6">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </td>
                 <td>
                     <a class="btn btn-default" href="{{ path('ecgpb.member.workinggroup.edit', { 'id': working_group.id }) }}">
