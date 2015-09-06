@@ -16,8 +16,10 @@ class AddressRepository extends EntityRepository
         $qb = $this->createQueryBuilder('address')
             ->select('address', 'person')
             ->leftJoin('address.persons', 'person')
-            ->orderBy('address.familyName', 'asc')
-            ->addOrderBy('person.dob', 'asc')
+
+            // sorting does not work with pagination
+//            ->orderBy('address.familyName', 'asc')
+//            ->addOrderBy('person.dob', 'asc')
         ;
 
         if (isset($filter['term']) && '' !== trim($filter['term'])) {

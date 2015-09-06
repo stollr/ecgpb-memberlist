@@ -1,0 +1,58 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h2>{% trans %}Persons not assigned to a Working Group{% endtrans %}</h2>
+
+    <form action="" method="post">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>{% trans %}Last Name{% endtrans %}</th>
+                    <th>{% trans %}First Name{% endtrans %}</th>
+                    <th>{% trans %}DOB{% endtrans %}</th>
+                    <th>{% trans %}Able to work{% endtrans %}</th>
+                    <th>{% trans %}Group{% endtrans %}</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for person in persons %}
+                <tr>
+                    <td>
+                        {{ person.address.familyName }}
+                    </td>
+                    <td>
+                        {{ person.firstname }}
+                    </td>
+                    <td>
+                        {{ person.dob | localizeddate('medium', 'none') }}
+                    </td>
+                    <td>
+                        {% trans %}Yes{% endtrans %}
+                    </td>
+                    <td>
+                        <select name="person-to-group[{{ person.id }}]">
+                            <option value=""></option>
+                            {% for group in 
+                        </select>
+                    </td>
+                    <td>
+                        <a href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">
+                        {% trans %}There are no entries existing, yet.{% endtrans %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">
+            {% trans %}Save{% endtrans %}
+        </button>
+    </form>
+{% endblock %}
