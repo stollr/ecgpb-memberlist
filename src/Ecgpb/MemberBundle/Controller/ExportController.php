@@ -5,6 +5,7 @@ namespace Ecgpb\MemberBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
 
@@ -17,11 +18,17 @@ use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
  */
 class ExportController extends Controller
 {
+    /**
+     * @Route(name="ecgpb.member.export.pdf_config", path="/pdf_config")
+     */
     public function pdfConfigAction()
     {
         return $this->render('EcgpbMemberBundle:Export:pdf_config.html.twig');
     }
 
+    /**
+     * @Route(name="ecgpb.member.export.pdf", path="/pdf")
+     */
     public function pdfAction(Request $request)
     {
         $generator = $this->get('ecgpb.member.pdf_generator.member_list_generator');
@@ -39,6 +46,9 @@ class ExportController extends Controller
         ));
     }
 
+    /**
+     * @Route(name="ecgpb.member.export.birthday_excel", path="/birthday_excel")
+     */
     public function birthdayExcelAction()
     {
         $repo = $this->getDoctrine()->getManager()->getRepository('EcgpbMemberBundle:Person');
@@ -75,6 +85,9 @@ class ExportController extends Controller
         ));
     }
 
+    /**
+     * @Route(name="ecgpb.member.export.seniors_excel", path="/seniors_excel")
+     */
     public function seniorsExcelAction()
     {
         $repo = $this->getDoctrine()->getManager()->getRepository('EcgpbMemberBundle:Person');
@@ -110,5 +123,13 @@ class ExportController extends Controller
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'Content-Disposition' => sprintf('attachment; filename="%s.xlsx"', $title),
         ));
+    }
+    
+    /**
+     * @Route(name="ecgpb.member.export.email_addresses", path="/email_addresses")
+     */
+    public function emailAddressesAction()
+    {
+        
     }
 }

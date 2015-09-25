@@ -83,19 +83,8 @@ ecgpb.member.ministry_group.update:
 
 # export actions
 
-ecgpb.member.export.pdf_config:
-    pattern:  /export/pdf_config
-    defaults: { _controller: "EcgpbMemberBundle:Export:pdfConfig", _locale: de }
-
-ecgpb.member.export.pdf:
-    pattern:  /export/pdf
-    defaults: { _controller: "EcgpbMemberBundle:Export:pdf", _locale: de }
-
-ecgpb.member.export.birthday_excel:
-    pattern:  /export/birthday_excel
-    defaults: { _controller: "EcgpbMemberBundle:Export:birthdayExcel", _locale: de }
-
-ecgpb.member.export.seniors_excel:
-    pattern:  /export/seniors_excel
-    defaults: { _controller: "EcgpbMemberBundle:Export:seniorsExcel", _locale: de }
-    
+ecgpb.member.export:
+    resource: @EcgpbMemberBundle/Controller/ExportController.php
+    type: annotation
+    prefix: /export
+    defaults: { _locale: de }
