@@ -130,6 +130,10 @@
                 <source>Effective</source>
                 <target>Stand</target>
             </trans-unit>
+            <trans-unit id="Email Addresses">
+                <source>Email Addresses</source>
+                <target>Emailadressen</target>
+            </trans-unit>
             <trans-unit id="Family Name">
                 <source>Family Name</source>
                 <target>Familienname</target>

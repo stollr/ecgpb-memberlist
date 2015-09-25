@@ -130,6 +130,17 @@ class ExportController extends Controller
      */
     public function emailAddressesAction()
     {
+        $repo = $this->getDoctrine()->getManager()->getRepository('EcgpbMemberBundle:Person');
+        $emails = $repo->getAllEmailAdresses();
         
+        $content = "Comma separated:\r\n\r\n" .
+            implode(',', $emails) . "\r\n\r\n" . 
+            "New lines:\r\n\r\n" .
+            implode("\r\n", $emails)
+        ;
+        
+        return new Response($content, 200, array(
+            'Content-Type' => 'text/plain',
+        ));
     }
 }

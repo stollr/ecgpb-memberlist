@@ -113,4 +113,17 @@ class PersonRepository extends EntityRepository
 
         return $query->getResult();
     }
+    
+    public function getAllEmailAdresses()
+    {
+        $dql = 'SELECT person.email FROM EcgpbMemberBundle:Person person WHERE person.email IS NOT NULL';
+        $query = $this->getEntityManager()->createQuery($dql);
+        
+        $emails = array();
+        foreach ($query->getResult() as $row) {
+            $emails[] = $row['email'];
+        }
+
+        return $emails;
+    }
 }
