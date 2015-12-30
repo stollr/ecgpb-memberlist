@@ -38,7 +38,12 @@ class AddressController extends Controller
         $pagination = $this->get('knp_paginator')->paginate(
             $repo->getListFilterQb($filter),
             $request->query->get('page', 1)/*page number*/,
-            15 /*limit per page*/
+            15, /*limit per page*/
+            array(
+                'wrap-queries' => true,
+                'defaultSortFieldName' => array('address.familyName', 'person.dob'),
+                'defaultSortDirection' => 'asc',
+            )
         );
 
         return $this->render('EcgpbMemberBundle:Address:index.html.twig', array(
