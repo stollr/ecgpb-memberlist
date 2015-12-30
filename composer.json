@@ -1,14 +1,13 @@
 {
-    "name": "symfony/framework-standard-edition",
     "license": "MIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "PHP web application to manage the members of the christian church Evangeliums-Christengemeinde e.V. in Paderborn/Germany",
     "autoload": {
         "psr-0": { "": "src/" }
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "~2.4",
+        "symfony/symfony": "~2.6.0",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
@@ -22,7 +21,7 @@
         "doctrine/doctrine-fixtures-bundle": "*",
         "mopa/bootstrap-bundle": "dev-master",
         "twbs/bootstrap": "dev-master",
-        "tecnick.com/tcpdf": "dev-master",
+        "tecnickcom/tcpdf": "dev-master",
         "naitsirch/tcpdf-extension": "dev-master",
         "jms/serializer-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "~2.4",
@@ -55,9 +54,6 @@
         "symfony-assets-install": "symlink",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
-        },
-        "branch-alias": {
-            "dev-master": "2.4-dev"
         }
     }
 }
