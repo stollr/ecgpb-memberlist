@@ -168,6 +168,7 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $person = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
+        /* @var $person Person */
 
         if (!$person) {
             throw $this->createNotFoundException('Unable to find Person person.');
