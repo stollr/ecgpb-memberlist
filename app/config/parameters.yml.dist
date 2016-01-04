@@ -23,6 +23,7 @@ parameters:
     ecgpb.contact.city:                     Paderborn
     ecgpb.contact.main_phone:               placeholder
     ecgpb.contact.office_phone:             placeholder
+    ecgpb.contact.story_phone:              placeholder
     ecgpb.contact.lifetime_phone:           placeholder
     ecgpb.contact.gfh_phone:                placeholder
     ecgpb.contact.library_phone:            placeholder
