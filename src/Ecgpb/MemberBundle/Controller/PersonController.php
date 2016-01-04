@@ -173,6 +173,10 @@ class PersonController extends Controller
             throw $this->createNotFoundException('Unable to find Person person.');
         }
 
+        if ($person->getLeaderOf()) {
+            $person->getLeaderOf()->setLeader(null);
+        }
+
         $em->remove($person);
         $em->flush();
 

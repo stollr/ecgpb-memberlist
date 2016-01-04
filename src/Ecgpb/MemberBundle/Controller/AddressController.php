@@ -176,9 +176,16 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $address = $em->getRepository('EcgpbMemberBundle:Address')->find($id);
+        /* @var $address Address */
 
         if (!$address) {
             throw $this->createNotFoundException('Unable to find Address entity.');
+        }
+
+        foreach ($address->getPersons() as $person) {
+            if ($person->getLeaderOf()) {
+                $person->getLeaderOf()->setLeader(null);
+            }
         }
 
         $em->remove($address);

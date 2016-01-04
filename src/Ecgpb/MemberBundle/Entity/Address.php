@@ -3,8 +3,10 @@
 namespace Ecgpb\MemberBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Ecgpb\MemberBundle\Traits\EntityRemovalTrait;
+use Ecgpb\MemberBundle\Entity\Person;
 
 /**
  * Address
@@ -210,7 +212,7 @@ class Address
     /**
      * Get persons
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return Collection|Person[]
      */
     public function getPersons()
     {
