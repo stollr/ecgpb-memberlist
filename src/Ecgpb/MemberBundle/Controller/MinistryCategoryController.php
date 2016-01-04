@@ -93,6 +93,7 @@ class MinistryCategoryController extends Controller
                 }
 
                 // cache old assignments
+                $oldMinistries = $category->getMinistries()->toArray();
                 $oldContactAssignments = array();
                 $oldResponsibleAssignments = array();
                 foreach ($category->getMinistries() as $ministry) {
@@ -104,6 +105,13 @@ class MinistryCategoryController extends Controller
                     'csrf_protection' => false,
                 ));
                 $form->submit($clientMinistryCategory);
+
+                // delete ministries
+                foreach ($oldMinistries as $oldMinistry) {
+                    if (!$category->getMinistries()->contains($oldMinistry)) {
+                        $em->remove($oldMinistry);
+                    }
+                }
 
                 // delete assignments, that have been removed by user
                 foreach ($category->getMinistries() as $ministry) {

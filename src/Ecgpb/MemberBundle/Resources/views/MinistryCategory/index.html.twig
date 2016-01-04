@@ -47,12 +47,23 @@
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministryCategory.name }}' }}</span>
                 </td>
                 <td>
-                    <!-- ministry position -->
-                    <input type="number" ng-model="ministry.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
-                    <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.position }}' }}</span> &dash;
-                    <!-- ministry name -->
-                    <input type="text" ng-model="ministry.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
-                    <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.name }}' }}</span>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!-- ministry position -->
+                            <input type="number" ng-model="ministry.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
+                            <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.position }}' }}</span>
+                        </div>
+                        <div class="col-md-8">
+                            <!-- ministry name -->
+                            <input type="text" ng-model="ministry.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
+                            <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.name }}' }}</span>
+                        </div>
+                    </div>
+                    <!-- remove ministry -->
+                    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministryCategory.removeMinistry(ministry)" ng-show="isEditable(ministryCategory)">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                    <!-- add new ministry -->
                     <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministryCategory.newMinistry()" ng-show="isEditable(ministryCategory) && $last">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
@@ -235,6 +246,9 @@
                     ;
                     this.newMinistry = function() {
                         this.ministries.push(new Ministry());
+                    };
+                    this.removeMinistry = function(ministry) {
+                        this.ministries.splice(this.ministries.indexOf(ministry), 1);
                     };
                 };
                 return MinistryCategory;
