@@ -18,6 +18,7 @@ Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment:
                 onDelete: CASCADE
         person:
             targetEntity: Ecgpb\MemberBundle\Entity\Person
+            inversedBy: ministryContactAssignments
             joinColumn:
                 name: person_id
                 nullable: true

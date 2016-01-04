@@ -45,10 +45,11 @@ Ecgpb\MemberBundle\Entity\Person:
         workerStatus:
             type: smallint
             nullable: true
-    oneToMany:
+    oneToOne:
         leaderOf:
             targetEntity: Ecgpb\MemberBundle\Entity\WorkingGroup
             mappedBy: leader
+    oneToMany:
         ministryContactAssignments:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment
             cascade: [ remove ]

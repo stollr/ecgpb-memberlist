@@ -14,7 +14,7 @@ Ecgpb\MemberBundle\Entity\WorkingGroup:
         gender:
             type: string
             length: 1
-    manyToOne:
+    oneToOne:
         leader:
             targetEntity: Ecgpb\MemberBundle\Entity\Person
             inversedBy: leaderOf
