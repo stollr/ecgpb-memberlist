@@ -230,14 +230,31 @@ class WorkingGroupController extends Controller
      * @Route("/assign", name="ecgpb.member.workinggroup.assign", defaults={"_locale"="de"}))
      * @Method({"POST"})
      */
-    public function assignAction()
+    public function assignAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $personRepo = $em->getRepository('EcgpbMemberBundle:Person');
-        $persons = $personRepo->findPersonsToBeAssignedToWorkingGroup();
+        $groupRepo = $em->getRepository('EcgpbMemberBundle:WorkingGroup');
 
-        $workingGroups = $em->getRepository('EcgpbMemberBundle:WorkingGroup')->findAll();
+        foreach ($request->get('person-to-group', array()) as $personId => $groupId) {
+            if (empty($personId) || empty($groupId)) {
+                continue;
+            }
+            $person = $personRepo->find($personId); /* @var $person \Ecgpb\MemberBundle\Entity\Person */
+            $group = $groupRepo->find($groupId); /* @var $group WorkingGroup */
+
+            if (!$person || !$group) {
+                $this->addFlash('error', sprintf('Person with ID %s or working group with ID %s does not exist.', $personId, $groupId));
+            } else if ($person->getGender() != $group->getGender()) {
+                $this->addFlash('error', sprintf('Gender of "%s" does not match with working group\'s gender.', $person->getLastnameAndFirstname()));
+            } else {
+                $person->setWorkingGroup($group);
+            }
+        }
+
+        $em->flush();
+
+        $this->addFlash('success', 'Saved assignments.');
 
         return $this->redirect($this->generateUrl('ecgpb.member.workinggroup.assignables'));
     }
