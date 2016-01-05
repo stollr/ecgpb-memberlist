@@ -131,10 +131,10 @@ class MinistryCategoryController extends Controller
                     }
                 }
 
-                if ($form->isValid()) {
-                    $em->persist($category);
-                } else {
+                if (!$form->isValid()) {
                     return new Response('Invalid entity', 400, array('Content-Type' => 'application/json'));
+                } else if (!$category->getId()) {
+                    $em->persist($category);
                 }
             }
 
