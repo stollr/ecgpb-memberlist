@@ -38,6 +38,8 @@ class PersonRepository extends EntityRepository
         $qb = $this->createQueryBuilder('person')
             ->select('person', 'address')
             ->join('person.address', 'address')
+            ->orderBy('address.familyName', 'ASC')
+            ->addOrderBy('person.firstname', 'ASC')
         ;
         return $qb->getQuery()->getResult();
     }
