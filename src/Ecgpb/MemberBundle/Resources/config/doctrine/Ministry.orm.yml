@@ -28,10 +28,10 @@ Ecgpb\MemberBundle\Entity\Ministry:
     oneToMany:
         contactAssignments:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment
-            cascade: [persist]
+            cascade: [persist, remove]
             mappedBy: ministry
         responsibleAssignments:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment
-            cascade: [persist]
+            cascade: [persist, remove]
             mappedBy: ministry
     lifecycleCallbacks: {  }
