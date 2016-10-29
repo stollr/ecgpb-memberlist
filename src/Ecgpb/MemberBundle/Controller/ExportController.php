@@ -47,6 +47,45 @@ class ExportController extends Controller
     }
 
     /**
+     * @Route(name="ecgpb.member.export.csv", path="/csv")
+     */
+    public function csvAction()
+    {
+        $repo = $this->getDoctrine()->getRepository('EcgpbMemberBundle:Person');
+        $builder = $repo->createQueryBuilder('person')
+            ->select('person', 'address')
+            ->join('person.address', 'address')
+            ->orderBy('address.familyName', 'asc')
+            ->addOrderBy('person.dob', 'asc')
+        ;
+        $persons = $builder->getQuery()->getResult();
+
+        $csv = "Nachname;Vorname;Geburtsdatum;Geschlecht\r\n";
+
+        foreach ($persons as $person) {
+            /* @var $person \Ecgpb\MemberBundle\Entity\Person */
+            $row = array(
+                $person->getAddress()->getFamilyName(),
+                $person->getFirstname(),
+                $person->getDob()->format('d.m.Y'),
+                $person->getGender(),
+            );
+            $row = array_map(function ($value) {
+                if (strpos($value, '"') !== false || strpos($value, ';') !== false) {
+                    return '"' . str_replace('"', '""', $value) . '"';
+                }
+                return $value;
+            }, $row);
+            $csv .= implode(';', $row) . "\r\n";
+        }
+
+        return new Response($csv, 200, array(
+            'Content-Type' => 'application/octet-stream',
+            'Content-Disposition' => 'attachment; filename="Mitglieder.csv"',
+        ));
+    }
+
+    /**
      * @Route(name="ecgpb.member.export.birthday_excel", path="/birthday_excel")
      */
     public function birthdayExcelAction()
