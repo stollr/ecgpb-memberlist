@@ -664,15 +664,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setWidth(22)
                         ->setFontWeight('bold')
                     ->end()
-                    ->newCell()
-                        ->setText($this->translator->trans('Responsible Elders / Deacons [PDF]'))
-                        ->setAlign('C')
-                        ->setVerticalAlign('middle')
-                        ->setBorder(1)
-                        ->setPadding(0.5)
-                        ->setWidth(22)
-                        ->setFontWeight('bold')
-                    ->end()
                 ->end()
             ;
         };
@@ -698,14 +689,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             // add rows and cells to table
             foreach ($category->getMinistries() as $index => $ministry) {
                 /* @var $ministry \Ecgpb\MemberBundle\Entity\Ministry */
-                $contacts = array();
-                foreach ($ministry->getContactAssignments() as $contactAssignment) {
-                    if ($contactAssignment->getPerson()) {
-                        $contacts[] = $contactAssignment->getPerson()->getFirstname() . ' ' . $contactAssignment->getPerson()->getAddress()->getFamilyName();
-                    } else if ($contactAssignment->getGroup()) {
-                        $contacts[] = $contactAssignment->getGroup()->getName();
-                    }
-                }
                 $responsibles = array();
                 foreach ($ministry->getResponsibleAssignments() as $responsibleAssignment) {
                     if ($responsibleAssignment->getPerson()) {
@@ -729,15 +712,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
                         ->setFontSize(self::FONT_SIZE_XS)
-                        ->setFontWeight('normal')
-                        ->setPadding(0.5)
-                    ->end()
-                    ->newCell()
-                        ->setText(implode(",\n", $contacts))
-                        ->setAlign('C')
-                        ->setVerticalAlign('middle')
-                        ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S - 0.5)
                         ->setFontWeight('normal')
                         ->setPadding(0.5)
                     ->end()

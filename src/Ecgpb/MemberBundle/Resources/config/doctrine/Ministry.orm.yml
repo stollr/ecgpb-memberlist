@@ -26,10 +26,6 @@ Ecgpb\MemberBundle\Entity\Ministry:
                 nullable: false
                 onDelete: CASCADE
     oneToMany:
-        contactAssignments:
-            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment
-            cascade: [persist, remove]
-            mappedBy: ministry
         responsibleAssignments:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment
             cascade: [persist, remove]

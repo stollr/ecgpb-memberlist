@@ -294,13 +294,13 @@
                 <source>Remove</source>
                 <target>Entfernen</target>
             </trans-unit>
-            <trans-unit id="Responsible Elders / Deacons">
-                <source>Responsible Elders / Deacons</source>
-                <target>Verantwortliche Älteste / Diakone</target>
+            <trans-unit id="Responsibles">
+                <source>Responsibles</source>
+                <target>Verantwortliche</target>
             </trans-unit>
-            <trans-unit id="Responsible Elders / Deacons [PDF]">
-                <source>Responsible Elders / Deacons [PDF]</source>
-                <target>Verantw. Älteste / Diakone</target>
+            <trans-unit id="Responsibles [PDF]">
+                <source>Responsibles [PDF]</source>
+                <target>Verantw.</target>
             </trans-unit>
             <trans-unit id="Responsible Persons">
                 <source>Responsible Persons</source>

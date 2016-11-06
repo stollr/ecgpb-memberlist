@@ -5,7 +5,6 @@ namespace Ecgpb\MemberBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment;
 use Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment;
 
 /**
@@ -116,11 +115,6 @@ class Person
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $ministryContactAssignments;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     private $ministryResponsibleAssignments;
 
     /**
@@ -129,7 +123,6 @@ class Person
     public function __construct()
     {
         $this->ministryGroups = new ArrayCollection();
-        $this->ministryContactAssignments = new ArrayCollection();
         $this->ministryResponsibleAssignments = new ArrayCollection();
     }
 
@@ -463,14 +456,6 @@ class Person
     public function getMinistryGroups()
     {
         return $this->ministryGroups;
-    }
-
-    /**
-     * @return Collection|ContactAssignment[]
-     */
-    public function getMinistryContactAssignments()
-    {
-        return $this->ministryContactAssignments;
     }
 
     /**

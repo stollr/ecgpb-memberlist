@@ -92,7 +92,7 @@ class ResponsibleAssignment
      * Set group
      *
      * @param \Ecgpb\MemberBundle\Entity\Ministry\Group $group
-     * @return ContactAssignment
+     * @return ResponsibleAssignment
      */
     public function setGroup(\Ecgpb\MemberBundle\Entity\Ministry\Group $group = null)
     {

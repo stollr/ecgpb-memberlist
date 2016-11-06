@@ -9,9 +9,6 @@ Ecgpb\MemberBundle\Entity\Ministry:
             groups: [MinistryCategoryListing]
         position:
             groups: [MinistryCategoryListing]
-        contactAssignments:
-            serialized_name: contactAssignments
-            groups: [MinistryCategoryListing]
         responsibleAssignments:
             serialized_name: responsibleAssignments
             groups: [MinistryCategoryListing]

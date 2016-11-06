@@ -30,8 +30,7 @@
                     {% trans %}Unterbereich{% endtrans %}
                 </th>
                 <th class="col-md-2">{% trans %}Tasks{% endtrans %}</th>
-                <th>{% trans %}Contact Persons{% endtrans %}</th>
-                <th>{% trans %}Responsible Elders / Deacon{% endtrans %}</th>
+                <th>{% trans %}Responsibles{% endtrans %}</th>
                 <th class="col-md-1 text-center">{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
@@ -71,35 +70,6 @@
                 <td>
                     <textarea ng-model="ministry.description" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true"></textarea>
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.description }}' }}</span>
-                </td>
-                <td>
-                    <div ng-repeat="assignment in ministry.contactAssignments" class="row">
-                        <div class="col-md-10" ng-show="isEditable(ministryCategory)">
-                            <select class="form-control input-sm"
-                             ng-model="assignment.group"
-                             ng-options="group as group.name for group in groups track by group.id">
-                                <option value="">- {% trans %}Group{% endtrans %} -</option>
-                            </select>
-                            <select class="form-control input-sm"
-                             ng-model="assignment.person"
-                             ng-options="person as getPersonsLabel(person) for person in persons track by person.id">
-                                <option value="">- {% trans %}Person{% endtrans %} -</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2" ng-show="isEditable(ministryCategory)">
-                            <button type="button" class="btn btn-default btn-sm pull-right remove-assignment-btn" ng-click="ministry.removeContact(assignment)" ng-show="isEditable(ministryCategory)">
-                                <span class="glyphicon glyphicon-minus"></span>
-                            </button>
-                        </div>
-                        <div class="col-md-12" ng-show="!isEditable(ministryCategory)">
-                            <strong>
-                                {{ '{{ assignment.group ? assignment.group.name : getPersonsLabel(assignment.person) }}' }}
-                            </strong>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministry.newContact()" ng-show="isEditable(ministryCategory)">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
                 </td>
                 <td>
                     <div ng-repeat="assignment in ministry.responsibleAssignments" class="row">
@@ -258,24 +228,10 @@
                     this.name = properties ? properties.name : '';
                     this.description = properties ? properties.description : '';
                     this.position = properties ? properties.position : 0;
-                    this.contactAssignments = properties
-                        ? properties.contactAssignments.map(function(value) { return new Assignment(value); })
-                        : [new Assignment()]
-                    ;
                     this.responsibleAssignments = properties
                         ? properties.responsibleAssignments.map(function(value) { return new Assignment(value); })
                         : [new Assignment()]
                     ;
-                    this.newContact = function() {
-                        var last = this.contactAssignments.length === 0 ? null : this.contactAssignments[this.contactAssignments.length - 1];
-                        if (!last || last.person || last.group) {
-                            this.contactAssignments.push(new Assignment());
-                        }
-                    };
-                    this.removeContact = function(assignment) {
-                        var index = this.contactAssignments.indexOf(assignment);
-                        this.contactAssignments.splice(index, 1);
-                    };
                     this.newResponsible = function() {
                         var last = this.responsibleAssignments.length === 0 ? null : this.responsibleAssignments[this.responsibleAssignments.length - 1];
                         if (!last || last.person || last.group) {

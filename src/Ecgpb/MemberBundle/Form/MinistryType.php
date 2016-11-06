@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Ecgpb\MemberBundle\Form\Ministry\ContactAssignmentType;
 use Ecgpb\MemberBundle\Form\Ministry\ResponsibleAssignmentType;
 
 class MinistryType extends AbstractType
@@ -29,20 +28,6 @@ class MinistryType extends AbstractType
 //                'property' => 'name',
 //                'required' => false,
 //            ))
-            ->add('contactAssignments', 'collection', array(
-                'type' => new ContactAssignmentType(),
-                'label' => false,
-                'prototype' => true,
-                'allow_add' => true,
-                'by_reference' => false,
-                'widget_add_btn' => array('label' => 'Add Contact'),
-                'allow_delete' => true,
-                'horizontal_input_wrapper_class' => 'clearfix',
-                'options' => array(
-                    'label' => false,
-                    'csrf_protection' => $options['csrf_protection'],
-                )
-            ))
             ->add('responsibleAssignments', 'collection', array(
                 'type' => new ResponsibleAssignmentType(),
                 'label' => false,
@@ -62,13 +47,6 @@ class MinistryType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
             $data = $event->getData();
             unset($data['id']);
-            if (isset($data['contactAssignments']) && is_array($data['contactAssignments'])) {
-                foreach ($data['contactAssignments'] as $index => $assignmentData) {
-                    if (empty($assignmentData['group']['id']) && empty($assignmentData['person']['id'])) {
-                        unset($data['contactAssignments'][$index]);
-                    }
-                }
-            }
             if (isset($data['responsibleAssignments']) && is_array($data['responsibleAssignments'])) {
                 foreach ($data['responsibleAssignments'] as $index => $assignmentData) {
                     if (empty($assignmentData['group']['id']) && empty($assignmentData['person']['id'])) {

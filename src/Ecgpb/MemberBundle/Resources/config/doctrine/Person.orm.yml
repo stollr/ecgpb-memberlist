@@ -50,10 +50,6 @@ Ecgpb\MemberBundle\Entity\Person:
             targetEntity: Ecgpb\MemberBundle\Entity\WorkingGroup
             mappedBy: leader
     oneToMany:
-        ministryContactAssignments:
-            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment
-            cascade: [ remove ]
-            mappedBy: person
         ministryResponsibleAssignments:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment
             cascade: [ remove ]

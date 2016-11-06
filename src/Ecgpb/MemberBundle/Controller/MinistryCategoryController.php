@@ -94,10 +94,8 @@ class MinistryCategoryController extends Controller
 
                 // cache old assignments
                 $oldMinistries = $category->getMinistries()->toArray();
-                $oldContactAssignments = array();
                 $oldResponsibleAssignments = array();
                 foreach ($category->getMinistries() as $ministry) {
-                    $oldContactAssignments[$ministry->getId()] = $ministry->getContactAssignments()->toArray();
                     $oldResponsibleAssignments[$ministry->getId()] = $ministry->getResponsibleAssignments()->toArray();
                 }
 
@@ -118,11 +116,6 @@ class MinistryCategoryController extends Controller
                     if (!$ministry->getId()) {
                         // for new ministries, there aren't any assignments
                         continue;
-                    }
-                    foreach ($oldContactAssignments[$ministry->getId()] as $oldContactAssignment) {
-                        if (!$ministry->getContactAssignments()->contains($oldContactAssignment)) {
-                            $em->remove($oldContactAssignment);
-                        }
                     }
                     foreach ($oldResponsibleAssignments[$ministry->getId()] as $oldResponsibleAssignment) {
                         if (!$ministry->getResponsibleAssignments()->contains($oldResponsibleAssignment)) {

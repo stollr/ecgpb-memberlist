@@ -18,6 +18,11 @@ class Category
     private $name;
 
     /**
+     * @var \Ecgpb\MemberBundle\Entity\Person
+     */
+    private $responsible;
+
+    /**
      * @var integer
      */
     private $position;
@@ -65,6 +70,17 @@ class Category
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getResponsible()
+    {
+        return $this->responsible;
+    }
+
+    public function setResponsible(\Ecgpb\MemberBundle\Entity\Person $responsible)
+    {
+        $this->responsible = $responsible;
+        return $this;
     }
 
     public function getPosition()

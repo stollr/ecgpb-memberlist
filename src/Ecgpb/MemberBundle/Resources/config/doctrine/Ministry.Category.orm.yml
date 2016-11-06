@@ -11,7 +11,7 @@ Ecgpb\MemberBundle\Entity\Ministry\Category:
     fields:
         name:
             type: string
-            length: '40'
+            length: 40
         position:
             type: smallint
             nullable: true
@@ -20,4 +20,11 @@ Ecgpb\MemberBundle\Entity\Ministry\Category:
             targetEntity: Ecgpb\MemberBundle\Entity\Ministry
             cascade: [persist]
             mappedBy: category
+    manyToOne:
+        responsible:
+            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            joinColumn:
+                name: responsible_person_id
+                nullable: true
+                onDelete: "SET NULL"
     lifecycleCallbacks: {  }

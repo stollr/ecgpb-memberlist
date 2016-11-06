@@ -37,11 +37,6 @@ class Ministry
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $contactAssignments;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     private $responsibleAssignments;
 
     /**
@@ -49,7 +44,6 @@ class Ministry
      */
     public function __construct()
     {
-        $this->contactAssignments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->responsibleAssignments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -127,39 +121,6 @@ class Ministry
     public function getCategory()
     {
         return $this->category;
-    }
-
-    /**
-     * Add contactAssignments
-     *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment $contactAssignment
-     * @return Ministry
-     */
-    public function addContactAssignment(\Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment $contactAssignment)
-    {
-        $this->contactAssignments[] = $contactAssignment;
-        $contactAssignment->setMinistry($this);
-        return $this;
-    }
-
-    /**
-     * Remove contactAssignments
-     *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment $contactAssignment
-     */
-    public function removeContactAssignment(\Ecgpb\MemberBundle\Entity\Ministry\ContactAssignment $contactAssignment)
-    {
-        $this->contactAssignments->removeElement($contactAssignment);
-    }
-
-    /**
-     * Get contactAssignments
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getContactAssignments()
-    {
-        return $this->contactAssignments;
     }
 
     /**
