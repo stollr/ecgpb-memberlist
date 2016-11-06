@@ -2,7 +2,7 @@ ECGPB Member List Administration
 ================================
 
 This application is written for the christian church
-[Evangeliums-Christengemeinde Paderborn e.V.](http://www.ecgpb.de) and its main purpose
+[Evangeliums-Christengemeinde e.V.](http://www.ecgpb.de) and its main purpose
 is the administration of its members and to generate a printable member list.
 
 
