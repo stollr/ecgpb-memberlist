@@ -202,6 +202,10 @@
                 <source>Maiden Name</source>
                 <target>Mädchenname</target>
             </trans-unit>
+            <trans-unit id="Main Responsible">
+                <source>Main Responsible</source>
+                <target>Hauptverantwortlicher</target>
+            </trans-unit>
             <trans-unit id="male">
                 <source>male</source>
                 <target>männlich</target>

@@ -7,5 +7,7 @@ Ecgpb\MemberBundle\Entity\Ministry\Category:
             groups: [MinistryCategoryListing]
         position:
             groups: [MinistryCategoryListing]
+        responsible:
+            groups: [MinistryCategoryListing]
         ministries:
             groups: [MinistryCategoryListing]

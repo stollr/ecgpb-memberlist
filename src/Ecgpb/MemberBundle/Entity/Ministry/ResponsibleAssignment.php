@@ -3,6 +3,7 @@
 namespace Ecgpb\MemberBundle\Entity\Ministry;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ResponsibleAssignment
@@ -71,9 +72,6 @@ class ResponsibleAssignment
      */
     public function setPerson(\Ecgpb\MemberBundle\Entity\Person $person = null)
     {
-        if ($person && $this->getGroup()) {
-            throw new \InvalidArgumentException('A ministry\'s contact assignment cannot be assigned to a person and at the same time to a group.');
-        }
         $this->person = $person;
         return $this;
     }
@@ -96,9 +94,6 @@ class ResponsibleAssignment
      */
     public function setGroup(\Ecgpb\MemberBundle\Entity\Ministry\Group $group = null)
     {
-        if ($group && $this->getPerson()) {
-            throw new \InvalidArgumentException('A ministry\'s contact assignment cannot be assigned to a person and at the same time to a group.');
-        }
         $this->group = $group;
         return $this;
     }
@@ -111,5 +106,14 @@ class ResponsibleAssignment
     public function getGroup()
     {
         return $this->group;
+    }
+
+    /**
+     * @Assert\IsTrue(message="A ministry's contact assignment cannot be assigned to a person and at the same time to a group.")
+     * @return boolean
+     */
+    public function validateGroupAndPersonNotSetBoth()
+    {
+        return !($this->getPerson() && $this->getGroup());
     }
 }

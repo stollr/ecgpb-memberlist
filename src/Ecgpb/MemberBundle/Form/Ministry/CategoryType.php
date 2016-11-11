@@ -19,6 +19,11 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name', 'text')
+            ->add('responsible', 'entity', array(
+                'class' => 'Ecgpb\MemberBundle\Entity\Person',
+                'property' => 'lastnameAndFirstname',
+                'required' => false,
+            ))
             ->add('ministries', 'collection', array(
                 'type' => new MinistryType(),
                 'label' => false,
@@ -41,6 +46,9 @@ class CategoryType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
             $data = $event->getData();
             unset($data['id']);
+            if (isset($data['responsible']['id'])) {
+                $data['responsible'] = $data['responsible']['id'];
+            }
             if (isset($data['ministries']) && is_array($data['ministries'])) {
                 foreach ($data['ministries'] as $index => $ministryData) {
                     if (empty($ministryData['name'])) {
