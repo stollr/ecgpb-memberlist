@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <title>{% block title %}ECGPB{% endblock %}</title>
         {% block stylesheets %}
-            <link href="{{ asset('bundles/ecgpbmember/bootstrap/css/bootstrap-theme.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
-            <link href="{{ asset('bundles/ecgpbmember/bootstrap/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
+            <link href="{{ asset('components/bootstrap/dist/css/bootstrap-theme.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
+            <link href="{{ asset('components/bootstrap/dist/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
             <link href="{{ asset('bundles/ecgpbmember/css/style.css') }}" type="text/css" rel="stylesheet" media="screen" />
             <link href="{{ asset('bundles/ecgpbmember/css/print.css') }}" type="text/css" rel="stylesheet" media="print" />
         {% endblock %}
@@ -130,12 +130,12 @@
             </div>
         </div>
         {% block javascripts %}
-            <script type="text/javascript" src="{{ asset('bundles/ecgpbmember/jquery/jquery-2.0.3.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/ecgpbmember/bootstrap/js/bootstrap.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('components/jquery/dist/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('components/angular/angular.min.js') }}"></script>
+            {#<script type="text/javascript" src="{{ asset('components/angular-bootstrap/ui-bootstrap.min.js') }}"></script>#}
+            <script type="text/javascript" src="{{ asset('components/angular-bootstrap/ui-bootstrap-tpls.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/mopabootstrap/js/mopabootstrap-collection.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('js/angular/angular.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('js/angular-ui/bootstrap/ui-bootstrap-0.10.0.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('js/angular-ui/bootstrap/ui-bootstrap-tpls-0.10.0.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('js/naitsirch-angular-helpers.js') }}"></script>
         {% endblock %}
     </body>

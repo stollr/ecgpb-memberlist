@@ -159,7 +159,7 @@
             .constant('groups', {{ groups_json | raw }})
             .constant('updateUrl', '{{ path('ecgpb.member.ministry_category.update') }}')
             .controller('ListingController', function(
-                $scope, $http, $modal,
+                $scope, $http, $uibModal,
                 MinistryCategory, Ministry, ministryCategories, persons, groups,
                 updateUrl
             ) {
@@ -205,7 +205,7 @@
 
                 $scope.save = function() {
                     $scope.editableCategory = null;
-                    var savingModal = $modal.open({templateUrl: 'saving-modal.html'});
+                    var savingModal = $uibModal.open({templateUrl: 'saving-modal.html'});
 
                     $http.post(updateUrl, $scope.ministryCategories)
                         .success(function(data, status, headers, config) {

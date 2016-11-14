@@ -25,7 +25,7 @@ angular.module('naitsirch.helpers', ['ui.bootstrap']);
         </button>
     </example>
  */
-angular.module('naitsirch.helpers').directive('naitConfirmClick', function($modal, $parse) {
+angular.module('naitsirch.helpers').directive('naitConfirmClick', function($uibModal, $parse) {
     return {
         restrict: 'EA',
         link: function(scope, element, attrs) {
@@ -50,7 +50,7 @@ angular.module('naitsirch.helpers').directive('naitConfirmClick', function($moda
                         return;
                     }
                 }
-                $modal
+                $uibModal
                     .open({
                         template: '<div class="modal-body">' + attrs.confirm + '</div>'
                             + '<div class="modal-footer">'
