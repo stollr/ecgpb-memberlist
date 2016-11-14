@@ -38,11 +38,11 @@
                ng-init="$ministryCategoryIndex = $index">
             <tr>
                 <td rowspan="{{ '{{ ministryCategory.ministries.length + 1 }}' }}">
-                    <input type="number" ng-model="ministryCategory.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
+                    <input type="number" ng-model="ministryCategory.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" />
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministryCategory.position }}' }}</span>
                 </td>
                 <td rowspan="{{ '{{ ministryCategory.ministries.length + 1 }}' }}">
-                    <input type="text" ng-model="ministryCategory.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
+                    <input type="text" ng-model="ministryCategory.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" />
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministryCategory.name }}' }}</span>
                 </td>
                 <td colspan="2">
@@ -86,12 +86,12 @@
                     <div class="row">
                         <div class="col-md-4">
                             <!-- ministry position -->
-                            <input type="number" ng-model="ministry.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
+                            <input type="number" ng-model="ministry.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" />
                             <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.position }}' }}</span>
                         </div>
                         <div class="col-md-8">
                             <!-- ministry name -->
-                            <input type="text" ng-model="ministry.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true" />
+                            <input type="text" ng-model="ministry.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" />
                             <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.name }}' }}</span>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                     </button>
                 </td>
                 <td>
-                    <textarea ng-model="ministry.description" class="form-control input-sm" ng-show="isEditable(ministryCategory)" nait-model-update="true"></textarea>
+                    <textarea ng-model="ministry.description" class="form-control input-sm" ng-show="isEditable(ministryCategory)"></textarea>
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.description }}' }}</span>
                 </td>
                 <td>
