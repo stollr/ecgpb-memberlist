@@ -634,7 +634,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
                         ->setPadding(0.5)
-                        ->setWidth(22)
+                        ->setWidth(25)
                         ->setFontWeight('bold')
                     ->end()
                     ->newCell()
@@ -643,7 +643,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
                         ->setPadding(0.5)
-                        ->setWidth(25)
+                        ->setWidth(28)
                         ->setFontWeight('bold')
                     ->end()
                     ->newCell()
@@ -652,7 +652,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
                         ->setPadding(0.5)
-                        ->setWidth(40)
+                        ->setWidth(43)
                         ->setFontWeight('bold')
                     ->end()
                     ->newCell()
@@ -661,7 +661,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
                         ->setPadding(0.5)
-                        ->setWidth(22)
+                        ->setWidth(25)
                         ->setFontWeight('bold')
                     ->end()
                 ->end()
@@ -674,10 +674,15 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $table->setPageBreakCallback($drawHeaderCallback);
 
         foreach ($categories as $index => $category) {
+            $rowspan = count($category->getMinistries());
+            if ($category->getResponsible()) {
+                $rowspan++;
+            }
+
             $row = $table->newRow();
             $row->newCell()
                     ->setText($category->getName())
-                    ->setRowspan(count($category->getMinistries()))
+                    ->setRowspan($rowspan)
                     ->setAlign('C')
                     ->setVerticalAlign('middle')
                     ->setBorder(1)
@@ -685,6 +690,28 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->setPadding(0.5, 0.5, 0, 0.5)
                 ->end()
             ;
+            if ($category->getResponsible()) {
+                $name = $category->getResponsible()->getFirstnameAndLastname();
+                $row->newCell()
+                        ->setText('Hauptverantwortlicher')
+                        ->setAlign('C')
+                        ->setVerticalAlign('middle')
+                        ->setColspan(2)
+                        ->setBorder(1)
+                        ->setFontSize(self::FONT_SIZE_S)
+                        ->setPadding(0.5, 0.5, 0, 0.5)
+                    ->end()
+                    ->newCell()
+                        ->setText($name)
+                        ->setAlign('C')
+                        ->setBorder(1)
+                        ->setFontSize(self::FONT_SIZE_S)
+                        ->setPadding(0.5, 0.5, 0, 0.5)
+                    ->end()
+                ;
+                $row->end();
+                $row = $table->newRow();
+            }
 
             // add rows and cells to table
             foreach ($category->getMinistries() as $index => $ministry) {

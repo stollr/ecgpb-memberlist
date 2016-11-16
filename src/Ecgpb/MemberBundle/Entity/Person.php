@@ -147,6 +147,11 @@ class Person
         return $this;
     }
 
+    public function getFirstnameAndLastname()
+    {
+        return $this->getFirstname() . ' ' . ($this->getLastname() ?: $this->getAddress()->getFamilyName());
+    }
+
     public function getLastnameAndFirstname()
     {
         return ($this->getLastname() ?: $this->getAddress()->getFamilyName()) . ', ' . $this->getFirstname();
