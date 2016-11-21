@@ -23,14 +23,14 @@
     <table class="table table-bordered ministry-category-list">
         <thead>
             <tr>
-                <th>{% trans %}Pos.{% endtrans %}</th>
+                <th class="col-md-1">{% trans %}Pos.{% endtrans %}</th>
                 <th class="col-md-2">{% trans %}Bereich{% endtrans %}</th>
-                <th class="col-md-2">
+                <th class="col-md-3">
                     {% trans %}Pos.{% endtrans %},
                     {% trans %}Unterbereich{% endtrans %}
                 </th>
                 <th class="col-md-2">{% trans %}Tasks{% endtrans %}</th>
-                <th>{% trans %}Responsibles{% endtrans %}</th>
+                <th class="col-md-3">{% trans %}Responsibles{% endtrans %}</th>
                 <th class="col-md-1 text-center">{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
@@ -230,10 +230,18 @@
                         : [new Ministry()]
                     ;
                     this.newMinistry = function() {
-                        this.ministries.push(new Ministry());
+                        var newItem = new Ministry();
+                        newItem.position = this.ministries.length;
+                        this.ministries.push(newItem);
                     };
                     this.removeMinistry = function(ministry) {
                         this.ministries.splice(this.ministries.indexOf(ministry), 1);
+
+                        for (var i = 0; i < this.ministries.length; i++) {
+                            if (this.ministries[i].position > ministry.position) {
+                                this.ministries[i].position--;
+                            }
+                        }
                     };
                 };
                 return MinistryCategory;
