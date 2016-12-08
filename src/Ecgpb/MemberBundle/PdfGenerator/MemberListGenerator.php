@@ -201,6 +201,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $src = realpath(__DIR__ . '/../Resources/public/img/library_logo.png');
         $pdf->Image($src, $pdf->GetX() + 10, $pdf->GetY(), 40, 18, 'PNG', null, 'T', true, 300, 'R');
 
+        // library
+
         $pdf->SetY($pdf->GetY() - 1);
         $this->useFontSizeXL($pdf);
         $this->useFontStyleBold($pdf);
@@ -245,6 +247,26 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         ;
 
         $this->addParagraphMargin($pdf);
+
+        // technique contact
+
+        $this->useFontSizeXL($pdf);
+        $this->useFontStyleBold($pdf);
+        $this->writeText($pdf, 'Technik- und Beamerteam');
+        $this->addHeadlineMargin($pdf);
+        $this->useFontStyleNormal($pdf);
+        $this->useFontSizeL($pdf);
+        $msg = 'Präsentationen für Predigten oder sonstige Anliegen können '
+             . 'der Technik bzw. dem Beamerteam über folgende Email-Adresse '
+             . 'mitgeteilt werden:';
+        $this->writeText($pdf, $msg);
+        $pdf->SetY($pdf->GetY() + 3);
+        $this->writeText($pdf, $this->parameters['ecgpb.contact.technique.email']);
+
+        $this->addParagraphMargin($pdf);
+
+        // statistics
+
         $this->useFontSizeXL($pdf);
         $this->useFontStyleBold($pdf);
         $this->writeText($pdf, 'Mitgliederstand am 01.' . date('m.Y'));

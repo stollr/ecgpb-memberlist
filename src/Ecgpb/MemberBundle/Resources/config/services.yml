@@ -38,6 +38,7 @@ services:
                 ecgpb.contact.bank.bic: %ecgpb.contact.bank.bic%
                 ecgpb.contact.memberlist.responsible: %ecgpb.contact.memberlist.responsible%
                 ecgpb.contact.memberlist.email: %ecgpb.contact.memberlist.email%
+                ecgpb.contact.technique.email: %ecgpb.contact.technique.email%
 
 #    ecgpb.member.event.entity_removal_subscriber:
 #        class: Ecgpb\MemberBundle\Event\EntityRemovalSubscriber

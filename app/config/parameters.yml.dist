@@ -32,6 +32,7 @@ parameters:
     ecgpb.contact.bank.bic:                 placeholder
     ecgpb.contact.memberlist.responsible:   placeholder
     ecgpb.contact.memberlist.email:         placeholder
+    ecgpb.contact.technique.email:          placeholder
 
     ecgpb.members.photo_path:               %kernel.root_dir%/data/member_pictures
     ecgpb.members.photo_path_optimized:     %kernel.cache_dir%/ecgpb/member_photos_optimized
