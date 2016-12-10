@@ -252,13 +252,12 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $this->useFontSizeXL($pdf);
         $this->useFontStyleBold($pdf);
-        $this->writeText($pdf, 'Technik- und Beamerteam');
+        $this->writeText($pdf, 'Technik und Beamerteam');
         $this->addHeadlineMargin($pdf);
         $this->useFontStyleNormal($pdf);
         $this->useFontSizeL($pdf);
-        $msg = 'Präsentationen für Predigten oder sonstige Anliegen können '
-             . 'der Technik bzw. dem Beamerteam über folgende Email-Adresse '
-             . 'mitgeteilt werden:';
+        $msg = 'Präsentationen können der Technik bzw. dem Beamerteam über '
+             . 'folgen- de Email-Adresse zugesandt werden:';
         $this->writeText($pdf, $msg);
         $pdf->SetY($pdf->GetY() + 3);
         $this->writeText($pdf, $this->parameters['ecgpb.contact.technique.email']);
