@@ -53,11 +53,11 @@
             <span class="glyphicon glyphicon-remove"></span>
         </a>
     {% endif %}
-    <a class="btn btn-default pull-right"
-     href="{{ path('ecgpb.member.address.index') }}#address-{{ entity.id }}"
+    <button class="btn btn-default pull-right"
+     onclick="history.back()"
      title="{% trans %}Back to List{% endtrans %}">
         <span class="glyphicon glyphicon-arrow-left"></span>
-    </a>
+    </button>
 
     <h2>{% trans %}Edit Address{% endtrans %}</h2>
 
