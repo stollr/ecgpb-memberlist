@@ -170,9 +170,9 @@ class AddressController extends Controller
     /**
      * Deletes a Address entity.
      *
-     * @Route("/{id}/delete", name="ecgpb.member.address.delete", defaults={"_locale"="de"})
+     * @Route("/{id}/delete", name="ecgpb.member.address.delete")
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $address = $em->getRepository('EcgpbMemberBundle:Address')->find($id);
@@ -190,8 +190,12 @@ class AddressController extends Controller
 
         $em->remove($address);
         $em->flush();
-            
+
         $this->get('session')->getFlashBag()->add('success', 'The entry has been deleted.');
+
+        if ($referrer = $request->headers->get('referer')) {
+            return $this->redirect($referrer);
+        }
 
         return $this->redirect($this->generateUrl('ecgpb.member.address.index'));
     }

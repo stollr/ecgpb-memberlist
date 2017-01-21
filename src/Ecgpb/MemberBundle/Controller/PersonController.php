@@ -181,6 +181,12 @@ class PersonController extends Controller
         $em->remove($person);
         $em->flush();
 
+        $this->get('session')->getFlashBag()->add('success', 'The entry has been deleted.');
+
+        if ($referrer = $request->headers->get('referer')) {
+            return $this->redirect($referrer);
+        }
+
         return $this->redirect($this->generateUrl('ecgpb.member.person.index'));
     }
 
