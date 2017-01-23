@@ -30,7 +30,7 @@ services:
                 ecgpb.contact.main_phone: %ecgpb.contact.main_phone%
                 ecgpb.contact.office_phone: %ecgpb.contact.office_phone%
                 ecgpb.contact.story_phone: %ecgpb.contact.story_phone%
-                ecgpb.contact.lifetime_phone: %ecgpb.contact.lifetime_phone%
+                ecgpb.contact.kitchen_phone: %ecgpb.contact.kitchen_phone%
                 ecgpb.contact.gfh_phone: %ecgpb.contact.gfh_phone%
                 ecgpb.contact.library_phone: %ecgpb.contact.library_phone%
                 ecgpb.contact.library_email: %ecgpb.contact.library_email%

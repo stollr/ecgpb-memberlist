@@ -38,7 +38,7 @@ twig:
         ecgpb_contact_city:                     %ecgpb.contact.city%
         ecgpb_contact_main_phone:               %ecgpb.contact.main_phone%
         ecgpb_contact_office_phone:             %ecgpb.contact.office_phone%
-        ecgpb_contact_lifetime_phone:           %ecgpb.contact.lifetime_phone%
+        ecgpb_contact_kitchen_phone:            %ecgpb.contact.kitchen_phone%
         ecgpb_contact_gfh_phone:                %ecgpb.contact.gfh_phone%
         ecgpb_contact_library_phone:            %ecgpb.contact.library_phone%
         ecgpb_contact_library_email:            %ecgpb.contact.library_email%
