@@ -4,7 +4,7 @@ namespace Ecgpb\MemberBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\Common\Persistence\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Ecgpb\MemberBundle\Entity\Person;
 
 /**
