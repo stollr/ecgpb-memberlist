@@ -86,8 +86,12 @@ class WorkingGroup
      */
     public function addPerson(\Ecgpb\MemberBundle\Entity\Person $person)
     {
-        $this->persons[] = $person;
+        if (!$this->persons->contains($person)) {
+            $this->persons->add($person);
+        }
+
         $person->setWorkingGroup($this);
+
         return $this;
     }
 
@@ -121,6 +125,9 @@ class WorkingGroup
     public function setLeader(\Ecgpb\MemberBundle\Entity\Person $leader = null)
     {
         $this->leader = $leader;
+
+        $leader->setWorkingGroup($this);
+
         return $this;
     }
 

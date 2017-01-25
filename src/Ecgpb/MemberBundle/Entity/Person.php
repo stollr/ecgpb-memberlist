@@ -370,6 +370,11 @@ class Person
     public function setWorkingGroup(\Ecgpb\MemberBundle\Entity\WorkingGroup $workingGroup = null)
     {
         $this->workingGroup = $workingGroup;
+
+        if (!$workingGroup->getPersons()->contains($this)) {
+            $workingGroup->getPersons()->add($this);
+        }
+
         return $this;
     }
 
