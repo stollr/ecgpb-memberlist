@@ -95,6 +95,9 @@ class PersonRepository extends EntityRepository
         return $persons;
     }
 
+    /**
+     * @return array|Person[]
+     */
     public function findPersonsToBeAssignedToWorkingGroup()
     {
         $minimumAge = new \DateTime();
@@ -103,7 +106,8 @@ class PersonRepository extends EntityRepository
         $dql = 'SELECT person, address
                 FROM EcgpbMemberBundle:Person person
                 JOIN person.address address
-                WHERE person.workingGroup IS NULL
+                LEFT JOIN person.leaderOf leadingWorkingGroup
+                WHERE (person.workingGroup IS NULL AND leadingWorkingGroup.id IS NULL)
                 AND (person.workerStatus = :able
                     OR (person.workerStatus IS NULL AND person.dob > :minimum_age))
                 ORDER By address.familyName, person.firstname'
