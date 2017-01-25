@@ -26,7 +26,7 @@ class DoctrineEventSubscriber implements EventSubscriber
     public function getSubscribedEvents()
     {
         return array(
-            'postUpdate',
+            'preUpdate',
             'postFlush',
         );
     }
