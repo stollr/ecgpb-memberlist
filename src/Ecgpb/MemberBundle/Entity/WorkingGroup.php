@@ -199,10 +199,12 @@ class WorkingGroup
     {
         $avg = $this->getAvgAge();
         $powedSum = 0;
+        $numberOfPersons = 0;
 
         if ($this->getLeader()) {
             $year = date('Y') - $this->getLeader()->getDob()->format('Y');
             $powedSum += pow($year - $avg, 2);
+            $numberOfPersons++;
         }
 
         foreach ($this->getPersons() as $person) {
@@ -210,8 +212,14 @@ class WorkingGroup
                 // The leader should not be counted again
                 $year = date('Y') - $person->getDob()->format('Y');
                 $powedSum += pow($year - $avg, 2);
+                $numberOfPersons++;
             }
         }
-        return $powedSum;
+        return $powedSum / $numberOfPersons;
+    }
+
+    public function getStandardDeviationOfAge()
+    {
+        return sqrt($this->getVarianceOfAge());
     }
 }

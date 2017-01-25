@@ -342,6 +342,10 @@
                 <source>Seniors List</source>
                 <target>Seniorenliste</target>
             </trans-unit>
+            <trans-unit id="Standard Deviation of Age">
+                <source>Standard Deviation of Age</source>
+                <target>Standardabweichung des Alters</target>
+            </trans-unit>
             <trans-unit id="Street">
                 <source>Street</source>
                 <target>Straße</target>
