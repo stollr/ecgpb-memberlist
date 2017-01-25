@@ -40,9 +40,9 @@ services:
                 ecgpb.contact.memberlist.email: %ecgpb.contact.memberlist.email%
                 ecgpb.contact.technique.email: %ecgpb.contact.technique.email%
 
-#    ecgpb.member.event.entity_removal_subscriber:
-#        class: Ecgpb\MemberBundle\Event\EntityRemovalSubscriber
-#        arguments:
-#            - "@doctrine"
-#        tags:
-#            - { name: doctrine.event_subscriber, connection: default }
+    ecgpb.member.event.doctrine_event_subscriber:
+        class: Ecgpb\MemberBundle\Event\DoctrineEventSubscriber
+        arguments:
+            - "@container"
+        tags:
+            - { name: doctrine.event_subscriber }
