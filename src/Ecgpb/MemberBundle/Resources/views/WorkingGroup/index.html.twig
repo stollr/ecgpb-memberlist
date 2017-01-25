@@ -30,12 +30,14 @@
                     </p>
                 </td>
                 <td>
-                    {{ working_group.leader ? working_group.leader.firstname ~ ' ' ~ working_group.leader.address.familyName : '' }}
-                    {% if working_group.leader %}({{ working_group.leader.dob.format('Y') }}){% endif %}
+                    {% if working_group.leader %}
+                        {{ working_group.leader.firstname ~ ' ' ~ working_group.leader.address.familyName }}
+                        ({{ working_group.leader.dob.format('Y') }})
+                    {% endif %}
                 </td>
                 <td>
                     <div class="col-md-6">
-                        {% for person in working_group.persons %}
+                        {% for person in working_group.persons if (not working_group.leader or working_group.leader.id != person.id) %}
                             <span class="text-muted">{{ loop.index }}.</span>
                             {{ person.lastnameFirstnameAndDob }}<br/>
 
