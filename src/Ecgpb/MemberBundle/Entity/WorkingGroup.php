@@ -171,23 +171,47 @@ class WorkingGroup
 
     public function getAvgAge()
     {
+        $currentYear = date('Y');
         $years = 0;
-        foreach ($this->getPersons() as $person) {
-            $years += date('Y') - $person->getDob()->format('Y');
+        $numberOfPersons = 0;
+
+        if ($this->getLeader()) {
+            $years += $currentYear - $this->getLeader()->getDob()->format('Y');
+            $numberOfPersons++;
         }
-        return $years / count($this->getPersons());
+
+        foreach ($this->getPersons() as $person) {
+            if (!$this->getLeader() || $person->getId() != $this->getLeader()->getId()) {
+                // The leader should not be counted again
+                $years += $currentYear - $person->getDob()->format('Y');
+                $numberOfPersons++;
+            }
+        }
+
+        if (0 === $numberOfPersons) {
+            return 0;
+        }
+
+        return $years / $numberOfPersons;
     }
 
     public function getVarianceOfAge()
     {
         $avg = $this->getAvgAge();
         $powedSum = 0;
-        $sum = 0;
-        foreach ($this->getPersons() as $person) {
-            $year = date('Y') - $person->getDob()->format('Y');
+
+        if ($this->getLeader()) {
+            $year = date('Y') - $this->getLeader()->getDob()->format('Y');
             $powedSum += pow($year - $avg, 2);
-            $sum = $year;
         }
-        return $powedSum / $sum;
+
+        foreach ($this->getPersons() as $person) {
+            if (!$this->getLeader() || $person->getId() != $this->getLeader()->getId()) {
+                // The leader should not be counted again
+                $year = date('Y') - $person->getDob()->format('Y');
+                $powedSum += pow($year - $avg, 2);
+            }
+        }
+        return $powedSum;
     }
 }
