@@ -381,7 +381,7 @@ class Person
     {
         $this->workingGroup = $workingGroup;
 
-        if (!$workingGroup->getPersons()->contains($this)) {
+        if ($workingGroup && !$workingGroup->getPersons()->contains($this)) {
             $workingGroup->getPersons()->add($this);
         }
 
