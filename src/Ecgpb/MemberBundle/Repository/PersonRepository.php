@@ -119,6 +119,24 @@ class PersonRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    /**
+     * @return array|Person[]
+     */
+    public function findPersonsUnableToWork()
+    {
+        $dql = 'SELECT person, address
+                FROM EcgpbMemberBundle:Person person
+                JOIN person.address address
+                WHERE (person.workerStatus IS NOT NULL AND person.workerStatus != :statusStillAble)
+                ORDER By address.familyName, person.firstname'
+        ;
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('statusStillAble', Person::WORKER_STATUS_STILL_ABLE);
+
+        return $query->getResult();
+    }
     
     public function getAllEmailAdresses()
     {

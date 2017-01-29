@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Ecgpb\MemberBundle\Entity\Person;
 use Ecgpb\MemberBundle\Entity\WorkingGroup;
 use Ecgpb\MemberBundle\Form\WorkingGroupType;
 
@@ -227,7 +228,7 @@ class WorkingGroupController extends Controller
     }
 
     /**
-     * @Route("/assign", name="ecgpb.member.workinggroup.assign", defaults={"_locale"="de"}))
+     * @Route("/assign", name="ecgpb.member.workinggroup.assign", defaults={"_locale"="de"})
      * @Method({"POST"})
      */
     public function assignAction(Request $request)
@@ -257,5 +258,53 @@ class WorkingGroupController extends Controller
         $this->addFlash('success', 'Saved assignments.');
 
         return $this->redirect($this->generateUrl('ecgpb.member.workinggroup.assignables'));
+    }
+
+    /**
+     * @Route("/persons_unable_to_work", name="ecgpb.member.workinggroup.persons_unable_to_work")
+     */
+    public function personsUnableToWorkAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $personRepo = $em->getRepository('EcgpbMemberBundle:Person');
+        $persons = $personRepo->findPersonsUnableToWork();
+
+        return $this->render('EcgpbMemberBundle:WorkingGroup:persons_unable_to_work.html.twig', array(
+            'persons' => $persons,
+            'allWorkerStatus' => Person::getAllWorkerStatus(),
+        ));
+    }
+
+    /**
+     * @Route("/update_worker_status", name="ecgpb.member.workinggroup.update_worker_status", methods={"POST"})
+     */
+    public function updateWorkerStatusAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $workerStatus = $request->get('worker_status', []);
+
+        $personRepo = $em->getRepository('EcgpbMemberBundle:Person');
+        $persons = $personRepo->findBy(['id' => array_keys($workerStatus)]);
+
+        $changedStatus = 0;
+        foreach ($persons as $person) {
+            /* @var $person Person */
+            $newStatus = $workerStatus[$person->getId()];
+            $newStatus = '' === $newStatus ? null : (int) $newStatus;
+
+            if ($person->getWorkerStatus() !== $newStatus) {
+                $person->setWorkerStatus($newStatus);
+                $changedStatus++;
+            }
+        }
+
+        $em->flush();
+
+        $msg = 'The worker status of %number% persons has been changed.';
+        $this->addFlash('success', $this->get('translator')->trans($msg, ['%number%' => $changedStatus]));
+
+        return $this->redirectToRoute('ecgpb.member.workinggroup.persons_unable_to_work');
     }
 }

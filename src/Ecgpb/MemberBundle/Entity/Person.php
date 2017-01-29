@@ -23,12 +23,22 @@ class Person
     /**
      * People younger than 60 years, but not able to work anymore.
      */
-    const WORKER_STATUS_UNABLE = 0;
+    const WORKER_STATUS_INVALID = 0;
 
     /**
      * People 60 years old or older, but still want to work.
      */
     const WORKER_STATUS_STILL_ABLE = 1;
+
+    /**
+     * People having other ministries like deacons or elders.
+     */
+    const WORKER_STATUS_OTHER_MINISTRIES = 2;
+
+    /**
+     * People not able to work, because of their residence.
+     */
+    const WORKER_STATUS_UNABLE_RESIDENCE = 3;
     
     /**
      * @var integer
@@ -395,7 +405,8 @@ class Person
 
     public function setWorkerStatus($workerStatus)
     {
-        if (!in_array($workerStatus, self::getAllWorkerStatus(), true)) {
+        $allStatus = self::getAllWorkerStatus();
+        if ($workerStatus !== null && !isset($allStatus[$workerStatus])) {
             throw new \InvalidArgumentException('Given worker status is invalid.');
         }
         $this->workerStatus = $workerStatus;
@@ -405,9 +416,11 @@ class Person
     public static function getAllWorkerStatus()
     {
         return array(
-            self::WORKER_STATUS_DEPENDING,
-            self::WORKER_STATUS_UNABLE,
-            self::WORKER_STATUS_STILL_ABLE,
+            self::WORKER_STATUS_DEPENDING => 'Depending on Age (< 60)',
+            self::WORKER_STATUS_INVALID => 'Invalid/Sick',
+            self::WORKER_STATUS_OTHER_MINISTRIES => 'Other Ministries',
+            self::WORKER_STATUS_UNABLE_RESIDENCE => 'Residence far away',
+            self::WORKER_STATUS_STILL_ABLE => 'Still able',
         );
     }
 

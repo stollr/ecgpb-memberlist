@@ -1,16 +1,16 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h2>{% trans %}Persons not assigned to a Working Group{% endtrans %}</h2>
+    <h2>{% trans %}Persons that are unable to work{% endtrans %}</h2>
 
-    <form action="" method="post">
+    <form action="{{ path('ecgpb.member.workinggroup.update_worker_status') }}" method="post">
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>{% trans %}Last Name{% endtrans %}</th>
                     <th>{% trans %}First Name{% endtrans %}</th>
                     <th>{% trans %}DOB{% endtrans %}</th>
-                    <th>{% trans %}Able to work{% endtrans %}</th>
+                    <th>{% trans %}Work Status{% endtrans %}</th>
                     <th>{% trans %}Group{% endtrans %}</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -28,12 +28,12 @@
                         {{ person.dob | localizeddate('medium', 'none') }}
                     </td>
                     <td>
-                        {% trans %}Yes{% endtrans %}
-                    </td>
-                    <td>
-                        <select name="person-to-group[{{ person.id }}]">
-                            <option value=""></option>
-                            {% for group in 
+                        <select name="worker_status[{{ person.id }}]">
+                            {% for code,name in person.allWorkerStatus %}
+                                <option value="{{ code }}" {% if code == person.workerStatus %}selected{% endif %}>
+                                    {{ name | trans }}
+                                </option>
+                            {% endfor %}
                         </select>
                     </td>
                     <td>

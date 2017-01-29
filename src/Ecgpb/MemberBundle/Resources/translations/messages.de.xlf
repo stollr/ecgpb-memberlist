@@ -178,6 +178,10 @@
                 <source>Has Email Address</source>
                 <target>Hat Emailadresse</target>
             </trans-unit>
+            <trans-unit id="Invalid/Sick">
+                <source>Invalid/Sick</source>
+                <target>Dienstunfähig/Krank</target>
+            </trans-unit>
             <trans-unit id="Keep in mind that the number of pages has be devideable by four, for printing.">
                 <source>Keep in mind that the number of pages has be devideable by four, for printing.</source>
                 <target>Es ist zu beachten, dass die Anzahl an Seiten für den Druck durch vier teilbar sein muss.</target>
@@ -258,6 +262,10 @@
                 <source>Number</source>
                 <target>Nummer</target>
             </trans-unit>
+            <trans-unit id="Other Ministries">
+                <source>Other Ministries</source>
+                <target>Andere Dienste</target>
+            </trans-unit>
             <trans-unit id="Pages for personal notes">
                 <source>Pages for personal notes</source>
                 <target>Seiten für persönliche Notizen</target>
@@ -278,6 +286,10 @@
                 <source>Persons assignable to a Working Group</source>
                 <target>Personen, die zu einer Arbeitsgruppe zuweisbar sind</target>
             </trans-unit>
+            <trans-unit id="Persons unable to work">
+                <source>Persons unable to work</source>
+                <target>Nicht-arbeitsfähige Personen</target>
+            </trans-unit>
             <trans-unit id="Phone">
                 <source>Phone</source>
                 <target>Telefon</target>
@@ -297,6 +309,10 @@
             <trans-unit id="Remove">
                 <source>Remove</source>
                 <target>Entfernen</target>
+            </trans-unit>
+            <trans-unit id="Residence far away">
+                <source>Residence far away</source>
+                <target>Wohnort weit weg</target>
             </trans-unit>
             <trans-unit id="Responsibles">
                 <source>Responsibles</source>
@@ -346,6 +362,10 @@
                 <source>Standard Deviation of Age</source>
                 <target>Standardabweichung des Alters</target>
             </trans-unit>
+            <trans-unit id="Still able">
+                <source>Still able</source>
+                <target>Noch immer fähig</target>
+            </trans-unit>
             <trans-unit id="Street">
                 <source>Street</source>
                 <target>Straße</target>
@@ -378,6 +398,10 @@
                 <source>There are no entries existing, yet.</source>
                 <target>Es gibt noch keine Einträge.</target>
             </trans-unit>
+            <trans-unit id="Unable">
+                <source>Unable</source>
+                <target>Unfähig</target>
+            </trans-unit>
             <trans-unit id="Unassigned Persons">
                 <source>Unassigned Persons</source>
                 <target>Nicht-zugeordnete Personen</target>
@@ -401,6 +425,10 @@
             <trans-unit id="Women">
                 <source>Women</source>
                 <target>Frauen</target>
+            </trans-unit>
+            <trans-unit id="Work Status">
+                <source>Work Status</source>
+                <target>Arbeitsstatus</target>
             </trans-unit>
             <trans-unit id="Working Group">
                 <source>Working Group</source>
