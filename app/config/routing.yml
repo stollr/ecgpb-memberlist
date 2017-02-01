@@ -2,3 +2,14 @@ app:
     resource: "@AppBundle/Controller/"
     type:     annotation
     prefix:   /{_locale}
+
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: ecgpb.member.address.index
+        permanent: false
+
+app_bundle:
+    resource: "@AppBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}

@@ -47,7 +47,7 @@ class PersonHelper
             return $ids;
         }
 
-        $repo = $this->doctrine->getRepository('EcgpbMemberBundle:Person');
+        $repo = $this->doctrine->getRepository('AppBundle:Person');
         $personDatas = $repo->createQueryBuilder('person')
             ->select('person.id', 'person.firstname', 'address.familyName', 'person.dob')
             ->join('person.address', 'address')

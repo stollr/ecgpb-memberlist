@@ -25,10 +25,10 @@ class MinistryGroupController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Group'); /* @var $repo \AppBundle\Repository\Ministry\GroupRepository */
+        $repo = $em->getRepository('AppBundle:Ministry\Group'); /* @var $repo \AppBundle\Repository\Ministry\GroupRepository */
         $groups = $repo->findAllForListing();
 
-        $personRepo = $em->getRepository('EcgpbMemberBundle:Person');
+        $personRepo = $em->getRepository('AppBundle:Person');
         $persons = $personRepo->findAllForMinistryListing();
 
         // serializations
@@ -36,7 +36,7 @@ class MinistryGroupController extends Controller
         $groupsJson = $serializer->serialize($groups, 'json', SerializationContext::create()->setGroups(array('MinistryGroupListing')));
         $personsJson = $serializer->serialize($persons, 'json', SerializationContext::create()->setGroups(array('MinistryGroupListing')));
 
-        return $this->render('EcgpbMemberBundle:MinistryGroup:index.html.twig', array(
+        return $this->render('AppBundle:MinistryGroup:index.html.twig', array(
             'persons_json' => $personsJson,
             'groups_json' => $groupsJson,
         ));
@@ -56,7 +56,7 @@ class MinistryGroupController extends Controller
             $em = $this->getDoctrine()->getManager();
             $clientMinistryGroups = json_decode($request->getContent(), true);
 
-            $groups = $em->getRepository('EcgpbMemberBundle:Ministry\Group')->findBy(array(
+            $groups = $em->getRepository('AppBundle:Ministry\Group')->findBy(array(
                 'id' => array_map(function($element) {
                     return isset($element['id']) ? $element['id'] : 0;
 

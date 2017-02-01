@@ -25,13 +25,13 @@ class MinistryCategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Category'); /* @var $repo \AppBundle\Repository\Ministry\CategoryRepository */
+        $repo = $em->getRepository('AppBundle:Ministry\Category'); /* @var $repo \AppBundle\Repository\Ministry\CategoryRepository */
         $categories = $repo->findAllForListing();
 
-        $personRepo = $em->getRepository('EcgpbMemberBundle:Person');
+        $personRepo = $em->getRepository('AppBundle:Person');
         $persons = $personRepo->findAllForMinistryListing();
 
-        $groupRepo = $em->getRepository('EcgpbMemberBundle:Ministry\Group');
+        $groupRepo = $em->getRepository('AppBundle:Ministry\Group');
         $groups = $groupRepo->findAll();
 
         // serializations
@@ -40,7 +40,7 @@ class MinistryCategoryController extends Controller
         $personsJson = $serializer->serialize($persons, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
         $groupsJson = $serializer->serialize($groups, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
 
-        return $this->render('EcgpbMemberBundle:MinistryCategory:index.html.twig', array(
+        return $this->render('AppBundle:MinistryCategory:index.html.twig', array(
             'categories_json' => $categoriesJson,
             'persons_json' => $personsJson,
             'groups_json' => $groupsJson,
@@ -61,7 +61,7 @@ class MinistryCategoryController extends Controller
             $em = $this->getDoctrine()->getManager();
             $clientMinistryCategories = json_decode($request->getContent(), true);
 
-            $categories = $em->getRepository('EcgpbMemberBundle:Ministry\Category')->findAll();
+            $categories = $em->getRepository('AppBundle:Ministry\Category')->findAll();
             /* @var $categories Category[] */
 
             // get all ids of already existing categories

@@ -10,6 +10,7 @@ AppBundle\Entity\Address:
                 strategy: AUTO
     fields:
         familyName:
+            column: familyName
             type: string
             length: '50'
         phone:

@@ -28,7 +28,7 @@ class AddressController extends Controller
 
         $personHelper = $this->get('person_helper'); /* @var $personHelper \AppBundle\Helper\PersonHelper */
 
-        $repo = $em->getRepository('EcgpbMemberBundle:Address'); /* @var $repo \AppBundle\Repository\AddressRepository */
+        $repo = $em->getRepository('AppBundle:Address'); /* @var $repo \AppBundle\Repository\AddressRepository */
 
         $filter = $request->get('filter', array());
         if (!empty($filter['no-photo'])) {
@@ -46,7 +46,7 @@ class AddressController extends Controller
             )
         );
 
-        return $this->render('EcgpbMemberBundle:Address:index.html.twig', array(
+        return $this->render('AppBundle:Address:index.html.twig', array(
             'pagination' => $pagination,
             'person_ids_without_photo' => $personHelper->getPersonIdsWithoutPhoto(),
             //'persons_with_picture' => $personsWithPicture,
@@ -74,7 +74,7 @@ class AddressController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $entity->getId())));
         }
 
-        return $this->render('EcgpbMemberBundle:Address:form.html.twig', array(
+        return $this->render('AppBundle:Address:form.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -90,7 +90,7 @@ class AddressController extends Controller
         $entity = new Address();
         $form   = $this->createAddressForm($entity);
 
-        return $this->render('EcgpbMemberBundle:Address:form.html.twig', array(
+        return $this->render('AppBundle:Address:form.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -105,7 +105,7 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('EcgpbMemberBundle:Address')->find($id);
+        $entity = $em->getRepository('AppBundle:Address')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Address entity.');
@@ -113,7 +113,7 @@ class AddressController extends Controller
 
         $editForm = $this->createAddressForm($entity);
 
-        return $this->render('EcgpbMemberBundle:Address:form.html.twig', array(
+        return $this->render('AppBundle:Address:form.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
         ));
@@ -129,7 +129,7 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $address = $em->getRepository('EcgpbMemberBundle:Address')->find($id);
+        $address = $em->getRepository('AppBundle:Address')->find($id);
         /* @var $address Address */
 
         if (!$address) {
@@ -161,7 +161,7 @@ class AddressController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $id)));
         }
 
-        return $this->render('EcgpbMemberBundle:Address:form.html.twig', array(
+        return $this->render('AppBundle:Address:form.html.twig', array(
             'entity' => $address,
             'form'   => $form->createView(),
         ));
@@ -175,7 +175,7 @@ class AddressController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $address = $em->getRepository('EcgpbMemberBundle:Address')->find($id);
+        $address = $em->getRepository('AppBundle:Address')->find($id);
         /* @var $address Address */
 
         if (!$address) {

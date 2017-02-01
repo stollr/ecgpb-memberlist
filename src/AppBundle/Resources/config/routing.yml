@@ -1,90 +1,86 @@
-ecgpb.member.index.index:
-    pattern: /
-    defaults: { _controller: "EcgpbMemberBundle:Index:index", _locale: de }
-
 ecgpb.member.index.encode_password:
-    pattern: /index/encode_password
-    defaults: { _controller: "EcgpbMemberBundle:Index:encodePassword", _locale: de }
+    path: /index/encode_password
+    defaults: { _controller: "AppBundle:Index:encodePassword", _locale: de }
 
 # person actions
 
 ecgpb.member.person.index:
-    pattern:  /person/index
-    defaults: { _controller: "EcgpbMemberBundle:Person:index", _locale: de }
+    path:  /person/index
+    defaults: { _controller: "AppBundle:Person:index", _locale: de }
 
 ecgpb.member.person.new:
-    pattern:  /person/new
-    defaults: { _controller: "EcgpbMemberBundle:Person:new", _locale: de }
+    path:  /person/new
+    defaults: { _controller: "AppBundle:Person:new", _locale: de }
 
 ecgpb.member.person.create:
-    pattern:  /person/create
-    defaults: { _controller: "EcgpbMemberBundle:Person:create", _locale: de }
+    path:  /person/create
+    defaults: { _controller: "AppBundle:Person:create", _locale: de }
     requirements: { _method: post }
 
 ecgpb.member.person.edit:
-    pattern:  /person/{id}/edit
-    defaults: { _controller: "EcgpbMemberBundle:Person:edit", _locale: de }
+    path:  /person/{id}/edit
+    defaults: { _controller: "AppBundle:Person:edit", _locale: de }
 
 ecgpb.member.person.update:
-    pattern:  /person/{id}/update
-    defaults: { _controller: "EcgpbMemberBundle:Person:update", _locale: de }
+    path:  /person/{id}/update
+    defaults: { _controller: "AppBundle:Person:update", _locale: de }
     requirements: { _method: post|put }
 
 ecgpb.member.person.delete:
-    pattern:  /person/{id}/delete
-    defaults: { _controller: "EcgpbMemberBundle:Person:delete", _locale: de }
+    path:  /person/{id}/delete
+    defaults: { _controller: "AppBundle:Person:delete", _locale: de }
 
 ecgpb.member.person.optimized_member_picture:
-    pattern:  /person/optimized_member_picture/{id}
-    defaults: { _controller: "EcgpbMemberBundle:Person:optimizedMemberPicture", _locale: de }
+    path:  /person/optimized_member_picture/{id}
+    defaults: { _controller: "AppBundle:Person:optimizedMemberPicture", _locale: de }
 
 
 # address routes
 
 ecgpb.member.address:
-    resource: "@EcgpbMemberBundle/Controller/AddressController.php"
+    resource: "@AppBundle/Controller/AddressController.php"
     type: annotation
     prefix: /address
 
 # working group actions
 
 ecgpb.member.workinggroup:
-    resource: "@EcgpbMemberBundle/Controller/WorkingGroupController.php"
+    resource: "@AppBundle/Controller/WorkingGroupController.php"
     type: annotation
     prefix: /workinggroup
 
 # ministry category actions
 
 ecgpb.member.ministry_category.index:
-    pattern:  /ministry_category/
+    path:  /ministry_category/
     methods: [GET]
-    defaults: { _controller: "EcgpbMemberBundle:MinistryCategory:index" }
+    defaults: { _controller: "AppBundle:MinistryCategory:index" }
 
 ecgpb.member.ministry_category.update:
-    pattern:  /ministry_category/
+    path:  /ministry_category/
     methods: [POST, PUT]
-    defaults: { _controller: "EcgpbMemberBundle:MinistryCategory:update" }
+    defaults: { _controller: "AppBundle:MinistryCategory:update" }
     requirements:
         _format: json
 
 # ministry groups actions
 
 ecgpb.member.ministry_group.index:
-    pattern:  /ministry_group/
+    path:  /ministry_group/
     methods: [GET]
-    defaults: { _controller: "EcgpbMemberBundle:MinistryGroup:index" }
+    defaults: { _controller: "AppBundle:MinistryGroup:index" }
 
 ecgpb.member.ministry_group.update:
-    pattern:  /ministry_group/
+    path:  /ministry_group/
     methods: [POST, PUT]
-    defaults: { _controller: "EcgpbMemberBundle:MinistryGroup:update" }
+    defaults: { _controller: "AppBundle:MinistryGroup:update" }
     requirements:
         _format: json
 
 # export actions
 
 ecgpb.member.export:
-    resource: @EcgpbMemberBundle/Controller/ExportController.php
+    resource: "@AppBundle/Controller/ExportController.php"
     type: annotation
     prefix: /export
     defaults: { _locale: de }

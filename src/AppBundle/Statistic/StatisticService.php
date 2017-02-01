@@ -29,7 +29,7 @@ class StatisticService
     public function getPersonStatistics()
     {
         if (!$this->statistics) {
-            $repo = $this->doctrine->getRepository('EcgpbMemberBundle:Person');
+            $repo = $this->doctrine->getRepository('AppBundle:Person');
             $qb = $repo->createQueryBuilder('person'); /* @var $qb \Doctrine\ORM\QueryBuilder */
             $qb->select('person');
 

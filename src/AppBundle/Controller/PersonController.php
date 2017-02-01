@@ -25,9 +25,9 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('EcgpbMemberBundle:Person')->findAll();
+        $entities = $em->getRepository('AppBundle:Person')->findAll();
 
-        return $this->render('EcgpbMemberBundle:Person:index.html.twig', array(
+        return $this->render('AppBundle:Person:index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -49,7 +49,7 @@ class PersonController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.person.edit', array('id' => $person->getId())));
         }
 
-        return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
+        return $this->render('AppBundle:Person:form.html.twig', array(
             'person' => $person,
             'form'   => $form->createView(),
         ));
@@ -64,7 +64,7 @@ class PersonController extends Controller
         $person = new Person();
         $form   = $this->createPersonForm($person);
 
-        return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
+        return $this->render('AppBundle:Person:form.html.twig', array(
             'person' => $person,
             'form'   => $form->createView(),
         ));
@@ -78,7 +78,7 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $person = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
+        $person = $em->getRepository('AppBundle:Person')->find($id);
 
         if (!$person) {
             throw $this->createNotFoundException('Unable to find Person entity.');
@@ -86,7 +86,7 @@ class PersonController extends Controller
 
         $editForm = $this->createPersonForm($person);
 
-        return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
+        return $this->render('AppBundle:Person:form.html.twig', array(
             'person'      => $person,
             'form'   => $editForm->createView(),
         ));
@@ -130,7 +130,7 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $person = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
+        $person = $em->getRepository('AppBundle:Person')->find($id);
 
         if (!$person) {
             throw $this->createNotFoundException('Unable to find Person person.');
@@ -155,7 +155,7 @@ class PersonController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.person.edit', array('id' => $id)));
         }
 
-        return $this->render('EcgpbMemberBundle:Person:form.html.twig', array(
+        return $this->render('AppBundle:Person:form.html.twig', array(
             'person' => $person,
             'form'   => $form->createView(),
         ));
@@ -167,7 +167,7 @@ class PersonController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $person = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
+        $person = $em->getRepository('AppBundle:Person')->find($id);
         /* @var $person Person */
 
         if (!$person) {
@@ -193,7 +193,7 @@ class PersonController extends Controller
     public function optimizedMemberPictureAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $person = $em->getRepository('EcgpbMemberBundle:Person')->find($id);
+        $person = $em->getRepository('AppBundle:Person')->find($id);
         if (!$person) {
             throw $this->createNotFoundException('Unable to find Person entity.');
         }

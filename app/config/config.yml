@@ -38,9 +38,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    form:
-        resources:
-            - ":Form:fields.html.twig"
+    #form:
+    #    resources:
+    #        - ":Form:fields.html.twig"
     globals:
         ecgpb_contact_name_html:                %ecgpb.contact.name_html%
         ecgpb_contact_street:                   %ecgpb.contact.street%

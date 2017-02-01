@@ -304,7 +304,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     public function addAddressPages(\TCPDF $pdf)
     {
         $addresses = $this->getAddresses();
-        $personRepo = $this->doctrine->getRepository('EcgpbMemberBundle:Person'); /* @var $personRepo \AppBundle\Repository\PersonRepository */
+        $personRepo = $this->doctrine->getRepository('AppBundle:Person'); /* @var $personRepo \AppBundle\Repository\PersonRepository */
 
         $pdf->SetLineWidth(0.25);
 
@@ -562,7 +562,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         foreach ($this->getWorkingGroups() as $group) {
             $groupTypes[$group->getGender()][] = $group;
         }
-        $personRepo = $this->doctrine->getRepository('EcgpbMemberBundle:Person'); /* @var $personRepo \AppBundle\Repository\PersonRepository */
+        $personRepo = $this->doctrine->getRepository('AppBundle:Person'); /* @var $personRepo \AppBundle\Repository\PersonRepository */
 
         $margins = $pdf->getMargins();
         $halfWidth = ($pdf->getPageWidth() - $margins['left'] - $margins['right']) / 2;
@@ -940,7 +940,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     {
         $em = $this->doctrine->getManager();
 
-        $repo = $em->getRepository('EcgpbMemberBundle:Address');
+        $repo = $em->getRepository('AppBundle:Address');
         /* @var $repo \Doctrine\Common\Persistence\ObjectRepository */
 
         $builder = $repo->createQueryBuilder('address')
@@ -961,7 +961,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     {
         $em = $this->doctrine->getManager();
 
-        $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Category');
+        $repo = $em->getRepository('AppBundle:Ministry\Category');
         /* @var $repo \AppBundle\Repository\Ministry\CategoryRepository */
         $categories = $repo->findAllForListing();
 
@@ -974,7 +974,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
      */
     private function getWorkingGroups()
     {
-        $repo = $this->doctrine->getManager()->getRepository('EcgpbMemberBundle:WorkingGroup');
+        $repo = $this->doctrine->getManager()->getRepository('AppBundle:WorkingGroup');
         /* @var $repo \AppBundle\Repository\WorkingGroupRepository */
 
         return $repo->findAllForMemberPdf();

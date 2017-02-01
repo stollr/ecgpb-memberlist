@@ -39,7 +39,7 @@ class ImportCsvCommand extends ContainerAwareCommand
 
         // load existing members
         $existingPersons = array();
-        foreach ($em->getRepository('EcgpbMemberBundle:Person')->findAll() as $person) {
+        foreach ($em->getRepository('AppBundle:Person')->findAll() as $person) {
             $index = $person->getLastnameAndFirstname() . ', ' . $person->getDob()->format('d.m.Y');
             $existingPersons[$index] = $person;
         }

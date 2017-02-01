@@ -23,7 +23,7 @@ class ExportController extends Controller
      */
     public function pdfConfigAction()
     {
-        return $this->render('EcgpbMemberBundle:Export:pdf_config.html.twig');
+        return $this->render('AppBundle:Export:pdf_config.html.twig');
     }
 
     /**
@@ -51,7 +51,7 @@ class ExportController extends Controller
      */
     public function csvAction()
     {
-        $repo = $this->getDoctrine()->getRepository('EcgpbMemberBundle:Person');
+        $repo = $this->getDoctrine()->getRepository('AppBundle:Person');
         $builder = $repo->createQueryBuilder('person')
             ->select('person', 'address')
             ->join('person.address', 'address')
@@ -90,7 +90,7 @@ class ExportController extends Controller
      */
     public function birthdayExcelAction()
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('EcgpbMemberBundle:Person');
+        $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Person');
         $persons = $repo->findAllForBirthdayList();
 
         $translator = $this->get('translator');
@@ -129,7 +129,7 @@ class ExportController extends Controller
      */
     public function seniorsExcelAction()
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('EcgpbMemberBundle:Person');
+        $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Person');
         $persons = $repo->findSeniors();
         /* @var $persons Person[] Array of all persons who are (or will become) at least 65 years old (in this year). */
 
@@ -169,7 +169,7 @@ class ExportController extends Controller
      */
     public function emailAddressesAction()
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('EcgpbMemberBundle:Person');
+        $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Person');
         $emails = $repo->getAllEmailAdresses();
         
         $content = "Comma separated:\r\n\r\n" .

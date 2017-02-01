@@ -104,7 +104,7 @@ class PersonRepository extends EntityRepository
         $minimumAge->modify('-60 year');
 
         $dql = 'SELECT person, address
-                FROM EcgpbMemberBundle:Person person
+                FROM AppBundle:Person person
                 JOIN person.address address
                 LEFT JOIN person.leaderOf leadingWorkingGroup
                 WHERE (person.workingGroup IS NULL AND leadingWorkingGroup.id IS NULL)
@@ -126,7 +126,7 @@ class PersonRepository extends EntityRepository
     public function findPersonsUnableToWork()
     {
         $dql = 'SELECT person, address
-                FROM EcgpbMemberBundle:Person person
+                FROM AppBundle:Person person
                 JOIN person.address address
                 WHERE (person.workerStatus IS NOT NULL AND person.workerStatus != :statusStillAble)
                 ORDER By address.familyName, person.firstname'
@@ -140,7 +140,7 @@ class PersonRepository extends EntityRepository
     
     public function getAllEmailAdresses()
     {
-        $dql = 'SELECT person.email FROM EcgpbMemberBundle:Person person WHERE person.email IS NOT NULL';
+        $dql = 'SELECT person.email FROM AppBundle:Person person WHERE person.email IS NOT NULL';
         $query = $this->getEntityManager()->createQuery($dql);
         
         $emails = array();

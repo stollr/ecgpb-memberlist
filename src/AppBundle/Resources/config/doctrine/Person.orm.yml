@@ -35,14 +35,17 @@ AppBundle\Entity\Person:
             length: '30'
             nullable: true
         phone2Label:
+            column: phone2Label
             type: string
             length: 40
             nullable: true
         maidenName:
+            column: maidenName
             type: string
             length: '40'
             nullable: true
         workerStatus:
+            column: workerStatus
             type: smallint
             nullable: true
     oneToOne:

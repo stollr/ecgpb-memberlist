@@ -12,16 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 class IndexController extends Controller
 {
-
-    /**
-     * Lists all Person entities.
-     *
-     */
-    public function indexAction()
-    {
-        return $this->redirect($this->generateUrl('ecgpb.member.address.index'));
-    }
-
     public function encodePasswordAction(Request $request)
     {
         if ($request->get('password')) {
@@ -34,6 +24,6 @@ class IndexController extends Controller
             return new Response($encoder->encodePassword($request->get('password'), ''));
         }
 
-        return $this->render('EcgpbMemberBundle:Index:encode_password.html.twig');
+        return $this->render('AppBundle:Index:encode_password.html.twig');
     }
 }
