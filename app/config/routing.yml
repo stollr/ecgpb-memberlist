@@ -1,8 +1,4 @@
-ecgpb:
-    pattern: /
-    defaults: { _controller: "EcgpbMemberBundle:Index:index", _locale: de }
-
-ecgpb.member:
-    resource: "@EcgpbMemberBundle/Resources/config/routing.yml"
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
     prefix:   /{_locale}
-

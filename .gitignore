@@ -3,9 +3,7 @@
 /app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml
-/app/data/member_photos/*
-/app/data/member_photos_optimized/*
-/app/data/database.sqlite*
+/var/data/database.sqlite*
 /app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
