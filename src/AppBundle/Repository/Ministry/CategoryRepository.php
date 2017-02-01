@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Repository\Ministry;
+namespace AppBundle\Repository\Ministry;
 
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Ecgpb\MemberBundle\Repository\Ministry\CategoryRepository
+ * AppBundle\Repository\Ministry\CategoryRepository
  *
  * @author naitsirch
  */

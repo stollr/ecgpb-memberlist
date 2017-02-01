@@ -1,16 +1,16 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException;
+use AppBundle\Exception\WorkingGroupWithoutLeaderException;
 
 /**
- * Ecgpb\MemberBundle\Controller\ExportController
+ * AppBundle\Controller\ExportController
  *
  * @author naitsirch
  *
@@ -32,7 +32,7 @@ class ExportController extends Controller
     public function pdfAction(Request $request)
     {
         $generator = $this->get('ecgpb.member.pdf_generator.member_list_generator');
-        /* @var $generator \Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator */
+        /* @var $generator \AppBundle\PdfGenerator\MemberListGenerator */
         
         $pdf = $generator->generate(array(
             'pages_with_member_placeholders' => $request->get('pages_with_member_placeholders', 1),
@@ -63,7 +63,7 @@ class ExportController extends Controller
         $csv = "Nachname;Vorname;Geburtsdatum;Geschlecht\r\n";
 
         foreach ($persons as $person) {
-            /* @var $person \Ecgpb\MemberBundle\Entity\Person */
+            /* @var $person \AppBundle\Entity\Person */
             $row = array(
                 $person->getAddress()->getFamilyName(),
                 $person->getFirstname(),

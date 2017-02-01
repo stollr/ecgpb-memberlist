@@ -1,14 +1,14 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Event;
+namespace AppBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Ecgpb\MemberBundle\Entity\Person;
+use AppBundle\Entity\Person;
 
 /**
- * Ecgpb\MemberBundle\Event\DoctrineEventSubscriber
+ * AppBundle\Event\DoctrineEventSubscriber
  *
  * @author naitsirch
  */
@@ -39,7 +39,7 @@ class DoctrineEventSubscriber implements EventSubscriber
             $changeSet = $args->getEntityChangeSet();
             if (isset($changeSet['address'])) {
                 $personHelper = $this->container->get('person_helper');
-                /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
+                /* @var $personHelper \AppBundle\Helper\PersonHelper */
 
                 $oldFotoFilename = $args->getOldValue('address')->getFamilyName() . '_'
                     . $entity->getFirstname() . '_'

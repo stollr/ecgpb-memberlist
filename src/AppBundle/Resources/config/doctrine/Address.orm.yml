@@ -1,6 +1,6 @@
-Ecgpb\MemberBundle\Entity\Address:
+AppBundle\Entity\Address:
     type: entity
-    repositoryClass: Ecgpb\MemberBundle\Repository\AddressRepository
+    repositoryClass: AppBundle\Repository\AddressRepository
     table: address
     id:
         id:
@@ -30,7 +30,7 @@ Ecgpb\MemberBundle\Entity\Address:
             nullable: true
     oneToMany:
         persons:
-            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            targetEntity: AppBundle\Entity\Person
             cascade: [ persist, remove ]
             mappedBy: address
     lifecycleCallbacks: {  }

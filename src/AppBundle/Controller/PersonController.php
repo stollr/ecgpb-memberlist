@@ -1,15 +1,15 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Ecgpb\MemberBundle\Entity\Person;
-use Ecgpb\MemberBundle\Form\PersonType;
-use Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator;
+use AppBundle\Entity\Person;
+use AppBundle\Form\PersonType;
+use AppBundle\PdfGenerator\MemberListGenerator;
 
 /**
  * Person controller.
@@ -145,7 +145,7 @@ class PersonController extends Controller
             // person photo file
             if ($file = $request->files->get('person-picture-file')) {
                 /* @var $file UploadedFile */
-                $personHelper = $this->get('person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
+                $personHelper = $this->get('person_helper'); /* @var $personHelper \AppBundle\Helper\PersonHelper */
                 $filename = $personHelper->getPersonPhotoFilename($person);
                 $file->move($personHelper->getPersonPhotoPath(), $filename);
             }

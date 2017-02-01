@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -8,11 +8,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use JMS\Serializer\SerializationContext;
-use Ecgpb\MemberBundle\Entity\Ministry\Category;
-use Ecgpb\MemberBundle\Form\Ministry\CategoryType;
+use AppBundle\Entity\Ministry\Category;
+use AppBundle\Form\Ministry\CategoryType;
 
 /**
- * Ecgpb\MemberBundle\Controller\MinistryCategoryController
+ * AppBundle\Controller\MinistryCategoryController
  *
  * @/Security("has_role('ROLE_ADMIN')")
  */
@@ -25,7 +25,7 @@ class MinistryCategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Category'); /* @var $repo \Ecgpb\MemberBundle\Repository\Ministry\CategoryRepository */
+        $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Category'); /* @var $repo \AppBundle\Repository\Ministry\CategoryRepository */
         $categories = $repo->findAllForListing();
 
         $personRepo = $em->getRepository('EcgpbMemberBundle:Person');

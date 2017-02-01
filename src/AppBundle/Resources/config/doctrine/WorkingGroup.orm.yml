@@ -1,7 +1,7 @@
-Ecgpb\MemberBundle\Entity\WorkingGroup:
+AppBundle\Entity\WorkingGroup:
     type: entity
     table: working_group
-    repositoryClass: Ecgpb\MemberBundle\Repository\WorkingGroupRepository
+    repositoryClass: AppBundle\Repository\WorkingGroupRepository
     id:
         id:
             type: integer
@@ -16,14 +16,14 @@ Ecgpb\MemberBundle\Entity\WorkingGroup:
             length: 1
     oneToOne:
         leader:
-            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            targetEntity: AppBundle\Entity\Person
             inversedBy: leaderOf
             joinColumn:
                 name: leader_person_id
                 nullable: true
     oneToMany:
         persons:
-            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            targetEntity: AppBundle\Entity\Person
             mappedBy: workingGroup
     uniqueConstraints:
         uniqueGenderNumber:

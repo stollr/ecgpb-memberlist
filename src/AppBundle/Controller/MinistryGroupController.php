@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -8,11 +8,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use JMS\Serializer\SerializationContext;
-use Ecgpb\MemberBundle\Entity\Ministry\Group;
-use Ecgpb\MemberBundle\Form\Ministry\GroupType;
+use AppBundle\Entity\Ministry\Group;
+use AppBundle\Form\Ministry\GroupType;
 
 /**
- * Ecgpb\MemberBundle\Controller\MinistryGroupController
+ * AppBundle\Controller\MinistryGroupController
  *
  * @/Security("has_role('ROLE_ADMIN')")
  */
@@ -25,7 +25,7 @@ class MinistryGroupController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Group'); /* @var $repo \Ecgpb\MemberBundle\Repository\Ministry\GroupRepository */
+        $repo = $em->getRepository('EcgpbMemberBundle:Ministry\Group'); /* @var $repo \AppBundle\Repository\Ministry\GroupRepository */
         $groups = $repo->findAllForListing();
 
         $personRepo = $em->getRepository('EcgpbMemberBundle:Person');

@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Exception;
+namespace AppBundle\Exception;
 
-use Ecgpb\MemberBundle\Entity\Person;
+use AppBundle\Entity\Person;
 
 /**
- * Ecgpb\MemberBundle\Exception\WorkingGroupWithoutLeaderException
+ * AppBundle\Exception\WorkingGroupWithoutLeaderException
  *
  * @author naitsirch
  */

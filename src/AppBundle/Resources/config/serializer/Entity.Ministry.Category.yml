@@ -1,4 +1,4 @@
-Ecgpb\MemberBundle\Entity\Ministry\Category:
+AppBundle\Entity\Ministry\Category:
     properties:
         id:
             serialized_name: id

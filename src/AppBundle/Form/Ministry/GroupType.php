@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Form\Ministry;
+namespace AppBundle\Form\Ministry;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,7 +30,7 @@ class GroupType extends AbstractType
                 'horizontal_input_wrapper_class' => 'clearfix',
                 'options' => array(
                     'label' => false,
-                    'class' => 'Ecgpb\MemberBundle\Entity\Person',
+                    'class' => 'AppBundle\Entity\Person',
                     'property' => 'lastnameAndFirstname',
                     'required' => false,
                     'csrf_protection' => $options['csrf_protection'],
@@ -60,7 +60,7 @@ class GroupType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ecgpb\MemberBundle\Entity\Ministry\Group'
+            'data_class' => 'AppBundle\Entity\Ministry\Group'
         ));
     }
 

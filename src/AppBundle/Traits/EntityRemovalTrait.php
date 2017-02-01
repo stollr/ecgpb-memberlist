@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Traits;
+namespace AppBundle\Traits;
 
 /**
- * Ecgpb\MemberBundle\Traits\EntityRemovalTrait
+ * AppBundle\Traits\EntityRemovalTrait
  *
  * @author naitsirch
  */

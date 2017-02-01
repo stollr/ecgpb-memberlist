@@ -1,14 +1,14 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment;
+use AppBundle\Entity\Ministry\ResponsibleAssignment;
 
 /**
- * Ecgpb\MemberBundle\Entity\Person
+ * AppBundle\Entity\Person
  */
 class Person
 {
@@ -96,12 +96,12 @@ class Person
     private $maidenName;
 
     /**
-     * @var \Ecgpb\MemberBundle\Entity\Address
+     * @var \AppBundle\Entity\Address
      */
     private $address;
 
     /**
-     * @var \Ecgpb\MemberBundle\Entity\WorkingGroup
+     * @var \AppBundle\Entity\WorkingGroup
      */
     private $workingGroup;
 
@@ -113,7 +113,7 @@ class Person
     private $workerStatus;
 
     /**
-     * @var \Ecgpb\MemberBundle\Entity\WorkingGroup
+     * @var \AppBundle\Entity\WorkingGroup
      */
     private $leaderOf;
 
@@ -315,7 +315,7 @@ class Person
     /**
      * Set the label (deutsch: Beschriftung) of the second phone number.
      * @param string $phone2Label
-     * @return \Ecgpb\MemberBundle\Entity\Person
+     * @return \AppBundle\Entity\Person
      */
     public function setPhone2Label($phone2Label = null)
     {
@@ -349,10 +349,10 @@ class Person
     /**
      * Set address
      *
-     * @param \Ecgpb\MemberBundle\Entity\Address $address
+     * @param \AppBundle\Entity\Address $address
      * @return Person
      */
-    public function setAddress(\Ecgpb\MemberBundle\Entity\Address $address)
+    public function setAddress(\AppBundle\Entity\Address $address)
     {
         $this->address = $address;
         if (!$address->getPersons()->contains($this)) {
@@ -364,7 +364,7 @@ class Person
     /**
      * Get address
      *
-     * @return \Ecgpb\MemberBundle\Entity\Address 
+     * @return \AppBundle\Entity\Address 
      */
     public function getAddress()
     {
@@ -374,10 +374,10 @@ class Person
     /**
      * Set workingGroup
      *
-     * @param \Ecgpb\MemberBundle\Entity\WorkingGroup $workingGroup
+     * @param \AppBundle\Entity\WorkingGroup $workingGroup
      * @return Person
      */
-    public function setWorkingGroup(\Ecgpb\MemberBundle\Entity\WorkingGroup $workingGroup = null)
+    public function setWorkingGroup(\AppBundle\Entity\WorkingGroup $workingGroup = null)
     {
         $this->workingGroup = $workingGroup;
 
@@ -391,7 +391,7 @@ class Person
     /**
      * Get workingGroup
      *
-     * @return \Ecgpb\MemberBundle\Entity\WorkingGroup 
+     * @return \AppBundle\Entity\WorkingGroup 
      */
     public function getWorkingGroup()
     {
@@ -435,10 +435,10 @@ class Person
     /**
      * This method exists only for documentation.
      * 
-     * @param \Ecgpb\MemberBundle\Entity\WorkingGroup $workingGroup
+     * @param \AppBundle\Entity\WorkingGroup $workingGroup
      * @throws \RuntimeException
      */
-    public function setLeaderOf(\Ecgpb\MemberBundle\Entity\WorkingGroup $workingGroup = null)
+    public function setLeaderOf(\AppBundle\Entity\WorkingGroup $workingGroup = null)
     {
         throw new \RuntimeException('The leading person of a working group cannot be changed within person entity.');
     }
@@ -451,10 +451,10 @@ class Person
     /**
      * Add ministryGroups
      *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry\Group $ministryGroups
+     * @param \AppBundle\Entity\Ministry\Group $ministryGroups
      * @return Person
      */
-    public function addMinistryGroup(\Ecgpb\MemberBundle\Entity\Ministry\Group $ministryGroups)
+    public function addMinistryGroup(\AppBundle\Entity\Ministry\Group $ministryGroups)
     {
         $this->ministryGroups[] = $ministryGroups;
 
@@ -464,9 +464,9 @@ class Person
     /**
      * Remove ministryGroups
      *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry\Group $ministryGroups
+     * @param \AppBundle\Entity\Ministry\Group $ministryGroups
      */
-    public function removeMinistryGroup(\Ecgpb\MemberBundle\Entity\Ministry\Group $ministryGroups)
+    public function removeMinistryGroup(\AppBundle\Entity\Ministry\Group $ministryGroups)
     {
         $this->ministryGroups->removeElement($ministryGroups);
     }

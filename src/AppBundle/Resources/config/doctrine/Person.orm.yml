@@ -1,7 +1,7 @@
-Ecgpb\MemberBundle\Entity\Person:
+AppBundle\Entity\Person:
     type: entity
     table: person
-    repositoryClass: Ecgpb\MemberBundle\Repository\PersonRepository
+    repositoryClass: AppBundle\Repository\PersonRepository
     id:
         id:
             type: integer
@@ -47,23 +47,23 @@ Ecgpb\MemberBundle\Entity\Person:
             nullable: true
     oneToOne:
         leaderOf:
-            targetEntity: Ecgpb\MemberBundle\Entity\WorkingGroup
+            targetEntity: AppBundle\Entity\WorkingGroup
             mappedBy: leader
     oneToMany:
         ministryResponsibleAssignments:
-            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment
+            targetEntity: AppBundle\Entity\Ministry\ResponsibleAssignment
             cascade: [ remove ]
             mappedBy: person
     manyToOne:
         address:
-            targetEntity: Ecgpb\MemberBundle\Entity\Address
+            targetEntity: AppBundle\Entity\Address
             inversedBy: persons
             cascade: [ persist ]
             joinColumn:
                 name: address_id
                 nullable: false
         workingGroup:
-            targetEntity: Ecgpb\MemberBundle\Entity\WorkingGroup
+            targetEntity: AppBundle\Entity\WorkingGroup
             inversedBy: persons
             joinColumn:
                 name: working_group_id
@@ -71,6 +71,6 @@ Ecgpb\MemberBundle\Entity\Person:
                 onDelete: 'SET NULL'
     manyToMany:
         ministryGroups:
-            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\Group
+            targetEntity: AppBundle\Entity\Ministry\Group
             mappedBy: persons
     lifecycleCallbacks: {  }

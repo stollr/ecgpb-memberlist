@@ -1,7 +1,7 @@
-Ecgpb\MemberBundle\Entity\Ministry\Category:
+AppBundle\Entity\Ministry\Category:
     type: entity
     table: ministry_category
-    repositoryClass: Ecgpb\MemberBundle\Repository\Ministry\CategoryRepository
+    repositoryClass: AppBundle\Repository\Ministry\CategoryRepository
     id:
         id:
             type: integer
@@ -17,12 +17,12 @@ Ecgpb\MemberBundle\Entity\Ministry\Category:
             nullable: true
     oneToMany:
         ministries:
-            targetEntity: Ecgpb\MemberBundle\Entity\Ministry
+            targetEntity: AppBundle\Entity\Ministry
             cascade: [persist]
             mappedBy: category
     manyToOne:
         responsible:
-            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            targetEntity: AppBundle\Entity\Person
             joinColumn:
                 name: responsible_person_id
                 nullable: true

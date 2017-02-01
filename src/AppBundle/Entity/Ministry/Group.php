@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Entity\Ministry;
+namespace AppBundle\Entity\Ministry;
 
 /**
- * Ecgpb\MemberBundle\Entity\Ministry\Group
+ * AppBundle\Entity\Ministry\Group
  */
 class Group
 {
@@ -67,10 +67,10 @@ class Group
     /**
      * Add persons
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $person
+     * @param \AppBundle\Entity\Person $person
      * @return Group
      */
-    public function addPerson(\Ecgpb\MemberBundle\Entity\Person $person)
+    public function addPerson(\AppBundle\Entity\Person $person)
     {
         $this->persons[] = $person;
         $person->addMinistryGroup($this);
@@ -80,9 +80,9 @@ class Group
     /**
      * Remove persons
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $person
+     * @param \AppBundle\Entity\Person $person
      */
-    public function removePerson(\Ecgpb\MemberBundle\Entity\Person $person)
+    public function removePerson(\AppBundle\Entity\Person $person)
     {
         $this->persons->removeElement($person);
         $person->removeMinistryGroup($this);

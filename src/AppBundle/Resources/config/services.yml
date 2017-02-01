@@ -1,9 +1,9 @@
 parameters:
-#    ecgpb_member.example.class: Ecgpb\MemberBundle\Example
+#    ecgpb_member.example.class: AppBundle\Example
 
 services:
     person_helper:
-        class: Ecgpb\MemberBundle\Helper\PersonHelper
+        class: AppBundle\Helper\PersonHelper
         arguments:
             - "@doctrine"
             -
@@ -11,12 +11,12 @@ services:
                 ecgpb.members.photo_path_optimized: %ecgpb.members.photo_path_optimized%
 
     ecgpb.member.statistic.statistic_service:
-        class: Ecgpb\MemberBundle\Statistic\StatisticService
+        class: AppBundle\Statistic\StatisticService
         arguments:
             - "@doctrine"
 
     ecgpb.member.pdf_generator.member_list_generator:
-        class: Ecgpb\MemberBundle\PdfGenerator\MemberListGenerator
+        class: AppBundle\PdfGenerator\MemberListGenerator
         arguments:
             - "@doctrine"
             - "@translator"
@@ -41,7 +41,7 @@ services:
                 ecgpb.contact.technique.email: %ecgpb.contact.technique.email%
 
     ecgpb.member.event.doctrine_event_subscriber:
-        class: Ecgpb\MemberBundle\Event\DoctrineEventSubscriber
+        class: AppBundle\Event\DoctrineEventSubscriber
         arguments:
             - "@service_container"
         tags:

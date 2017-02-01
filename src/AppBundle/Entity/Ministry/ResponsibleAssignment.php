@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Entity\Ministry;
+namespace AppBundle\Entity\Ministry;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,17 +16,17 @@ class ResponsibleAssignment
     private $id;
 
     /**
-     * @var \Ecgpb\MemberBundle\Entity\Ministry
+     * @var \AppBundle\Entity\Ministry
      */
     private $ministry;
 
     /**
-     * @var \Ecgpb\MemberBundle\Entity\Person
+     * @var \AppBundle\Entity\Person
      */
     private $person;
 
     /**
-     * @var \Ecgpb\MemberBundle\Entity\Ministry\Group
+     * @var \AppBundle\Entity\Ministry\Group
      */
     private $group;
 
@@ -44,10 +44,10 @@ class ResponsibleAssignment
     /**
      * Set ministry
      *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry $ministry
+     * @param \AppBundle\Entity\Ministry $ministry
      * @return ResponsibleAssignment
      */
-    public function setMinistry(\Ecgpb\MemberBundle\Entity\Ministry $ministry)
+    public function setMinistry(\AppBundle\Entity\Ministry $ministry)
     {
         $this->ministry = $ministry;
 
@@ -57,7 +57,7 @@ class ResponsibleAssignment
     /**
      * Get ministry
      *
-     * @return \Ecgpb\MemberBundle\Entity\Ministry 
+     * @return \AppBundle\Entity\Ministry 
      */
     public function getMinistry()
     {
@@ -67,10 +67,10 @@ class ResponsibleAssignment
     /**
      * Set person
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $person
+     * @param \AppBundle\Entity\Person $person
      * @return Assignment
      */
-    public function setPerson(\Ecgpb\MemberBundle\Entity\Person $person = null)
+    public function setPerson(\AppBundle\Entity\Person $person = null)
     {
         $this->person = $person;
         return $this;
@@ -79,7 +79,7 @@ class ResponsibleAssignment
     /**
      * Get person
      *
-     * @return \Ecgpb\MemberBundle\Entity\Person 
+     * @return \AppBundle\Entity\Person 
      */
     public function getPerson()
     {
@@ -89,10 +89,10 @@ class ResponsibleAssignment
     /**
      * Set group
      *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry\Group $group
+     * @param \AppBundle\Entity\Ministry\Group $group
      * @return ResponsibleAssignment
      */
-    public function setGroup(\Ecgpb\MemberBundle\Entity\Ministry\Group $group = null)
+    public function setGroup(\AppBundle\Entity\Ministry\Group $group = null)
     {
         $this->group = $group;
         return $this;
@@ -101,7 +101,7 @@ class ResponsibleAssignment
     /**
      * Get group
      *
-     * @return \Ecgpb\MemberBundle\Entity\Ministry\Group 
+     * @return \AppBundle\Entity\Ministry\Group 
      */
     public function getGroup()
     {

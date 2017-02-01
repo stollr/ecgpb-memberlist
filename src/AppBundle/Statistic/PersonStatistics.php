@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Statistic;
+namespace AppBundle\Statistic;
 
 /**
- * Ecgpb\MemberBundle\Statistic\PersonStatistics
+ * AppBundle\Statistic\PersonStatistics
  *
  * @author naitsirch
  */

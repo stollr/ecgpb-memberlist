@@ -1,4 +1,4 @@
-Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment:
+AppBundle\Entity\Ministry\ResponsibleAssignment:
     type: entity
     table: ministry_assignment_responsible
     id:
@@ -10,21 +10,21 @@ Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment:
     fields: ~
     manyToOne:
         ministry:
-            targetEntity: Ecgpb\MemberBundle\Entity\Ministry
+            targetEntity: AppBundle\Entity\Ministry
             inversedBy: responsibleAssignments
             joinColumn:
                 name: ministry_id
                 nullable: false
                 onDelete: CASCADE
         person:
-            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            targetEntity: AppBundle\Entity\Person
             inversedBy: ministryResponsibleAssignments
             joinColumn:
                 name: person_id
                 nullable: true
                 onDelete: CASCADE
         group:
-            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\Group
+            targetEntity: AppBundle\Entity\Ministry\Group
             joinColumn:
                 name: group_id
                 nullable: true

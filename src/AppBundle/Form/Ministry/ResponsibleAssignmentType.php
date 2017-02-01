@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Form\Ministry;
+namespace AppBundle\Form\Ministry;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,12 +19,12 @@ class ResponsibleAssignmentType extends AbstractType
         $builder
 //            ->add('ministry')
             ->add('person', 'entity', array(
-                'class' => 'Ecgpb\MemberBundle\Entity\Person',
+                'class' => 'AppBundle\Entity\Person',
                 'property' => 'lastnameAndFirstname',
                 'required' => false,
             ))
             ->add('group', 'entity', array(
-                'class' => 'Ecgpb\MemberBundle\Entity\Ministry\Group',
+                'class' => 'AppBundle\Entity\Ministry\Group',
                 'property' => 'name',
                 'required' => false,
             ))
@@ -49,7 +49,7 @@ class ResponsibleAssignmentType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment'
+            'data_class' => 'AppBundle\Entity\Ministry\ResponsibleAssignment'
         ));
     }
 

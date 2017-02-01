@@ -1,12 +1,12 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Helper;
+namespace AppBundle\Helper;
 
-use Ecgpb\MemberBundle\Entity\Person;
+use AppBundle\Entity\Person;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * Ecgpb\MemberBundle\Helper\PersonHelper
+ * AppBundle\Helper\PersonHelper
  *
  * @author naitsirch
  */

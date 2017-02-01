@@ -1,13 +1,13 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Form;
+namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Ecgpb\MemberBundle\Form\Ministry\ResponsibleAssignmentType;
+use AppBundle\Form\Ministry\ResponsibleAssignmentType;
 
 class MinistryType extends AbstractType
 {
@@ -24,7 +24,7 @@ class MinistryType extends AbstractType
                 'required' => false,
             ))
 //            ->add('category', 'entity', array(
-//                'class' => 'Ecgpb\MemberBundle\Entity\Ministry\Category',
+//                'class' => 'AppBundle\Entity\Ministry\Category',
 //                'property' => 'name',
 //                'required' => false,
 //            ))
@@ -64,7 +64,7 @@ class MinistryType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ecgpb\MemberBundle\Entity\Ministry'
+            'data_class' => 'AppBundle\Entity\Ministry'
         ));
     }
 

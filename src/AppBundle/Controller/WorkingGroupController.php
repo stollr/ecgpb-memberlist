@@ -1,15 +1,15 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Ecgpb\MemberBundle\Entity\Person;
-use Ecgpb\MemberBundle\Entity\WorkingGroup;
-use Ecgpb\MemberBundle\Form\WorkingGroupType;
+use AppBundle\Entity\Person;
+use AppBundle\Entity\WorkingGroup;
+use AppBundle\Form\WorkingGroupType;
 
 /**
  * WorkingGroup controller.
@@ -241,7 +241,7 @@ class WorkingGroupController extends Controller
             if (empty($personId) || empty($groupId)) {
                 continue;
             }
-            $person = $personRepo->find($personId); /* @var $person \Ecgpb\MemberBundle\Entity\Person */
+            $person = $personRepo->find($personId); /* @var $person \AppBundle\Entity\Person */
             $group = $groupRepo->find($groupId); /* @var $group WorkingGroup */
 
             if (!$person || !$group) {

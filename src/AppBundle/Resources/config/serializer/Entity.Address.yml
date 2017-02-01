@@ -1,4 +1,4 @@
-Ecgpb\MemberBundle\Entity\Address:
+AppBundle\Entity\Address:
     properties:
         id:
             serialized_name: id

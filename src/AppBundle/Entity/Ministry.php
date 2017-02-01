@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Entity;
+namespace AppBundle\Entity;
 
-use Ecgpb\MemberBundle\Entity\Ministry\Category;
+use AppBundle\Entity\Ministry\Category;
 
 /**
- * Ecgpb\MemberBundle\Entity\Ministry
+ * AppBundle\Entity\Ministry
  */
 class Ministry
 {
@@ -126,10 +126,10 @@ class Ministry
     /**
      * Add responsibleAssignments
      *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment
+     * @param \AppBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment
      * @return Ministry
      */
-    public function addResponsibleAssignment(\Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment)
+    public function addResponsibleAssignment(\AppBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment)
     {
         $this->responsibleAssignments[] = $responsibleAssignment;
         $responsibleAssignment->setMinistry($this);
@@ -139,9 +139,9 @@ class Ministry
     /**
      * Remove responsibleAssignments
      *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment
+     * @param \AppBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment
      */
-    public function removeResponsibleAssignment(\Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment)
+    public function removeResponsibleAssignment(\AppBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment)
     {
         $this->responsibleAssignments->removeElement($responsibleAssignment);
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecgpb\MemberBundle\PdfGenerator;
+namespace AppBundle\PdfGenerator;
 
 /**
- * Ecgpb\MemberBundle\PdfGenerator\GeneratorInterface
+ * AppBundle\PdfGenerator\GeneratorInterface
  * 
  * @author naitsirch
  */

@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Entity\Ministry;
+namespace AppBundle\Entity\Ministry;
 
 /**
- * Ecgpb\MemberBundle\Entity\Ministry\Category
+ * AppBundle\Entity\Ministry\Category
  */
 class Category
 {
@@ -18,7 +18,7 @@ class Category
     private $name;
 
     /**
-     * @var \Ecgpb\MemberBundle\Entity\Person
+     * @var \AppBundle\Entity\Person
      */
     private $responsible;
 
@@ -77,7 +77,7 @@ class Category
         return $this->responsible;
     }
 
-    public function setResponsible(\Ecgpb\MemberBundle\Entity\Person $responsible)
+    public function setResponsible(\AppBundle\Entity\Person $responsible)
     {
         $this->responsible = $responsible;
         return $this;
@@ -97,10 +97,10 @@ class Category
     /**
      * Add ministries
      *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry $ministry
+     * @param \AppBundle\Entity\Ministry $ministry
      * @return Category
      */
-    public function addMinistry(\Ecgpb\MemberBundle\Entity\Ministry $ministry)
+    public function addMinistry(\AppBundle\Entity\Ministry $ministry)
     {
         $this->ministries[] = $ministry;
         $ministry->setCategory($this);
@@ -110,9 +110,9 @@ class Category
     /**
      * Remove ministries
      *
-     * @param \Ecgpb\MemberBundle\Entity\Ministry $ministries
+     * @param \AppBundle\Entity\Ministry $ministries
      */
-    public function removeMinistry(\Ecgpb\MemberBundle\Entity\Ministry $ministries)
+    public function removeMinistry(\AppBundle\Entity\Ministry $ministries)
     {
         $this->ministries->removeElement($ministries);
     }

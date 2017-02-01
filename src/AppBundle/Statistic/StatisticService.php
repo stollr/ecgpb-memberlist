@@ -1,14 +1,14 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Statistic;
+namespace AppBundle\Statistic;
 
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Ecgpb\MemberBundle\Entity\Person;
-use Ecgpb\MemberBundle\Statistic\PersonStatistics;
+use AppBundle\Entity\Person;
+use AppBundle\Statistic\PersonStatistics;
 
 /**
- * Ecgpb\MemberBundle\Statistic\StatisticService
+ * AppBundle\Statistic\StatisticService
  *
  * @author naitsirch
  */

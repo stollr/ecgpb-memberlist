@@ -1,4 +1,4 @@
-Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment:
+AppBundle\Entity\Ministry\ResponsibleAssignment:
     properties:
         id:
             serialized_name: id

@@ -1,12 +1,12 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Form;
+namespace AppBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Ecgpb\MemberBundle\Entity\Person;
+use AppBundle\Entity\Person;
 
 class PersonType extends AbstractType
 {
@@ -18,7 +18,7 @@ class PersonType extends AbstractType
     {
         if ($options['add_address_field']) {
             $builder->add('address', 'entity', array(
-                'class' => 'Ecgpb\MemberBundle\Entity\Address',
+                'class' => 'AppBundle\Entity\Address',
                 'property' => 'dropdownLabel',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('address')
@@ -66,7 +66,7 @@ class PersonType extends AbstractType
                 'required' => false,
             ))
             ->add('workingGroup', 'entity', array(
-                'class' => 'Ecgpb\MemberBundle\Entity\WorkingGroup',
+                'class' => 'AppBundle\Entity\WorkingGroup',
                 'property' => 'displayName',
                 'label' => 'Working Group',
                 'required' => false,
@@ -87,7 +87,7 @@ class PersonType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ecgpb\MemberBundle\Entity\Person',
+            'data_class' => 'AppBundle\Entity\Person',
             'add_address_field' => false,
         ));
     }

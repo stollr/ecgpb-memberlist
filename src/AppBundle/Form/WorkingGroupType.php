@@ -1,13 +1,13 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Form;
+namespace AppBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Ecgpb\MemberBundle\Form\PersonType;
-use Ecgpb\MemberBundle\Entity\WorkingGroup;
+use AppBundle\Form\PersonType;
+use AppBundle\Entity\WorkingGroup;
 
 class WorkingGroupType extends AbstractType
 {
@@ -38,7 +38,7 @@ class WorkingGroupType extends AbstractType
         if ($workingGroup->getId()) {
             $builder
                 ->add('leader', 'entity', array(
-                    'class' => 'Ecgpb\MemberBundle\Entity\Person',
+                    'class' => 'AppBundle\Entity\Person',
                     'property' => 'lastnameFirstnameAndDob',
                     'required' => false,
                     'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
@@ -63,7 +63,7 @@ class WorkingGroupType extends AbstractType
                     'widget_form_group' => true,
                     'options' => array(
                         'label' => false,
-                        'class' => 'Ecgpb\MemberBundle\Entity\Person',
+                        'class' => 'AppBundle\Entity\Person',
                         'property' => 'lastnameFirstnameAndDob',
                         'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
                             return $repo->createQueryBuilder('person')
@@ -89,7 +89,7 @@ class WorkingGroupType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ecgpb\MemberBundle\Entity\WorkingGroup'
+            'data_class' => 'AppBundle\Entity\WorkingGroup'
         ));
     }
 

@@ -1,4 +1,4 @@
-Ecgpb\MemberBundle\Entity\Ministry:
+AppBundle\Entity\Ministry:
     type: entity
     table: ministry
     id:
@@ -19,7 +19,7 @@ Ecgpb\MemberBundle\Entity\Ministry:
             nullable: true
     manyToOne:
         category:
-            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\Category
+            targetEntity: AppBundle\Entity\Ministry\Category
             inversedBy: ministries
             joinColumn:
                 name: category_id
@@ -27,7 +27,7 @@ Ecgpb\MemberBundle\Entity\Ministry:
                 onDelete: CASCADE
     oneToMany:
         responsibleAssignments:
-            targetEntity: Ecgpb\MemberBundle\Entity\Ministry\ResponsibleAssignment
+            targetEntity: AppBundle\Entity\Ministry\ResponsibleAssignment
             cascade: [persist, remove]
             mappedBy: ministry
     lifecycleCallbacks: {  }

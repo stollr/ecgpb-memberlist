@@ -1,14 +1,14 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Form;
+namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Ecgpb\MemberBundle\Form\PersonType;
+use AppBundle\Form\PersonType;
 
 /**
- * Ecgpb\MemberBundle\Form\AddressType
+ * AppBundle\Form\AddressType
  */
 class AddressType extends AbstractType
 {
@@ -56,7 +56,7 @@ class AddressType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Ecgpb\MemberBundle\Entity\Address'
+            'data_class' => 'AppBundle\Entity\Address'
         ));
     }
 

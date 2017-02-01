@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecgpb\MemberBundle\DataFixtures\ORM;
+namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Ecgpb\MemberBundle\Entity\Address;
-use Ecgpb\MemberBundle\Entity\Person;
+use AppBundle\Entity\Address;
+use AppBundle\Entity\Person;
 
 /**
  * Description of LoadPersonData

@@ -1,12 +1,12 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ecgpb\MemberBundle\Entity\Person;
+use AppBundle\Entity\Person;
 
 /**
- * Ecgpb\MemberBundle\Entity\WorkingGroup
+ * AppBundle\Entity\WorkingGroup
  */
 class WorkingGroup
 {
@@ -31,7 +31,7 @@ class WorkingGroup
     private $persons;
 
     /**
-     * @var \Ecgpb\MemberBundle\Entity\Person
+     * @var \AppBundle\Entity\Person
      */
     private $leader;
 
@@ -81,10 +81,10 @@ class WorkingGroup
     /**
      * Add persons
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $person
+     * @param \AppBundle\Entity\Person $person
      * @return WorkingGroup
      */
-    public function addPerson(\Ecgpb\MemberBundle\Entity\Person $person)
+    public function addPerson(\AppBundle\Entity\Person $person)
     {
         if (!$this->persons->contains($person)) {
             $this->persons->add($person);
@@ -98,9 +98,9 @@ class WorkingGroup
     /**
      * Remove persons
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $person
+     * @param \AppBundle\Entity\Person $person
      */
-    public function removePerson(\Ecgpb\MemberBundle\Entity\Person $person)
+    public function removePerson(\AppBundle\Entity\Person $person)
     {
         $this->persons->removeElement($person);
         $person->setWorkingGroup(null);
@@ -119,10 +119,10 @@ class WorkingGroup
     /**
      * Set leader
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $leader
+     * @param \AppBundle\Entity\Person $leader
      * @return WorkingGroup
      */
-    public function setLeader(\Ecgpb\MemberBundle\Entity\Person $leader = null)
+    public function setLeader(\AppBundle\Entity\Person $leader = null)
     {
         $this->leader = $leader;
 
@@ -134,7 +134,7 @@ class WorkingGroup
     /**
      * Get leader
      *
-     * @return \Ecgpb\MemberBundle\Entity\Person 
+     * @return \AppBundle\Entity\Person 
      */
     public function getLeader()
     {

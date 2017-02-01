@@ -1,17 +1,17 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Command;
+namespace AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Ecgpb\MemberBundle\Entity\Address;
-use Ecgpb\MemberBundle\Entity\Person;
+use AppBundle\Entity\Address;
+use AppBundle\Entity\Person;
 
 /**
- * Ecgpb\MemberBundle\Command\ImportCsv
+ * AppBundle\Command\ImportCsv
  *
  * @author naitsirch
  */

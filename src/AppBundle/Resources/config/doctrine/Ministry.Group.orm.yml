@@ -1,7 +1,7 @@
-Ecgpb\MemberBundle\Entity\Ministry\Group:
+AppBundle\Entity\Ministry\Group:
     type: entity
     table: ministry_group
-    repositoryClass: Ecgpb\MemberBundle\Repository\Ministry\GroupRepository
+    repositoryClass: AppBundle\Repository\Ministry\GroupRepository
     id:
         id:
             type: integer
@@ -14,7 +14,7 @@ Ecgpb\MemberBundle\Entity\Ministry\Group:
             length: 50
     manyToMany:
         persons:
-            targetEntity: Ecgpb\MemberBundle\Entity\Person
+            targetEntity: AppBundle\Entity\Person
             inversedBy: ministryGroups
             joinTable:
                 name: ministry_group_to_person

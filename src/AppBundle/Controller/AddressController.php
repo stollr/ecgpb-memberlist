@@ -1,14 +1,14 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Controller;
+namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Ecgpb\MemberBundle\Entity\Address;
-use Ecgpb\MemberBundle\Form\AddressType;
+use AppBundle\Entity\Address;
+use AppBundle\Form\AddressType;
 
 /**
  * Address controller.
@@ -26,9 +26,9 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $personHelper = $this->get('person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
+        $personHelper = $this->get('person_helper'); /* @var $personHelper \AppBundle\Helper\PersonHelper */
 
-        $repo = $em->getRepository('EcgpbMemberBundle:Address'); /* @var $repo \Ecgpb\MemberBundle\Repository\AddressRepository */
+        $repo = $em->getRepository('EcgpbMemberBundle:Address'); /* @var $repo \AppBundle\Repository\AddressRepository */
 
         $filter = $request->get('filter', array());
         if (!empty($filter['no-photo'])) {
@@ -147,7 +147,7 @@ class AddressController extends Controller
             $em->flush();
 
             // person picture file
-            $personHelper = $this->get('person_helper'); /* @var $personHelper \Ecgpb\MemberBundle\Helper\PersonHelper */
+            $personHelper = $this->get('person_helper'); /* @var $personHelper \AppBundle\Helper\PersonHelper */
             foreach ($request->files->get('person-picture-file', array()) as $index => $file) {
                 /* @var $file UploadedFile */
                 if ($file) {

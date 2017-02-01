@@ -1,12 +1,12 @@
 <?php
 
-namespace Ecgpb\MemberBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Ecgpb\MemberBundle\Traits\EntityRemovalTrait;
-use Ecgpb\MemberBundle\Entity\Person;
+use AppBundle\Traits\EntityRemovalTrait;
+use AppBundle\Entity\Person;
 
 /**
  * Address
@@ -187,10 +187,10 @@ class Address
     /**
      * Add persons
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $person
+     * @param \AppBundle\Entity\Person $person
      * @return Address
      */
-    public function addPerson(\Ecgpb\MemberBundle\Entity\Person $person)
+    public function addPerson(\AppBundle\Entity\Person $person)
     {
         $this->persons[] = $person;
         $person->setAddress($this);
@@ -200,9 +200,9 @@ class Address
     /**
      * Remove persons
      *
-     * @param \Ecgpb\MemberBundle\Entity\Person $person
+     * @param \AppBundle\Entity\Person $person
      */
-    public function removePerson(\Ecgpb\MemberBundle\Entity\Person $person)
+    public function removePerson(\AppBundle\Entity\Person $person)
     {
         $this->persons->removeElement($person);
         $this->addRemovedEntity($person);
