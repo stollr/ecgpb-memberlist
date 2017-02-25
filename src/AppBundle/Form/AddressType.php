@@ -39,7 +39,7 @@ class AddressType extends AbstractType
             ))
             ->add('persons', CollectionType::class, array(
                 'entry_type' => PersonType::class,
-                'label' => false,
+                'label_attr' => ['style' => 'font-size: 0px'],
                 'prototype' => true,
                 'allow_add' => true,
                 'by_reference' => false,
