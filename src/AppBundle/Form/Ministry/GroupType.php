@@ -70,8 +70,8 @@ class GroupType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'ecgpb_memberbundle_ministry_group';
+        return 'ministrygroup';
     }
 }

@@ -48,6 +48,7 @@ class AddressType extends AbstractType
                 'horizontal_input_wrapper_class' => 'clearfix',
                 'entry_options' => array(
                     'label' => false,
+                    'horizontal_input_wrapper_class' => 'col-md-10',
                 )
             ))
         ;
@@ -66,8 +67,8 @@ class AddressType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'ecgpb_memberbundle_address';
+        return 'address';
     }
 }

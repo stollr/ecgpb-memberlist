@@ -73,8 +73,8 @@ class MinistryType extends AbstractType
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'ecgpb_memberbundle_ministry';
+        return 'ministry';
     }
 }
