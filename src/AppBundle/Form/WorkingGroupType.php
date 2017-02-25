@@ -5,7 +5,11 @@ namespace AppBundle\Form;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\PersonType;
 use AppBundle\Entity\WorkingGroup;
 
@@ -26,10 +30,10 @@ class WorkingGroupType extends AbstractType
     {
         $workingGroup = $this->workingGroup;
         $builder
-            ->add('number', 'integer', array(
+            ->add('number', IntegerType::class, array(
                 'label' => 'Group Number',
             ))
-            ->add('gender', 'choice', array(
+            ->add('gender', ChoiceType::class, array(
                 'label' => 'Group of Women/Men',
                 'choices' => array('m' => 'Men', 'f' => 'Women'),
                 'read_only' => $workingGroup->getId() > 0,
@@ -37,9 +41,9 @@ class WorkingGroupType extends AbstractType
         ;
         if ($workingGroup->getId()) {
             $builder
-                ->add('leader', 'entity', array(
+                ->add('leader', EntityType::class, array(
                     'class' => 'AppBundle\Entity\Person',
-                    'property' => 'lastnameFirstnameAndDob',
+                    'choice_label' => 'lastnameFirstnameAndDob',
                     'required' => false,
                     'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
                         return $repo->createQueryBuilder('person')
@@ -52,7 +56,7 @@ class WorkingGroupType extends AbstractType
                         ;
                     }
                 ))
-                ->add('persons', 'collection', array(
+                ->add('persons', CollectionType::class, array(
                     'type' => 'entity',
                     'label' => 'Persons',
                     'prototype' => true,
@@ -64,7 +68,7 @@ class WorkingGroupType extends AbstractType
                     'options' => array(
                         'label' => false,
                         'class' => 'AppBundle\Entity\Person',
-                        'property' => 'lastnameFirstnameAndDob',
+                        'choice_label' => 'lastnameFirstnameAndDob',
                         'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
                             return $repo->createQueryBuilder('person')
                                 ->select('person')
@@ -84,9 +88,9 @@ class WorkingGroupType extends AbstractType
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\WorkingGroup'
@@ -98,6 +102,6 @@ class WorkingGroupType extends AbstractType
      */
     public function getName()
     {
-        return 'ecgpb_memberbundle_workinggroup';
+        return 'workinggroup';
     }
 }

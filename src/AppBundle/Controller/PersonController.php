@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -106,7 +107,7 @@ class PersonController extends Controller
             : $this->generateUrl('ecgpb.member.person.create')
         ;
         
-        $form = $this->createForm(new PersonType(), $person, array(
+        $form = $this->createForm(PersonType::class, $person, array(
             'action' => $url,
             'method' => 'POST',
             'attr' => array(
@@ -117,7 +118,7 @@ class PersonController extends Controller
             'add_address_field' => true,
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Save'));
+        $form->add('submit', SubmitType::class, array('label' => 'Save'));
 
         return $form;
     }

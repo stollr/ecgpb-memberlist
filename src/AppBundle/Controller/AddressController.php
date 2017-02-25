@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -213,7 +214,7 @@ class AddressController extends Controller
             ? $this->generateUrl('ecgpb.member.address.update', array('id' => $entity->getId()))
             : $this->generateUrl('ecgpb.member.address.create')
         ;
-        $form = $this->createForm(new AddressType(), $entity, array(
+        $form = $this->createForm(AddressType::class, $entity, array(
             'action' => $url,
             'method' => 'POST',
             'attr' => array(
@@ -223,7 +224,7 @@ class AddressController extends Controller
             ),
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Save'));
+        $form->add('submit', SubmitType::class, array('label' => 'Save'));
 
         return $form;
     }

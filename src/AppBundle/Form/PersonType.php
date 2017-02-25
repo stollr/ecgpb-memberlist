@@ -5,7 +5,12 @@ namespace AppBundle\Form;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use AppBundle\Entity\Address;
 use AppBundle\Entity\Person;
 
 class PersonType extends AbstractType
@@ -17,9 +22,9 @@ class PersonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['add_address_field']) {
-            $builder->add('address', 'entity', array(
-                'class' => 'AppBundle\Entity\Address',
-                'property' => 'dropdownLabel',
+            $builder->add('address', EntityType::class, array(
+                'class' => Address::class,
+                'choice_label' => 'dropdownLabel',
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('address')
                         ->select('address')
@@ -30,51 +35,51 @@ class PersonType extends AbstractType
         }
 
         $builder
-            ->add('lastname', 'text', array(
+            ->add('lastname', TextType::class, array(
                 'label' => 'Differing Last Name',
                 'required' => false,
                 'help_block' => 'Leave this field empty to use the family name of the address.',
             ))
-            ->add('firstname', 'text', array(
+            ->add('firstname', TextType::class, array(
                 'label' => 'First Name',
             ))
-            ->add('dob', 'date', array(
+            ->add('dob', DateType::class, array(
                 'label' => 'Date of Birth',
                 'widget' => 'single_text',
                 'format' => \IntlDateFormatter::MEDIUM,
             ))
-            ->add('gender', 'choice', array(
+            ->add('gender', ChoiceType::class, array(
                 'choices' => array('m' => 'male', 'f' => 'female'),
             ))
-            ->add('mobile', 'text', array(
+            ->add('mobile', TextType::class, array(
                 'required' => false,
             ))
-            ->add('email', 'text', array(
+            ->add('email', TextType::class, array(
                 'required' => false,
             ))
-            ->add('phone2', 'text', array(
+            ->add('phone2', TextType::class, array(
                 'label' => 'Second Phone',
                 'required' => false,
             ))
-            ->add('phone2Label', 'text', array(
+            ->add('phone2Label', TextType::class, array(
                 'label' => 'Second Phone Label',
                 'required' => false,
                 'help_block' => 'You can enter a label for the second phone number. Enter "\\n" for line break.',
             ))
-            ->add('maidenName', 'text', array(
+            ->add('maidenName', TextType::class, array(
                 'label' => 'Maiden Name',
                 'required' => false,
             ))
-            ->add('workingGroup', 'entity', array(
+            ->add('workingGroup', EntityType::class, array(
                 'class' => 'AppBundle\Entity\WorkingGroup',
-                'property' => 'displayName',
+                'choice_label' => 'displayName',
                 'label' => 'Working Group',
                 'required' => false,
             ))
-            ->add('workerStatus', 'choice', array(
+            ->add('workerStatus', ChoiceType::class, array(
                 'choices' => Person::getAllWorkerStatus(),
                 'empty_data' => Person::WORKER_STATUS_DEPENDING,
-                'empty_value' => 'Depending on Age (< 60)',
+                'placeholder' => 'Depending on Age (< 60)',
                 'label' => 'Able to work',
                 'required' => false,
             ))
@@ -82,12 +87,12 @@ class PersonType extends AbstractType
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Person',
+            'data_class' => Person::class,
             'add_address_field' => false,
         ));
     }

@@ -6,7 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ResponsibleAssignmentType extends AbstractType
 {
@@ -18,14 +19,14 @@ class ResponsibleAssignmentType extends AbstractType
     {
         $builder
 //            ->add('ministry')
-            ->add('person', 'entity', array(
+            ->add('person', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Person',
-                'property' => 'lastnameAndFirstname',
+                'choice_label' => 'lastnameAndFirstname',
                 'required' => false,
             ))
-            ->add('group', 'entity', array(
+            ->add('group', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Ministry\Group',
-                'property' => 'name',
+                'choice_label' => 'name',
                 'required' => false,
             ))
         ;
@@ -44,9 +45,9 @@ class ResponsibleAssignmentType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Ministry\ResponsibleAssignment'

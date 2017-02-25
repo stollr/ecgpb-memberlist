@@ -4,9 +4,12 @@ namespace AppBundle\Form\Ministry;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class GroupType extends AbstractType
 {
@@ -17,9 +20,9 @@ class GroupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text')
-            ->add('persons', 'collection', array(
-                'type' => 'entity',
+            ->add('name', TextType::class)
+            ->add('persons', CollectionType::class, array(
+                'type' => EntityType::class,
                 'label' => false,
                 'required' => false,
                 'prototype' => true,
@@ -31,7 +34,7 @@ class GroupType extends AbstractType
                 'options' => array(
                     'label' => false,
                     'class' => 'AppBundle\Entity\Person',
-                    'property' => 'lastnameAndFirstname',
+                    'choice_label' => 'lastnameAndFirstname',
                     'required' => false,
                     'csrf_protection' => $options['csrf_protection'],
                 )
@@ -55,9 +58,9 @@ class GroupType extends AbstractType
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Ministry\Group'

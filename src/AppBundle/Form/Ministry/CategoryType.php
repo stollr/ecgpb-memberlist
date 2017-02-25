@@ -6,7 +6,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\MinistryType;
 
 class CategoryType extends AbstractType
@@ -18,14 +22,14 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text')
-            ->add('responsible', 'entity', array(
+            ->add('name', TextType::class)
+            ->add('responsible', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Person',
-                'property' => 'lastnameAndFirstname',
+                'choice_label' => 'lastnameAndFirstname',
                 'required' => false,
             ))
-            ->add('ministries', 'collection', array(
-                'type' => new MinistryType(),
+            ->add('ministries', CollectionType::class, array(
+                'type' => MinistryType::class,
                 'label' => false,
                 'prototype' => true,
                 'allow_add' => true,
@@ -38,7 +42,7 @@ class CategoryType extends AbstractType
                     'csrf_protection' => $options['csrf_protection'],
                 )
             ))
-            ->add('position', 'integer', array(
+            ->add('position', IntegerType::class, array(
                 'required' => false,
             ))
         ;
@@ -61,9 +65,9 @@ class CategoryType extends AbstractType
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Ministry\Category'
@@ -75,6 +79,6 @@ class CategoryType extends AbstractType
      */
     public function getName()
     {
-        return 'ecgpb_memberbundle_ministry_category';
+        return 'category';
     }
 }

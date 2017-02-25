@@ -99,7 +99,7 @@ class MinistryCategoryController extends Controller
                     $oldResponsibleAssignments[$ministry->getId()] = $ministry->getResponsibleAssignments()->toArray();
                 }
 
-                $form = $this->createForm(new CategoryType(), $category, array(
+                $form = $this->createForm(CategoryType::class, $category, array(
                     'csrf_protection' => false,
                 ));
                 $form->submit($clientMinistryCategory);

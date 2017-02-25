@@ -6,7 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\Ministry\ResponsibleAssignmentType;
 
 class MinistryType extends AbstractType
@@ -20,16 +22,16 @@ class MinistryType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('position', 'integer', array(
+            ->add('position', IntegerType::class, array(
                 'required' => false,
             ))
-//            ->add('category', 'entity', array(
+//            ->add('category', EntityType::class, array(
 //                'class' => 'AppBundle\Entity\Ministry\Category',
-//                'property' => 'name',
+//                'EntityType' => 'name',
 //                'required' => false,
 //            ))
-            ->add('responsibleAssignments', 'collection', array(
-                'type' => new ResponsibleAssignmentType(),
+            ->add('responsibleAssignments', CollectionType::class, array(
+                'type' => ResponsibleAssignmentType::class,
                 'label' => false,
                 'prototype' => true,
                 'allow_add' => true,
@@ -59,9 +61,9 @@ class MinistryType extends AbstractType
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Ministry'

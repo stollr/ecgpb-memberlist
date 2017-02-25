@@ -75,7 +75,7 @@ class MinistryGroupController extends Controller
                     });
                     $group = reset($filtered);
                 }
-                $form = $this->createForm(new GroupType(), $group, array(
+                $form = $this->createForm(GroupType::class, $group, array(
                     'csrf_protection' => false,
                 ));
                 $form->submit($clientMinistryGroup);

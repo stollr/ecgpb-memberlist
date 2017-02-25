@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -94,7 +95,7 @@ class WorkingGroupController extends Controller
             ),
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', SubmitType::class, array('label' => 'Create'));
 
         return $form;
     }
@@ -140,7 +141,7 @@ class WorkingGroupController extends Controller
             ),
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Save'));
+        $form->add('submit', SubmitType::class, array('label' => 'Save'));
 
         return $form;
     }

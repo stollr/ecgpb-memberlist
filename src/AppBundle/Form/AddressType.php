@@ -4,8 +4,11 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use AppBundle\Form\PersonType;
+use AppBundle\Entity\Address;
 
 /**
  * AppBundle\Form\AddressType
@@ -19,23 +22,23 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('familyName', 'text', array(
+            ->add('familyName', TextType::class, array(
                 'label' => 'Family Name',
             ))
-            ->add('phone', 'text', array(
+            ->add('phone', TextType::class, array(
                 'required' => false,
             ))
-            ->add('street', 'text', array(
+            ->add('street', TextType::class, array(
                 'required' => false,
             ))
-            ->add('zip', 'text', array(
+            ->add('zip', TextType::class, array(
                 'required' => false,
             ))
-            ->add('city', 'text', array(
+            ->add('city', TextType::class, array(
                 'required' => false,
             ))
-            ->add('persons', 'collection', array(
-                'type' => new PersonType(),
+            ->add('persons', CollectionType::class, array(
+                'entry_type' => PersonType::class,
                 'label' => false,
                 'prototype' => true,
                 'allow_add' => true,
@@ -43,7 +46,7 @@ class AddressType extends AbstractType
                 'widget_add_btn' => array('label' => 'Add Person'),
                 'allow_delete' => true,
                 'horizontal_input_wrapper_class' => 'clearfix',
-                'options' => array(
+                'entry_options' => array(
                     'label' => false,
                 )
             ))
@@ -51,12 +54,12 @@ class AddressType extends AbstractType
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Address'
+            'data_class' => Address::class,
         ));
     }
 
