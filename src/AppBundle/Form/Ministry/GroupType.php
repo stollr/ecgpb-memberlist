@@ -22,7 +22,7 @@ class GroupType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('persons', CollectionType::class, array(
-                'type' => EntityType::class,
+                'entry_type' => EntityType::class,
                 'label' => false,
                 'required' => false,
                 'prototype' => true,
@@ -31,7 +31,7 @@ class GroupType extends AbstractType
                 'widget_add_btn' => array('label' => 'Add Person'),
                 'allow_delete' => true,
                 'horizontal_input_wrapper_class' => 'clearfix',
-                'options' => array(
+                'entry_options' => array(
                     'label' => false,
                     'class' => 'AppBundle\Entity\Person',
                     'choice_label' => 'lastnameAndFirstname',

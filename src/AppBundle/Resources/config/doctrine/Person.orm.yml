@@ -47,7 +47,7 @@ AppBundle\Entity\Person:
         workerStatus:
             column: workerStatus
             type: smallint
-            nullable: true
+            nullable: false
     oneToOne:
         leaderOf:
             targetEntity: AppBundle\Entity\WorkingGroup

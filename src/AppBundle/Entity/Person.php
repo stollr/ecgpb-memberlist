@@ -18,27 +18,22 @@ class Person
     /**
      * Persons whose working status depends on their age.
      */
-    const WORKER_STATUS_DEPENDING = null;
+    const WORKER_STATUS_DEPENDING = 1;
 
     /**
      * People younger than 60 years, but not able to work anymore.
      */
-    const WORKER_STATUS_INVALID = 0;
-
-    /**
-     * People 60 years old or older, but still want to work.
-     */
-    const WORKER_STATUS_STILL_ABLE = 1;
+    const WORKER_STATUS_INVALID = 2;
 
     /**
      * People having other ministries like deacons or elders.
      */
-    const WORKER_STATUS_OTHER_MINISTRIES = 2;
+    const WORKER_STATUS_OTHER_MINISTRIES = 3;
 
     /**
      * People not able to work, because of their residence.
      */
-    const WORKER_STATUS_UNABLE_RESIDENCE = 3;
+    const WORKER_STATUS_UNABLE_RESIDENCE = 4;
     
     /**
      * @var integer
@@ -406,7 +401,7 @@ class Person
     public function setWorkerStatus($workerStatus)
     {
         $allStatus = self::getAllWorkerStatus();
-        if ($workerStatus !== null && !isset($allStatus[$workerStatus])) {
+        if (!isset($allStatus[$workerStatus])) {
             throw new \InvalidArgumentException('Given worker status is invalid.');
         }
         $this->workerStatus = $workerStatus;
@@ -420,7 +415,6 @@ class Person
             self::WORKER_STATUS_INVALID => 'Invalid/Sick',
             self::WORKER_STATUS_OTHER_MINISTRIES => 'Other Ministries',
             self::WORKER_STATUS_UNABLE_RESIDENCE => 'Residence far away',
-            self::WORKER_STATUS_STILL_ABLE => 'Still able',
         );
     }
 

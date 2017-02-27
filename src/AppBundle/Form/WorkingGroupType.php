@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\PersonType;
+use AppBundle\Entity\Person;
 use AppBundle\Entity\WorkingGroup;
 
 class WorkingGroupType extends AbstractType
@@ -35,7 +35,10 @@ class WorkingGroupType extends AbstractType
             ))
             ->add('gender', ChoiceType::class, array(
                 'label' => 'Group of Women/Men',
-                'choices' => array('m' => 'Men', 'f' => 'Women'),
+                'choices' => array(
+                    'Men' => Person::GENDER_MALE,
+                    'Women' => Person::GENDER_FEMALE,
+                ),
                 'read_only' => $workingGroup->getId() > 0,
             ))
         ;
@@ -57,7 +60,7 @@ class WorkingGroupType extends AbstractType
                     }
                 ))
                 ->add('persons', CollectionType::class, array(
-                    'type' => 'entity',
+                    'entry_type' => 'entity',
                     'label' => 'Persons',
                     'prototype' => true,
                     'allow_add' => true,
@@ -65,7 +68,7 @@ class WorkingGroupType extends AbstractType
                     'by_reference' => false,
                     'widget_add_btn' => array('label' => 'Add Person'),
                     'widget_form_group' => true,
-                    'options' => array(
+                    'entry_options' => array(
                         'label' => false,
                         'class' => 'AppBundle\Entity\Person',
                         'choice_label' => 'lastnameFirstnameAndDob',
@@ -93,7 +96,7 @@ class WorkingGroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\WorkingGroup'
+            'data_class' => 'AppBundle\Entity\WorkingGroup',
         ));
     }
 

@@ -108,13 +108,13 @@ class PersonRepository extends EntityRepository
                 JOIN person.address address
                 LEFT JOIN person.leaderOf leadingWorkingGroup
                 WHERE (person.workingGroup IS NULL AND leadingWorkingGroup.id IS NULL)
-                AND (person.workerStatus = :able
-                    OR (person.workerStatus IS NULL AND person.dob > :minimum_age))
+                AND person.workerStatus = :depending
+                AND person.dob > :minimum_age
                 ORDER By address.familyName, person.firstname'
         ;
         
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('able', Person::WORKER_STATUS_STILL_ABLE);
+        $query->setParameter('depending', Person::WORKER_STATUS_DEPENDING);
         $query->setParameter('minimum_age', $minimumAge->format('Y-m-d'));
 
         return $query->getResult();
@@ -128,12 +128,12 @@ class PersonRepository extends EntityRepository
         $dql = 'SELECT person, address
                 FROM AppBundle:Person person
                 JOIN person.address address
-                WHERE (person.workerStatus IS NOT NULL AND person.workerStatus != :statusStillAble)
+                WHERE person.workerStatus != :depending
                 ORDER By address.familyName, person.firstname'
         ;
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('statusStillAble', Person::WORKER_STATUS_STILL_ABLE);
+        $query->setParameter('depending', Person::WORKER_STATUS_DEPENDING);
 
         return $query->getResult();
     }

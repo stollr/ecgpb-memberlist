@@ -49,7 +49,10 @@ class PersonType extends AbstractType
                 'format' => \IntlDateFormatter::MEDIUM,
             ))
             ->add('gender', ChoiceType::class, array(
-                'choices' => array('m' => 'male', 'f' => 'female'),
+                'choices' => array(
+                    'male' => Person::GENDER_MALE,
+                    'female' => Person::GENDER_FEMALE
+                ),
             ))
             ->add('mobile', TextType::class, array(
                 'required' => false,
@@ -78,10 +81,7 @@ class PersonType extends AbstractType
             ))
             ->add('workerStatus', ChoiceType::class, array(
                 'choices' => array_flip(Person::getAllWorkerStatus()),
-                'empty_data' => Person::WORKER_STATUS_DEPENDING,
-                'placeholder' => 'Depending on Age (< 60)',
                 'label' => 'Able to work',
-                'required' => false,
             ))
         ;
     }
