@@ -77,7 +77,7 @@ class PersonType extends AbstractType
                 'required' => false,
             ))
             ->add('workerStatus', ChoiceType::class, array(
-                'choices' => Person::getAllWorkerStatus(),
+                'choices' => array_flip(Person::getAllWorkerStatus()),
                 'empty_data' => Person::WORKER_STATUS_DEPENDING,
                 'placeholder' => 'Depending on Age (< 60)',
                 'label' => 'Able to work',
