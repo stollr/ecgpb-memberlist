@@ -217,6 +217,19 @@ class Person
     {
         return $this->dob;
     }
+
+    /**
+     * Get the current age of the person.
+     * 
+     * @return integer
+     */
+    public function getAge()
+    {
+        $diff = $this->getDob()->diff(new \DateTime(), true);
+        /* @var $diff \DateInterval */
+
+        return $diff->y;
+    }
     
     public function getGender()
     {

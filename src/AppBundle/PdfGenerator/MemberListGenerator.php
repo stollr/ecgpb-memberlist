@@ -619,6 +619,9 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     if ($person->getId() == $leaderId) {
                         continue;
                     }
+                    if ($person->getAge() >= 60 || $person->getWorkerStatus() != Person::WORKER_STATUS_DEPENDING) {
+                        continue;
+                    }
                     $born = $person->getMaidenName() ?: $person->getDob()->format('Y');
                     $maidenName = $personRepo->isNameUnique($person) ? '' : ' (geb. ' . $born . ')';
                     $txt = $person->getLastnameAndFirstname() . $maidenName;
