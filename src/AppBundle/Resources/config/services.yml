@@ -1,4 +1,0 @@
-parameters:
-#    ecgpb_member.example.class: AppBundle\Example
-
-services:
