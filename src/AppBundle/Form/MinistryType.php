@@ -31,7 +31,7 @@ class MinistryType extends AbstractType
 //                'required' => false,
 //            ))
             ->add('responsibleAssignments', CollectionType::class, array(
-                'type' => ResponsibleAssignmentType::class,
+                'entry_type' => ResponsibleAssignmentType::class,
                 'label' => false,
                 'prototype' => true,
                 'allow_add' => true,
@@ -39,7 +39,7 @@ class MinistryType extends AbstractType
                 'widget_add_btn' => array('label' => 'Add Responsible'),
                 'allow_delete' => true,
                 'horizontal_input_wrapper_class' => 'clearfix',
-                'options' => array(
+                'entry_options' => array(
                     'label' => false,
                     'csrf_protection' => $options['csrf_protection'],
                 )

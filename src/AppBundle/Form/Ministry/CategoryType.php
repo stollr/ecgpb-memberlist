@@ -29,7 +29,7 @@ class CategoryType extends AbstractType
                 'required' => false,
             ))
             ->add('ministries', CollectionType::class, array(
-                'type' => MinistryType::class,
+                'entry_type' => MinistryType::class,
                 'label' => false,
                 'prototype' => true,
                 'allow_add' => true,
@@ -37,7 +37,7 @@ class CategoryType extends AbstractType
                 'widget_add_btn' => array('label' => 'Add Ministry'),
                 'allow_delete' => true,
                 'horizontal_input_wrapper_class' => 'clearfix',
-                'options' => array(
+                'entry_options' => array(
                     'label' => false,
                     'csrf_protection' => $options['csrf_protection'],
                 )
