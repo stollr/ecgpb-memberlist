@@ -142,6 +142,10 @@
                 <source>female</source>
                 <target>weiblich</target>
             </trans-unit>
+            <trans-unit id="Female Group">
+                <source>Female Group</source>
+                <target>Frauengruppe</target>
+            </trans-unit>
             <trans-unit id="bc910f8bdf70f29374f496f05be0330c">
                 <source>First Name</source>
                 <target>Vorname</target>
@@ -213,6 +217,10 @@
             <trans-unit id="male">
                 <source>male</source>
                 <target>männlich</target>
+            </trans-unit>
+            <trans-unit id="Male Group">
+                <source>Male Group</source>
+                <target>Männergruppe</target>
             </trans-unit>
             <trans-unit id="Member List">
                 <source>Member List</source>

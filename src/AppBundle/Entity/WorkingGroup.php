@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Translation\TranslatorInterface;
 use AppBundle\Entity\Person;
 
 /**
@@ -163,9 +164,14 @@ class WorkingGroup
         return $this->number;
     }
 
-    public function getDisplayName()
+    public function getDisplayName(TranslatorInterface $translator = null)
     {
         $gender = $this->getGender() == Person::GENDER_FEMALE ? 'Female' : 'Male';
+
+        if ($translator) {
+            return $translator->trans($gender . ' Group') . ' ' . $this->getNumber();
+        }
+
         return $gender . ' Group' . ' ' . $this->getNumber();
     }
 
