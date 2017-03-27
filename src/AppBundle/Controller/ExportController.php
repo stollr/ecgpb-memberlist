@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use AppBundle\Entity\Person;
 use AppBundle\Exception\WorkingGroupWithoutLeaderException;
 
 /**
@@ -60,22 +61,38 @@ class ExportController extends Controller
         ;
         $persons = $builder->getQuery()->getResult();
 
-        $csv = "Nachname;Vorname;Geburtsdatum;Geschlecht\r\n";
+        $csv = "Nachname;Vorname;Geburtsdatum;Geschlecht;E-Mail;Mobil;Telefon;Straße;PLZ;Ort;Arbeitsgruppe\r\n";
 
         foreach ($persons as $person) {
             /* @var $person \AppBundle\Entity\Person */
+            $workingGroup = null;
+            if ($person->getWorkerStatus() == Person::WORKER_STATUS_DEPENDING
+                && $person->getAge() < 60 && $person->getWorkingGroup()
+            ) {
+                $workingGroup = $person->getWorkingGroup()->getDisplayName($this->get('translator'));
+            }
+
             $row = array(
                 $person->getAddress()->getFamilyName(),
                 $person->getFirstname(),
                 $person->getDob()->format('d.m.Y'),
                 $person->getGender(),
+                $person->getEmail(),
+                $person->getMobile(),
+                $person->getAddress()->getPhone(),
+                $person->getAddress()->getStreet(),
+                $person->getAddress()->getZip(),
+                $person->getAddress()->getCity(),
+                $workingGroup,
             );
+
             $row = array_map(function ($value) {
                 if (strpos($value, '"') !== false || strpos($value, ';') !== false) {
                     return '"' . str_replace('"', '""', $value) . '"';
                 }
                 return $value;
             }, $row);
+
             $csv .= implode(';', $row) . "\r\n";
         }
 
