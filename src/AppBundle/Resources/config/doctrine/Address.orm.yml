@@ -34,4 +34,5 @@ AppBundle\Entity\Address:
             targetEntity: AppBundle\Entity\Person
             cascade: [ persist, remove ]
             mappedBy: address
+            orphanRemoval: true
     lifecycleCallbacks: {  }

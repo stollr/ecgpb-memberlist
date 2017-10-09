@@ -141,10 +141,6 @@ class AddressController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            foreach ($address->getRemovedEntities() as $removedEntity) {
-                $em->remove($removedEntity);
-            }
-            
             $em->flush();
 
             // person picture file

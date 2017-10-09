@@ -5,16 +5,13 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Traits\EntityRemovalTrait;
 use AppBundle\Entity\Person;
 
 /**
- * Address
+ * AppBundle\Entity\Address
  */
 class Address
 {
-    use EntityRemovalTrait;
-    
     /**
      * @var integer
      */
@@ -205,7 +202,6 @@ class Address
     public function removePerson(\AppBundle\Entity\Person $person)
     {
         $this->persons->removeElement($person);
-        $this->addRemovedEntity($person);
         return $this;
     }
 
