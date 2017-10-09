@@ -997,6 +997,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             if (!file_exists($filenameOriginal)) {
                 $options->setImage(null);
                 return;
+            } else if (!is_readable($filenameOriginal)) {
+                throw new \Exception(sprintf('Image file "%s" is not readable.', $filenameOriginal));
             }
 
             $filenameOptimized = $photoPathOptimized . '/'
