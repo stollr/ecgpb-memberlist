@@ -28,7 +28,6 @@
         "twbs/bootstrap": "dev-master",
         "tecnickcom/tcpdf": "@dev",
         "naitsirch/tcpdf-extension": "dev-master",
-        "jms/serializer-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "~2.4",
         "liuggio/ExcelBundle": "dev-master"
     },
