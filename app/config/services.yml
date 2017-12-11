@@ -1,4 +1,20 @@
 services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    # makes classes in src/AppBundle available to be used as services
+    AppBundle\:
+        resource: '../../src/AppBundle/*'
+        exclude: '../../src/AppBundle/{DataFixtures,Entity,Exception,Repository,Tests}'
+
+    # define controllers as services to use parameter injection
+    AppBundle\Controller\:
+        resource: '../../src/AppBundle/Controller'
+        tags: ['controller.service_arguments']
+
     twig.extensions.intl:
         class: Twig_Extensions_Extension_Intl
         tags:
@@ -12,7 +28,7 @@ services:
                 ecgpb.members.photo_path: %ecgpb.members.photo_path%
                 ecgpb.members.photo_path_optimized: %ecgpb.members.photo_path_optimized%
 
-    ecgpb.member.statistic.statistic_service:
+    statistics:
         class: AppBundle\Statistic\StatisticService
         arguments:
             - "@doctrine"
@@ -23,7 +39,7 @@ services:
             - "@doctrine"
             - "@translator"
             - "@person_helper"
-            - "@ecgpb.member.statistic.statistic_service"
+            - "@statistics"
             -
                 ecgpb.contact.name: %ecgpb.contact.name%
                 ecgpb.contact.street: %ecgpb.contact.street%
