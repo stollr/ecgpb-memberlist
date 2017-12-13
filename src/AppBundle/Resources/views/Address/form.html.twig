@@ -4,7 +4,7 @@
 
 {% block form_widget_remove_btn %}
 {% spaceless %}
-    {% if widget_remove_btn.wrapper_div is not sameas(false) %}
+    {% if widget_remove_btn.wrapper_div is not same as(false) %}
         <div class="col-md-2">
     {% endif %}
     {% if widget_remove_btn|default(null) %}
@@ -19,7 +19,7 @@
             {% trans %}Edit{% endtrans %}
         </a>
     {% endif %}
-    {% if widget_remove_btn.wrapper_div is not sameas(false) %}
+    {% if widget_remove_btn.wrapper_div is not same as(false) %}
         </div>
     {% endif %}
 {% endspaceless %}
