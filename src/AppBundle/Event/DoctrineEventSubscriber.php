@@ -3,10 +3,10 @@
 namespace AppBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use AppBundle\Entity\Address;
 use AppBundle\Entity\Person;
+use AppBundle\Helper\PersonHelper;
 
 /**
  * AppBundle\Event\DoctrineEventSubscriber
@@ -15,14 +15,12 @@ use AppBundle\Entity\Person;
  */
 class DoctrineEventSubscriber implements EventSubscriber
 {
-    private $container;
+    /**
+     * @var PersonHelper
+     */
+    private $personHelper;
 
     private $fileRenames = [];
-    
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
 
     public function getSubscribedEvents()
     {
@@ -31,7 +29,20 @@ class DoctrineEventSubscriber implements EventSubscriber
             'postFlush',
         );
     }
-    
+
+    /**
+     * Set the person helper.
+     * Called from service container.
+     *
+     * @param PersonHelper $personHelper
+     * @return $this
+     */
+    public function setPersonHelper(PersonHelper $personHelper)
+    {
+        $this->personHelper = $personHelper;
+        return $this;
+    }
+
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
@@ -39,15 +50,12 @@ class DoctrineEventSubscriber implements EventSubscriber
         if ($entity instanceof Address) {
             $changeSet = $args->getEntityChangeSet();
             if (isset($changeSet['familyName'])) {
-                $personHelper = $this->container->get('person_helper');
-                /* @var $personHelper \AppBundle\Helper\PersonHelper */
-
                 foreach ($entity->getPersons() as $person) {
                     $oldFotoFilename = $args->getOldValue('familyName') . '_'
                         . $person->getFirstname() . '_'
                         . $person->getDob()->format('Y-m-d') . '.jpg';
 
-                    $newFotoFilename = $personHelper->getPersonPhotoFilename($person);
+                    $newFotoFilename = $this->personHelper->getPersonPhotoFilename($person);
 
                     $this->schedulePersonPhotoFilenameChange($oldFotoFilename, $newFotoFilename);
                 }
@@ -70,11 +78,8 @@ class DoctrineEventSubscriber implements EventSubscriber
                     $dob = $args->getOldValue('dob');
                 }
 
-                $personHelper = $this->container->get('person_helper');
-                /* @var $personHelper \AppBundle\Helper\PersonHelper */
-
                 $oldFotoFilename = $familyName . '_' . $firstname . '_' . $dob->format('Y-m-d') . '.jpg';
-                $newFotoFilename = $personHelper->getPersonPhotoFilename($entity);
+                $newFotoFilename = $this->personHelper->getPersonPhotoFilename($entity);
 
                 $this->schedulePersonPhotoFilenameChange($oldFotoFilename, $newFotoFilename);
             }
@@ -94,8 +99,7 @@ class DoctrineEventSubscriber implements EventSubscriber
 
     private function schedulePersonPhotoFilenameChange($oldFotoFilename, $newFotoFilename)
     {
-        $personHelper = $this->container->get('person_helper');
-        /* @var $personHelper \AppBundle\Helper\PersonHelper */
+        $personHelper = $this->personHelper;
 
         if ($oldFotoFilename !== $newFotoFilename) {
             // The files should get renamed AFTER the changes have been persisted

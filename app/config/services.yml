@@ -8,39 +8,27 @@ services:
     # makes classes in src/AppBundle available to be used as services
     AppBundle\:
         resource: '../../src/AppBundle/*'
-        exclude: '../../src/AppBundle/{DataFixtures,Entity,Exception,Repository,Tests}'
+        exclude: '../../src/AppBundle/{DataFixtures,Controller,Entity,Exception,Repository,Tests}'
 
     # define controllers as services to use parameter injection
     AppBundle\Controller\:
         resource: '../../src/AppBundle/Controller'
         tags: ['controller.service_arguments']
 
-    twig.extensions.intl:
+    Twig_Extensions_Extension_Intl:
         class: Twig_Extensions_Extension_Intl
         tags:
             - { name: twig.extension }
 
-    person_helper:
-        class: AppBundle\Helper\PersonHelper
+    AppBundle\Helper\PersonHelper:
         arguments:
-            - "@doctrine"
-            -
+            $parameters:
                 ecgpb.members.photo_path: %ecgpb.members.photo_path%
                 ecgpb.members.photo_path_optimized: %ecgpb.members.photo_path_optimized%
 
-    statistics:
-        class: AppBundle\Statistic\StatisticService
+    AppBundle\PdfGenerator\MemberListGenerator:
         arguments:
-            - "@doctrine"
-
-    ecgpb.member.pdf_generator.member_list_generator:
-        class: AppBundle\PdfGenerator\MemberListGenerator
-        arguments:
-            - "@doctrine"
-            - "@translator"
-            - "@person_helper"
-            - "@statistics"
-            -
+            $parameters:
                 ecgpb.contact.name: %ecgpb.contact.name%
                 ecgpb.contact.street: %ecgpb.contact.street%
                 ecgpb.contact.zip: %ecgpb.contact.zip%
@@ -58,9 +46,8 @@ services:
                 ecgpb.contact.memberlist.email: %ecgpb.contact.memberlist.email%
                 ecgpb.contact.technique.email: %ecgpb.contact.technique.email%
 
-    ecgpb.member.event.doctrine_event_subscriber:
-        class: AppBundle\Event\DoctrineEventSubscriber
-        arguments:
-            - "@service_container"
+    AppBundle\Event\DoctrineEventSubscriber:
+        calls:
+            - method: setPersonHelper
         tags:
             - { name: doctrine.event_subscriber }

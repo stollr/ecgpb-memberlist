@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Person;
-use AppBundle\Exception\WorkingGroupWithoutLeaderException;
+use AppBundle\PdfGenerator\MemberListGenerator;
 
 /**
  * AppBundle\Controller\ExportController
@@ -30,11 +30,8 @@ class ExportController extends Controller
     /**
      * @Route(name="ecgpb.member.export.pdf", path="/pdf")
      */
-    public function pdfAction(Request $request)
+    public function pdfAction(Request $request, MemberListGenerator $generator)
     {
-        $generator = $this->get('ecgpb.member.pdf_generator.member_list_generator');
-        /* @var $generator \AppBundle\PdfGenerator\MemberListGenerator */
-        
         $pdf = $generator->generate(array(
             'pages_with_member_placeholders' => $request->get('pages_with_member_placeholders', 1),
             'pages_for_notes' => $request->get('pages_for_notes', 3),

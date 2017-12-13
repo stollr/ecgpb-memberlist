@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Address;
 use AppBundle\Form\AddressType;
+use AppBundle\Helper\PersonHelper;
 
 /**
  * Address controller.
@@ -23,11 +24,9 @@ class AddressController extends Controller
      *
      * @Route("/index", name="ecgpb.member.address.index", defaults={"_locale"="de"})
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, PersonHelper $personHelper)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $personHelper = $this->get('person_helper'); /* @var $personHelper \AppBundle\Helper\PersonHelper */
 
         $repo = $em->getRepository('AppBundle:Address'); /* @var $repo \AppBundle\Repository\AddressRepository */
 
@@ -126,7 +125,7 @@ class AddressController extends Controller
      * @Route("/{id}/update", name="ecgpb.member.address.update", defaults={"_locale"="de"})
      * @Method({"POST", "PUT"})
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $id, PersonHelper $personHelper)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -144,7 +143,6 @@ class AddressController extends Controller
             $em->flush();
 
             // person picture file
-            $personHelper = $this->get('person_helper'); /* @var $personHelper \AppBundle\Helper\PersonHelper */
             foreach ($request->files->get('person-picture-file', array()) as $index => $file) {
                 /* @var $file UploadedFile */
                 if ($file) {

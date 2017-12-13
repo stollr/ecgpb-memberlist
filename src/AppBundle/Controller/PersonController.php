@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Person;
 use AppBundle\Form\PersonType;
+use AppBundle\Helper\PersonHelper;
 use AppBundle\PdfGenerator\MemberListGenerator;
 
 /**
@@ -127,7 +128,7 @@ class PersonController extends Controller
      * Edits an existing Person entity.
      *
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $id, PersonHelper $personHelper)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -146,7 +147,6 @@ class PersonController extends Controller
             // person photo file
             if ($file = $request->files->get('person-picture-file')) {
                 /* @var $file UploadedFile */
-                $personHelper = $this->get('person_helper'); /* @var $personHelper \AppBundle\Helper\PersonHelper */
                 $filename = $personHelper->getPersonPhotoFilename($person);
                 $file->move($personHelper->getPersonPhotoPath(), $filename);
             }
@@ -191,7 +191,7 @@ class PersonController extends Controller
         return $this->redirect($this->generateUrl('ecgpb.member.person.index'));
     }
 
-    public function optimizedMemberPictureAction($id)
+    public function optimizedMemberPictureAction($id, MemberListGenerator $generator)
     {
         $em = $this->getDoctrine()->getManager();
         $person = $em->getRepository('AppBundle:Person')->find($id);
@@ -199,13 +199,12 @@ class PersonController extends Controller
             throw $this->createNotFoundException('Unable to find Person entity.');
         }
 
-        $memberListGenerator = $this->get('ecgpb.member.pdf_generator.member_list_generator');
         $options = new \Tcpdf\Extension\Attribute\BackgroundFormatterOptions(
             null,
             MemberListGenerator::GRID_PICTURE_CELL_WIDTH,
             MemberListGenerator::GRID_ROW_MIN_HEIGHT
         );
-        $formatter = $memberListGenerator->getPersonPictureFormatter($person);
+        $formatter = $generator->getPersonPictureFormatter($person);
         $formatter($options);
         $filename = $options->getImage();
 
