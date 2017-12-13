@@ -2,6 +2,8 @@
 
 {% form_theme form _self %}
 
+{% block title %}{% trans %}Address{% endtrans %} - {{ parent() }}{% endblock %}
+
 {% block form_widget_remove_btn %}
 {% spaceless %}
     {% if widget_remove_btn.wrapper_div is not same as(false) %}
