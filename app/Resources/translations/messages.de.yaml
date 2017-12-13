@@ -1,0 +1,124 @@
+Able to work: Arbeitsfähig
+Account Number: Kontonummer
+Actions: Aktionen
+Add Ministry Category: Dienstbereich hinzufügen
+Add Ministry Group: Dienstgruppe hinzufügen
+Add Person: Person hinzufügen
+Address: Adresse
+Addresses: Adressen
+Age: Alter
+All changes have been saved.: Alle Änderungen wurden gespeichert.
+Assigned: Zugeordnet
+At least 65 Years old: Mindestens 65 Jahre alt
+At most 25 Years old: Höchstens 25 Jahre alt
+Average Age: Durchschnittsalter
+Back to List: Zurück zur Liste
+Bank Account: Bankverbindung
+Bank Code: Bankleitzahl
+Birthday List: Geburtstagsliste
+Category [Ministry]: Dienstbereich
+Category [Ministry] [PDF]: Dienst- bereich
+City: Stadt
+Create: Erstellen
+Date of Birth: Geburtsdatum
+Delete Address: Adresse löschen
+Delete Person: Person löschen
+Depending on Age (< 60): Abhängig vom Alter (< 60)
+Differing Last Name: Abweichender Nachname
+Do you really want to delete this entry?: Möchten Sie diesen Eintrag wirklich löschen?
+DOB: Geb.
+Edit: Bearbeiten
+Edit Address: Adresse bearbeiten
+Edit Ministry Category: Dienstbereich bearbeiten
+Edit Person: Person bearbeiten
+Effective: Stand
+Email Addresses: Emailadressen
+Family Name: Familienname
+female: weiblich
+Female Group: Frauengruppe
+Female Members: Weibliche Mitglieder
+First Name: Vorname
+Gender: Geschlecht
+Go to address: Zur Adresse gehen
+Group: Gruppe
+Group Number: Gruppennummer
+Group of Men: Männergruppe
+Group of Women/Men: Frauen- oder Männergruppe
+Group of Women: Frauengruppe
+Has Email Address: Hat Emailadresse
+Invalid/Sick: Dienstunfähig/Krank
+Keep in mind that the number of pages has be devideable by four, for printing.: Es ist zu beachten, dass die Anzahl an Seiten für den Druck durch vier teilbar sein muss.
+Last Name: Nachname
+Leave this field empty to use the family name of the address.: Dieses Feld kann leer gelassen werden, um den Familiennamen zu nutzen.
+Leader: Leiter
+Library: Bibliothek
+Maiden Name: Mädchenname
+Main Responsible: Hauptverantwortlicher
+male: männlich
+Male Group: Männergruppe
+Male Members: Männliche Mitglieder
+Member List: Mitgliederliste
+Members per Age: Mitglieder pro Alter
+Members per Year of Birth: Mitglieder pro Geburtsjahr
+Men: Männer
+Ministries: Dienste
+Ministry: Dienst
+Ministry Group: Dienstgruppe
+Ministry Groups: Dienstgruppen
+Mobile: Mobil
+Mobile, Email: Mobil, Email
+Name, Address, Phone: Name, Adresse, Telefon
+No: Nein
+Not assigned: Nicht zugeordnet
+Number: Nummer
+Number of Members: Anzahl der Mitglieder
+Other Ministries: Andere Dienste
+Pages for personal notes: Seiten für persönliche Notizen
+Pages with member placeholders: Seiten mit Mitglieder-Platzhaltern
+PDF Settings: PDF Einstellungen
+Persons: Personen
+Persons assignable to a Working Group: Personen, die zu einer Arbeitsgruppe zuweisbar sind
+Persons unable to work: Nicht-arbeitsfähige Personen
+Phone: Telefon
+Phone Connections of the Church: Telefonverbindungen des Gemeindehauses
+Please report immediately all changes to %name%!: Alle Änderungen bitte unverzüglich bei %name% melden!
+Print: Drucken
+Remove: Entfernen
+Residence far away: Wohnort weit weg
+Responsibles: Verantwortliche
+Responsibles [PDF]: Verantw.
+Responsible Persons: Verantwortliche Personen
+Responsible Persons [PDF]: Verant- wortliche Personen
+Save: Speichern
+Save Changes: Änderungen speichern
+Saving: Speichern
+Search Term: Suchbegriff
+Second Phone: Zweites Telefon
+Second Phone Label: Beschriftung zweites Telefon
+Seniors List: Seniorenliste
+Standard Deviation of Age: Standardabweichung des Alters
+Statistics: Statistiken
+Still able: Noch immer fähig
+Street: Straße
+Subcategory [Ministry]: Unterbereich
+Subcategory [Ministry] [PDF]: Unterbereich
+Tasks: Aufgaben
+The entry has been created.: Der Eintrag wurde erstellt.
+The entry has been deleted.: Der Eintrag wurde gelöscht.
+The working group {number} of the {gender} does not have a leader, yet.: Die Arbeitsgruppe {number} der {gender}, hat noch keinen Verantwortlichen.
+There are no entries existing, yet.: Es gibt noch keine Einträge.
+Total Members: Gesamtanzahl
+Unable: Unfähig
+Unassigned Persons: Nicht-zugeordnete Personen
+Undo Changes: Änderungen rückgängig machen
+Update: Aktualisieren
+Variance of Age: Varianz des Alters
+Without Photo: Ohne Foto
+Women: Frauen
+Work Status: Arbeitsstatus
+Working Group: Arbeitsgruppe
+Working Groups: Arbeitsgruppen
+Year: Jahr
+Yes: Ja
+You can enter a label for the second phone number. Enter "\n" for line break.: Hier kannst Du eine Beschriftung für die zweite Telefonnummer eingeben. Um einen Zeilenumbruch zu erhalten, gebe "\n" ein.
+Zip: PLZ
