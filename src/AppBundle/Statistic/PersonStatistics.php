@@ -31,7 +31,7 @@ class PersonStatistics
      * Number of members who are at maximum 25 years old.
      * @var int
      */
-    private $atMaximum25YearsOld;
+    private $atMost25YearsOld;
     
     /**
      * Average age over all members
@@ -39,18 +39,34 @@ class PersonStatistics
      */
     private $averageAge;
 
+    /**
+     * The number of persons per year of birth.
+     * @var array For example: ['1965' => 4, '1982' => 7]
+     */
+    private $numberPerYearOfBirth;
+
+    /**
+     * The number of persons per age.
+     * @var array For example: [22 => 4, 35 => 7]
+     */
+    private $numberPerAge;
+
     public function __construct(
         $total,
         $femaleTotal,
         $atLeast65YearsOld,
-        $atMaximum25YearsOld,
-        $averageAge
+        $atMost25YearsOld,
+        $averageAge,
+        $numberPerYearOfBirth,
+        $numberPerAge
     ) {
         $this->total = $total;
         $this->femaleTotal = $femaleTotal;
         $this->atLeast65YearsOld = $atLeast65YearsOld;
-        $this->atMaximum25YearsOld = $atMaximum25YearsOld;
+        $this->atMost25YearsOld = $atMost25YearsOld;
         $this->averageAge = $averageAge;
+        $this->numberPerYearOfBirth = $numberPerYearOfBirth;
+        $this->numberPerAge = $numberPerAge;
     }
 
     /**
@@ -90,9 +106,9 @@ class PersonStatistics
      * Number of members who are at maximum 25 years old.
      * @return int
      */
-    public function getAtMaximum25YearsOld()
+    public function getAtMost25YearsOld()
     {
-        return $this->atMaximum25YearsOld;
+        return $this->atMost25YearsOld;
     }
 
     /**
@@ -102,5 +118,15 @@ class PersonStatistics
     public function getAverageAge()
     {
         return $this->averageAge;
+    }
+
+    public function getNumberPerYearOfBirth()
+    {
+        return $this->numberPerYearOfBirth;
+    }
+
+    public function getNumberPerAge()
+    {
+        return $this->numberPerAge;
     }
 }

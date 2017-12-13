@@ -291,7 +291,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 ->end()
                 ->newRow()
                     ->newCell('Mitglieder bis 25 Jahren:')->end()
-                    ->newCell($this->statisticService->getPersonStatistics()->getAtMaximum25YearsOld())->end()
+                    ->newCell($this->statisticService->getPersonStatistics()->getAtMost25YearsOld())->end()
                 ->end()
                 ->newRow()
                     ->newCell('Altersdurchschnitt:')->end()

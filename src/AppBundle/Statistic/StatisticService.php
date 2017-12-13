@@ -38,7 +38,10 @@ class StatisticService
             $total = 0;
             $femaleTotal = 0;
             $atLeast65YearsOld = 0;
-            $atMaximum25YearsOld = 0;
+            $atMost25YearsOld = 0;
+            $numberPerYearOfBirth = [];
+            $numberPerAge = [];
+
             foreach ($qb->getQuery()->iterate(null, Query::HYDRATE_ARRAY) as $person) {
                 $age = $person[0]['dob']->diff($now); /* @var $age \DateInterval */
                 $ageSum += $age->y + ($age->m / 12);
@@ -49,15 +52,26 @@ class StatisticService
                 if ($age->y >= 65) {
                     $atLeast65YearsOld++;
                 } else if ($age->y < 26) {
-                    $atMaximum25YearsOld++;
+                    $atMost25YearsOld++;
                 }
+
+                $numberPerAge[$age->y] = 1 + (isset($numberPerAge[$age->y]) ? $numberPerAge[$age->y] : 0);
+
+                $yearOfBirth = $person[0]['dob']->format('Y');
+                $numberPerYearOfBirth[$yearOfBirth] = 1 + (isset($numberPerYearOfBirth[$yearOfBirth]) ? $numberPerYearOfBirth[$yearOfBirth] : 0);
             }
+
+            ksort($numberPerYearOfBirth, SORT_NUMERIC);
+            ksort($numberPerAge, SORT_NUMERIC);
+
             $this->statistics = new PersonStatistics(
                 $total,             // total number of members
                 $femaleTotal,       // number of female members
                 $atLeast65YearsOld,
-                $atMaximum25YearsOld,
-                $ageSum / $total    // average age
+                $atMost25YearsOld,
+                $ageSum / $total,    // average age
+                $numberPerYearOfBirth,
+                $numberPerAge
             );
         }
         return $this->statistics;

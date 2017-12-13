@@ -1,0 +1,82 @@
+{% extends '::base.html.twig' %}
+
+
+{% block title %}{% trans %}Statistics{% endtrans %} - {{ parent() }}{% endblock %}
+
+{% block body -%}
+    <h2>{% trans %}Statistics{% endtrans %}</h2>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <table class="table table-condensed table-striped">
+                <tr>
+                    <th>{% trans %}Total Members{% endtrans %}</th>
+                    <td>{{ statistics.total }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans %}Male Members{% endtrans %}</th>
+                    <td>{{ statistics.maleTotal }} ({{ (statistics.maleTotal / statistics.total * 100) | round(1) | localizednumber }} %)</td>
+                </tr>
+                <tr>
+                    <th>{% trans %}Female Members{% endtrans %}</th>
+                    <td>{{ statistics.femaleTotal }} ({{ (statistics.femaleTotal / statistics.total * 100) | round(1) | localizednumber }} %)</td>
+                </tr>
+                <tr>
+                    <th>{% trans %}At least 65 Years old{% endtrans %}</th>
+                    <td>{{ statistics.atLeast65YearsOld }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans %}At most 25 Years old{% endtrans %}</th>
+                    <td>{{ statistics.atMost25YearsOld }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans %}Age of the youngest Member{% endtrans %}</th>
+                    <td>{{ statistics.numberPerAge | keys | first }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans %}Age of the oldest Member{% endtrans %}</th>
+                    <td>{{ statistics.numberPerAge | keys | last }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans %}Average Age{% endtrans %}</th>
+                    <td>{{ statistics.averageAge | round }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>{% trans %}Members per Year of Birth{% endtrans %}</h3>
+
+            <table class="table table-condensed table-striped">
+                <tr>
+                    <th>{% trans %}Year{% endtrans %}</th>
+                    <th>{% trans %}Number of Members{% endtrans %}</th>
+                </tr>
+                {% for year, number in statistics.numberPerYearOfBirth %}
+                    <tr>
+                        <td>{{ year }}</td>
+                        <td>{{ number }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-sm-6">
+            <h3>{% trans %}Members per Age{% endtrans %}</h3>
+
+            <table class="table table-condensed table-striped">
+                <tr>
+                    <th>{% trans %}Age{% endtrans %}</th>
+                    <th>{% trans %}Number of Members{% endtrans %}</th>
+                </tr>
+                {% for age, number in statistics.numberPerAge %}
+                    <tr>
+                        <td>{{ age }}</td>
+                        <td>{{ number }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
