@@ -3,6 +3,7 @@
 namespace AppBundle\Entity\Ministry;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -11,6 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ResponsibleAssignment
 {
     /**
+     * @Groups({"MinistryCategoryListing"})
+     *
      * @var integer
      */
     private $id;
@@ -21,11 +24,15 @@ class ResponsibleAssignment
     private $ministry;
 
     /**
+     * @Groups({"MinistryCategoryListing"})
+     *
      * @var \AppBundle\Entity\Person
      */
     private $person;
 
     /**
+     * @Groups({"MinistryCategoryListing"})
+     *
      * @var \AppBundle\Entity\Ministry\Group
      */
     private $group;

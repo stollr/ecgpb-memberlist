@@ -1,8 +1,0 @@
-AppBundle\Entity\Address:
-    properties:
-        id:
-            serialized_name: id
-            groups: [MinistryCategoryListing, MinistryGroupListing]
-        familyName:
-            serialized_name: familyName
-            groups: [MinistryCategoryListing, MinistryGroupListing]

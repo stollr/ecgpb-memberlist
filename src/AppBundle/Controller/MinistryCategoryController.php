@@ -5,9 +5,9 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use JMS\Serializer\SerializationContext;
 use AppBundle\Entity\Ministry\Category;
 use AppBundle\Form\Ministry\CategoryType;
 
@@ -21,7 +21,7 @@ class MinistryCategoryController extends Controller
     /**
      * Lists all Address entities.
      */
-    public function indexAction()
+    public function indexAction(SerializerInterface $serializer)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -35,10 +35,10 @@ class MinistryCategoryController extends Controller
         $groups = $groupRepo->findAll();
 
         // serializations
-        $serializer = $this->get('jms_serializer');
-        $categoriesJson = $serializer->serialize($categories, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
-        $personsJson = $serializer->serialize($persons, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
-        $groupsJson = $serializer->serialize($groups, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
+        $context = ['groups' => ['MinistryCategoryListing']];
+        $categoriesJson = $serializer->serialize($categories, 'json', $context);
+        $personsJson = $serializer->serialize($persons, 'json', $context);
+        $groupsJson = $serializer->serialize($groups, 'json', $context);
 
         return $this->render('AppBundle:MinistryCategory:index.html.twig', array(
             'categories_json' => $categoriesJson,
@@ -51,7 +51,7 @@ class MinistryCategoryController extends Controller
      * Edits an existing Address entity.
      *
      */
-    public function updateAction(Request $request)
+    public function updateAction(Request $request, SerializerInterface $serializer)
     {
         if ('json' != $request->getContentType()) {
             throw new \InvalidArgumentException('Wrong content type provided. JSON is expected.');
@@ -134,8 +134,8 @@ class MinistryCategoryController extends Controller
             $em->flush();
 
             // response
-            $serializer = $this->get('jms_serializer');
-            $categoriesJson = $serializer->serialize($categories, 'json', SerializationContext::create()->setGroups(array('MinistryCategoryListing')));
+            $context = ['groups' => ['MinistryCategoryListing']];
+            $categoriesJson = $serializer->serialize($categories, 'json', $context);
 
             return new Response($categoriesJson, 200, array('Content-Type' => 'application/json'));
         } catch (\Exception $e) {

@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use AppBundle\Entity\Person;
 
 /**
@@ -13,11 +14,15 @@ use AppBundle\Entity\Person;
 class Address
 {
     /**
+     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     *
      * @var integer
      */
     private $id;
 
     /**
+     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     *
      * @var string
      */
     private $familyName;

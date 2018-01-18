@@ -1,9 +1,0 @@
-AppBundle\Entity\Ministry\ResponsibleAssignment:
-    properties:
-        id:
-            serialized_name: id
-            groups: [MinistryCategoryListing]
-        person:
-            groups: [MinistryCategoryListing]
-        group:
-            groups: [MinistryCategoryListing]

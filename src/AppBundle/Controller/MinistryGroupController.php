@@ -5,9 +5,9 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use JMS\Serializer\SerializationContext;
 use AppBundle\Entity\Ministry\Group;
 use AppBundle\Form\Ministry\GroupType;
 
@@ -21,7 +21,7 @@ class MinistryGroupController extends Controller
     /**
      * Lists all Address entities.
      */
-    public function indexAction()
+    public function indexAction(SerializerInterface $serializer)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -32,9 +32,9 @@ class MinistryGroupController extends Controller
         $persons = $personRepo->findAllForMinistryListing();
 
         // serializations
-        $serializer = $this->get('jms_serializer');
-        $groupsJson = $serializer->serialize($groups, 'json', SerializationContext::create()->setGroups(array('MinistryGroupListing')));
-        $personsJson = $serializer->serialize($persons, 'json', SerializationContext::create()->setGroups(array('MinistryGroupListing')));
+        $context = ['groups' => ['MinistryGroupListing']];
+        $groupsJson = $serializer->serialize($groups, 'json', $context);
+        $personsJson = $serializer->serialize($persons, 'json', $context);
 
         return $this->render('AppBundle:MinistryGroup:index.html.twig', array(
             'persons_json' => $personsJson,
@@ -46,7 +46,7 @@ class MinistryGroupController extends Controller
      * Edits an existing ministry group entity.
      *
      */
-    public function updateAction(Request $request)
+    public function updateAction(Request $request, SerializerInterface $serializer)
     {
         if ('json' != $request->getContentType()) {
             throw new \InvalidArgumentException('Wrong content type provided. JSON is expected.');
@@ -56,14 +56,18 @@ class MinistryGroupController extends Controller
             $em = $this->getDoctrine()->getManager();
             $clientMinistryGroups = json_decode($request->getContent(), true);
 
-            $groups = $em->getRepository('AppBundle:Ministry\Group')->findBy(array(
-                'id' => array_map(function($element) {
-                    return isset($element['id']) ? $element['id'] : 0;
-
-                },
-                $clientMinistryGroups
-            )));
+            $groups = $em->getRepository(Group::class)->findAll();
             /* @var $groups Group[] */
+
+            // Remove groups
+            foreach ($groups as $group) {
+                foreach ($clientMinistryGroups as $clientMinistryGroup) {
+                    if ($group->getId() == $clientMinistryGroup['id']) {
+                        continue 2;
+                    }
+                }
+                $em->remove($group);
+            }
 
             foreach ($clientMinistryGroups as $clientMinistryGroup) {
                 if (empty($clientMinistryGroup['id'])) {
@@ -90,8 +94,9 @@ class MinistryGroupController extends Controller
             $em->flush();
 
             // response
-            $serializer = $this->get('jms_serializer');
-            $json = $serializer->serialize($groups, 'json', SerializationContext::create()->setGroups(array('MinistryGroupListing')));
+            $context = ['groups' => ['MinistryGroupListing']];
+            $json = $serializer->serialize($groups, 'json', $context);
+
             return new Response($json, 200, array('Content-Type' => 'application/json'));
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), 401);

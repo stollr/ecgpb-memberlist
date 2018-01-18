@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Component\Serializer\Annotation\Groups;
 use AppBundle\Entity\Ministry\Category;
 
 /**
@@ -10,21 +11,29 @@ use AppBundle\Entity\Ministry\Category;
 class Ministry
 {
     /**
+     * @Groups({"MinistryCategoryListing"})
+     *
      * @var integer
      */
     private $id;
 
     /**
+     * @Groups({"MinistryCategoryListing"})
+     *
      * @var string
      */
     private $name;
 
     /**
+     * @Groups({"MinistryCategoryListing"})
+     *
      * @var string
      */
     private $description;
 
     /**
+     * @Groups({"MinistryCategoryListing"})
+     *
      * @var integer
      */
     private $position;
@@ -35,6 +44,8 @@ class Ministry
     private $category;
 
     /**
+     * @Groups({"MinistryCategoryListing"})
+     *
      * @var \Doctrine\Common\Collections\Collection
      */
     private $responsibleAssignments;

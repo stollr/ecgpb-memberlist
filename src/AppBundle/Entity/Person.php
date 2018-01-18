@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use AppBundle\Entity\Ministry\ResponsibleAssignment;
 
 /**
@@ -36,6 +37,8 @@ class Person
     const WORKER_STATUS_UNABLE_RESIDENCE = 4;
     
     /**
+     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     *
      * @var integer
      */
     private $id;
@@ -48,12 +51,17 @@ class Person
     private $lastname;
 
     /**
+     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     *
      * @var string
      */
     private $firstname;
 
     /**
      * Date of birth
+     *
+     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     *
      * @var \DateTime
      */
     private $dob;
@@ -91,6 +99,8 @@ class Person
     private $maidenName;
 
     /**
+     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     *
      * @var \AppBundle\Entity\Address
      */
     private $address;

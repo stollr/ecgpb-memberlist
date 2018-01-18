@@ -8,7 +8,7 @@ services:
     # makes classes in src/AppBundle available to be used as services
     AppBundle\:
         resource: '../../src/AppBundle/*'
-        exclude: '../../src/AppBundle/{DataFixtures,Controller,Entity,Exception,Repository,Tests}'
+        exclude: '../../src/AppBundle/{DataFixtures,Entity,Exception,Repository,Tests}'
 
     # define controllers as services to use parameter injection
     AppBundle\Controller\:
