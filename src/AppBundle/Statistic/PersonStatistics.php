@@ -129,4 +129,20 @@ class PersonStatistics
     {
         return $this->numberPerAge;
     }
+
+    public function getHighestAge()
+    {
+        end($this->numberPerAge);
+        $age = key($this->numberPerAge);
+        reset($this->numberPerAge);
+
+        return $age;
+    }
+
+    public function getLowestAge()
+    {
+        reset($this->numberPerAge);
+
+        return key($this->numberPerAge);
+    }
 }

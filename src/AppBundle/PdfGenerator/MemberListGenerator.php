@@ -266,6 +266,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         // statistics
 
+        $statistics = $this->statisticService->getPersonStatistics();
+
         $this->useFontSizeXL($pdf);
         $this->useFontStyleBold($pdf);
         $this->writeText($pdf, 'Mitgliederstand am 01.' . date('m.Y'));
@@ -275,27 +277,35 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addTable($pdf)
                 ->newRow()
                     ->newCell('Gesamtmitgliederzahl')->setWidth(60)->end()
-                    ->newCell($this->statisticService->getPersonStatistics()->getTotal())->setWidth(30)->end()
+                    ->newCell($statistics->getTotal())->setWidth(30)->end()
                 ->end()
                 ->newRow()
                     ->newCell('Davon männlich:')->end()
-                    ->newCell($this->statisticService->getPersonStatistics()->getMaleTotal())->end()
+                    ->newCell($statistics->getMaleTotal())->end()
                 ->end()
                 ->newRow()
                     ->newCell('Davon weiblich:')->end()
-                    ->newCell($this->statisticService->getPersonStatistics()->getFemaleTotal())->end()
+                    ->newCell($statistics->getFemaleTotal())->end()
                 ->end()
                 ->newRow()
                     ->newCell('Mitglieder ab 65 Jahren:')->end()
-                    ->newCell($this->statisticService->getPersonStatistics()->getAtLeast65YearsOld())->end()
+                    ->newCell($statistics->getAtLeast65YearsOld())->end()
                 ->end()
                 ->newRow()
                     ->newCell('Mitglieder bis 25 Jahren:')->end()
-                    ->newCell($this->statisticService->getPersonStatistics()->getAtMost25YearsOld())->end()
+                    ->newCell($statistics->getAtMost25YearsOld())->end()
+                ->end()
+                ->newRow()
+                    ->newCell('Höchstes Alter:')->end()
+                    ->newCell($statistics->getHighestAge())->end()
+                ->end()
+                ->newRow()
+                    ->newCell('Niedrigstes Alter:')->end()
+                    ->newCell($statistics->getLowestAge())->end()
                 ->end()
                 ->newRow()
                     ->newCell('Altersdurchschnitt:')->end()
-                    ->newCell(round($this->statisticService->getPersonStatistics()->getAverageAge()))->end()
+                    ->newCell(round($statistics->getAverageAge()))->end()
                 ->end()
             ->end()
         ;
