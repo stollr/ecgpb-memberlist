@@ -2,14 +2,15 @@
 
 namespace AppBundle\PdfGenerator;
 
+use AppBundle\Entity\Person;
+use AppBundle\Helper\PersonHelper;
+use AppBundle\PdfGenerator\MemberListTcpdf;
+use AppBundle\Statistic\StatisticService;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Tcpdf\Extension\Table\Table;
 use Tcpdf\Extension\Table\Cell;
 use Tcpdf\Extension\Helper;
-use AppBundle\Entity\Person;
-use AppBundle\Helper\PersonHelper;
-use AppBundle\Statistic\StatisticService;
 
 /**
  * AppBundle\PdfGenerator\MemberListGenerator
@@ -53,11 +54,13 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         ), $options);
         
         // set up tcpdf
-        $pdf = new \TCPDF('P', 'mm', 'A5', true, 'UTF-8', false);
+        $pdf = new MemberListTcpdf('P', 'mm', 'A5', true, 'UTF-8', false);
         $pdf->SetTitle('ECGPB Member List');
         $pdf->SetMargins(9, 9, 9);
         $pdf->SetPrintHeader(false);
-        $pdf->SetPrintFooter(false);
+        $pdf->SetPrintFooter(true);
+        $pdf->setFooterMargin(10);
+        $pdf->setFooterFont(['dejavusans', '', 7]);
         $pdf->SetAutoPageBreak(true, 9);
 
         // set image scale factor
@@ -920,9 +923,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         }
     }
 
-    public function addLastPage(\TCPDF $pdf)
+    public function addLastPage(MemberListTcpdf $pdf)
     {
         $pdf->AddPage();
+
+        $pdf->lastPage = true;
 
         $pdf->SetY(165);
 
