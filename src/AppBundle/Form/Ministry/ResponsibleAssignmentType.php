@@ -24,11 +24,6 @@ class ResponsibleAssignmentType extends AbstractType
                 'choice_label' => 'lastnameAndFirstname',
                 'required' => false,
             ))
-            ->add('group', EntityType::class, array(
-                'class' => 'AppBundle\Entity\Ministry\Group',
-                'choice_label' => 'name',
-                'required' => false,
-            ))
         ;
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
@@ -36,9 +31,6 @@ class ResponsibleAssignmentType extends AbstractType
             unset($data['id']);
             if (isset($data['person']['id'])) {
                 $data['person'] = $data['person']['id'];
-            }
-            if (isset($data['group']['id'])) {
-                $data['group'] = $data['group']['id'];
             }
             $event->setData($data);
         });

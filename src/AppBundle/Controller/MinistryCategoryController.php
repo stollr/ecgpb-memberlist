@@ -31,19 +31,14 @@ class MinistryCategoryController extends Controller
         $personRepo = $em->getRepository('AppBundle:Person');
         $persons = $personRepo->findAllForMinistryListing();
 
-        $groupRepo = $em->getRepository('AppBundle:Ministry\Group');
-        $groups = $groupRepo->findAll();
-
         // serializations
         $context = ['groups' => ['MinistryCategoryListing']];
         $categoriesJson = $serializer->serialize($categories, 'json', $context);
         $personsJson = $serializer->serialize($persons, 'json', $context);
-        $groupsJson = $serializer->serialize($groups, 'json', $context);
 
         return $this->render('AppBundle:MinistryCategory:index.html.twig', array(
             'categories_json' => $categoriesJson,
             'persons_json' => $personsJson,
-            'groups_json' => $groupsJson,
         ));
     }
 

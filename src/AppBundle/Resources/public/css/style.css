@@ -57,9 +57,3 @@ select.input-sm {
 .person-picture {
     height: 60px;
 }
-
-/**** ministry category listing ***********************************************/
-
-.ministry-category-list .remove-assignment-btn {
-    margin-top: 10px;
-}

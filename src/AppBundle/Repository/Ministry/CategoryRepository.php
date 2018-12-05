@@ -16,12 +16,11 @@ class CategoryRepository extends EntityRepository
         return $this->createQueryBuilder('category')
             ->select(
                 'category', 'ministry',
-                'responsibleAssignment', 'responsiblePerson', 'responsibleGroup'
+                'responsibleAssignment', 'responsiblePerson'
             )
             ->leftJoin('category.ministries', 'ministry')
             ->leftJoin('ministry.responsibleAssignments', 'responsibleAssignment')
             ->leftJoin('responsibleAssignment.person', 'responsiblePerson')
-            ->leftJoin('responsibleAssignment.group', 'responsibleGroup')
             ->orderBy('category.position', 'asc')
             ->addOrderBy('category.name', 'asc')
             ->addOrderBy('ministry.position', 'asc')

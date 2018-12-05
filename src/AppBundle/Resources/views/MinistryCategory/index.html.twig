@@ -112,23 +112,18 @@
                     <div ng-repeat="assignment in ministry.responsibleAssignments" class="row">
                         <div class="col-md-10" ng-show="isEditable(ministryCategory)">
                             <select class="form-control input-sm"
-                             ng-model="assignment.group"
-                             ng-options="group as group.name for group in groups track by group.id">
-                                <option value="">- {% trans %}Group{% endtrans %} -</option>
-                            </select>
-                            <select class="form-control input-sm"
                              ng-model="assignment.person"
                              ng-options="person as getPersonsLabel(person) for person in persons track by person.id">
                                 <option value="">- {% trans %}Person{% endtrans %} -</option>
                             </select>
                         </div>
-                        <div class="col-md-2" ng-show="isEditable(ministryCategory)">
-                            <button type="button" class="btn btn-default btn-sm pull-right remove-assignment-btn" ng-click="ministry.removeResponsible(assignment)" ng-show="isEditable(ministryCategory)">
+                        <div class="col-md-2 text-right" ng-show="isEditable(ministryCategory)">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="ministry.removeResponsible(assignment)" ng-show="isEditable(ministryCategory)">
                                 <span class="glyphicon glyphicon-minus"></span>
                             </button>
                         </div>
                         <div class="col-md-12" ng-show="!isEditable(ministryCategory)">
-                            {{ '{{ assignment.group ? assignment.group.name : getPersonsLabel(assignment.person) }}' }}
+                            {{ '{{ getPersonsLabel(assignment.person) }}' }}
                         </div>
                     </div>
                     <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministry.newResponsible()" ng-show="isEditable(ministryCategory)">
@@ -156,16 +151,14 @@
         angular.module('app', ['ui.bootstrap', 'naitsirch.helpers'])
             .constant('ministryCategories', {{ categories_json | raw }})
             .constant('persons', {{ persons_json | raw }})
-            .constant('groups', {{ groups_json | raw }})
             .constant('updateUrl', '{{ path('ecgpb.member.ministry_category.update') }}')
             .controller('ListingController', function(
                 $scope, $http, $uibModal,
-                MinistryCategory, Ministry, ministryCategories, persons, groups,
+                MinistryCategory, Ministry, ministryCategories, persons,
                 updateUrl
             ) {
                 $scope.ministryCategories = ministryCategories.map(function(value) { return new MinistryCategory(value); });
                 $scope.persons = persons;
-                $scope.groups = groups;
                 $scope.error = null;
                 $scope.editableCategory = null;
                 $scope.backupCategory = null;
@@ -257,7 +250,7 @@
                     ;
                     this.newResponsible = function() {
                         var last = this.responsibleAssignments.length === 0 ? null : this.responsibleAssignments[this.responsibleAssignments.length - 1];
-                        if (!last || last.person || last.group) {
+                        if (!last || last.person) {
                             this.responsibleAssignments.push(new Assignment());
                         }
                     };
@@ -271,7 +264,6 @@
             .factory('Assignment', function() {
                 var Assignment = function(properties) {
                     this.id = properties ? properties.id : null;
-                    this.group = properties ? properties.group : null;
                     this.person = properties ? properties.person : null;
                 };
                 return Assignment;

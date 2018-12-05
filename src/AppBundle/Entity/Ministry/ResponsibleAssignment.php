@@ -31,8 +31,6 @@ class ResponsibleAssignment
     private $person;
 
     /**
-     * @Groups({"MinistryCategoryListing"})
-     *
      * @var \AppBundle\Entity\Ministry\Group
      */
     private $group;
