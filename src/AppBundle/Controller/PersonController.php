@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Person;
 use AppBundle\Form\PersonType;
@@ -15,15 +16,18 @@ use AppBundle\PdfGenerator\MemberListGenerator;
 
 /**
  * Person controller.
+ *
  * @/Security("is_granted('ROLE_ADMIN')")
+ * @Route("/person")
  */
 class PersonController extends Controller
 {
     /**
      * Lists all Person entities.
      *
+     * @Route(name="ecgpb.member.person.index", path="/", defaults={"_locale"="de"})
      */
-    public function indexAction()
+    public function index()
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -33,9 +37,11 @@ class PersonController extends Controller
             'entities' => $entities,
         ));
     }
+
     /**
      * Creates a new Person entity.
      *
+     * @Route(name="ecgpb.member.person.create", path="/create", methods={"POST"}, defaults={"_locale"="de"})
      */
     public function createAction(Request $request)
     {
@@ -60,6 +66,7 @@ class PersonController extends Controller
     /**
      * Displays a form to create a new Person entity.
      *
+     * @Route(name="ecgpb.member.person.new", path="/new", defaults={"_locale"="de"})
      */
     public function newAction()
     {
@@ -75,6 +82,7 @@ class PersonController extends Controller
     /**
      * Displays a form to edit an existing Person entity.
      *
+     * @Route(name="ecgpb.member.person.edit", path="/{id}/edit", defaults={"_locale"="de"})
      */
     public function editAction($id)
     {
@@ -95,12 +103,12 @@ class PersonController extends Controller
     }
 
     /**
-    * Creates a form to edit a Person person.
-    *
-    * @param Person $person The person
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
+     * Creates a form to edit a Person person.
+     *
+     * @param Person $person The person
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createPersonForm(Person $person)
     {
         $url = $person->getId()
@@ -127,6 +135,7 @@ class PersonController extends Controller
     /**
      * Edits an existing Person entity.
      *
+     * @Route(name="ecgpb.member.person.update", path="/{id}/update", methods={"PUT", "POST"}, defaults={"_locale"="de"})
      */
     public function updateAction(Request $request, $id, PersonHelper $personHelper)
     {
@@ -161,9 +170,11 @@ class PersonController extends Controller
             'form'   => $form->createView(),
         ));
     }
+
     /**
      * Deletes a Person entity.
      *
+     * @Route(name="ecgpb.member.person.delete", path="/{id}/delete", defaults={"_locale"="de"})
      */
     public function deleteAction(Request $request, $id)
     {
@@ -191,14 +202,13 @@ class PersonController extends Controller
         return $this->redirect($this->generateUrl('ecgpb.member.person.index'));
     }
 
-    public function optimizedMemberPictureAction($id, MemberListGenerator $generator)
+    /**
+     * Generate and return the optimized member picture.
+     *
+     * @Route(name="ecgpb.member.person.optimized_member_picture", path="/{id}/optimized_member_picture", defaults={"_locale"="de"})
+     */
+    public function optimizedMemberPictureAction(Person $person, MemberListGenerator $generator)
     {
-        $em = $this->getDoctrine()->getManager();
-        $person = $em->getRepository('AppBundle:Person')->find($id);
-        if (!$person) {
-            throw $this->createNotFoundException('Unable to find Person entity.');
-        }
-
         $options = new \Tcpdf\Extension\Attribute\BackgroundFormatterOptions(
             null,
             MemberListGenerator::GRID_PICTURE_CELL_WIDTH,

@@ -2,39 +2,6 @@ ecgpb.member.index.encode_password:
     path: /index/encode_password
     defaults: { _controller: "AppBundle:Index:encodePassword", _locale: de }
 
-# person actions
-
-ecgpb.member.person.index:
-    path:  /person/index
-    defaults: { _controller: "AppBundle:Person:index", _locale: de }
-
-ecgpb.member.person.new:
-    path:  /person/new
-    defaults: { _controller: "AppBundle:Person:new", _locale: de }
-
-ecgpb.member.person.create:
-    path:  /person/create
-    defaults: { _controller: "AppBundle:Person:create", _locale: de }
-    requirements: { _method: post }
-
-ecgpb.member.person.edit:
-    path:  /person/{id}/edit
-    defaults: { _controller: "AppBundle:Person:edit", _locale: de }
-
-ecgpb.member.person.update:
-    path:  /person/{id}/update
-    defaults: { _controller: "AppBundle:Person:update", _locale: de }
-    requirements: { _method: post|put }
-
-ecgpb.member.person.delete:
-    path:  /person/{id}/delete
-    defaults: { _controller: "AppBundle:Person:delete", _locale: de }
-
-ecgpb.member.person.optimized_member_picture:
-    path:  /person/optimized_member_picture/{id}
-    defaults: { _controller: "AppBundle:Person:optimizedMemberPicture", _locale: de }
-
-
 # address routes
 
 ecgpb.member.address:
