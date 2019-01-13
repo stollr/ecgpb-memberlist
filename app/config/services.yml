@@ -34,10 +34,10 @@ services:
                 ecgpb.contact.zip: %ecgpb.contact.zip%
                 ecgpb.contact.city: %ecgpb.contact.city%
                 ecgpb.contact.main_phone: %ecgpb.contact.main_phone%
+                ecgpb.contact.office_phone_label: %ecgpb.contact.office_phone_label%
                 ecgpb.contact.office_phone: %ecgpb.contact.office_phone%
                 ecgpb.contact.story_phone: %ecgpb.contact.story_phone%
                 ecgpb.contact.kitchen_phone: %ecgpb.contact.kitchen_phone%
-                ecgpb.contact.gfh_phone: %ecgpb.contact.gfh_phone%
                 ecgpb.contact.library_phone: %ecgpb.contact.library_phone%
                 ecgpb.contact.library_email: %ecgpb.contact.library_email%
                 ecgpb.contact.bank.iban: %ecgpb.contact.bank.iban%

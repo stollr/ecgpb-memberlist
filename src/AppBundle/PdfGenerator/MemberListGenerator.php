@@ -181,20 +181,16 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->newCell($this->parameters['ecgpb.contact.main_phone'])->setWidth(50)->end()
                 ->end()
                 ->newRow()
-                    ->newCell('Büro')->setWidth(70)->end()
+                    ->newCell($this->parameters['ecgpb.contact.office_phone_label'])->setWidth(70)->end()
                     ->newCell($this->parameters['ecgpb.contact.office_phone'])->setWidth(50)->end()
-                ->end()
-                ->newRow()
-                    ->newCell('Geschichten-Telefon')->setWidth(70)->end()
-                    ->newCell($this->parameters['ecgpb.contact.story_phone'])->setWidth(50)->end()
                 ->end()
                 ->newRow()
                     ->newCell('Küche')->setWidth(70)->end()
                     ->newCell($this->parameters['ecgpb.contact.kitchen_phone'])->setWidth(50)->end()
                 ->end()
                 ->newRow()
-                    ->newCell('Gefährdetenhilfe PB')->setWidth(70)->end()
-                    ->newCell($this->parameters['ecgpb.contact.gfh_phone'])->setWidth(50)->end()
+                    ->newCell('Geschichten-Telefon')->setWidth(70)->end()
+                    ->newCell($this->parameters['ecgpb.contact.story_phone'])->setWidth(50)->end()
                 ->end()
             ->end()
         ;
@@ -219,7 +215,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->newCell($this->parameters['ecgpb.contact.library_phone'])->setWidth(50)->end()
                 ->end()
                 ->newRow()
-                    ->newCell('Email')->setWidth(35)->end()
+                    ->newCell('E-Mail')->setWidth(35)->end()
                     ->newCell($this->parameters['ecgpb.contact.library_email'])->setWidth(50)->end()
                 ->end()
             ->end()
@@ -260,7 +256,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->useFontStyleNormal($pdf);
         $this->useFontSizeL($pdf);
         $msg = 'Präsentationen können der Technik bzw. dem Beamerteam über '
-             . 'folgen- de Email-Adresse zugesandt werden:';
+             . 'folgen- de E-Mail-Adresse zugesandt werden:';
         $this->writeText($pdf, $msg);
         $pdf->SetY($pdf->GetY() + 3);
         $this->writeText($pdf, $this->parameters['ecgpb.contact.technique.email']);
@@ -380,7 +376,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                             ->setPadding(0.75)
                         ->end()
                         ->newCell()
-                            ->setText($this->translator->trans('Mobile, Email'))
+                            ->setText($this->translator->trans('Mobile, E-Mail'))
                             ->setAlign('C')
                             ->setBorder(1)
                             ->setPadding(0.75)

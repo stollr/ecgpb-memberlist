@@ -21,10 +21,10 @@ parameters:
     ecgpb.contact.zip:                      33100
     ecgpb.contact.city:                     Paderborn
     ecgpb.contact.main_phone:               placeholder
+    ecgpb.contact.office_phone_label:       placeholder
     ecgpb.contact.office_phone:             placeholder
     ecgpb.contact.story_phone:              placeholder
     ecgpb.contact.kitchen_phone:            placeholder
-    ecgpb.contact.gfh_phone:                placeholder
     ecgpb.contact.library_phone:            placeholder
     ecgpb.contact.library_email:            placeholder
     ecgpb.contact.bank.iban:                placeholder
