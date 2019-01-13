@@ -15,20 +15,14 @@ use AppBundle\Entity\WorkingGroup;
 
 class WorkingGroupType extends AbstractType
 {
-    private $workingGroup;
-
-    public function __construct(WorkingGroup $workingGroup)
-    {
-        $this->workingGroup = $workingGroup;
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $workingGroup = $this->workingGroup;
+        $workingGroup = $options['working_group'];
+
         $builder
             ->add('number', IntegerType::class, array(
                 'label' => 'Group Number',
@@ -39,7 +33,7 @@ class WorkingGroupType extends AbstractType
                     'Men' => Person::GENDER_MALE,
                     'Women' => Person::GENDER_FEMALE,
                 ),
-                'read_only' => $workingGroup->getId() > 0,
+                'disabled' => $workingGroup->getId() > 0,
             ))
         ;
         if ($workingGroup->getId()) {
@@ -60,7 +54,7 @@ class WorkingGroupType extends AbstractType
                     }
                 ))
                 ->add('persons', CollectionType::class, array(
-                    'entry_type' => 'entity',
+                    'entry_type' => EntityType::class,
                     'label' => 'Persons',
                     'prototype' => true,
                     'allow_add' => true,
@@ -71,7 +65,10 @@ class WorkingGroupType extends AbstractType
                     'entry_options' => array(
                         'label' => false,
                         'class' => 'AppBundle\Entity\Person',
-                        'choice_label' => 'lastnameFirstnameAndDob',
+                        'choice_label' => function (Person $person) {
+                            return $person->getAddress()->getFamilyName() . ', ' . $person->getFirstname() . ' (' . $person->getDob()->format('d.m.Y') . ')';
+                        },
+                        'placeholder' => '',
                         'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
                             return $repo->createQueryBuilder('person')
                                 ->select('person')
@@ -96,8 +93,11 @@ class WorkingGroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\WorkingGroup',
+            'data_class' => WorkingGroup::class,
         ));
+
+        $resolver->setRequired('working_group');
+        $resolver->setAllowedTypes('working_group', WorkingGroup::class);
     }
 
     /**

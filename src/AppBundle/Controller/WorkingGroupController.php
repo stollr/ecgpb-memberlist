@@ -86,13 +86,14 @@ class WorkingGroupController extends Controller
     */
     private function createCreateForm(WorkingGroup $workingGroup)
     {
-        $form = $this->createForm(new WorkingGroupType($workingGroup), $workingGroup, array(
+        $form = $this->createForm(WorkingGroupType::class, $workingGroup, array(
             'action' => $this->generateUrl('ecgpb.member.workinggroup.create'),
             'method' => 'POST',
             'attr' => array(
                 'class' => 'form-horizontal',
                 'role' => 'form',
             ),
+            'working_group' => $workingGroup,
         ));
 
         $form->add('submit', SubmitType::class, array('label' => 'Create'));
@@ -132,13 +133,14 @@ class WorkingGroupController extends Controller
     */
     private function createEditForm(WorkingGroup $workingGroup)
     {
-        $form = $this->createForm(new WorkingGroupType($workingGroup), $workingGroup, array(
+        $form = $this->createForm(WorkingGroupType::class, $workingGroup, array(
             'action' => $this->generateUrl('ecgpb.member.workinggroup.update', array('id' => $workingGroup->getId())),
             'method' => 'PUT',
             'attr' => array(
                 'class' => 'form-horizontal',
                 'role' => 'form',
             ),
+            'working_group' => $workingGroup,
         ));
 
         $form->add('submit', SubmitType::class, array('label' => 'Save'));
