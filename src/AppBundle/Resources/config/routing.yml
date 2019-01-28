@@ -30,20 +30,6 @@ ecgpb.member.ministry_category.update:
     requirements:
         _format: json
 
-# ministry groups actions
-
-ecgpb.member.ministry_group.index:
-    path:  /ministry_group/
-    methods: [GET]
-    defaults: { _controller: "AppBundle:MinistryGroup:index" }
-
-ecgpb.member.ministry_group.update:
-    path:  /ministry_group/
-    methods: [POST, PUT]
-    defaults: { _controller: "AppBundle:MinistryGroup:update" }
-    requirements:
-        _format: json
-
 # export actions
 
 ecgpb.member.export:

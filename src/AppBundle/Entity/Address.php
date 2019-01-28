@@ -14,14 +14,14 @@ use AppBundle\Entity\Person;
 class Address
 {
     /**
-     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
      */
     private $id;
 
     /**
-     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     * @Groups({"MinistryCategoryListing"})
      *
      * @var string
      */

@@ -37,7 +37,7 @@ class Person
     const WORKER_STATUS_UNABLE_RESIDENCE = 4;
     
     /**
-     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
      */
@@ -51,7 +51,7 @@ class Person
     private $lastname;
 
     /**
-     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     * @Groups({"MinistryCategoryListing"})
      *
      * @var string
      */
@@ -60,7 +60,7 @@ class Person
     /**
      * Date of birth
      *
-     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     * @Groups({"MinistryCategoryListing"})
      *
      * @var \DateTime
      */
@@ -99,7 +99,7 @@ class Person
     private $maidenName;
 
     /**
-     * @Groups({"MinistryCategoryListing", "MinistryGroupListing"})
+     * @Groups({"MinistryCategoryListing"})
      *
      * @var \AppBundle\Entity\Address
      */
@@ -125,11 +125,6 @@ class Person
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $ministryGroups;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     private $ministryResponsibleAssignments;
 
     /**
@@ -137,7 +132,6 @@ class Person
      */
     public function __construct()
     {
-        $this->ministryGroups = new ArrayCollection();
         $this->ministryResponsibleAssignments = new ArrayCollection();
     }
 
@@ -463,39 +457,6 @@ class Person
     public function getOptgroupLabelInWorkingGroupDropdown()
     {
         return $this->getWorkingGroup() ? 'Assigned' : 'Not assigned';
-    }
-
-    /**
-     * Add ministryGroups
-     *
-     * @param \AppBundle\Entity\Ministry\Group $ministryGroups
-     * @return Person
-     */
-    public function addMinistryGroup(\AppBundle\Entity\Ministry\Group $ministryGroups)
-    {
-        $this->ministryGroups[] = $ministryGroups;
-
-        return $this;
-    }
-
-    /**
-     * Remove ministryGroups
-     *
-     * @param \AppBundle\Entity\Ministry\Group $ministryGroups
-     */
-    public function removeMinistryGroup(\AppBundle\Entity\Ministry\Group $ministryGroups)
-    {
-        $this->ministryGroups->removeElement($ministryGroups);
-    }
-
-    /**
-     * Get ministryGroups
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getMinistryGroups()
-    {
-        return $this->ministryGroups;
     }
 
     /**

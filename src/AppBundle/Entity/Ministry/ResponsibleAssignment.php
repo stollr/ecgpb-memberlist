@@ -30,11 +30,6 @@ class ResponsibleAssignment
      */
     private $person;
 
-    /**
-     * @var \AppBundle\Entity\Ministry\Group
-     */
-    private $group;
-
 
     /**
      * Get id
@@ -89,36 +84,5 @@ class ResponsibleAssignment
     public function getPerson()
     {
         return $this->person;
-    }
-
-    /**
-     * Set group
-     *
-     * @param \AppBundle\Entity\Ministry\Group $group
-     * @return ResponsibleAssignment
-     */
-    public function setGroup(\AppBundle\Entity\Ministry\Group $group = null)
-    {
-        $this->group = $group;
-        return $this;
-    }
-
-    /**
-     * Get group
-     *
-     * @return \AppBundle\Entity\Ministry\Group 
-     */
-    public function getGroup()
-    {
-        return $this->group;
-    }
-
-    /**
-     * @Assert\IsTrue(message="A ministry's contact assignment cannot be assigned to a person and at the same time to a group.")
-     * @return boolean
-     */
-    public function validateGroupAndPersonNotSetBoth()
-    {
-        return !($this->getPerson() && $this->getGroup());
     }
 }

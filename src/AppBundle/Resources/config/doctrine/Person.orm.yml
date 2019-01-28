@@ -72,8 +72,4 @@ AppBundle\Entity\Person:
                 name: working_group_id
                 nullable: true
                 onDelete: 'SET NULL'
-    manyToMany:
-        ministryGroups:
-            targetEntity: AppBundle\Entity\Ministry\Group
-            mappedBy: persons
     lifecycleCallbacks: {  }
