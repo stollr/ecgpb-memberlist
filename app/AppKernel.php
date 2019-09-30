@@ -19,7 +19,6 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
-            new Liuggio\ExcelBundle\LiuggioExcelBundle(),
             // own bundles
             new AppBundle\AppBundle(),
         );
