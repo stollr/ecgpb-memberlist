@@ -2,9 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Service\BirthdayExcelGenerator;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Person;
@@ -102,40 +106,21 @@ class ExportController extends Controller
     /**
      * @Route(name="ecgpb.member.export.birthday_excel", path="/birthday_excel")
      */
-    public function birthdayExcelAction()
+    public function birthdayExcel(TranslatorInterface $translator, BirthdayExcelGenerator $generator)
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Person');
-        $persons = $repo->findAllForBirthdayList();
-
-        $translator = $this->get('translator');
         $title = $translator->trans('Birthday List') . ' ' . date('Y');
+        $spreadsheet = $generator->generate();
 
-        $spreadsheet = $this->get('phpexcel')->createPHPExcelObject(); /* @var $spreadsheet \PHPExcel */
-        $worksheet = $spreadsheet->getActiveSheet();
-
-        $worksheet->setCellValueByColumnAndRow(0, 1, $title);
-        $worksheet->mergeCells('A1:C1');
-        $worksheet->setCellValueByColumnAndRow(0, 3, $translator->trans('DOB'));
-        $worksheet->setCellValueByColumnAndRow(1, 3, $translator->trans('Name'));
-        $worksheet->setCellValueByColumnAndRow(2, 3, $translator->trans('Age'));
-
-        foreach ($persons as $index => $person) {
-            $row = $index + 4;
-            $worksheet->setCellValueByColumnAndRow(0, $row, $person->getDob()->format('d.m.Y'));
-            $worksheet->setCellValueByColumnAndRow(1, $row, $person->getFirstname().' '.($person->getLastname() ?: $person->getAddress()->getFamilyName()));
-            $worksheet->setCellValueByColumnAndRow(2, $row, date('Y') - $person->getDob()->format('Y'));
-        }
-
-        $worksheet->getColumnDimension('A')->setAutoSize(true);
-        $worksheet->getColumnDimension('B')->setAutoSize(true);
-        $worksheet->getColumnDimension('C')->setAutoSize(true);
-
-        $writer = $this->get('phpexcel')->createWriter($spreadsheet, 'Excel2007');
-
-        return $this->get('phpexcel')->createStreamedResponse($writer, 200, array(
+        $response = new StreamedResponse(null, 200, [
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'Content-Disposition' => sprintf('attachment; filename="%s.xlsx"', $title),
-        ));
+        ]);
+        $response->setCallback(function () use ($spreadsheet) {
+            $writer = new Xlsx($spreadsheet);
+            $writer->save('php://output');
+        });
+
+        return $response;
     }
 
     /**
