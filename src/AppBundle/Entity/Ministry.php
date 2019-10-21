@@ -2,15 +2,24 @@
 
 namespace AppBundle\Entity;
 
-use Symfony\Component\Serializer\Annotation\Groups;
 use AppBundle\Entity\Ministry\Category;
+use AppBundle\Entity\Ministry\ResponsibleAssignment;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * AppBundle\Entity\Ministry
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="ministry")
  */
 class Ministry
 {
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
@@ -18,6 +27,8 @@ class Ministry
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=40)
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var string
@@ -25,6 +36,8 @@ class Ministry
     private $name;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var string
@@ -32,6 +45,8 @@ class Ministry
     private $description;
 
     /**
+     * @ORM\Column(type="smallint", nullable=true)
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
@@ -39,14 +54,19 @@ class Ministry
     private $position;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Ministry\Category", inversedBy="ministries")
+     * @ORM\JoinColumn(name="category_id", nullable=false, onDelete="CASCADE")
+     *
      * @var Category
      */
     private $category;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ministry\ResponsibleAssignment", mappedBy="ministry", cascade={"persist", "remove"})
+     *
      * @Groups({"MinistryCategoryListing"})
      *
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Doctrine\Common\Collections\Collection|ResponsibleAssignment[]
      */
     private $responsibleAssignments;
 
@@ -137,10 +157,10 @@ class Ministry
     /**
      * Add responsibleAssignments
      *
-     * @param \AppBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment
+     * @param ResponsibleAssignment $responsibleAssignment
      * @return Ministry
      */
-    public function addResponsibleAssignment(\AppBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment)
+    public function addResponsibleAssignment(ResponsibleAssignment $responsibleAssignment)
     {
         $this->responsibleAssignments[] = $responsibleAssignment;
         $responsibleAssignment->setMinistry($this);
@@ -150,9 +170,9 @@ class Ministry
     /**
      * Remove responsibleAssignments
      *
-     * @param \AppBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment
+     * @param ResponsibleAssignment $responsibleAssignment
      */
-    public function removeResponsibleAssignment(\AppBundle\Entity\Ministry\ResponsibleAssignment $responsibleAssignment)
+    public function removeResponsibleAssignment(ResponsibleAssignment $responsibleAssignment)
     {
         $this->responsibleAssignments->removeElement($responsibleAssignment);
     }
@@ -160,7 +180,7 @@ class Ministry
     /**
      * Get responsibleAssignments
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection|ResponsibleAssignment[]
      */
     public function getResponsibleAssignments()
     {

@@ -10,10 +10,17 @@ use AppBundle\Entity\Person;
 
 /**
  * AppBundle\Entity\Address
+ *
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AddressRepository")
+ * @ORM\Table(name="address")
  */
 class Address
 {
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
@@ -21,6 +28,7 @@ class Address
     private $id;
 
     /**
+     * @ORM\Column(name="familyName", type="string", length=50)
      * @Groups({"MinistryCategoryListing"})
      *
      * @var string
@@ -28,26 +36,36 @@ class Address
     private $familyName;
 
     /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     *
      * @var string
      */
     private $phone;
 
     /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     *
      * @var string
      */
     private $street;
 
     /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+     *
      * @var string
      */
     private $zip;
 
     /**
+     * @ORM\Column(type="string", length=40, nullable=true)
+     *
      * @var string
      */
     private $city;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Person", cascade={"persist", "remove"}, mappedBy="address", orphanRemoval=true)
+     *
      * @var \Doctrine\Common\Collections\Collection
      */
     private $persons;
