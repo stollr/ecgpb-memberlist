@@ -10,6 +10,9 @@ use AppBundle\Entity\Ministry\ResponsibleAssignment;
 
 /**
  * AppBundle\Entity\Person
+ *
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PersonRepository")
+ * @ORM\Table(name="person")
  */
 class Person
 {
@@ -37,6 +40,9 @@ class Person
     const WORKER_STATUS_UNABLE_RESIDENCE = 4;
     
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
      * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
@@ -46,11 +52,15 @@ class Person
     /**
      * Last name can be empty. In that case the last name is taken from
      * address entity (family name)
+     *
+     * @ORM\Column(type="string", length=30, nullable=true)
+     *
      * @var string
      */
     private $lastname;
 
     /**
+     * @ORM\Column(type="string", length=30)
      * @Groups({"MinistryCategoryListing"})
      *
      * @var string
@@ -60,6 +70,7 @@ class Person
     /**
      * Date of birth
      *
+     * @ORM\Column(type="date")
      * @Groups({"MinistryCategoryListing"})
      *
      * @var \DateTime
@@ -68,37 +79,53 @@ class Person
     
     /**
      * Gender ('m' or 'f')
+     *
+     * @ORM\Column(type="string", length=1)
+     *
      * @var string
      */
     private $gender;
 
     /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     *
      * @var string
      */
     private $mobile;
 
     /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     *
      * @var string
      */
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     *
      * @var string
      */
     private $phone2;
 
     /**
      * The label (deutsch: Beschriftung) of the second phone number.
+     *
+     * @ORM\Column(name="phone2_label", type="string", length=40, nullable=true)
+     *
      * @var string
      */
     private $phone2Label;
 
     /**
+     * @ORM\Column(name="maiden_name", type="string", length=40, nullable=true)
+     *
      * @var string
      */
     private $maidenName;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Address", inversedBy="persons", cascade={"persist"})
+     * @ORM\JoinColumn(name="address_id", nullable=false)
      * @Groups({"MinistryCategoryListing"})
      *
      * @var \AppBundle\Entity\Address
@@ -106,6 +133,9 @@ class Person
     private $address;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\WorkingGroup", inversedBy="persons")
+     * @ORM\JoinColumn(name="working_group_id", nullable=true, onDelete="SET NULL")
+     *
      * @var \AppBundle\Entity\WorkingGroup
      */
     private $workingGroup;
@@ -113,16 +143,23 @@ class Person
     /**
      * Defines whether person is able to work or not.
      * See class constants self::WORKER_STATUS_*
+     *
+     * @ORM\Column(name="worker_status", type="smallint", nullable=false)
+     *
      * @var int
      */
     private $workerStatus;
 
     /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\WorkingGroup", mappedBy="leader")
+     *
      * @var \AppBundle\Entity\WorkingGroup
      */
     private $leaderOf;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ministry\ResponsibleAssignment", mappedBy="person", cascade={"remove"})
+     *
      * @var \Doctrine\Common\Collections\Collection
      */
     private $ministryResponsibleAssignments;

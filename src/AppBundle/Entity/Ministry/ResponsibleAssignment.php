@@ -8,10 +8,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ResponsibleAssignment
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="ministry_assignment_responsible")
  */
 class ResponsibleAssignment
 {
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
@@ -19,11 +26,17 @@ class ResponsibleAssignment
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Ministry", inversedBy="responsibleAssignments")
+     * @ORM\JoinColumn(name="ministry_id", nullable=false, onDelete="CASCADE")
+     *
      * @var \AppBundle\Entity\Ministry
      */
     private $ministry;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Person", inversedBy="ministryResponsibleAssignments")
+     * @ORM\JoinColumn(name="person_id", nullable=true, onDelete="CASCADE")
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var \AppBundle\Entity\Person

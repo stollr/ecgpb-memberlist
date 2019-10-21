@@ -2,14 +2,22 @@
 
 namespace AppBundle\Entity\Ministry;
 
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * AppBundle\Entity\Ministry\Category
+ *
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Ministry\CategoryRepository")
+ * @ORM\Table(name="ministry_category")
  */
 class Category
 {
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
@@ -17,6 +25,8 @@ class Category
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=40)
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var string
@@ -24,6 +34,10 @@ class Category
     private $name;
 
     /**
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Person")
+     * @ORM\JoinColumn(name="responsible_person_id", nullable=true, onDelete="SET NULL")
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var \AppBundle\Entity\Person
@@ -31,6 +45,8 @@ class Category
     private $responsible;
 
     /**
+     * @ORM\Column(type="smallint", nullable=true)
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
@@ -38,6 +54,8 @@ class Category
     private $position;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ministry", cascade={"persist"}, mappedBy="category")
+     *
      * @Groups({"MinistryCategoryListing"})
      *
      * @var \Doctrine\Common\Collections\Collection

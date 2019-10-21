@@ -8,30 +8,48 @@ use AppBundle\Entity\Person;
 
 /**
  * AppBundle\Entity\WorkingGroup
+ *
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\WorkingGroupRepository")
+ * @ORM\Table(name="working_group", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="uniqueGenderNumber", columns={"gender", "number"})
+ * })
  */
 class WorkingGroup
 {
     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     *
      * @var integer
      */
     private $id;
 
     /**
+     * @ORM\Column(type="integer")
+     *
      * @var int
      */
     private $number;
 
     /**
+     * @ORM\Column(type="string", length=1)
+     *
      * @var string
      */
     private $gender;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Person", mappedBy="workingGroup")
+     *
      * @var \Doctrine\Common\Collections\Collection
      */
     private $persons;
 
     /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person", inversedBy="leaderOf")
+     * @ORM\JoinColumn(name="leader_person_id", nullable=true)
+     *
      * @var \AppBundle\Entity\Person
      */
     private $leader;
