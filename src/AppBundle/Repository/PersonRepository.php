@@ -121,19 +121,26 @@ class PersonRepository extends EntityRepository
     }
 
     /**
+     * Find persons that are under 65 years old but unable to work.
+     *
      * @return array|Person[]
      */
     public function findPersonsUnableToWork()
     {
+        $minimumAge = new \DateTime();
+        $minimumAge->modify('-65 year');
+
         $dql = 'SELECT person, address
                 FROM AppBundle:Person person
                 JOIN person.address address
                 WHERE person.workerStatus != :depending
+                AND person.dob > :minimum_age
                 ORDER By address.familyName, person.firstname'
         ;
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('depending', Person::WORKER_STATUS_DEPENDING);
+        $query->setParameter('minimum_age', $minimumAge->format('Y-m-d'));
 
         return $query->getResult();
     }
