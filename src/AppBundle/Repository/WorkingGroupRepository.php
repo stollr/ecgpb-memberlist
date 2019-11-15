@@ -15,7 +15,7 @@ class WorkingGroupRepository extends EntityRepository
     public function findAllForListing()
     {
         $minimumAge = new \DateTime();
-        $minimumAge->modify('-60 year');
+        $minimumAge->modify('-65 year');
 
         $dql = 'SELECT workingGroup, leader, person ' .
                'FROM AppBundle:WorkingGroup workingGroup ' .
@@ -35,7 +35,7 @@ class WorkingGroupRepository extends EntityRepository
     public function findAllForMemberPdf()
     {
         $minimumAge = new \DateTime();
-        $minimumAge->modify('-60 year');
+        $minimumAge->modify('-65 year');
 
         $dql = 'SELECT workingGroup, person, leader ' .
                'FROM AppBundle:WorkingGroup workingGroup ' .

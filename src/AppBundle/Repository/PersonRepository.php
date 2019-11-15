@@ -101,7 +101,7 @@ class PersonRepository extends EntityRepository
     public function findPersonsToBeAssignedToWorkingGroup()
     {
         $minimumAge = new \DateTime();
-        $minimumAge->modify('-60 year');
+        $minimumAge->modify('-65 year');
 
         $dql = 'SELECT person, address
                 FROM AppBundle:Person person

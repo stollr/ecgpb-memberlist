@@ -68,7 +68,7 @@ class ExportController extends Controller
             /* @var $person \AppBundle\Entity\Person */
             $workingGroup = null;
             if ($person->getWorkerStatus() == Person::WORKER_STATUS_DEPENDING
-                && $person->getAge() < 60 && $person->getWorkingGroup()
+                && $person->getAge() < 65 && $person->getWorkingGroup()
             ) {
                 $workingGroup = $person->getWorkingGroup()->getDisplayName($this->get('translator'));
             }

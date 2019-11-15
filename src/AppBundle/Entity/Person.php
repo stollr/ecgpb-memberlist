@@ -25,7 +25,7 @@ class Person
     const WORKER_STATUS_DEPENDING = 1;
 
     /**
-     * People younger than 60 years, but not able to work anymore.
+     * People younger than 65 years, but not able to work anymore.
      */
     const WORKER_STATUS_INVALID = 2;
 
@@ -465,7 +465,7 @@ class Person
     public static function getAllWorkerStatus()
     {
         return array(
-            self::WORKER_STATUS_DEPENDING => 'Depending on Age (< 60)',
+            self::WORKER_STATUS_DEPENDING => 'Depending on Age (< 65)',
             self::WORKER_STATUS_INVALID => 'Invalid/Sick',
             self::WORKER_STATUS_OTHER_MINISTRIES => 'Other Ministries',
             self::WORKER_STATUS_UNABLE_RESIDENCE => 'Residence far away',
