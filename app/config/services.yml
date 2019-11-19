@@ -23,28 +23,28 @@ services:
     AppBundle\Helper\PersonHelper:
         arguments:
             $parameters:
-                ecgpb.members.photo_path: %ecgpb.members.photo_path%
-                ecgpb.members.photo_path_optimized: %ecgpb.members.photo_path_optimized%
+                ecgpb.members.photo_path: '%ecgpb.members.photo_path%'
+                ecgpb.members.photo_path_optimized: '%ecgpb.members.photo_path_optimized%'
 
     AppBundle\PdfGenerator\MemberListGenerator:
         arguments:
             $parameters:
-                ecgpb.contact.name: %ecgpb.contact.name%
-                ecgpb.contact.street: %ecgpb.contact.street%
-                ecgpb.contact.zip: %ecgpb.contact.zip%
-                ecgpb.contact.city: %ecgpb.contact.city%
-                ecgpb.contact.main_phone: %ecgpb.contact.main_phone%
-                ecgpb.contact.office_phone_label: %ecgpb.contact.office_phone_label%
-                ecgpb.contact.office_phone: %ecgpb.contact.office_phone%
-                ecgpb.contact.story_phone: %ecgpb.contact.story_phone%
-                ecgpb.contact.kitchen_phone: %ecgpb.contact.kitchen_phone%
-                ecgpb.contact.library_phone: %ecgpb.contact.library_phone%
-                ecgpb.contact.library_email: %ecgpb.contact.library_email%
-                ecgpb.contact.bank.iban: %ecgpb.contact.bank.iban%
-                ecgpb.contact.bank.bic: %ecgpb.contact.bank.bic%
-                ecgpb.contact.memberlist.responsible: %ecgpb.contact.memberlist.responsible%
-                ecgpb.contact.memberlist.email: %ecgpb.contact.memberlist.email%
-                ecgpb.contact.technique.email: %ecgpb.contact.technique.email%
+                ecgpb.contact.name: '%ecgpb.contact.name%'
+                ecgpb.contact.street: '%ecgpb.contact.street%'
+                ecgpb.contact.zip: '%ecgpb.contact.zip%'
+                ecgpb.contact.city: '%ecgpb.contact.city%'
+                ecgpb.contact.main_phone: '%ecgpb.contact.main_phone%'
+                ecgpb.contact.office_phone_label: '%ecgpb.contact.office_phone_label%'
+                ecgpb.contact.office_phone: '%ecgpb.contact.office_phone%'
+                ecgpb.contact.story_phone: '%ecgpb.contact.story_phone%'
+                ecgpb.contact.kitchen_phone: '%ecgpb.contact.kitchen_phone%'
+                ecgpb.contact.library_phone: '%ecgpb.contact.library_phone%'
+                ecgpb.contact.library_email: '%ecgpb.contact.library_email%'
+                ecgpb.contact.bank.iban: '%ecgpb.contact.bank.iban%'
+                ecgpb.contact.bank.bic: '%ecgpb.contact.bank.bic%'
+                ecgpb.contact.memberlist.responsible: '%ecgpb.contact.memberlist.responsible%'
+                ecgpb.contact.memberlist.email: '%ecgpb.contact.memberlist.email%'
+                ecgpb.contact.technique.email: '%ecgpb.contact.technique.email%'
 
     AppBundle\Event\DoctrineEventSubscriber:
         calls:

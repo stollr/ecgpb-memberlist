@@ -14,7 +14,7 @@ security:
             memory:
                 users:
                     admin:
-                        password: %ecgpb.security.user.admin.password%
+                        password: '%ecgpb.security.user.admin.password%'
                         roles: [ 'ROLE_SUPER_ADMIN' ]
 
     firewalls:
