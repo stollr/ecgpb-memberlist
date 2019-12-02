@@ -1,12 +1,12 @@
 <?php
 
-namespace AppBundle\Helper;
+namespace App\Helper;
 
-use AppBundle\Entity\Person;
+use App\Entity\Person;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * AppBundle\Helper\PersonHelper
+ * App\Helper\PersonHelper
  *
  * @author naitsirch
  */
@@ -47,7 +47,7 @@ class PersonHelper
             return $ids;
         }
 
-        $repo = $this->doctrine->getRepository('AppBundle:Person');
+        $repo = $this->doctrine->getRepository(Person::class);
         $personDatas = $repo->createQueryBuilder('person')
             ->select('person.id', 'person.firstname', 'address.familyName', 'person.dob')
             ->join('person.address', 'address')

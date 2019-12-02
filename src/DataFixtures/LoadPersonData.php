@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\DataFixtures\ORM;
+namespace App\DataFixtures;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\Address;
-use AppBundle\Entity\Person;
+use App\Entity\Address;
+use App\Entity\Person;
 
 /**
  * Description of LoadPersonData

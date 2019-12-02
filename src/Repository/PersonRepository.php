@@ -1,12 +1,12 @@
 <?php
 
-namespace AppBundle\Repository;
+namespace App\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Person;
+use App\Entity\Person;
 
 /**
- * AppBundle\Repository\PersonRepository
+ * App\Repository\PersonRepository
  *
  * @author naitsirch
  */
@@ -104,7 +104,7 @@ class PersonRepository extends EntityRepository
         $minimumAge->modify('-65 year');
 
         $dql = 'SELECT person, address
-                FROM AppBundle:Person person
+                FROM App\Entity\Person person
                 JOIN person.address address
                 LEFT JOIN person.leaderOf leadingWorkingGroup
                 WHERE (person.workingGroup IS NULL AND leadingWorkingGroup.id IS NULL)
@@ -131,7 +131,7 @@ class PersonRepository extends EntityRepository
         $minimumAge->modify('-65 year');
 
         $dql = 'SELECT person, address
-                FROM AppBundle:Person person
+                FROM App\Entity\Person person
                 JOIN person.address address
                 WHERE person.workerStatus != :depending
                 AND person.dob > :minimum_age
@@ -147,7 +147,7 @@ class PersonRepository extends EntityRepository
     
     public function getAllEmailAdresses()
     {
-        $dql = 'SELECT person.email FROM AppBundle:Person person WHERE person.email IS NOT NULL';
+        $dql = 'SELECT person.email FROM App\Entity\Person person WHERE person.email IS NOT NULL';
         $query = $this->getEntityManager()->createQuery($dql);
         
         $emails = array();

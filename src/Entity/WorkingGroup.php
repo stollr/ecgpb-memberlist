@@ -1,15 +1,15 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Translation\TranslatorInterface;
-use AppBundle\Entity\Person;
+use App\Entity\Person;
 
 /**
- * AppBundle\Entity\WorkingGroup
+ * App\Entity\WorkingGroup
  *
- * @ORM\Entity(repositoryClass="AppBundle\Repository\WorkingGroupRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\WorkingGroupRepository")
  * @ORM\Table(name="working_group", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="uniqueGenderNumber", columns={"gender", "number"})
  * })
@@ -40,17 +40,17 @@ class WorkingGroup
     private $gender;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Person", mappedBy="workingGroup")
+     * @ORM\OneToMany(targetEntity="App\Entity\Person", mappedBy="workingGroup")
      *
      * @var \Doctrine\Common\Collections\Collection
      */
     private $persons;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person", inversedBy="leaderOf")
+     * @ORM\OneToOne(targetEntity="App\Entity\Person", inversedBy="leaderOf")
      * @ORM\JoinColumn(name="leader_person_id", nullable=true)
      *
-     * @var \AppBundle\Entity\Person
+     * @var \App\Entity\Person
      */
     private $leader;
 
@@ -100,10 +100,10 @@ class WorkingGroup
     /**
      * Add persons
      *
-     * @param \AppBundle\Entity\Person $person
+     * @param \App\Entity\Person $person
      * @return WorkingGroup
      */
-    public function addPerson(\AppBundle\Entity\Person $person)
+    public function addPerson(\App\Entity\Person $person)
     {
         if (!$this->persons->contains($person)) {
             $this->persons->add($person);
@@ -117,9 +117,9 @@ class WorkingGroup
     /**
      * Remove persons
      *
-     * @param \AppBundle\Entity\Person $person
+     * @param \App\Entity\Person $person
      */
-    public function removePerson(\AppBundle\Entity\Person $person)
+    public function removePerson(\App\Entity\Person $person)
     {
         $this->persons->removeElement($person);
         $person->setWorkingGroup(null);
@@ -138,10 +138,10 @@ class WorkingGroup
     /**
      * Set leader
      *
-     * @param \AppBundle\Entity\Person $leader
+     * @param \App\Entity\Person $leader
      * @return WorkingGroup
      */
-    public function setLeader(\AppBundle\Entity\Person $leader = null)
+    public function setLeader(\App\Entity\Person $leader = null)
     {
         $this->leader = $leader;
 
@@ -153,7 +153,7 @@ class WorkingGroup
     /**
      * Get leader
      *
-     * @return \AppBundle\Entity\Person 
+     * @return \App\Entity\Person 
      */
     public function getLeader()
     {

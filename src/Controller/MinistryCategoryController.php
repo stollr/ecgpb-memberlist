@@ -1,34 +1,39 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace App\Controller;
 
+use App\Entity\Ministry\Category;
+use App\Entity\Person;
+use App\Form\Ministry\CategoryType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use AppBundle\Entity\Ministry\Category;
-use AppBundle\Form\Ministry\CategoryType;
 
 /**
- * AppBundle\Controller\MinistryCategoryController
+ * App\Controller\MinistryCategoryController
  *
+ * @Route("/ministry_category")
  * @/Security("has_role('ROLE_ADMIN')")
  */
 class MinistryCategoryController extends Controller
 {
     /**
      * Lists all Address entities.
+     *
+     * @Route(name="ecgpb.member.ministry_category.index", path="/", methods={"GET"})
      */
     public function indexAction(SerializerInterface $serializer)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repo = $em->getRepository('AppBundle:Ministry\Category'); /* @var $repo \AppBundle\Repository\Ministry\CategoryRepository */
+        $repo = $em->getRepository(Category::class); /* @var $repo \App\Repository\Ministry\CategoryRepository */
         $categories = $repo->findAllForListing();
 
-        $personRepo = $em->getRepository('AppBundle:Person');
+        $personRepo = $em->getRepository(Person::class);
         $persons = $personRepo->findAllForMinistryListing();
 
         // serializations
@@ -36,7 +41,7 @@ class MinistryCategoryController extends Controller
         $categoriesJson = $serializer->serialize($categories, 'json', $context);
         $personsJson = $serializer->serialize($persons, 'json', $context);
 
-        return $this->render('AppBundle:MinistryCategory:index.html.twig', array(
+        return $this->render('/MinistryCategory/index.html.twig', array(
             'categories_json' => $categoriesJson,
             'persons_json' => $personsJson,
         ));
@@ -45,8 +50,9 @@ class MinistryCategoryController extends Controller
     /**
      * Edits an existing Address entity.
      *
+     * @Route(name="ecgpb.member.ministry_category.update", path="/", methods={"POST", "PUT"}, requirements={"_format" = "json"})
      */
-    public function updateAction(Request $request, SerializerInterface $serializer)
+    public function update(Request $request, SerializerInterface $serializer)
     {
         if ('json' != $request->getContentType()) {
             throw new \InvalidArgumentException('Wrong content type provided. JSON is expected.');
@@ -56,7 +62,7 @@ class MinistryCategoryController extends Controller
             $em = $this->getDoctrine()->getManager();
             $clientMinistryCategories = json_decode($request->getContent(), true);
 
-            $categories = $em->getRepository('AppBundle:Ministry\Category')->findAll();
+            $categories = $em->getRepository(Category::class)->findAll();
             /* @var $categories Category[] */
 
             // get all ids of already existing categories

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Ministry;
+namespace App\Entity\Ministry;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -26,20 +26,20 @@ class ResponsibleAssignment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Ministry", inversedBy="responsibleAssignments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ministry", inversedBy="responsibleAssignments")
      * @ORM\JoinColumn(name="ministry_id", nullable=false, onDelete="CASCADE")
      *
-     * @var \AppBundle\Entity\Ministry
+     * @var \App\Entity\Ministry
      */
     private $ministry;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Person", inversedBy="ministryResponsibleAssignments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Person", inversedBy="ministryResponsibleAssignments")
      * @ORM\JoinColumn(name="person_id", nullable=true, onDelete="CASCADE")
      *
      * @Groups({"MinistryCategoryListing"})
      *
-     * @var \AppBundle\Entity\Person
+     * @var \App\Entity\Person
      */
     private $person;
 
@@ -57,10 +57,10 @@ class ResponsibleAssignment
     /**
      * Set ministry
      *
-     * @param \AppBundle\Entity\Ministry $ministry
+     * @param \App\Entity\Ministry $ministry
      * @return ResponsibleAssignment
      */
-    public function setMinistry(\AppBundle\Entity\Ministry $ministry)
+    public function setMinistry(\App\Entity\Ministry $ministry)
     {
         $this->ministry = $ministry;
 
@@ -70,7 +70,7 @@ class ResponsibleAssignment
     /**
      * Get ministry
      *
-     * @return \AppBundle\Entity\Ministry 
+     * @return \App\Entity\Ministry 
      */
     public function getMinistry()
     {
@@ -80,10 +80,10 @@ class ResponsibleAssignment
     /**
      * Set person
      *
-     * @param \AppBundle\Entity\Person $person
+     * @param \App\Entity\Person $person
      * @return Assignment
      */
-    public function setPerson(\AppBundle\Entity\Person $person = null)
+    public function setPerson(\App\Entity\Person $person = null)
     {
         $this->person = $person;
         return $this;
@@ -92,7 +92,7 @@ class ResponsibleAssignment
     /**
      * Get person
      *
-     * @return \AppBundle\Entity\Person 
+     * @return \App\Entity\Person 
      */
     public function getPerson()
     {

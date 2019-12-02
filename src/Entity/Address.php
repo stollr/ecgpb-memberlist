@@ -1,17 +1,17 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use AppBundle\Entity\Person;
+use App\Entity\Person;
 
 /**
- * AppBundle\Entity\Address
+ * App\Entity\Address
  *
- * @ORM\Entity(repositoryClass="AppBundle\Repository\AddressRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
  * @ORM\Table(name="address")
  */
 class Address
@@ -64,7 +64,7 @@ class Address
     private $city;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Person", cascade={"persist", "remove"}, mappedBy="address", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Person", cascade={"persist", "remove"}, mappedBy="address", orphanRemoval=true)
      *
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -207,10 +207,10 @@ class Address
     /**
      * Add persons
      *
-     * @param \AppBundle\Entity\Person $person
+     * @param \App\Entity\Person $person
      * @return Address
      */
-    public function addPerson(\AppBundle\Entity\Person $person)
+    public function addPerson(\App\Entity\Person $person)
     {
         $this->persons[] = $person;
         $person->setAddress($this);
@@ -220,9 +220,9 @@ class Address
     /**
      * Remove persons
      *
-     * @param \AppBundle\Entity\Person $person
+     * @param \App\Entity\Person $person
      */
-    public function removePerson(\AppBundle\Entity\Person $person)
+    public function removePerson(\App\Entity\Person $person)
     {
         $this->persons->removeElement($person);
         return $this;

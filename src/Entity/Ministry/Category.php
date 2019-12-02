@@ -1,14 +1,14 @@
 <?php
 
-namespace AppBundle\Entity\Ministry;
+namespace App\Entity\Ministry;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * AppBundle\Entity\Ministry\Category
+ * App\Entity\Ministry\Category
  *
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Ministry\CategoryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Ministry\CategoryRepository")
  * @ORM\Table(name="ministry_category")
  */
 class Category
@@ -35,12 +35,12 @@ class Category
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Person")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Person")
      * @ORM\JoinColumn(name="responsible_person_id", nullable=true, onDelete="SET NULL")
      *
      * @Groups({"MinistryCategoryListing"})
      *
-     * @var \AppBundle\Entity\Person
+     * @var \App\Entity\Person
      */
     private $responsible;
 
@@ -54,7 +54,7 @@ class Category
     private $position;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ministry", cascade={"persist"}, mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Ministry", cascade={"persist"}, mappedBy="category")
      *
      * @Groups({"MinistryCategoryListing"})
      *
@@ -107,7 +107,7 @@ class Category
         return $this->responsible;
     }
 
-    public function setResponsible(\AppBundle\Entity\Person $responsible)
+    public function setResponsible(\App\Entity\Person $responsible)
     {
         $this->responsible = $responsible;
         return $this;
@@ -127,10 +127,10 @@ class Category
     /**
      * Add ministries
      *
-     * @param \AppBundle\Entity\Ministry $ministry
+     * @param \App\Entity\Ministry $ministry
      * @return Category
      */
-    public function addMinistry(\AppBundle\Entity\Ministry $ministry)
+    public function addMinistry(\App\Entity\Ministry $ministry)
     {
         $this->ministries[] = $ministry;
         $ministry->setCategory($this);
@@ -140,9 +140,9 @@ class Category
     /**
      * Remove ministries
      *
-     * @param \AppBundle\Entity\Ministry $ministries
+     * @param \App\Entity\Ministry $ministries
      */
-    public function removeMinistry(\AppBundle\Entity\Ministry $ministries)
+    public function removeMinistry(\App\Entity\Ministry $ministries)
     {
         $this->ministries->removeElement($ministries);
     }

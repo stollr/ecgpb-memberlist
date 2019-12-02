@@ -1,15 +1,15 @@
 <?php
 
-namespace AppBundle\Event;
+namespace App\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use AppBundle\Entity\Address;
-use AppBundle\Entity\Person;
-use AppBundle\Helper\PersonHelper;
+use App\Entity\Address;
+use App\Entity\Person;
+use App\Helper\PersonHelper;
 
 /**
- * AppBundle\Event\DoctrineEventSubscriber
+ * App\EventListener\DoctrineEventSubscriber
  *
  * @author naitsirch
  */

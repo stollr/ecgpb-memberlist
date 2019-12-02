@@ -1,17 +1,17 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use AppBundle\Entity\Ministry\ResponsibleAssignment;
+use App\Entity\Ministry\ResponsibleAssignment;
 
 /**
- * AppBundle\Entity\Person
+ * App\Entity\Person
  *
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PersonRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
  * @ORM\Table(name="person")
  */
 class Person
@@ -124,19 +124,19 @@ class Person
     private $maidenName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Address", inversedBy="persons", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="persons", cascade={"persist"})
      * @ORM\JoinColumn(name="address_id", nullable=false)
      * @Groups({"MinistryCategoryListing"})
      *
-     * @var \AppBundle\Entity\Address
+     * @var \App\Entity\Address
      */
     private $address;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\WorkingGroup", inversedBy="persons")
+     * @ORM\ManyToOne(targetEntity="App\Entity\WorkingGroup", inversedBy="persons")
      * @ORM\JoinColumn(name="working_group_id", nullable=true, onDelete="SET NULL")
      *
-     * @var \AppBundle\Entity\WorkingGroup
+     * @var \App\Entity\WorkingGroup
      */
     private $workingGroup;
 
@@ -151,14 +151,14 @@ class Person
     private $workerStatus;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\WorkingGroup", mappedBy="leader")
+     * @ORM\OneToOne(targetEntity="App\Entity\WorkingGroup", mappedBy="leader")
      *
-     * @var \AppBundle\Entity\WorkingGroup
+     * @var \App\Entity\WorkingGroup
      */
     private $leaderOf;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ministry\ResponsibleAssignment", mappedBy="person", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Ministry\ResponsibleAssignment", mappedBy="person", cascade={"remove"})
      *
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -364,7 +364,7 @@ class Person
     /**
      * Set the label (deutsch: Beschriftung) of the second phone number.
      * @param string $phone2Label
-     * @return \AppBundle\Entity\Person
+     * @return \App\Entity\Person
      */
     public function setPhone2Label($phone2Label = null)
     {
@@ -398,10 +398,10 @@ class Person
     /**
      * Set address
      *
-     * @param \AppBundle\Entity\Address $address
+     * @param \App\Entity\Address $address
      * @return Person
      */
-    public function setAddress(\AppBundle\Entity\Address $address)
+    public function setAddress(\App\Entity\Address $address)
     {
         $this->address = $address;
         if (!$address->getPersons()->contains($this)) {
@@ -413,7 +413,7 @@ class Person
     /**
      * Get address
      *
-     * @return \AppBundle\Entity\Address 
+     * @return \App\Entity\Address 
      */
     public function getAddress()
     {
@@ -423,10 +423,10 @@ class Person
     /**
      * Set workingGroup
      *
-     * @param \AppBundle\Entity\WorkingGroup $workingGroup
+     * @param \App\Entity\WorkingGroup $workingGroup
      * @return Person
      */
-    public function setWorkingGroup(\AppBundle\Entity\WorkingGroup $workingGroup = null)
+    public function setWorkingGroup(\App\Entity\WorkingGroup $workingGroup = null)
     {
         $this->workingGroup = $workingGroup;
 
@@ -440,7 +440,7 @@ class Person
     /**
      * Get workingGroup
      *
-     * @return \AppBundle\Entity\WorkingGroup 
+     * @return \App\Entity\WorkingGroup 
      */
     public function getWorkingGroup()
     {
@@ -483,10 +483,10 @@ class Person
     /**
      * This method exists only for documentation.
      * 
-     * @param \AppBundle\Entity\WorkingGroup $workingGroup
+     * @param \App\Entity\WorkingGroup $workingGroup
      * @throws \RuntimeException
      */
-    public function setLeaderOf(\AppBundle\Entity\WorkingGroup $workingGroup = null)
+    public function setLeaderOf(\App\Entity\WorkingGroup $workingGroup = null)
     {
         throw new \RuntimeException('The leading person of a working group cannot be changed within person entity.');
     }

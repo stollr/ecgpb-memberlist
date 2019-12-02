@@ -1,18 +1,23 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Person controller.
  *
+ * @Route("/index")
  */
 class IndexController extends Controller
 {
-    public function encodePasswordAction(Request $request)
+    /**
+     * @Route(name="ecgpb.member.index.encode_password", path="/encode_password")
+     */
+    public function encodePassword(Request $request)
     {
         if ($request->get('password')) {
             $encoder = $this
@@ -24,6 +29,6 @@ class IndexController extends Controller
             return new Response($encoder->encodePassword($request->get('password'), ''));
         }
 
-        return $this->render('AppBundle:Index:encode_password.html.twig');
+        return $this->render('/index/encode_password.html.twig');
     }
 }

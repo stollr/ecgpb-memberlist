@@ -1,17 +1,16 @@
 <?php
 
-namespace AppBundle\Command;
+namespace App\Command;
 
+use App\Entity\Address;
+use App\Entity\Person;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use AppBundle\Entity\Address;
-use AppBundle\Entity\Person;
 
 /**
- * AppBundle\Command\ImportCsv
+ * App\Command\ImportCsv
  *
  * @author naitsirch
  */
@@ -39,7 +38,7 @@ class ImportCsvCommand extends ContainerAwareCommand
 
         // load existing members
         $existingPersons = array();
-        foreach ($em->getRepository('AppBundle:Person')->findAll() as $person) {
+        foreach ($em->getRepository(Person::class)->findAll() as $person) {
             $index = $person->getLastnameAndFirstname() . ', ' . $person->getDob()->format('d.m.Y');
             $existingPersons[$index] = $person;
         }

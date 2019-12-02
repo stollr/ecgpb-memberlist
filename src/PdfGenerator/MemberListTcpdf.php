@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\PdfGenerator;
+namespace App\PdfGenerator;
 
 /**
  * Description of MemberListTcpdf

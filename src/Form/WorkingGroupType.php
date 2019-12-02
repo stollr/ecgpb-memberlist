@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form;
+namespace App\Form;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
@@ -10,8 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Person;
-use AppBundle\Entity\WorkingGroup;
+use App\Entity\Person;
+use App\Entity\WorkingGroup;
 
 class WorkingGroupType extends AbstractType
 {
@@ -39,7 +39,7 @@ class WorkingGroupType extends AbstractType
         if ($workingGroup->getId()) {
             $builder
                 ->add('leader', EntityType::class, array(
-                    'class' => 'AppBundle\Entity\Person',
+                    'class' => 'App\Entity\Person',
                     'choice_label' => 'lastnameFirstnameAndDob',
                     'required' => false,
                     'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
@@ -64,7 +64,7 @@ class WorkingGroupType extends AbstractType
                     'widget_form_group' => true,
                     'entry_options' => array(
                         'label' => false,
-                        'class' => 'AppBundle\Entity\Person',
+                        'class' => 'App\Entity\Person',
                         'choice_label' => function (Person $person) {
                             return $person->getAddress()->getFamilyName() . ', ' . $person->getFirstname() . ' (' . $person->getDob()->format('d.m.Y') . ')';
                         },

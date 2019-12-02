@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\PdfGenerator;
+namespace App\PdfGenerator;
 
 /**
- * AppBundle\PdfGenerator\GeneratorInterface
+ * App\PdfGenerator\GeneratorInterface
  * 
  * @author naitsirch
  */

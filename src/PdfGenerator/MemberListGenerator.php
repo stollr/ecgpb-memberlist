@@ -1,11 +1,14 @@
 <?php
 
-namespace AppBundle\PdfGenerator;
+namespace App\PdfGenerator;
 
-use AppBundle\Entity\Person;
-use AppBundle\Helper\PersonHelper;
-use AppBundle\PdfGenerator\MemberListTcpdf;
-use AppBundle\Statistic\StatisticService;
+use App\Entity\Address;
+use App\Entity\Ministry\Category;
+use App\Entity\Person;
+use App\Entity\WorkingGroup;
+use App\Helper\PersonHelper;
+use App\PdfGenerator\MemberListTcpdf;
+use App\Statistic\StatisticService;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Tcpdf\Extension\Table\Table;
@@ -13,7 +16,7 @@ use Tcpdf\Extension\Table\Cell;
 use Tcpdf\Extension\Helper;
 
 /**
- * AppBundle\PdfGenerator\MemberListGenerator
+ * App\PdfGenerator\MemberListGenerator
  *
  * @author naitsirch
  */
@@ -313,14 +316,14 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     public function addAddressPages(\TCPDF $pdf)
     {
         $addresses = $this->getAddresses();
-        $personRepo = $this->doctrine->getRepository('AppBundle:Person'); /* @var $personRepo \AppBundle\Repository\PersonRepository */
+        $personRepo = $this->doctrine->getRepository(Person::class); /* @var $personRepo \App\Repository\PersonRepository */
 
         $pdf->SetLineWidth(0.25);
 
         $table = null;
         $totalHeight = 0;
         foreach ($addresses as $index => $address) {
-            /* @var $address \AppBundle\Entity\Address */
+            /* @var $address \App\Entity\Address */
 
             // calculate address row height and check if address fitts on this page
             $addressRowHeight = 0;
@@ -391,7 +394,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 $persons[] = null; // dummy entry for second row
             }
             foreach ($persons as $index => $person) {
-                /* @var $person \AppBundle\Entity\Person */
+                /* @var $person \App\Entity\Person */
                 $row = $table->newRow();
                 if (0 == $index) {
                     if (strlen($address->getFamilyName()) < 21 && strlen($address->getPhone()) < 21) {
@@ -571,7 +574,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         foreach ($this->getWorkingGroups() as $group) {
             $groupTypes[$group->getGender()][] = $group;
         }
-        $personRepo = $this->doctrine->getRepository('AppBundle:Person'); /* @var $personRepo \AppBundle\Repository\PersonRepository */
+        $personRepo = $this->doctrine->getRepository(Person::class); /* @var $personRepo \App\Repository\PersonRepository */
 
         $margins = $pdf->getMargins();
         $halfWidth = ($pdf->getPageWidth() - $margins['left'] - $margins['right']) / 2;
@@ -748,7 +751,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
             // add rows and cells to table
             foreach ($category->getMinistries() as $index => $ministry) {
-                /* @var $ministry \AppBundle\Entity\Ministry */
+                /* @var $ministry \App\Entity\Ministry */
                 $responsibles = array();
                 foreach ($ministry->getResponsibleAssignments() as $responsibleAssignment) {
                     if ($responsibleAssignment->getPerson()) {
@@ -948,13 +951,13 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
     /**
      * Returns all addresses with the corresponding persons.
-     * @return \AppBundle\Entity\Address[]
+     * @return \App\Entity\Address[]
      */
     private function getAddresses()
     {
         $em = $this->doctrine->getManager();
 
-        $repo = $em->getRepository('AppBundle:Address');
+        $repo = $em->getRepository(Address::class);
         /* @var $repo \Doctrine\Common\Persistence\ObjectRepository */
 
         $builder = $repo->createQueryBuilder('address')
@@ -969,14 +972,14 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
     /**
      * Returns all addresses with the corresponding persons.
-     * @return \AppBundle\Entity\Ministry\Category[]
+     * @return \App\Entity\Ministry\Category[]
      */
     private function getMinistryCategories()
     {
         $em = $this->doctrine->getManager();
 
-        $repo = $em->getRepository('AppBundle:Ministry\Category');
-        /* @var $repo \AppBundle\Repository\Ministry\CategoryRepository */
+        $repo = $em->getRepository(Category::class);
+        /* @var $repo \App\Repository\Ministry\CategoryRepository */
         $categories = $repo->findAllForListing();
 
         return $categories;
@@ -984,12 +987,12 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
     /**
      * Returns all working groups
-     * @return \AppBundle\Entity\WorkingGroup[]
+     * @return \App\Entity\WorkingGroup[]
      */
     private function getWorkingGroups()
     {
-        $repo = $this->doctrine->getManager()->getRepository('AppBundle:WorkingGroup');
-        /* @var $repo \AppBundle\Repository\WorkingGroupRepository */
+        $repo = $this->doctrine->getManager()->getRepository(WorkingGroup::class);
+        /* @var $repo \App\Repository\WorkingGroupRepository */
 
         return $repo->findAllForMemberPdf();
     }

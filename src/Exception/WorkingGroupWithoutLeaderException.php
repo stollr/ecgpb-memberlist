@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Exception;
+namespace App\Exception;
 
-use AppBundle\Entity\Person;
+use App\Entity\Person;
 
 /**
- * AppBundle\Exception\WorkingGroupWithoutLeaderException
+ * App\Exception\WorkingGroupWithoutLeaderException
  *
  * @author naitsirch
  */

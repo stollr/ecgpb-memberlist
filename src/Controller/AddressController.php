@@ -1,19 +1,20 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use App\Entity\Address;
+use App\Form\AddressType;
+use App\Helper\PersonHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use AppBundle\Entity\Address;
-use AppBundle\Form\AddressType;
-use AppBundle\Helper\PersonHelper;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Address controller.
+ *
+ * @Route("/address")
  * @/Security("has_role('ROLE_ADMIN')")
  */
 class AddressController extends Controller
@@ -28,7 +29,7 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repo = $em->getRepository('AppBundle:Address'); /* @var $repo \AppBundle\Repository\AddressRepository */
+        $repo = $em->getRepository(Address::class); /* @var $repo \App\Repository\AddressRepository */
 
         $filter = $request->get('filter', array());
         if (!empty($filter['no-photo'])) {
@@ -46,7 +47,7 @@ class AddressController extends Controller
             )
         );
 
-        return $this->render('AppBundle:Address:index.html.twig', array(
+        return $this->render('/address/index.html.twig', array(
             'pagination' => $pagination,
             'person_ids_without_photo' => $personHelper->getPersonIdsWithoutPhoto(),
             //'persons_with_picture' => $personsWithPicture,
@@ -55,8 +56,7 @@ class AddressController extends Controller
     /**
      * Creates a new Address entity.
      *
-     * @Route("/create", name="ecgpb.member.address.create", defaults={"_locale"="de"})
-     * @Method({"POST"})
+     * @Route("/create", name="ecgpb.member.address.create", methods={"POST"})
      */
     public function createAction(Request $request)
     {
@@ -74,7 +74,7 @@ class AddressController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $entity->getId())));
         }
 
-        return $this->render('AppBundle:Address:form.html.twig', array(
+        return $this->render('/address/form.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -90,7 +90,7 @@ class AddressController extends Controller
         $entity = new Address();
         $form   = $this->createAddressForm($entity);
 
-        return $this->render('AppBundle:Address:form.html.twig', array(
+        return $this->render('/address/form.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -105,7 +105,7 @@ class AddressController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Address')->find($id);
+        $entity = $em->getRepository(Address::class)->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Address entity.');
@@ -113,7 +113,7 @@ class AddressController extends Controller
 
         $editForm = $this->createAddressForm($entity);
 
-        return $this->render('AppBundle:Address:form.html.twig', array(
+        return $this->render('/address/form.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
         ));
@@ -122,14 +122,13 @@ class AddressController extends Controller
     /**
      * Edits an existing Address entity.
      *
-     * @Route("/{id}/update", name="ecgpb.member.address.update", defaults={"_locale"="de"})
-     * @Method({"POST", "PUT"})
+     * @Route("/{id}/update", name="ecgpb.member.address.update", methods={"POST", "PUT"})
      */
     public function updateAction(Request $request, $id, PersonHelper $personHelper)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $address = $em->getRepository('AppBundle:Address')->find($id);
+        $address = $em->getRepository(Address::class)->find($id);
         /* @var $address Address */
 
         if (!$address) {
@@ -156,7 +155,7 @@ class AddressController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $id)));
         }
 
-        return $this->render('AppBundle:Address:form.html.twig', array(
+        return $this->render('/address/form.html.twig', array(
             'entity' => $address,
             'form'   => $form->createView(),
         ));
@@ -170,7 +169,7 @@ class AddressController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $address = $em->getRepository('AppBundle:Address')->find($id);
+        $address = $em->getRepository(Address::class)->find($id);
         /* @var $address Address */
 
         if (!$address) {

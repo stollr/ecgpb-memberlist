@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form;
+namespace App\Form;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
@@ -10,8 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Entity\Address;
-use AppBundle\Entity\Person;
+use App\Entity\Address;
+use App\Entity\Person;
 
 class PersonType extends AbstractType
 {
@@ -74,7 +74,7 @@ class PersonType extends AbstractType
                 'required' => false,
             ))
             ->add('workingGroup', EntityType::class, array(
-                'class' => 'AppBundle\Entity\WorkingGroup',
+                'class' => 'App\Entity\WorkingGroup',
                 'choice_label' => 'displayName',
                 'label' => 'Working Group',
                 'required' => false,

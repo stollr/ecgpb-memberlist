@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form;
+namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\Ministry\ResponsibleAssignmentType;
+use App\Form\Ministry\ResponsibleAssignmentType;
 
 class MinistryType extends AbstractType
 {
@@ -26,7 +26,7 @@ class MinistryType extends AbstractType
                 'required' => false,
             ))
 //            ->add('category', EntityType::class, array(
-//                'class' => 'AppBundle\Entity\Ministry\Category',
+//                'class' => 'App\Entity\Ministry\Category',
 //                'EntityType' => 'name',
 //                'required' => false,
 //            ))
@@ -66,7 +66,7 @@ class MinistryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Ministry'
+            'data_class' => 'App\Entity\Ministry'
         ));
     }
 

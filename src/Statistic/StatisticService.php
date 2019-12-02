@@ -1,14 +1,14 @@
 <?php
 
-namespace AppBundle\Statistic;
+namespace App\Statistic;
 
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use AppBundle\Entity\Person;
-use AppBundle\Statistic\PersonStatistics;
+use App\Entity\Person;
+use App\Statistic\PersonStatistics;
 
 /**
- * AppBundle\Statistic\StatisticService
+ * App\Statistic\StatisticService
  *
  * @author naitsirch
  */
@@ -29,7 +29,7 @@ class StatisticService
     public function getPersonStatistics()
     {
         if (!$this->statistics) {
-            $repo = $this->doctrine->getRepository('AppBundle:Person');
+            $repo = $this->doctrine->getRepository(Person::class);
             $qb = $repo->createQueryBuilder('person'); /* @var $qb \Doctrine\ORM\QueryBuilder */
             $qb->select('person');
 

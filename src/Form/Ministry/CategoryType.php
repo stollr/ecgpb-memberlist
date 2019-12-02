@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form\Ministry;
+namespace App\Form\Ministry;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\MinistryType;
+use App\Form\MinistryType;
 
 class CategoryType extends AbstractType
 {
@@ -24,7 +24,7 @@ class CategoryType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('responsible', EntityType::class, array(
-                'class' => 'AppBundle\Entity\Person',
+                'class' => 'App\Entity\Person',
                 'choice_label' => 'lastnameAndFirstname',
                 'required' => false,
             ))
@@ -70,7 +70,7 @@ class CategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Ministry\Category'
+            'data_class' => 'App\Entity\Ministry\Category'
         ));
     }
 

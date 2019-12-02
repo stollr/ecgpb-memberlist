@@ -1,18 +1,15 @@
-/web/bundles/
-/web/components/*
-/web/config.php
-/app/config/parameters.yml
+/public/components/
 /bin/*
-/build/
-/vendor/
-/var/bootstrap.php.cache
-/var/cache/*
-/var/logs/*
-/var/sessions/*
-/var/data/database.sqlite*
-/var/SymfonyRequirements.php
-!var/cache/.gitkeep
-!var/logs/.gitkeep
+!/bin/console
 /composer.phar
 *.php~
 nbproject
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###

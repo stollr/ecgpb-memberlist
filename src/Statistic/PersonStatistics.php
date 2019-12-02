@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\Statistic;
+namespace App\Statistic;
 
 /**
- * AppBundle\Statistic\PersonStatistics
+ * App\Statistic\PersonStatistics
  *
  * @author naitsirch
  */

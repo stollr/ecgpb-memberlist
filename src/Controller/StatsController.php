@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Statistic\StatisticService;
+use App\Statistic\StatisticService;
 
 /**
- * AppBundle\Controller\StatsController
+ * App\Controller\StatsController
  *
  * @Route("/stats")
  */
@@ -18,7 +18,7 @@ class StatsController extends Controller
      */
     public function indexAction(StatisticService $statistics)
     {
-        return $this->render('AppBundle:Stats:index.html.twig', [
+        return $this->render('/stats/index.html.twig', [
             'statistics' => $statistics->getPersonStatistics(),
         ]);
     }

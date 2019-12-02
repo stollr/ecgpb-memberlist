@@ -1,19 +1,20 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace App\Controller;
 
+use App\Entity\Person;
+use App\Entity\WorkingGroup;
+use App\Form\WorkingGroupType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use AppBundle\Entity\Person;
-use AppBundle\Entity\WorkingGroup;
-use AppBundle\Form\WorkingGroupType;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * WorkingGroup controller.
+ *
+ * @Route("/workinggroup")
  * @/Security("has_role('ROLE_ADMIN')")
  */
 class WorkingGroupController extends Controller
@@ -22,15 +23,15 @@ class WorkingGroupController extends Controller
     /**
      * Lists all WorkingGroup workingGroups.
      *
-     * @Route("/", name="ecgpb.member.workinggroup.index", defaults={"_locale"="de"})
+     * @Route("/", name="ecgpb.member.workinggroup.index")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $workingGroups = $em->getRepository('AppBundle:WorkingGroup')->findAllForListing();
+        $workingGroups = $em->getRepository(WorkingGroup::class)->findAllForListing();
 
-        return $this->render('AppBundle:WorkingGroup:index.html.twig', array(
+        return $this->render('/working_group/index.html.twig', array(
             'working_groups' => $workingGroups,
         ));
     }
@@ -38,14 +39,14 @@ class WorkingGroupController extends Controller
     /**
      * Displays a form to create a new WorkingGroup entity.
      *
-     * @Route("/new", name="ecgpb.member.workinggroup.new", defaults={"_locale"="de"})
+     * @Route("/new", name="ecgpb.member.workinggroup.new")
      */
     public function newAction()
     {
         $workingGroup = new WorkingGroup();
         $form   = $this->createCreateForm($workingGroup);
 
-        return $this->render('AppBundle:WorkingGroup:form.html.twig', array(
+        return $this->render('/working_group/form.html.twig', array(
             'working_group' => $workingGroup,
             'form'   => $form->createView(),
         ));
@@ -54,8 +55,7 @@ class WorkingGroupController extends Controller
     /**
      * Creates a new WorkingGroup entity.
      *
-     * @Route("/create", name="ecgpb.member.workinggroup.create", defaults={"_locale"="de"})
-     * @Method({"POST"})
+     * @Route("/create", name="ecgpb.member.workinggroup.create", methods={"POST"})
      */
     public function createAction(Request $request)
     {
@@ -71,7 +71,7 @@ class WorkingGroupController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.workinggroup.edit', array('id' => $workingGroup->getId())));
         }
 
-        return $this->render('AppBundle:WorkingGroup:form.html.twig', array(
+        return $this->render('/working_group/form.html.twig', array(
             'working_group' => $workingGroup,
             'form'   => $form->createView(),
         ));
@@ -104,13 +104,13 @@ class WorkingGroupController extends Controller
     /**
      * Displays a form to edit an existing WorkingGroup entity.
      *
-     * @Route("/{id}/edit", name="ecgpb.member.workinggroup.edit", defaults={"_locale"="de"})
+     * @Route("/{id}/edit", name="ecgpb.member.workinggroup.edit")
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $workingGroup = $em->getRepository('AppBundle:WorkingGroup')->find($id);
+        $workingGroup = $em->getRepository(WorkingGroup::class)->find($id);
 
         if (!$workingGroup) {
             throw $this->createNotFoundException('Unable to find WorkingGroup entity.');
@@ -118,7 +118,7 @@ class WorkingGroupController extends Controller
 
         $editForm = $this->createEditForm($workingGroup);
 
-        return $this->render('AppBundle:WorkingGroup:form.html.twig', array(
+        return $this->render('/working_group/form.html.twig', array(
             'working_group'      => $workingGroup,
             'form'   => $editForm->createView(),
         ));
@@ -151,14 +151,13 @@ class WorkingGroupController extends Controller
     /**
      * Edits an existing WorkingGroup entity.
      *
-     * @Route("/{id}/update", name="ecgpb.member.workinggroup.update", defaults={"_locale"="de"})
-     * @Method({"POST", "PUT"})
+     * @Route("/{id}/update", name="ecgpb.member.workinggroup.update", methods={"POST", "PUT"})
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $workingGroup = $em->getRepository('AppBundle:WorkingGroup')->find($id);
+        $workingGroup = $em->getRepository(WorkingGroup::class)->find($id);
         /* @var $workingGroup WorkingGroup */
 
         if (!$workingGroup) {
@@ -184,7 +183,7 @@ class WorkingGroupController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.workinggroup.edit', array('id' => $id)));
         }
 
-        return $this->render('AppBundle:WorkingGroup:form.html.twig', array(
+        return $this->render('/working_group/form.html.twig', array(
             'working_group'      => $workingGroup,
             'form'   => $editForm->createView(),
         ));
@@ -193,14 +192,14 @@ class WorkingGroupController extends Controller
     /**
      * Deletes a WorkingGroup entity.
      *
-     * @Route("/{id}/delete", name="ecgpb.member.workinggroup.delete", defaults={"_locale"="de"})
+     * @Route("/{id}/delete", name="ecgpb.member.workinggroup.delete")
      */
     public function deleteAction(Request $request, $id)
     {
         $form->handleRequest($request);
 
         $em = $this->getDoctrine()->getManager();
-        $workingGroup = $em->getRepository('AppBundle:WorkingGroup')->find($id);
+        $workingGroup = $em->getRepository(WorkingGroup::class)->find($id);
 
         if (!$workingGroup) {
             throw $this->createNotFoundException('Unable to find WorkingGroup entity.');
@@ -213,38 +212,37 @@ class WorkingGroupController extends Controller
     }
 
     /**
-     * @Route("/assignables", name="ecgpb.member.workinggroup.assignables", defaults={"_locale"="de"}))
+     * @Route("/assignables", name="ecgpb.member.workinggroup.assignables"))
      */
     public function assignablesAction()
     {
         $em = $this->getDoctrine()->getManager();
         
-        $personRepo = $em->getRepository('AppBundle:Person');
+        $personRepo = $em->getRepository(Person::class);
         $persons = $personRepo->findPersonsToBeAssignedToWorkingGroup();
 
-        $workingGroups = $em->getRepository('AppBundle:WorkingGroup')->findAll();
+        $workingGroups = $em->getRepository(WorkingGroup::class)->findAll();
 
-        return $this->render('AppBundle:WorkingGroup:assignables.html.twig', array(
+        return $this->render('/working_group/assignables.html.twig', array(
             'persons' => $persons,
             'working_groups' => $workingGroups,
         ));
     }
 
     /**
-     * @Route("/assign", name="ecgpb.member.workinggroup.assign", defaults={"_locale"="de"})
-     * @Method({"POST"})
+     * @Route("/assign", name="ecgpb.member.workinggroup.assign", methods={"POST"})
      */
     public function assignAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $personRepo = $em->getRepository('AppBundle:Person');
-        $groupRepo = $em->getRepository('AppBundle:WorkingGroup');
+        $personRepo = $em->getRepository(Person::class);
+        $groupRepo = $em->getRepository(WorkingGroup::class);
 
         foreach ($request->get('person-to-group', array()) as $personId => $groupId) {
             if (empty($personId) || empty($groupId)) {
                 continue;
             }
-            $person = $personRepo->find($personId); /* @var $person \AppBundle\Entity\Person */
+            $person = $personRepo->find($personId); /* @var $person \App\Entity\Person */
             $group = $groupRepo->find($groupId); /* @var $group WorkingGroup */
 
             if (!$person || !$group) {
@@ -270,10 +268,10 @@ class WorkingGroupController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $personRepo = $em->getRepository('AppBundle:Person');
+        $personRepo = $em->getRepository(Person::class);
         $persons = $personRepo->findPersonsUnableToWork();
 
-        return $this->render('AppBundle:WorkingGroup:persons_unable_to_work.html.twig', array(
+        return $this->render('/working_group/persons_unable_to_work.html.twig', array(
             'persons' => $persons,
             'allWorkerStatus' => Person::getAllWorkerStatus(),
         ));
@@ -288,7 +286,7 @@ class WorkingGroupController extends Controller
 
         $workerStatus = $request->get('worker_status', []);
 
-        $personRepo = $em->getRepository('AppBundle:Person');
+        $personRepo = $em->getRepository(Person::class);
         $persons = $personRepo->findBy(['id' => array_keys($workerStatus)]);
 
         $changedStatus = 0;

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form\Ministry;
+namespace App\Form\Ministry;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +20,7 @@ class ResponsibleAssignmentType extends AbstractType
         $builder
 //            ->add('ministry')
             ->add('person', EntityType::class, array(
-                'class' => 'AppBundle\Entity\Person',
+                'class' => 'App\Entity\Person',
                 'choice_label' => 'lastnameAndFirstname',
                 'required' => false,
             ))
@@ -42,7 +42,7 @@ class ResponsibleAssignmentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Ministry\ResponsibleAssignment'
+            'data_class' => 'App\Entity\Ministry\ResponsibleAssignment'
         ));
     }
 

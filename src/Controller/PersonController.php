@@ -1,18 +1,17 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace App\Controller;
 
+use App\Entity\Person;
+use App\Form\PersonType;
+use App\Helper\PersonHelper;
+use App\PdfGenerator\MemberListGenerator;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use AppBundle\Entity\Person;
-use AppBundle\Form\PersonType;
-use AppBundle\Helper\PersonHelper;
-use AppBundle\PdfGenerator\MemberListGenerator;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Person controller.
@@ -31,9 +30,9 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:Person')->findAll();
+        $entities = $em->getRepository(Person::class)->findAll();
 
-        return $this->render('AppBundle:Person:index.html.twig', array(
+        return $this->render('/person/index.html.twig', array(
             'entities' => $entities,
         ));
     }
@@ -57,7 +56,7 @@ class PersonController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.person.edit', array('id' => $person->getId())));
         }
 
-        return $this->render('AppBundle:Person:form.html.twig', array(
+        return $this->render('/person/form.html.twig', array(
             'person' => $person,
             'form'   => $form->createView(),
         ));
@@ -73,7 +72,7 @@ class PersonController extends Controller
         $person = new Person();
         $form   = $this->createPersonForm($person);
 
-        return $this->render('AppBundle:Person:form.html.twig', array(
+        return $this->render('/person/form.html.twig', array(
             'person' => $person,
             'form'   => $form->createView(),
         ));
@@ -88,7 +87,7 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $person = $em->getRepository('AppBundle:Person')->find($id);
+        $person = $em->getRepository(Person::class)->find($id);
 
         if (!$person) {
             throw $this->createNotFoundException('Unable to find Person entity.');
@@ -96,7 +95,7 @@ class PersonController extends Controller
 
         $editForm = $this->createPersonForm($person);
 
-        return $this->render('AppBundle:Person:form.html.twig', array(
+        return $this->render('/person/form.html.twig', array(
             'person'      => $person,
             'form'   => $editForm->createView(),
         ));
@@ -141,7 +140,7 @@ class PersonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $person = $em->getRepository('AppBundle:Person')->find($id);
+        $person = $em->getRepository(Person::class)->find($id);
 
         if (!$person) {
             throw $this->createNotFoundException('Unable to find Person person.');
@@ -165,7 +164,7 @@ class PersonController extends Controller
             return $this->redirect($this->generateUrl('ecgpb.member.person.edit', array('id' => $id)));
         }
 
-        return $this->render('AppBundle:Person:form.html.twig', array(
+        return $this->render('/person/form.html.twig', array(
             'person' => $person,
             'form'   => $form->createView(),
         ));
@@ -179,7 +178,7 @@ class PersonController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $person = $em->getRepository('AppBundle:Person')->find($id);
+        $person = $em->getRepository(Person::class)->find($id);
         /* @var $person Person */
 
         if (!$person) {

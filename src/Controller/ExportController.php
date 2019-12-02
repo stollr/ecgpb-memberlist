@@ -1,24 +1,23 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace App\Controller;
 
-use AppBundle\Service\BirthdayExcelGenerator;
+use App\Entity\Person;
+use App\PdfGenerator\MemberListGenerator;
+use App\Service\BirthdayExcelGenerator;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use AppBundle\Entity\Person;
-use AppBundle\PdfGenerator\MemberListGenerator;
 
 /**
- * AppBundle\Controller\ExportController
+ * App\Controller\ExportController
  *
- * @author naitsirch
- *
+ * @Route("/export")
  * @/Security("is_granted('ROLE_ADMIN')")
  */
 class ExportController extends Controller
@@ -28,7 +27,7 @@ class ExportController extends Controller
      */
     public function pdfConfigAction()
     {
-        return $this->render('AppBundle:Export:pdf_config.html.twig');
+        return $this->render('/export/pdf_config.html.twig');
     }
 
     /**
@@ -53,7 +52,7 @@ class ExportController extends Controller
      */
     public function csvAction()
     {
-        $repo = $this->getDoctrine()->getRepository('AppBundle:Person');
+        $repo = $this->getDoctrine()->getRepository(Person::class);
         $builder = $repo->createQueryBuilder('person')
             ->select('person', 'address')
             ->join('person.address', 'address')
@@ -65,7 +64,7 @@ class ExportController extends Controller
         $csv = "Nachname;Vorname;Geburtsdatum;Geschlecht;E-Mail;Mobil;Telefon;Straße;PLZ;Ort;Arbeitsgruppe\r\n";
 
         foreach ($persons as $person) {
-            /* @var $person \AppBundle\Entity\Person */
+            /* @var $person \App\Entity\Person */
             $workingGroup = null;
             if ($person->getWorkerStatus() == Person::WORKER_STATUS_DEPENDING
                 && $person->getAge() < 65 && $person->getWorkingGroup()
@@ -128,7 +127,7 @@ class ExportController extends Controller
      */
     public function seniorsExcelAction()
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Person');
+        $repo = $this->getDoctrine()->getManager()->getRepository(Person::class);
         $persons = $repo->findSeniors();
         /* @var $persons Person[] Array of all persons who are (or will become) at least 65 years old (in this year). */
 
@@ -168,7 +167,7 @@ class ExportController extends Controller
      */
     public function emailAddressesAction()
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('AppBundle:Person');
+        $repo = $this->getDoctrine()->getManager()->getRepository(Person::class);
         $emails = $repo->getAllEmailAdresses();
         
         $content = "Comma separated:\r\n\r\n" .

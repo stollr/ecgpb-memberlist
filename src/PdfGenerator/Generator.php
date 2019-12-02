@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\PdfGenerator;
+namespace App\PdfGenerator;
 
 use Tcpdf\Extension\Table\Table;
 
 /**
- * AppBundle\PdfGenerator\Generator
+ * App\PdfGenerator\Generator
  *
  * @author naitsirch
  */

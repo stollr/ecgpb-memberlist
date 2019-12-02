@@ -1,12 +1,12 @@
 <?php
 
-namespace AppBundle\Repository;
+namespace App\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\Person;
+use App\Entity\Person;
 
 /**
- * AppBundle\Repository\WorkingGroupRepository
+ * App\Repository\WorkingGroupRepository
  *
  * @author naitsirch
  */
@@ -18,7 +18,7 @@ class WorkingGroupRepository extends EntityRepository
         $minimumAge->modify('-65 year');
 
         $dql = 'SELECT workingGroup, leader, person ' .
-               'FROM AppBundle:WorkingGroup workingGroup ' .
+               'FROM App\Entity\WorkingGroup workingGroup ' .
                'LEFT JOIN workingGroup.leader leader ' .
                'LEFT JOIN workingGroup.persons  person ' .
                'WHERE person.workerStatus = :depending ' .
@@ -38,7 +38,7 @@ class WorkingGroupRepository extends EntityRepository
         $minimumAge->modify('-65 year');
 
         $dql = 'SELECT workingGroup, person, leader ' .
-               'FROM AppBundle:WorkingGroup workingGroup ' .
+               'FROM App\Entity\WorkingGroup workingGroup ' .
                'JOIN workingGroup.persons person ' .
                'JOIN person.address address ' .
                'LEFT JOIN workingGroup.leader leader ' .

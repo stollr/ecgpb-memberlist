@@ -1,17 +1,17 @@
 <?php
 
-namespace AppBundle\Form;
+namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use AppBundle\Form\PersonType;
-use AppBundle\Entity\Address;
+use App\Form\PersonType;
+use App\Entity\Address;
 
 /**
- * AppBundle\Form\AddressType
+ * App\Form\AddressType
  */
 class AddressType extends AbstractType
 {
