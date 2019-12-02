@@ -1,0 +1,85 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+
+    ecgpb.contact.name_html:                Evangeliums &ndash; Christengemeinde e.V.
+    ecgpb.contact.name:                     Evangeliums – Christengemeinde e.V.
+    ecgpb.contact.street:                   Karl-Schurz-Str. 28
+    ecgpb.contact.zip:                      33100
+    ecgpb.contact.city:                     Paderborn
+    ecgpb.contact.main_phone:               '%env(APP_CONTACT_MAIN_PHONE)%'
+    ecgpb.contact.office_phone_label:       '%env(APP_CONTACT_OFFICE_PHONE_LABEL)%'
+    ecgpb.contact.office_phone:             '%env(APP_CONTACT_OFFICE_PHONE)%'
+    ecgpb.contact.story_phone:              '%env(APP_CONTACT_STORY_PHONE)%'
+    ecgpb.contact.kitchen_phone:            '%env(APP_CONTACT_KITCHEN_PHONE)%'
+    ecgpb.contact.library_phone:            '%env(APP_CONTACT_LIBRARY_PHONE)%'
+    ecgpb.contact.library_email:            '%env(APP_CONTACT_LIBRARY_EMAIL)%'
+    ecgpb.contact.bank.iban:                '%env(APP_CONTACT_BANK_IBAN)%'
+    ecgpb.contact.bank.bic:                 '%env(APP_CONTACT_BANK_BIC)%'
+    ecgpb.contact.memberlist.responsible:   '%env(APP_CONTACT_MEMBERLIST_RESPONSIBLE)%'
+    ecgpb.contact.memberlist.email:         '%env(APP_CONTACT_MEMBERLIST_EMAIL)%'
+    ecgpb.contact.technique.email:          '%env(APP_CONTACT_TECHNIQUE_EMAIL)%'
+
+    ecgpb.members.photo_path: '%env(APP_MEMBERS_PHOTO_PATH)%'
+    ecgpb.members.photo_path_optimized: '%kernel.cache_dir%/member_photos_optimized'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+
+    App\Helper\PersonHelper:
+        arguments:
+            $parameters:
+                ecgpb.members.photo_path: '%ecgpb.members.photo_path%'
+                ecgpb.members.photo_path_optimized: '%ecgpb.members.photo_path_optimized%'
+
+    App\PdfGenerator\MemberListGenerator:
+        arguments:
+            $parameters:
+                ecgpb.contact.name: '%ecgpb.contact.name%'
+                ecgpb.contact.street: '%ecgpb.contact.street%'
+                ecgpb.contact.zip: '%ecgpb.contact.zip%'
+                ecgpb.contact.city: '%ecgpb.contact.city%'
+                ecgpb.contact.main_phone: '%ecgpb.contact.main_phone%'
+                ecgpb.contact.office_phone_label: '%ecgpb.contact.office_phone_label%'
+                ecgpb.contact.office_phone: '%ecgpb.contact.office_phone%'
+                ecgpb.contact.story_phone: '%ecgpb.contact.story_phone%'
+                ecgpb.contact.kitchen_phone: '%ecgpb.contact.kitchen_phone%'
+                ecgpb.contact.library_phone: '%ecgpb.contact.library_phone%'
+                ecgpb.contact.library_email: '%ecgpb.contact.library_email%'
+                ecgpb.contact.bank.iban: '%ecgpb.contact.bank.iban%'
+                ecgpb.contact.bank.bic: '%ecgpb.contact.bank.bic%'
+                ecgpb.contact.memberlist.responsible: '%ecgpb.contact.memberlist.responsible%'
+                ecgpb.contact.memberlist.email: '%ecgpb.contact.memberlist.email%'
+                ecgpb.contact.technique.email: '%ecgpb.contact.technique.email%'
+
+    App\EventListener\DoctrineEventSubscriber:
+        calls:
+            - method: setPersonHelper
+        tags:
+            - { name: doctrine.event_subscriber }

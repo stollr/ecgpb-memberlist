@@ -1,0 +1,6 @@
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: ecgpb.member.address.index
+        permanent: false
