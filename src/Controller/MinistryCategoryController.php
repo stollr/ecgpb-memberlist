@@ -41,7 +41,7 @@ class MinistryCategoryController extends Controller
         $categoriesJson = $serializer->serialize($categories, 'json', $context);
         $personsJson = $serializer->serialize($persons, 'json', $context);
 
-        return $this->render('/MinistryCategory/index.html.twig', array(
+        return $this->render('/ministry_category/index.html.twig', array(
             'categories_json' => $categoriesJson,
             'persons_json' => $personsJson,
         ));

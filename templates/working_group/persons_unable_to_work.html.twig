@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends '/base.html.twig' %}
 
 {% block body -%}
     <h2>{% trans %}Persons that are unable to work{% endtrans %}</h2>
@@ -25,7 +25,7 @@
                         {{ person.firstname }}
                     </td>
                     <td>
-                        {{ person.dob | localizeddate('medium', 'none') }}
+                        {{ person.dob | format_date('medium') }}
                     </td>
                     <td>
                         <select name="worker_status[{{ person.id }}]">

@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends '/base.html.twig' %}
 
 {% block title %}{% trans %}Addresses{% endtrans %} - {{ parent() }}{% endblock %}
 
@@ -77,7 +77,7 @@
                             <strong>{{ person.firstname }}</strong>
                         </td>
                         <td class="text-center">
-                            {{ person.dob | localizeddate('medium', 'none') }}
+                            {{ person.dob | format_date('medium') }}
                         </td>
                         <td>
                             {% if person.phone2Label %}{{ person.phone2Label | replace({'\\n': '<br/>'}) | raw }}{% endif %}
