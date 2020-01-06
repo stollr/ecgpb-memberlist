@@ -138,14 +138,16 @@ class WorkingGroup
     /**
      * Set leader
      *
-     * @param \App\Entity\Person $leader
+     * @param Person $leader
      * @return WorkingGroup
      */
-    public function setLeader(\App\Entity\Person $leader = null)
+    public function setLeader(Person $leader = null)
     {
         $this->leader = $leader;
 
-        $leader->setWorkingGroup($this);
+        if ($leader) {
+            $leader->setWorkingGroup($this);
+        }
 
         return $this;
     }
