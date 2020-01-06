@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Person;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Translation\TranslatorInterface;
-use App\Entity\Person;
 
 /**
  * App\Entity\WorkingGroup
@@ -50,7 +50,7 @@ class WorkingGroup
      * @ORM\OneToOne(targetEntity="App\Entity\Person", inversedBy="leaderOf")
      * @ORM\JoinColumn(name="leader_person_id", nullable=true)
      *
-     * @var \App\Entity\Person
+     * @var Person|null
      */
     private $leader;
 
@@ -78,7 +78,7 @@ class WorkingGroup
      * @param string $gender
      * @return WorkingGroup
      */
-    public function setGender($gender)
+    public function setGender(string $gender)
     {
         if ($this->getId() > 0 && $this->getGender() != $gender) {
             throw new \RuntimeException('It is not possible to change the gender of a working group.');
@@ -90,7 +90,7 @@ class WorkingGroup
     /**
      * Get gender
      *
-     * @return string 
+     * @return string|null
      */
     public function getGender()
     {
@@ -100,10 +100,10 @@ class WorkingGroup
     /**
      * Add persons
      *
-     * @param \App\Entity\Person $person
+     * @param Person $person
      * @return WorkingGroup
      */
-    public function addPerson(\App\Entity\Person $person)
+    public function addPerson(Person $person)
     {
         if (!$this->persons->contains($person)) {
             $this->persons->add($person);
@@ -117,9 +117,9 @@ class WorkingGroup
     /**
      * Remove persons
      *
-     * @param \App\Entity\Person $person
+     * @param Person $person
      */
-    public function removePerson(\App\Entity\Person $person)
+    public function removePerson(Person $person)
     {
         $this->persons->removeElement($person);
         $person->setWorkingGroup(null);
@@ -138,7 +138,7 @@ class WorkingGroup
     /**
      * Set leader
      *
-     * @param Person $leader
+     * @param Person|null $leader
      * @return WorkingGroup
      */
     public function setLeader(Person $leader = null)
@@ -155,7 +155,7 @@ class WorkingGroup
     /**
      * Get leader
      *
-     * @return \App\Entity\Person 
+     * @return Person|null
      */
     public function getLeader()
     {
@@ -165,10 +165,10 @@ class WorkingGroup
     /**
      * Set number
      *
-     * @param integer $number
+     * @param int $number
      * @return WorkingGroup
      */
-    public function setNumber($number)
+    public function setNumber(int $number)
     {
         $this->number = $number;
         return $this;
@@ -177,7 +177,7 @@ class WorkingGroup
     /**
      * Get number
      *
-     * @return integer
+     * @return int|null
      */
     public function getNumber()
     {
