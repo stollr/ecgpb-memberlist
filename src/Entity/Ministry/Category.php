@@ -4,6 +4,7 @@ namespace App\Entity\Ministry;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * App\Entity\Ministry\Category
@@ -26,6 +27,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=40)
+     * @Assert\Length(max=40)
      *
      * @Groups({"MinistryCategoryListing"})
      *

@@ -7,6 +7,7 @@ use App\Entity\Person;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * App\Entity\Ministry
@@ -28,7 +29,8 @@ class Ministry
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=40)
+     * @ORM\Column(type="string", length=60)
+     * @Assert\Length(max=60)
      *
      * @Groups({"MinistryCategoryListing"})
      *
@@ -63,7 +65,7 @@ class Ministry
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Person", inversedBy="ministries", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Person", inversedBy="ministries")
      * @ORM\JoinTable(name="ministry_responsible")
      *
      * @Groups({"MinistryCategoryListing"})
