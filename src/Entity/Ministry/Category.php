@@ -54,7 +54,7 @@ class Category
     private $position;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ministry", cascade={"persist"}, mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Ministry", mappedBy="category", cascade={"persist"}, orphanRemoval=true)
      *
      * @Groups({"MinistryCategoryListing"})
      *
