@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Ministry;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\Entity\Ministry\ResponsibleAssignment;
 
 /**
  * App\Entity\Person
@@ -158,18 +157,18 @@ class Person
     private $leaderOf;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ministry\ResponsibleAssignment", mappedBy="person", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Ministry", mappedBy="responsibles", cascade={"remove"})
      *
-     * @var \Doctrine\Common\Collections\Collection
+     * @var ArrayCollection|Ministry[]
      */
-    private $ministryResponsibleAssignments;
+    private $ministries;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->ministryResponsibleAssignments = new ArrayCollection();
+        $this->ministries = new ArrayCollection();
     }
 
     /**
@@ -497,10 +496,10 @@ class Person
     }
 
     /**
-     * @return Collection|ResponsibleAssignment[]
+     * @return ArrayCollection|Ministry[]
      */
-    public function getMinistryResponsibleAssignments()
+    public function getMinistries()
     {
-        return $this->ministryResponsibleAssignments;
+        return $this->ministries;
     }
 }

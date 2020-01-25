@@ -753,12 +753,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             foreach ($category->getMinistries() as $index => $ministry) {
                 /* @var $ministry \App\Entity\Ministry */
                 $responsibles = array();
-                foreach ($ministry->getResponsibleAssignments() as $responsibleAssignment) {
-                    if ($responsibleAssignment->getPerson()) {
-                        $responsibles[] = $responsibleAssignment->getPerson()->getFirstname() . ' ' . $responsibleAssignment->getPerson()->getAddress()->getFamilyName();
-                    } else if ($responsibleAssignment->getGroup()) {
-                        $responsibles[] = $responsibleAssignment->getGroup()->getName();
-                    }
+                foreach ($ministry->getResponsibles() as $person) {
+                    $responsibles[] = $person->getFirstname() . ' ' . $person->getAddress()->getFamilyName();
                 }
                 $row
                     ->newCell()

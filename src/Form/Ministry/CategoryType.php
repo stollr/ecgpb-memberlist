@@ -39,7 +39,6 @@ class CategoryType extends AbstractType
                 'horizontal_input_wrapper_class' => 'clearfix',
                 'entry_options' => array(
                     'label' => false,
-                    'csrf_protection' => $options['csrf_protection'],
                 )
             ))
             ->add('position', IntegerType::class, array(
@@ -53,13 +52,7 @@ class CategoryType extends AbstractType
             if (isset($data['responsible']['id'])) {
                 $data['responsible'] = $data['responsible']['id'];
             }
-            if (isset($data['ministries']) && is_array($data['ministries'])) {
-                foreach ($data['ministries'] as $index => $ministryData) {
-                    if (empty($ministryData['name'])) {
-                        unset($data['ministries'][$index]);
-                    }
-                }
-            }
+
             $event->setData($data);
         });
     }
@@ -77,7 +70,7 @@ class CategoryType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'category';
     }

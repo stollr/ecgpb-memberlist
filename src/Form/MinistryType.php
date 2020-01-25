@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -9,7 +10,6 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\Ministry\ResponsibleAssignmentType;
 
 class MinistryType extends AbstractType
 {
@@ -25,13 +25,8 @@ class MinistryType extends AbstractType
             ->add('position', IntegerType::class, array(
                 'required' => false,
             ))
-//            ->add('category', EntityType::class, array(
-//                'class' => 'App\Entity\Ministry\Category',
-//                'EntityType' => 'name',
-//                'required' => false,
-//            ))
-            ->add('responsibleAssignments', CollectionType::class, array(
-                'entry_type' => ResponsibleAssignmentType::class,
+            ->add('responsibles', CollectionType::class, array(
+                'entry_type' => EntityType::class,
                 'label' => false,
                 'prototype' => true,
                 'allow_add' => true,
@@ -41,7 +36,7 @@ class MinistryType extends AbstractType
                 'horizontal_input_wrapper_class' => 'clearfix',
                 'entry_options' => array(
                     'label' => false,
-                    'csrf_protection' => $options['csrf_protection'],
+                    'class' => \App\Entity\Person::class,
                 )
             ))
         ;
@@ -49,11 +44,9 @@ class MinistryType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
             $data = $event->getData();
             unset($data['id']);
-            if (isset($data['responsibleAssignments']) && is_array($data['responsibleAssignments'])) {
-                foreach ($data['responsibleAssignments'] as $index => $assignmentData) {
-                    if (empty($assignmentData['group']['id']) && empty($assignmentData['person']['id'])) {
-                        unset($data['responsibleAssignments'][$index]);
-                    }
+            if (isset($data['responsibles']) && is_array($data['responsibles'])) {
+                foreach ($data['responsibles'] as $index => $personData) {
+                    $data['responsibles'][$index] = $personData['id'];
                 }
             }
             $event->setData($data);
@@ -73,7 +66,7 @@ class MinistryType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'ministry';
     }

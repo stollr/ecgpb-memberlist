@@ -109,21 +109,21 @@
                     <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.description }}' }}</span>
                 </td>
                 <td>
-                    <div ng-repeat="assignment in ministry.responsibleAssignments" class="row">
+                    <div ng-repeat="person in ministry.responsibles" class="row">
                         <div class="col-md-10" ng-show="isEditable(ministryCategory)">
                             <select class="form-control input-sm"
-                             ng-model="assignment.person"
-                             ng-options="person as getPersonsLabel(person) for person in persons track by person.id">
+                             ng-model="ministry.responsibles[$index]"
+                             ng-options="p as getPersonsLabel(p) for p in persons track by p.id">
                                 <option value="">- {% trans %}Person{% endtrans %} -</option>
                             </select>
                         </div>
                         <div class="col-md-2 text-right" ng-show="isEditable(ministryCategory)">
-                            <button type="button" class="btn btn-default btn-sm" ng-click="ministry.removeResponsible(assignment)" ng-show="isEditable(ministryCategory)">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="ministry.removeResponsible(person)" ng-show="isEditable(ministryCategory)">
                                 <span class="glyphicon glyphicon-minus"></span>
                             </button>
                         </div>
                         <div class="col-md-12" ng-show="!isEditable(ministryCategory)">
-                            {{ '{{ getPersonsLabel(assignment.person) }}' }}
+                            {{ '{{ getPersonsLabel(person) }}' }}
                         </div>
                     </div>
                     <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministry.newResponsible()" ng-show="isEditable(ministryCategory)">
@@ -239,34 +239,25 @@
                 };
                 return MinistryCategory;
             })
-            .factory('Ministry', function(Assignment) {
+            .factory('Ministry', function() {
                 var Ministry = function(properties) {
+                    this.id = properties.id;
                     this.name = properties ? properties.name : '';
                     this.description = properties ? properties.description : '';
                     this.position = properties ? properties.position : 0;
-                    this.responsibleAssignments = properties
-                        ? properties.responsibleAssignments.map(function(value) { return new Assignment(value); })
-                        : [new Assignment()]
-                    ;
+                    this.responsibles = properties.responsibles || [];
                     this.newResponsible = function() {
-                        var last = this.responsibleAssignments.length === 0 ? null : this.responsibleAssignments[this.responsibleAssignments.length - 1];
-                        if (!last || last.person) {
-                            this.responsibleAssignments.push(new Assignment());
+                        var last = this.responsibles.length === 0 ? null : this.responsibles[this.responsibles.length - 1];
+                        if (!last || last.id) {
+                            this.responsibles.push({id: null});
                         }
                     };
-                    this.removeResponsible = function(assignment) {
-                        var index = this.responsibleAssignments.indexOf(assignment);
-                        this.responsibleAssignments.splice(index, 1);
+                    this.removeResponsible = function(person) {
+                        var index = this.responsibles.indexOf(person);
+                        this.responsibles.splice(index, 1);
                     };
                 };
                 return Ministry;
-            })
-            .factory('Assignment', function() {
-                var Assignment = function(properties) {
-                    this.id = properties ? properties.id : null;
-                    this.person = properties ? properties.person : null;
-                };
-                return Assignment;
             })
         ;
         // ]]>

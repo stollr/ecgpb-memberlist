@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\Ministry\Category;
-use App\Entity\Ministry\ResponsibleAssignment;
+use App\Entity\Person;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -62,20 +63,21 @@ class Ministry
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ministry\ResponsibleAssignment", mappedBy="ministry", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Person", inversedBy="ministries", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="ministry_responsible")
      *
      * @Groups({"MinistryCategoryListing"})
      *
-     * @var \Doctrine\Common\Collections\Collection|ResponsibleAssignment[]
+     * @var ArrayCollection|Person[]
      */
-    private $responsibleAssignments;
+    private $responsibles;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->responsibleAssignments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->responsibles = new ArrayCollection();
     }
 
     /**
@@ -155,35 +157,38 @@ class Ministry
     }
 
     /**
-     * Add responsibleAssignments
+     * Add responsible persons
      *
-     * @param ResponsibleAssignment $responsibleAssignment
-     * @return Ministry
+     * @param Person $person
      */
-    public function addResponsibleAssignment(ResponsibleAssignment $responsibleAssignment)
+    public function addResponsible(Person $person)
     {
-        $this->responsibleAssignments[] = $responsibleAssignment;
-        $responsibleAssignment->setMinistry($this);
+        $this->responsibles->add($person);
+
+        if (!$person->getMinistries()->contains($this)) {
+            $person->getMinistries()->add($this);
+        }
         return $this;
     }
 
     /**
-     * Remove responsibleAssignments
+     * Remove responsible persons
      *
-     * @param ResponsibleAssignment $responsibleAssignment
+     * @param Person $person
      */
-    public function removeResponsibleAssignment(ResponsibleAssignment $responsibleAssignment)
+    public function removeResponsible(Person $person)
     {
-        $this->responsibleAssignments->removeElement($responsibleAssignment);
+        $this->responsibles->removeElement($person);
+        $person->getMinistries()->removeElement($this);
     }
 
     /**
-     * Get responsibleAssignments
+     * Get responsible persons
      *
-     * @return \Doctrine\Common\Collections\Collection|ResponsibleAssignment[]
+     * @return ArrayCollection|Person[]
      */
-    public function getResponsibleAssignments()
+    public function getResponsibles()
     {
-        return $this->responsibleAssignments;
+        return $this->responsibles;
     }
 }
