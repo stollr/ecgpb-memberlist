@@ -28,12 +28,20 @@ class Address
     private $id;
 
     /**
-     * @ORM\Column(name="familyName", type="string", length=50)
+     * @ORM\Column(name="family_name", type="string", length=50)
      * @Groups({"MinistryCategoryListing"})
      *
      * @var string
      */
     private $familyName;
+
+    /**
+     * @ORM\Column(name="name_prefix", type="string", length=20, nullable=true)
+     * @Groups({"MinistryCategoryListing"})
+     *
+     * @var ?string
+     */
+    private $namePrefix;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
@@ -109,6 +117,26 @@ class Address
     public function getFamilyName()
     {
         return $this->familyName;
+    }
+
+    /**
+     * Get the name prefix.
+     *
+     * @return string|null
+     */
+    public function getNamePrefix(): ?string
+    {
+        return $this->namePrefix;
+    }
+
+    /**
+     * Set the name prefix.
+     *
+     * @param string|null $namePrefix
+     */
+    public function setNamePrefix(?string $namePrefix)
+    {
+        $this->namePrefix = $namePrefix;
     }
 
     /**

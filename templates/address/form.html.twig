@@ -70,6 +70,7 @@
     <form class="form-horizontal" action="{{ actionUrl }}" method="post" enctype="multipart/form-data">
         <div class="clearfix">
             {{ form_errors(form) }}
+            {{ form_row(form.namePrefix) }}
             {{ form_row(form.familyName) }}
             {{ form_row(form.phone) }}
             {{ form_row(form.street) }}

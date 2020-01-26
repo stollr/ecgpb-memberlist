@@ -192,24 +192,37 @@ class Person
         return $this;
     }
 
-    public function getFirstnameAndLastname()
+    /**
+     * Get the firstname, name prefix and lastname concated.
+     *
+     * @return string
+     */
+    public function getFirstnameAndLastname(): string
     {
-        return $this->getFirstname() . ' ' . ($this->getLastname() ?: $this->getAddress()->getFamilyName());
+        return $this->getFirstname() . ' '
+            . ($this->getAddress()->getNamePrefix() ? $this->getAddress()->getNamePrefix() . ' ' : '')
+            . ($this->getLastname() ?: $this->getAddress()->getFamilyName());
     }
 
-    public function getLastnameAndFirstname()
+    /**
+     * Get the concated lastname, firstname and name prefix.
+     *
+     * @return string
+     */
+    public function getLastnameAndFirstname(): string
     {
-        return ($this->getLastname() ?: $this->getAddress()->getFamilyName()) . ', ' . $this->getFirstname();
+        return ($this->getLastname() ?: $this->getAddress()->getFamilyName()) . ', ' . $this->getFirstname()
+            . ($this->getAddress()->getNamePrefix() ? ' ' . $this->getAddress()->getNamePrefix() : '');
     }
 
-    public function getLastnameFirstnameAndDob()
+    /**
+     * Get the concated lastname, firstname, name prefix and year of birth.
+     *
+     * @return string
+     */
+    public function getLastnameFirstnameAndDob(): string
     {
-        return sprintf(
-            '%s, %s (%d)',
-            $this->getLastname() ?: $this->getAddress()->getFamilyName(),
-            $this->getFirstname(),
-            $this->getDob()->format('Y')
-        );
+        return $this->getLastnameAndFirstname() . '(' . $this->getDob()->format('Y') . ')';
     }
 
     /**

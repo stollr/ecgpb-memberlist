@@ -397,13 +397,16 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 /* @var $person \App\Entity\Person */
                 $row = $table->newRow();
                 if (0 == $index) {
-                    if (strlen($address->getFamilyName()) < 21 && strlen($address->getPhone()) < 21) {
+                    $displayLastname = $address->getNamePrefix() ? $address->getNamePrefix() . ' ' : '';
+                    $displayLastname .= $address->getFamilyName();
+
+                    if (strlen($displayLastname) < 21 && strlen($address->getPhone()) < 21) {
                         $fontSize = self::FONT_SIZE_S + 0.5;
                     } else {
                         $fontSize = self::FONT_SIZE_S;
                     }
                     $row->newCell()
-                            ->setText($address->getFamilyName() . "\n" . $address->getPhone())
+                            ->setText($displayLastname . "\n" . $address->getPhone())
                             ->setBorder('LTR')
                             ->setFontSize($fontSize)
                             ->setFontWeight('bold')
@@ -754,7 +757,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 /* @var $ministry \App\Entity\Ministry */
                 $responsibles = array();
                 foreach ($ministry->getResponsibles() as $person) {
-                    $responsibles[] = $person->getFirstname() . ' ' . $person->getAddress()->getFamilyName();
+                    $responsibles[] = $person->getFirstnameAndLastname();
                 }
                 $row
                     ->newCell()
