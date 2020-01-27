@@ -2,19 +2,28 @@
 
 namespace App\Form;
 
+use App\Entity\Address;
+use App\Entity\Person;
+use App\Entity\WorkingGroup;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Entity\Address;
-use App\Entity\Person;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PersonType extends AbstractType
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -74,8 +83,10 @@ class PersonType extends AbstractType
                 'required' => false,
             ))
             ->add('workingGroup', EntityType::class, array(
-                'class' => 'App\Entity\WorkingGroup',
-                'choice_label' => 'displayName',
+                'class' => WorkingGroup::class,
+                'choice_label' => function ($workingGroup) {
+                    return $workingGroup->getDisplayName($this->translator);
+                },
                 'label' => 'Working Group',
                 'required' => false,
             ))
