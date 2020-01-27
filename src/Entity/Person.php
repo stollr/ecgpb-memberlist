@@ -222,7 +222,7 @@ class Person
      */
     public function getLastnameFirstnameAndDob(): string
     {
-        return $this->getLastnameAndFirstname() . '(' . $this->getDob()->format('Y') . ')';
+        return $this->getLastnameAndFirstname() . ' (' . $this->getDob()->format('Y') . ')';
     }
 
     /**
