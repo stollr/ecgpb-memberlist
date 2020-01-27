@@ -105,6 +105,10 @@ class WorkingGroup
      */
     public function addPerson(Person $person)
     {
+        if ($this->gender !== $person->getGender()) {
+            throw new InvalidArgumentException('This working group is not compatible to the passed person.');
+        }
+
         if (!$this->persons->contains($person)) {
             $this->persons->add($person);
         }
