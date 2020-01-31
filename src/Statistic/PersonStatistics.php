@@ -145,4 +145,35 @@ class PersonStatistics
 
         return key($this->numberPerAge);
     }
+
+    /**
+     * Get the number of members per age groups like:
+     * 10-14 years, 15-19 => $interval = 5.
+     *
+     * @param int $interval Has to be > 0
+     * @param ?int $startAge
+     * @return array
+     */
+    public function getNumberPerAgeGroup(int $interval, ?int $startAge): array
+    {
+        if ($interval <= 0) {
+            throw new \InvalidArgumentException('$interval has to be > 0');
+        }
+        $grouped = [];
+        $intervalStart = 0;
+        $intervalEnd = $startAge - 1;
+        foreach ($this->numberPerAge as $age => $numberOfMembers) {
+            if ($startAge && $age < $startAge) {
+                $key = "<$startAge";
+            } else {
+                $intervalStart = floor($age / $interval) * $interval;
+                $intervalEnd = $intervalStart + $interval - 1;
+                $key = "$intervalStart-$intervalEnd";
+            }
+
+            $grouped[$key] = ($grouped[$key] ?? 0) + $numberOfMembers;
+        }
+
+        return $grouped;
+    }
 }

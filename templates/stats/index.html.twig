@@ -46,7 +46,23 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
+            <h3>{% trans %}Members per Age Group{% endtrans %}</h3>
+
+            <table class="table table-condensed table-striped">
+                <tr>
+                    <th>{% trans %}Age{% endtrans %}</th>
+                    <th>{% trans %}Number of Members{% endtrans %}</th>
+                </tr>
+                {% for interval, number in statistics.getNumberPerAgeGroup(5, 15) %}
+                    <tr>
+                        <td>{{ interval }}</td>
+                        <td>{{ number }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-sm-4">
             <h3>{% trans %}Members per Year of Birth{% endtrans %}</h3>
 
             <table class="table table-condensed table-striped">
@@ -62,7 +78,7 @@
                 {% endfor %}
             </table>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <h3>{% trans %}Members per Age{% endtrans %}</h3>
 
             <table class="table table-condensed table-striped">
