@@ -15,11 +15,11 @@
                 </tr>
                 <tr>
                     <th>{% trans %}Male Members{% endtrans %}</th>
-                    <td>{{ statistics.maleTotal }} ({{ (statistics.maleTotal / statistics.total * 100) | round(1) | localizednumber }} %)</td>
+                    <td>{{ statistics.maleTotal }} ({{ (statistics.maleTotal / statistics.total * 100) | format_number({fraction_digit: 1}) }} %)</td>
                 </tr>
                 <tr>
                     <th>{% trans %}Female Members{% endtrans %}</th>
-                    <td>{{ statistics.femaleTotal }} ({{ (statistics.femaleTotal / statistics.total * 100) | round(1) | localizednumber }} %)</td>
+                    <td>{{ statistics.femaleTotal }} ({{ (statistics.femaleTotal / statistics.total * 100) | format_number({fraction_digit: 1}) }} %)</td>
                 </tr>
                 <tr>
                     <th>{% trans %}At least 65 Years old{% endtrans %}</th>
