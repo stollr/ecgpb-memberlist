@@ -39,7 +39,8 @@
                 <td>
                     <div class="col-md-6">
                         {% set numberOfMembers = (working_group.persons | length) - (working_group.persons.contains(working_group.leader) ? 1 : 0) %}
-                        {% for person in working_group.persons if (not working_group.leader or working_group.leader.id != person.id) %}
+                        {% set sortedPersons = working_group.persons | sort((a, b) => a.lastnameAndFirstname <=> b.lastnameAndFirstname) %}
+                        {% for person in sortedPersons if (not working_group.leader or working_group.leader.id != person.id) %}
                             <span class="text-muted">{{ loop.index }}.</span>
                             {{ person.lastnameFirstnameAndDob }}<br/>
 
