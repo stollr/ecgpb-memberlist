@@ -38,11 +38,12 @@
                 </td>
                 <td>
                     <div class="col-md-6">
+                        {% set numberOfMembers = (working_group.persons | length) - (working_group.persons.contains(working_group.leader) ? 1 : 0) %}
                         {% for person in working_group.persons if (not working_group.leader or working_group.leader.id != person.id) %}
                             <span class="text-muted">{{ loop.index }}.</span>
                             {{ person.lastnameFirstnameAndDob }}<br/>
 
-                            {% if loop.index == (working_group.persons | length / 2) | round %}
+                            {% if loop.index == (numberOfMembers / 2) | round %}
                                 </div><div class="col-md-6">
                             {% endif %}
                         {% endfor %}
