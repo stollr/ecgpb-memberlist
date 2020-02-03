@@ -150,6 +150,12 @@ class Person
     private $workerStatus;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     * @var string|null
+     */
+    private $notice;
+
+    /**
      * @ORM\OneToOne(targetEntity="App\Entity\WorkingGroup", mappedBy="leader")
      *
      * @var \App\Entity\WorkingGroup
@@ -476,6 +482,26 @@ class Person
         }
         $this->workerStatus = $workerStatus;
         return $this;
+    }
+
+    /**
+     * Get the notice.
+     *
+     * @return string|null
+     */
+    public function getNotice(): ?string
+    {
+        return $this->notice;
+    }
+
+    /**
+     * Set the notice
+     *
+     * @param string|null $notice
+     */
+    public function setNotice(?string $notice)
+    {
+        $this->notice = $notice;
     }
 
     public static function getAllWorkerStatus()
