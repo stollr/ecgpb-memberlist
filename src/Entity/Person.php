@@ -440,7 +440,7 @@ class Person
      */
     public function setWorkingGroup(\App\Entity\WorkingGroup $workingGroup = null)
     {
-        if ($this->gender && $this->gender !== $workingGroup->getGender()) {
+        if ($this->gender && $workingGroup && $this->gender !== $workingGroup->getGender()) {
             throw new InvalidArgumentException('This person is not compatible to the passed working group.');
         }
 
