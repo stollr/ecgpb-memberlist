@@ -61,6 +61,7 @@ services:
     App\PdfGenerator\MemberListGenerator:
         arguments:
             $parameters:
+                kernel.project_dir: '%kernel.project_dir%'
                 ecgpb.contact.name: '%ecgpb.contact.name%'
                 ecgpb.contact.street: '%ecgpb.contact.street%'
                 ecgpb.contact.zip: '%ecgpb.contact.zip%'

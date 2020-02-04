@@ -95,7 +95,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->SetY($margins['top']);
 
         // logo
-        $src = realpath(__DIR__ . '/../Resources/public/img/logo.png');
+        $src = realpath($this->parameters['kernel.project_dir'] . '/public/img/logo.png');
+        if (!$src) {
+            throw new \Exception('The logo file disappeared.');
+        }
         //$pdf->Image($file, $x, $y, $w, $h, $type, $link, $align, $resize, $dpi, $palign, $ismask, $imgmask, $border, $fitbox, $hidden, $fitonpage, $alt, $altimgs);
         $pdf->Image($src, $pdf->GetX() + 3.5, $pdf->GetY(), 30, 19, 'PNG', null, 'N', true, 300);
 
@@ -114,11 +117,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     private function addPage1(\TCPDF $pdf)
     {
         $pdf->AddPage();
-
-        // picture of church front
-//        $src = realpath(__DIR__ . '/../Resources/public/img/church_front.jpg');
-//        $pdf->Image($src, $pdf->GetX() + 1.5, $pdf->GetY(), 100, null, 'JPG', null, 'N', true, 300);
-//        $pdf->SetY($pdf->GetY() + 5);
 
         $this->useFontSizeXL($pdf);
         $this->useFontStyleBold($pdf);
@@ -200,7 +198,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         // library logo
         $this->addParagraphMargin($pdf);
-        $src = realpath(__DIR__ . '/../Resources/public/img/library_logo.png');
+        $src = realpath($this->parameters['kernel.project_dir'] . '/public/img/library_logo.png');
         $pdf->Image($src, $pdf->GetX() + 10, $pdf->GetY(), 40, 18, 'PNG', null, 'T', true, 300, 'R');
 
         // library
