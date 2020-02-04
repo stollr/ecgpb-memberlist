@@ -241,11 +241,11 @@
             })
             .factory('Ministry', function() {
                 var Ministry = function(properties) {
-                    this.id = properties.id;
+                    this.id = properties ? properties.id : null;
                     this.name = properties ? properties.name : '';
                     this.description = properties ? properties.description : '';
                     this.position = properties ? properties.position : 0;
-                    this.responsibles = properties.responsibles || [];
+                    this.responsibles = properties ? (properties.responsibles || []) : [];
                     this.newResponsible = function() {
                         var last = this.responsibles.length === 0 ? null : this.responsibles[this.responsibles.length - 1];
                         if (!last || last.id) {
