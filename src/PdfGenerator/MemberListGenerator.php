@@ -644,7 +644,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 }
 
                 if ($pdf->GetY() > $nextY) {
-                    $nextY = $pdf->GetY() + 10;
+                    $nextY = $pdf->GetY() + 7;
                 }
             }
             $t++;
