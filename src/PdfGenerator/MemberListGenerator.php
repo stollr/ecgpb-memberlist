@@ -927,7 +927,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $pdf->lastPage = true;
 
-        $pdf->SetY(165);
+        $pdf->SetY(153);
 
         $this->useFontSizeM($pdf);
         $this->useFontStyleBold($pdf);
@@ -942,10 +942,13 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $pdf->SetY($pdf->GetY() + 6);
         $this->useFontStyleBold($pdf);
-        $this->writeText($pdf, 'Nur für den privaten Gebrauch! Die Weitergabe von '
-            . 'Daten an Drittpersonen ist aus Gründen des Datenschutzes nicht '
-            . 'erlaubt!'
+        $this->writeText($pdf, $this->translator->trans('For private use only!') . ' '
+            . $this->translator->trans('The passing on of data to third parties is not permitted for reasons of data protection!')
         );
+        $pdf->SetY($pdf->GetY() + 4);
+        $this->writeText($pdf, $this->translator->trans(
+            'This booklet must be shredded before disposal. If this is not possible, please return it.'
+        ));
     }
 
     /**
