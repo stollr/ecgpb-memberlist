@@ -159,7 +159,7 @@ class PersonController extends Controller
                 $file->move($personHelper->getPersonPhotoPath(), $filename);
             }
             
-            $this->get('session')->getFlashBag()->add('success', 'All changes have been saved.');
+            $this->addFlash('success', 'All changes have been saved.');
 
             return $this->redirect($this->generateUrl('ecgpb.member.person.edit', array('id' => $id)));
         }
@@ -192,13 +192,9 @@ class PersonController extends Controller
         $em->remove($person);
         $em->flush();
 
-        $this->get('session')->getFlashBag()->add('success', 'The entry has been deleted.');
+        $this->addFlash('success', 'The entry has been deleted.');
 
-        if ($referrer = $request->headers->get('referer')) {
-            return $this->redirect($referrer);
-        }
-
-        return $this->redirect($this->generateUrl('ecgpb.member.person.index'));
+        return $this->redirectToRoute('ecgpb.member.address.index');
     }
 
     /**
