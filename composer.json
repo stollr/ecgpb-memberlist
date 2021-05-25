@@ -18,26 +18,26 @@
         "phpoffice/phpspreadsheet": "~1.9.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "symfony/flex": "^1.4",
-        "symfony/framework-bundle": "^4.4",
-        "symfony/asset": "^4.4",
-        "symfony/console": "^4.4",
-        "symfony/doctrine-bridge": "^4.4",
-        "symfony/form": "^4.4",
-        "symfony/intl": "^4.4",
-        "symfony/security-csrf": "^4.4",
-        "symfony/serializer": "^4.4",
-        "symfony/templating": "^4.4",
-        "symfony/translation": "^4.4",
-        "symfony/validator": "^4.4",
-        "symfony/yaml": "^4.4",
-        "tecnickcom/tcpdf": "@dev",
+        "symfony/framework-bundle": "*",
+        "symfony/asset": "*",
+        "symfony/console": "*",
+        "symfony/doctrine-bridge": "*",
+        "symfony/form": "*",
+        "symfony/intl": "*",
+        "symfony/security-csrf": "*",
+        "symfony/serializer": "*",
+        "symfony/templating": "*",
+        "symfony/translation": "*",
+        "symfony/validator": "*",
+        "symfony/yaml": "*",
+        "tecnickcom/tcpdf": "^6.2.26",
         "twbs/bootstrap": ">=3.3,<4.0",
         "twig/intl-extra": "^3.0",
         "twig/extra-bundle": "^3.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
-        "symfony/dotenv": "^4.4",
+        "symfony/dotenv": "*",
         "symfony/maker-bundle": "^1.14",
         "symfony/profiler-pack": "^1.0"
     },
@@ -63,14 +63,9 @@
         "bin-dir": "bin"
     },
     "extra": {
-        "symfony-app-dir": "app",
-        "symfony-bin-dir": "bin",
-        "symfony-var-dir": "var",
-        "symfony-web-dir": "web",
-        "symfony-tests-dir": "tests",
-        "symfony-assets-install": "symlink",
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+        "symfony": {
+            "allow-contrib": true,
+            "require": "^4.4"
         }
     }
 }
