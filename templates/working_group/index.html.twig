@@ -2,7 +2,7 @@
 
 {% block body -%}
     <a class="btn btn-success pull-right" href="{{ path('ecgpb.member.workinggroup.new') }}">
-        <span class="glyphicon glyphicon-plus"></span>
+        <i class="bi bi-plus-lg"></i>
     </a>
 
     <h2>{% trans %}Working Groups{% endtrans %}</h2>
@@ -51,13 +51,13 @@
                     </div>
                 </td>
                 <td>
-                    <a class="btn btn-default" href="{{ path('ecgpb.member.workinggroup.edit', { 'id': working_group.id }) }}">
-                        <span class="glyphicon glyphicon-pencil"></span>
+                    <a class="btn btn-outline-dark" href="{{ path('ecgpb.member.workinggroup.edit', { 'id': working_group.id }) }}">
+                        <i class="bi bi-pencil"></i>
                     </a>
                     <a class="btn btn-danger"
                      href="{{ path('ecgpb.member.workinggroup.delete', { 'id': working_group.id }) }}"
                      onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
-                        <span class="glyphicon glyphicon-remove"></span>
+                        <i class="bi bi-trash"></i>
                     </a>
                 </td>
             </tr>

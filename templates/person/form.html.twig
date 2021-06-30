@@ -6,14 +6,14 @@
         <a class="btn btn-danger pull-right"
          href="{{ path('ecgpb.member.person.delete', {'id': person.id}) }}"
          title="{% trans %}Delete Person{% endtrans %}">
-            <span class="glyphicon glyphicon-remove"></span>
+            <i class="bi bi-trash"></i>
         </a>
     {% endif %}
     {% if person.address and person.address.id > 0 %}
-        <a class="btn btn-default pull-right"
+        <a class="btn btn-outline-dark pull-right"
          href="{{ path('ecgpb.member.address.edit', {'id': person.address.id}) }}"
          title="{% trans %}Back to List{% endtrans %}">
-            <span class="glyphicon glyphicon-arrow-left"></span>
+            <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
         </a>
     {% endif %}
 

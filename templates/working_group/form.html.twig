@@ -6,13 +6,13 @@
          href="{{ path('ecgpb.member.workinggroup.delete', {'id': working_group.id}) }}"
          title="{% trans %}Delete Working Group{% endtrans %}"
          onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
-            <span class="glyphicon glyphicon-remove"></span>
+            <i class="bi bi-trash"></i>
         </a>
     {% endif %}
-    <a class="btn btn-default pull-right"
+    <a class="btn btn-outline-dark pull-right"
      href="{{ path('ecgpb.member.workinggroup.index') }}"
      title="{% trans %}Back to List{% endtrans %}">
-        <span class="glyphicon glyphicon-arrow-left"></span>
+        <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
     </a>
 
     <h2>{% trans %}Working Group{% endtrans %}</h2>
