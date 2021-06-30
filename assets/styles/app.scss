@@ -1,0 +1,22 @@
+/* Collections - alternating background */
+[data-prototype] > fieldset {
+    padding: 1.25rem;
+    margin-bottom: 0;
+    border: 1px solid #ccc;
+    
+    &:nth-child(2n) {
+        background-color: #eee;
+    }
+    &:nth-child(n+2) {
+        border-top: 0;
+    }
+}
+
+label.required::after {
+    content: " * ";
+    color: #f55;
+}
+
+.person-picture {
+    height: 60px;
+}

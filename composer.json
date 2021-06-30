@@ -32,7 +32,6 @@
         "symfony/webpack-encore-bundle": "^1.11.2",
         "symfony/yaml": "*",
         "tecnickcom/tcpdf": "^6.2.26",
-        "twbs/bootstrap": ">=3.3,<4.0",
         "twig/extra-bundle": "^3.0",
         "twig/intl-extra": "^3.0"
     },
@@ -46,15 +45,6 @@
         "symfony/symfony": "*"
     },
     "scripts": {
-        "symfony-scripts": [
-            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
-        ],
-        "post-install-cmd": [
-            "@symfony-scripts"
-        ],
-        "post-update-cmd": [
-            "@symfony-scripts"
-        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
