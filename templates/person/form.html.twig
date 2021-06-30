@@ -1,64 +1,91 @@
-{% extends '/base.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if person.id > 0 %}{{ person.firstnameAndLastname }} - {% endif -%}
+    {% trans %}Person{% endtrans %} - {{ parent() }}
+{% endblock %}
 
 {% block body -%}
-
-    {% if person.id > 0 %}
-        <a class="btn btn-danger pull-right"
-         href="{{ path('ecgpb.member.person.delete', {'id': person.id}) }}"
-         title="{% trans %}Delete Person{% endtrans %}">
-            <i class="bi bi-trash"></i>
-        </a>
-    {% endif %}
-    {% if person.address and person.address.id > 0 %}
-        <a class="btn btn-outline-dark pull-right"
-         href="{{ path('ecgpb.member.address.edit', {'id': person.address.id}) }}"
-         title="{% trans %}Back to List{% endtrans %}">
-            <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
-        </a>
-    {% endif %}
-
-    <h2>{% trans %}Edit Person{% endtrans %}</h2>
-
-    
     {{ form_start(form) }}
-    <div class="col-md-3">
-        <p>
-            <img class="-person-picture img-thumbnail"
-             src="{{ path('ecgpb.member.person.optimized_member_picture', {'id': person.id}) }}"
-             alt="No Image"/>
-        </p>
-        <p>
-            <input type="file" name="person-picture-file" />
-        </p>
+    <div class="d-flex align-items-center mb-3">
+        <div class="mr-auto">
+            <h2>{% trans %}Edit Person{% endtrans %}</h2>
+        </div>
+        {% if person.address and person.address.id > 0 %}
+            <a class="btn btn-outline-dark mr-2"
+             href="{{ path('ecgpb.member.address.edit', {'id': person.address.id}) }}"
+             title="{% trans %}Back to List{% endtrans %}">
+                <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
+            </a>
+        {% endif %}
+        <button type="submit" class="btn btn-primary mr-2">
+            <i class="bi bi-save"></i> {% trans %}Save{% endtrans %}
+        </button>
+        {% if person.id > 0 %}
+            <a class="btn btn-danger"
+             href="{{ path('ecgpb.member.person.delete', {'id': person.id}) }}"
+             title="{% trans %}Delete Person{% endtrans %}"
+             onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
+                <i class="bi bi-trash"></i> {% trans %}Delete{% endtrans %}
+            </a>
+        {% endif %}
     </div>
-    <div class="col-md-9">
-        {{ form_errors(form) }}
 
-        {{ form_row(form.address) }}
-        <div class="form-group">
-            <div class="col-md-offset-3 col-md-9">
-                <a href="{{ path('ecgpb.member.address.edit', {'id': person.address.id}) }}">{% trans %}Go to address{% endtrans %}</a>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">{% trans %}Master data{% endtrans %}</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <p>
+                                <img class="-person-picture img-thumbnail"
+                                 src="{{ path('ecgpb.member.person.optimized_member_picture', {'id': person.id}) }}"
+                                 alt="No Image"/>
+                            </p>
+                            <p>
+                                <input type="file" name="person-picture-file" />
+                            </p>
+                        </div>
+                        <div class="col-lg-6">
+                            {{ form_errors(form) }}
+
+                            {{ form_row(form.address, {'row_attr': {'class': 'mb-0'}}) }}
+                            <p>
+                                <a href="{{ path('ecgpb.member.address.edit', {'id': person.address.id}) }}">{% trans %}Go to address{% endtrans %}</a>
+                            </p>
+                            {{ form_row(form.firstname) }}
+                            {{ form_row(form.lastname) }}
+                            {{ form_row(form.maidenName) }}
+                            {{ form_row(form.dob) }}
+                            {{ form_row(form.gender) }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        {{ form_row(form.firstname) }}
-        {{ form_row(form.lastname) }}
-        {{ form_row(form.maidenName) }}
-        {{ form_row(form.dob) }}
-        {{ form_row(form.gender) }}
-        <hr/>
-        {{ form_row(form.mobile) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.phone2) }}
-        {{ form_row(form.phone2Label) }}
-        <hr/>
-        {{ form_row(form.workingGroup) }}
-        {{ form_row(form.workerStatus) }}
-
-        <div class="form-group">
-            {{ form_widget(form.submit) }}
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-header">{% trans %}Contact data{% endtrans %}</div>
+                <div class="card-body">
+                    {{ form_row(form.mobile) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.phone2) }}
+                    {{ form_row(form.phone2Label) }}
+                </div>
+            </div>
         </div>
-        
-        {{ form_rest(form) }}
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-header">{% trans %}Miscellaneous{% endtrans %}</div>
+                <div class="card-body">
+                    {{ form_row(form.workingGroup) }}
+                    {{ form_row(form.workerStatus) }}
+
+                    {{ form_rest(form) }}
+                </div>
+            </div>
+        </div>
     </div>
     {{ form_end(form) }}
 

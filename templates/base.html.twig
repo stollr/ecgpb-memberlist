@@ -78,7 +78,7 @@
         <main role="main">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 pb-5">
                         <div id="flashes">
                             {% for type, flashes in app.session.flashBag.all %}
                                 {% set cssType = type == 'error' ? 'danger' : type %}
