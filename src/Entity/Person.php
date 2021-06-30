@@ -209,6 +209,14 @@ class Person
             . ($this->getAddress()->getNamePrefix() ? $this->getAddress()->getNamePrefix() . ' ' : '')
             . ($this->getLastname() ?: $this->getAddress()->getFamilyName());
     }
+    
+    /**
+     * Get the display name (firstname and lastname) with year of birth.
+     */
+    public function getDisplayNameDob(): string
+    {
+        return $this->getFirstnameAndLastname() . ' (' . $this->getDob()->format('Y') . ')';
+    }
 
     /**
      * Get the concated lastname, firstname and name prefix.

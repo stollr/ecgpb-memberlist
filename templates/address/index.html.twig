@@ -3,36 +3,30 @@
 {% block title %}{% trans %}Addresses{% endtrans %} - {{ parent() }}{% endblock %}
 
 {% block body -%}
-    <div class="row">
-        <div class="col-md-4">
-            <h2>{% trans %}Addresses{% endtrans %}</h2>
-        </div>
-        <div class="col-md-7 h2-margin print-not">
-            <form action="{{ path('ecgpb.member.address.index') }}" method="get" role="form" class="form-inline text-right">
-                {% set filter = app.request.get('filter') %}
-                <div class="form-group">
-                    <input type="text" name="filter[term]" class="form-control" value="{{ filter['term'] is defined ? filter['term'] : '' }}" placeholder="{% trans %}Search Term{% endtrans %}" />
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="filter[has-email]" value="1" {% if filter['has-email'] is defined and filter['has-email'] is not empty %}checked="1"{% endif %} />
-                        {% trans %}Has Email Address{% endtrans %}
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="filter[no-photo]" value="1" {% if filter['no-photo'] is defined and filter['no-photo'] is not empty %}checked="1"{% endif %} />
-                        {% trans %}Without Photo{% endtrans %}
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-default">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </form>
-        </div>
-        <div class="col-md-1 h2-margin text-right">
+    <div class="d-flex align-items-center mb-3">
+        <h2 class="mr-auto">{% trans %}Addresses{% endtrans %}</h2>
+        <form action="{{ path('ecgpb.member.address.index') }}" method="get" role="form" class="form-inline">
+            {% set filter = app.request.get('filter') %}
+            <input type="text" name="filter[term]" class="form-control mr-2" value="{{ filter['term'] is defined ? filter['term'] : '' }}" placeholder="{% trans %}Search Term{% endtrans %}" />
+            <div class="form-check mr-2">
+                <label>
+                    <input type="checkbox" name="filter[has-email]" class="form-check-input" value="1" {% if filter['has-email'] is defined and filter['has-email'] is not empty %}checked="1"{% endif %} />
+                    {% trans %}Has Email Address{% endtrans %}
+                </label>
+            </div>
+            <div class="form-check mr-2">
+                <label>
+                    <input type="checkbox" name="filter[no-photo]" class="form-check-input" value="1" {% if filter['no-photo'] is defined and filter['no-photo'] is not empty %}checked="1"{% endif %} />
+                    {% trans %}Without Photo{% endtrans %}
+                </label>
+            </div>
+            <button type="submit" class="btn btn-outline-dark mr-2">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+        <div>
             <a class="btn btn-success" href="{{ path('ecgpb.member.address.new') }}">
-                <span class="glyphicon glyphicon-plus"></span>
+                <i class="bi bi-plus-lg"></i>
             </a>
         </div>
     </div>
@@ -87,16 +81,16 @@
                         </td>
                         {% if loop.index0 == 0 %}
                         <td rowspan="{{ address.persons | length }}">
-                            <a class="btn btn-default"
+                            <a class="btn btn-outline-dark"
                              href="{{ path('ecgpb.member.address.edit', { 'id': address.id }) }}"
                              title="{% trans %}Edit Address{% endtrans %}">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                                <i class="bi bi-pencil"></i>
                             </a>
                             <a class="btn btn-danger"
                              href="{{ path('ecgpb.member.address.delete', { 'id': address.id }) }}"
                              title="{% trans %}Delete Address{% endtrans %}"
                              onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <i class="bi bi-trash"></i>
                             </a>
                         </td>
                         {% endif %}
@@ -108,16 +102,16 @@
                         <td></td>
                         <td></td>
                         <td>
-                            <a class="btn btn-default"
+                            <a class="btn btn-outline-dark"
                              href="{{ path('ecgpb.member.address.edit', { 'id': address.id }) }}"
                              title="{% trans %}Edit Address{% endtrans %}">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                                <i class="bi bi-pencil"></i>
                             </a>
                             <a class="btn btn-danger"
                              href="{{ path('ecgpb.member.address.delete', { 'id': address.id }) }}"
                              title="{% trans %}Delete Address{% endtrans %}"
                              onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <i class="bi bi-trash"></i>
                             </a>
                         </td>
                     </tr>

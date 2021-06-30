@@ -1,6 +1,7 @@
 Able to work: Arbeitsfähig
 Account Number: Kontonummer
 Actions: Aktionen
+'Add': 'Hinzufügen'
 Add Ministry Category: Dienstbereich hinzufügen
 Add Person: Person hinzufügen
 Address: Adresse
@@ -13,6 +14,7 @@ Assigned: Zugeordnet
 At least 65 Years old: Mindestens 65 Jahre alt
 At most 25 Years old: Höchstens 25 Jahre alt
 Average Age: Durchschnittsalter
+'Back': 'Zurück'
 Back to List: Zurück zur Liste
 Bank Account: Bankverbindung
 Bank Code: Bankleitzahl
@@ -22,12 +24,14 @@ Category [Ministry] [PDF]: Dienstbereich
 City: Stadt
 Create: Erstellen
 Date of Birth: Geburtsdatum
+'Delete': 'Löschen'
 Delete Address: Adresse löschen
 Delete Person: Person löschen
 Depending on Age (< 65): Abhängig vom Alter (< 65)
 Differing Last Name: Abweichender Nachname
-Do you really want to delete this entry?: Möchten Sie diesen Eintrag wirklich löschen?
-DOB: Geb.
+'Do you really want to delete this entry?': 'Möchten Sie diesen Eintrag wirklich löschen?'
+'DOB': 'Geb.'
+'E-mail': 'E-Mail'
 Edit: Bearbeiten
 Edit Address: Adresse bearbeiten
 Edit Ministry Category: Dienstbereich bearbeiten
@@ -59,6 +63,7 @@ Main Responsible: Hauptverantwortlicher
 male: männlich
 Male Group: Männergruppe
 Male Members: Männliche Mitglieder
+'Master data': 'Stammdaten'
 Member List: Mitgliederliste
 Members per Age: Mitglieder pro Alter
 Members per Age Group: Mitglieder pro Altersgruppe

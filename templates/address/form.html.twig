@@ -16,9 +16,8 @@
     {% endif %}
     {% if form.parent.vars['name'] == 'persons' and form.vars['data'] and form.vars['data'].id %}
         {% set person = form.vars['data'] %}
-        <a class="btn btn-default" href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
-            <span class="glyphicon glyphicon-pencil"></span>
-            {% trans %}Edit{% endtrans %}
+        <a class="btn btn-outline-dark" href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
+            <i class="bi bi-pencil"></i> {% trans %}Edit{% endtrans %}
         </a>
     {% endif %}
     {% if widget_remove_btn.wrapper_div is not same as(false) %}
@@ -28,59 +27,95 @@
 {% endblock %}
 
 {% block person_widget %}
-    <div class="col-md-3">
-        <p>
-            <img class="-person-picture img-thumbnail"
-             src="{{ form.vars['data'] and form.vars['data'].id ? path('ecgpb.member.person.optimized_member_picture', {'id': form.vars['data'].id}) : '#' }}"
-             alt="No Image"/>
-        </p>
-        <p>
-            <input type="file" name="person-picture-file[{{ name }}]" />
-        </p>
-    </div>
-    <div class="col-md-9">
-        {{ block('form_widget') }}
-        <hr/>
-        <br/>
+    {% set person = form.vars['data'] %}
+    <div class="row">
+        <div class="col-md-3">
+            <p>
+                <img class="-person-picture img-thumbnail"
+                 src="{{ person and person.id ? path('ecgpb.member.person.optimized_member_picture', {'id': person.id}) : '#' }}"
+                 alt="No Image"/>
+            </p>
+            <p>
+                <input type="file" name="person-picture-file[{{ name }}]" />
+            </p>
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.lastname) }}
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.dob) }}
+            {{ form_row(form.gender) }}
+            {{ form_row(form.mobile) }}
+            {{ form_row(form.email) }}
+        </div>
+        <div class="col-md-3">
+            {{ block('form_widget') }}
+        </div>
+        <div class="col-md-3 text-right">
+            {% if person and person.id %}
+                <a class="btn btn-sm btn-outline-dark" href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
+                    <i class="bi bi-pencil"></i> {% trans %}Edit{% endtrans %}
+                </a>
+            {% endif %}
+            <button type="button" class="btn btn-sm btn-danger" remove-collection-item>
+                <i class="bi bi-trash"></i> {% trans %}Remove{% endtrans %}
+            </button>
+        </div>
     </div>
 {% endblock %}
 
 {% block body -%}
+    <form method="post" enctype="multipart/form-data">
+        <div class="d-flex align-items-center mb-3">
+            <div class="mr-auto">
+                <h2>{% trans %}Edit Address{% endtrans %}</h2>
+            </div>
+            <button type="button" class="btn btn-outline-dark mr-2" onclick="history.back()" title="{% trans %}Back to List{% endtrans %}">
+                <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
+            </button>
+            <button type="submit" class="btn btn-primary mr-2">
+                <i class="bi bi-save"></i> {% trans %}Save{% endtrans %}
+            </button>
 
-    {% if entity.id > 0 %}
-        <a class="btn btn-danger pull-right"
-         href="{{ path('ecgpb.member.address.delete', {'id': entity.id}) }}"
-         title="{% trans %}Delete Address{% endtrans %}"
-         onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
-            <span class="glyphicon glyphicon-remove"></span>
-        </a>
-    {% endif %}
-    <button class="btn btn-default pull-right"
-     onclick="history.back()"
-     title="{% trans %}Back to List{% endtrans %}">
-        <span class="glyphicon glyphicon-arrow-left"></span>
-    </button>
-
-    <h2>{% trans %}Edit Address{% endtrans %}</h2>
-
-    {% set actionUrl = entity.id > 0
-        ? path('ecgpb.member.address.update', {'id': entity.id})
-        : path('ecgpb.member.address.create')
-    %}
-    <form class="form-horizontal" action="{{ actionUrl }}" method="post" enctype="multipart/form-data">
-        <div class="clearfix">
-            {{ form_errors(form) }}
-            {{ form_row(form.namePrefix) }}
-            {{ form_row(form.familyName) }}
-            {{ form_row(form.phone) }}
-            {{ form_row(form.street) }}
-            {{ form_row(form.zip) }}
-            {{ form_row(form.city) }}
+            {% if entity.id > 0 %}
+                <a class="btn btn-danger"
+                 href="{{ path('ecgpb.member.address.delete', {'id': entity.id}) }}"
+                 title="{% trans %}Delete Address{% endtrans %}"
+                 onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
+                    <i class="bi bi-trash"></i> {% trans %}Delete{% endtrans %}
+                </a>
+            {% endif %}
         </div>
 
-        <h3>{% trans %}Persons{% endtrans %}</h3>
-        {{ form_row(form.persons) }}
-        
+        {{ form_errors(form) }}
+        <div class="card">
+            <div class="card-header">{% trans %}Master data{% endtrans %}</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        {{ form_row(form.namePrefix) }}
+                        {{ form_row(form.familyName) }}
+                    </div>
+                    <div class="col-lg-6">
+                        {{ form_row(form.phone) }}
+                        {{ form_row(form.street) }}
+                        {{ form_row(form.zip) }}
+                        {{ form_row(form.city) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card my-4">
+            <div class="card-header">
+                {% trans %}Persons{% endtrans %}
+            </div>
+            <div class="card-body">
+                {{ form_row(form.persons) }}
+                
+                <button type="button" class="btn btn-sm btn-primary" add-collection-item="#{{ form.persons.vars.id }}">
+                    <i class="bi bi-plus-lg"></i> {% trans %}Add{% endtrans %}
+                </button>
+            </div>
+        </div>
         {{ form_rest(form) }}
     </form>
 

@@ -99,24 +99,36 @@ class AddressController extends Controller
     /**
      * Displays a form to edit an existing Address entity.
      *
-     * @Route("/{id}/edit", name="ecgpb.member.address.edit", defaults={"_locale"="de"})
+     * @Route("/{id}/edit", name="ecgpb.member.address.edit", methods={"GET", "PUT"})
      */
-    public function editAction($id)
+    public function editAction(Address $address, Request $request, PersonHelper $personHelper)
     {
-        $em = $this->getDoctrine()->getManager();
+        $editForm = $this->createAddressForm($address);
 
-        $entity = $em->getRepository(Address::class)->find($id);
+        $form = $this->createAddressForm($address);
+        $form->handleRequest($request);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Address entity.');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            // person picture file
+            foreach ($request->files->get('person-picture-file', array()) as $index => $file) {
+                /* @var $file UploadedFile */
+                if ($file) {
+                    $person = $address->getPersons()->get($index);
+                    $file->move($personHelper->getPersonPhotoPath(), $personHelper->getPersonPhotoFilename($person));
+                }
+            }
+            
+            $this->addFlash('success', 'All changes have been saved.');
+
+            return $this->redirectToRoute('ecgpb.member.address.edit', ['id' => $address->getId()]);
         }
-
-        $editForm = $this->createAddressForm($entity);
-
-        return $this->render('/address/form.html.twig', array(
-            'entity'      => $entity,
-            'form'   => $editForm->createView(),
-        ));
+        
+        return $this->render('/address/form.html.twig', [
+            'entity' => $address,
+            'form' => $editForm->createView(),
+        ]);
     }
 
     /**
@@ -135,25 +147,6 @@ class AddressController extends Controller
             throw $this->createNotFoundException('Unable to find Address entity.');
         }
 
-        $form = $this->createAddressForm($address);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em->flush();
-
-            // person picture file
-            foreach ($request->files->get('person-picture-file', array()) as $index => $file) {
-                /* @var $file UploadedFile */
-                if ($file) {
-                    $person = $address->getPersons()->get($index);
-                    $file->move($personHelper->getPersonPhotoPath(), $personHelper->getPersonPhotoFilename($person));
-                }
-            }
-            
-            $this->addFlash('success', 'All changes have been saved.');
-
-            return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $id)));
-        }
 
         return $this->render('/address/form.html.twig', array(
             'entity' => $address,
@@ -195,29 +188,13 @@ class AddressController extends Controller
     }
 
     /**
-    * Creates a form to create a Address entity.
-    *
-    * @param Address $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createAddressForm(Address $entity)
+     * Creates a form to create a Address entity.
+     */
+    private function createAddressForm(Address $address): \Symfony\Component\Form\Form
     {
-        $url = $entity->getId() > 0
-            ? $this->generateUrl('ecgpb.member.address.update', array('id' => $entity->getId()))
-            : $this->generateUrl('ecgpb.member.address.create')
-        ;
-        $form = $this->createForm(AddressType::class, $entity, array(
-            'action' => $url,
-            'method' => 'POST',
-            'attr' => array(
-                'enctype' => 'multipart/form-data',
-                'class' => 'form-horizontal',
-                'role' => 'form',
-            ),
-        ));
-
-        $form->add('submit', SubmitType::class, array('label' => 'Save'));
+        $form = $this->createForm(AddressType::class, $address, [
+            'method' => $address->getId() ? 'PUT' : 'POST',
+        ]);
 
         return $form;
     }
