@@ -1,34 +1,43 @@
-{% extends '/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block body -%}
-    <h2>{% trans %}PDF Settings{% endtrans %}</h2>
+{% block title %}
+    {% trans %}PDF Export Settings{% endtrans %} - {{ parent() }}
+{% endblock %}
 
-    <form action="{{ path('ecgpb.member.export.pdf') }}" method="get" role="form" class="form-horizontal">
-        <div class="form-group">
-            <label class="col-md-3 control-label">
-                {% trans %}Pages with member placeholders{% endtrans %}
-            </label>
-            <div class="col-md-3">
-                <input type="number" class="form-control" name="pages_with_member_placeholders" value="1" />
+{% block body %}
+    <h2>{% trans %}PDF Export Settings{% endtrans %}</h2>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{{ path('ecgpb.member.export.pdf') }}" method="get">
+                        <div class="form-group">
+                            <label for="pages_with_member_placeholders">
+                                {% trans %}Pages with member placeholders{% endtrans %}
+                            </label>
+                            <input type="number" class="form-control" name="pages_with_member_placeholders" id="pages_with_member_placeholders" value="1" />
+                        </div>
+                        <div class="form-group">
+                            <label for="pages_for_notes">
+                                {% trans %}Pages for personal notes{% endtrans %}
+                            </label>
+                            <input type="number" class="form-control" name="pages_for_notes" id="pages_for_notes" value="1" />
+                        </div>
+                        <div class="form-group">
+                            <p>
+                                <strong class="text-danger">{% trans %}Keep in mind that the number of pages has be devideable by four, for printing.{% endtrans %}</strong>
+                                {% trans %}To achieve that one can modify the number of placeholder pages with the options above.{% endtrans %}
+                            </p>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">
+                                    {% trans %}Generate PDF{% endtrans %}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label">
-                {% trans %}Pages for personal notes{% endtrans %}
-            </label>
-            <div class="col-md-3">
-                <input type="number" class="form-control" name="pages_for_notes" value="1" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-3 col-md-9 text-danger">
-                <strong>{% trans %}Keep in mind that the number of pages has be devideable by four, for printing.{% endtrans %}</strong>
-            </div>
-            <div class="col-md-offset-3 col-md-3">
-                <button type="submit" class="btn btn-outline-dark">
-                    {% trans %}Okay{% endtrans %}
-                </button>
-            </div>
-        </div>
-    </form>
+    </div>
 {% endblock %}
