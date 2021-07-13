@@ -89,14 +89,7 @@ class WorkingGroupController extends Controller
         $form = $this->createForm(WorkingGroupType::class, $workingGroup, array(
             'action' => $this->generateUrl('ecgpb.member.workinggroup.create'),
             'method' => 'POST',
-            'attr' => array(
-                'class' => 'form-horizontal',
-                'role' => 'form',
-            ),
-            'working_group' => $workingGroup,
         ));
-
-        $form->add('submit', SubmitType::class, array('label' => 'Create'));
 
         return $form;
     }
@@ -136,14 +129,7 @@ class WorkingGroupController extends Controller
         $form = $this->createForm(WorkingGroupType::class, $workingGroup, array(
             'action' => $this->generateUrl('ecgpb.member.workinggroup.update', array('id' => $workingGroup->getId())),
             'method' => 'PUT',
-            'attr' => array(
-                'class' => 'form-horizontal',
-                'role' => 'form',
-            ),
-            'working_group' => $workingGroup,
         ));
-
-        $form->add('submit', SubmitType::class, array('label' => 'Save'));
 
         return $form;
     }
@@ -194,21 +180,15 @@ class WorkingGroupController extends Controller
      *
      * @Route("/{id}/delete", name="ecgpb.member.workinggroup.delete")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(WorkingGroup $workingGroup)
     {
-        $form->handleRequest($request);
-
         $em = $this->getDoctrine()->getManager();
-        $workingGroup = $em->getRepository(WorkingGroup::class)->find($id);
-
-        if (!$workingGroup) {
-            throw $this->createNotFoundException('Unable to find WorkingGroup entity.');
-        }
-
         $em->remove($workingGroup);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('ecgpb.member.workinggroup.index'));
+        $this->addFlash('success', 'The entry has been deleted.');
+
+        return $this->redirectToRoute('ecgpb.member.workinggroup.index');
     }
 
     /**
@@ -217,7 +197,7 @@ class WorkingGroupController extends Controller
     public function assignablesAction()
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $personRepo = $em->getRepository(Person::class);
         $persons = $personRepo->findPersonsToBeAssignedToWorkingGroup();
 

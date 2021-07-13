@@ -21,7 +21,7 @@ class WorkingGroupType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $workingGroup = $options['working_group'];
+        $workingGroup = $builder->getData();
 
         $builder
             ->add('number', IntegerType::class, array(
@@ -55,12 +55,11 @@ class WorkingGroupType extends AbstractType
                 ))
                 ->add('persons', CollectionType::class, array(
                     'entry_type' => EntityType::class,
-                    'label' => 'Persons',
+                    'label' => false,
                     'prototype' => true,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,
-                    'widget_add_btn' => array('label' => 'Add Person'),
                     'widget_form_group' => true,
                     'entry_options' => array(
                         'label' => false,
@@ -69,6 +68,8 @@ class WorkingGroupType extends AbstractType
                             return $person->getAddress()->getFamilyName() . ', ' . $person->getFirstname() . ' (' . $person->getDob()->format('d.m.Y') . ')';
                         },
                         'placeholder' => '',
+                        'row_attr' => ['class' => 'd-flex'],
+                        'attr' => ['class' => 'mr-2'],
                         'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
                             return $repo->createQueryBuilder('person')
                                 ->select('person')
@@ -86,7 +87,7 @@ class WorkingGroupType extends AbstractType
             ;
         }
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -95,16 +96,10 @@ class WorkingGroupType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => WorkingGroup::class,
         ));
-
-        $resolver->setRequired('working_group');
-        $resolver->setAllowedTypes('working_group', WorkingGroup::class);
     }
 
-    /**
-     * @return string
-     */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
-        return 'workinggroup';
+        return 'working_group';
     }
 }

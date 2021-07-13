@@ -1,4 +1,4 @@
-{% extends '/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body -%}
     <h2>{% trans %}Persons assignable to a Working Group{% endtrans %}</h2>
@@ -45,7 +45,7 @@
                         </select>
                     </td>
                     <td>
-                        <a href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
+                        <a class="btn btn-sm btn-outline-dark" href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
                             <i class="bi bi-pencil"></i>
                         </a>
                     </td>

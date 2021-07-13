@@ -1,22 +1,72 @@
-{% extends '/base.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% form_theme form _self %}
 
 {% block body -%}
-    {% if working_group.id > 0 %}
-        <a class="btn btn-danger pull-right"
-         href="{{ path('ecgpb.member.workinggroup.delete', {'id': working_group.id}) }}"
-         title="{% trans %}Delete Working Group{% endtrans %}"
-         onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
-            <i class="bi bi-trash"></i>
+    {{ form_start(form) }}
+    <div class="d-flex align-items-center mb-3">
+        <h2 class="mr-auto">
+            {% trans %}Working Group{% endtrans %}
+        </h2>
+        <a class="btn btn-outline-dark"
+         href="{{ path('ecgpb.member.workinggroup.index') }}"
+         title="{% trans %}Back to List{% endtrans %}">
+            <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
         </a>
-    {% endif %}
-    <a class="btn btn-outline-dark pull-right"
-     href="{{ path('ecgpb.member.workinggroup.index') }}"
-     title="{% trans %}Back to List{% endtrans %}">
-        <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
-    </a>
+        <button type="submit" class="btn btn-primary ml-2">
+            <i class="bi bi-save"></i> {% trans %}Save{% endtrans %}
+        </button>
+        {% if working_group.id > 0 %}
+            <a class="btn btn-danger ml-2"
+             href="{{ path('ecgpb.member.workinggroup.delete', {'id': working_group.id}) }}"
+             title="{% trans %}Delete Working Group{% endtrans %}"
+             onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
+                <i class="bi bi-trash"></i> {% trans %}Delete{% endtrans %}
+            </a>
+        {% endif %}
+    </div>
 
-    <h2>{% trans %}Working Group{% endtrans %}</h2>
 
-    {{ form(form) }}
+    {{ form_errors(form) }}
+    <div class="card mb-3">
+        <div class="card-header">
+            {% trans %}Master data{% endtrans %}
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.number) }}
+                    {{ form_row(form.gender) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.leader) }}
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    {% trans %}Persons{% endtrans %}
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.persons) }}
+                    <button type="button" class="btn btn-sm btn-primary" add-collection-item="#{{ form.persons.vars.id }}">
+                        <i class="bi bi-plus-lg"></i> {% trans %}Add person{% endtrans %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block _working_group_persons_entry_widget %}
+    {{ block('choice_widget') }}
+    <button type="button" class="btn btn-sm btn-danger" remove-collection-item>
+        <i class="bi bi-trash"></i>
+    </button>
 {% endblock %}
