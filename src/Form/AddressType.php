@@ -44,20 +44,17 @@ class AddressType extends AbstractType
             ->add('persons', CollectionType::class, array(
                 'entry_type' => PersonType::class,
                 'label_attr' => ['style' => 'font-size: 0px'],
-                'row_attr' => ['class' => 'testtest'],
                 'prototype' => true,
                 'allow_add' => true,
                 'by_reference' => false,
-                'widget_add_btn' => array('label' => 'Add Person'),
                 'allow_delete' => true,
                 'entry_options' => array(
                     'label' => false,
-                    'horizontal_input_wrapper_class' => 'col-md-10',
                 )
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
