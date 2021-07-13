@@ -57,6 +57,7 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ministry", mappedBy="category", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OrderBy({"position": "ASC"})
      *
      * @Groups({"MinistryCategoryListing"})
      *

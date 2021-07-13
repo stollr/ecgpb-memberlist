@@ -1,271 +1,105 @@
-{% extends '/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-
-{% block body_start %}<body ng-app="app" ng-controller="ListingController">{% endblock %}
-
+{% block title %}
+    {% trans %}Ministries{% endtrans %} - {{ parent() }}
+{% endblock %}
 
 {% block body %}
-    <div class="btn-group pull-right">
-        <button type="button" class="btn btn-default" ng-click="addCategory()" title="{% trans %}Add Ministry Category{% endtrans %}">
-            <span class="glyphicon glyphicon-plus"></span>
-        </button>
-        <button type="button" class="btn btn-default" ng-click="save()" title="{% trans %}Save Changes{% endtrans %}">
-            <span class="glyphicon glyphicon-floppy-disk"></span>
-        </button>
+    <div class="d-flex align-items-center mb-3">
+        <h2 class="mr-auto">{% trans %}Ministries{% endtrans %}</h2>
+        <a href="{{ path('ecgpb.member.ministry_category.create') }}" class="btn btn-success" title="{% trans %}Add Ministry Category{% endtrans %}">
+            <i class="bi bi-plus-lg"></i>
+        </a>
     </div>
 
-    <h2>{% trans %}Ministries{% endtrans %}</h2>
-
-    <div class="alert alert-danger ng-hide" ng-show="error">
-        {{ '{{ error }}' }}
-    </div>
 
     <table class="table table-bordered ministry-category-list">
         <thead>
             <tr>
-                <th class="col-md-1">{% trans %}Pos.{% endtrans %}</th>
-                <th class="col-md-2">{% trans %}Bereich{% endtrans %}</th>
-                <th class="col-md-3">
-                    {% trans %}Pos.{% endtrans %},
-                    {% trans %}Unterbereich{% endtrans %}
-                </th>
-                <th class="col-md-2">{% trans %}Tasks{% endtrans %}</th>
-                <th class="col-md-3">{% trans %}Responsibles{% endtrans %}</th>
-                <th class="col-md-1 text-center">{% trans %}Actions{% endtrans %}</th>
+                <th>{% trans %}Pos.{% endtrans %}</th>
+                <th>{% trans %}Bereich{% endtrans %}</th>
+                <th>{% trans %}Pos.{% endtrans %}</th>
+                <th>{% trans %}Unterbereich{% endtrans %}</th>
+                <th>{% trans %}Tasks{% endtrans %}</th>
+                <th>{% trans %}Responsibles{% endtrans %}</th>
+                <th class="text-center">{% trans %}Actions{% endtrans %}</th>
             </tr>
         </thead>
-        <tbody ng-repeat="ministryCategory in ministryCategories | orderBy:['position', 'id']: false"
-               ng-init="$ministryCategoryIndex = $index">
-            <tr>
-                <td rowspan="{{ '{{ ministryCategory.ministries.length + 1 }}' }}">
-                    <input type="number" ng-model="ministryCategory.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" />
-                    <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministryCategory.position }}' }}</span>
-                </td>
-                <td rowspan="{{ '{{ ministryCategory.ministries.length + 1 }}' }}">
-                    <input type="text" ng-model="ministryCategory.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" />
-                    <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministryCategory.name }}' }}</span>
-                </td>
-                <td colspan="2">
-                    {% trans %}Main Responsible{% endtrans %}
-                </td>
-                <td>
-                    <select class="form-control input-sm"
-                     ng-show="isEditable(ministryCategory)"
-                     ng-model="ministryCategory.responsible"
-                     ng-options="person as getPersonsLabel(person) for person in persons track by person.id">
-                        <option value="">- {% trans %}Person{% endtrans %} -</option>
-                    </select>
-                    <span ng-show="!isEditable(ministryCategory)">
-                        {{ '{{ ministryCategory.responsible ? getPersonsLabel(ministryCategory.responsible) : null }}' }}
-                    </span>
-                </td>
-                <td class="text-center" rowspan="{{ '{{ ministryCategory.ministries.length + 1 }}' }}">
-                    <button type="button" class="btn btn-default btn-sm" title="{% trans %}Edit Ministry Category{% endtrans %}"
-                     ng-click="setEditable(ministryCategory)"
-                     ng-show="!isEditable(ministryCategory)">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm" title="{% trans %}Undo Changes{% endtrans %}"
-                     ng-click="cancelEditing()"
-                     ng-show="isEditable(ministryCategory)">
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm"
-                     nait-confirm-click
-                     confirm="{% trans %}Do you really want to remove this record?{% endtrans %}"
-                     confirm-if=""
-                     confirm-button-text="{% trans %}Yes{% endtrans %}"
-                     cancel-button-text="{% trans %}No{% endtrans %}"
-                     do="removeCategory(ministryCategory)">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-                </td>
-            </tr>
-            <tr ng-repeat="ministry in ministryCategory.ministries | orderBy:['position', 'id']: false">
-                <td>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <!-- ministry position -->
-                            <input type="number" ng-model="ministry.position" class="form-control input-sm" ng-show="isEditable(ministryCategory)" />
-                            <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.position }}' }}</span>
-                        </div>
-                        <div class="col-md-8">
-                            <!-- ministry name -->
-                            <input type="text" ng-model="ministry.name" class="form-control input-sm" ng-show="isEditable(ministryCategory)" />
-                            <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.name }}' }}</span>
-                        </div>
-                    </div>
-                    <!-- remove ministry -->
-                    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministryCategory.removeMinistry(ministry)" ng-show="isEditable(ministryCategory)">
-                        <span class="glyphicon glyphicon-minus"></span>
-                    </button>
-                    <!-- add new ministry -->
-                    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministryCategory.newMinistry()" ng-show="isEditable(ministryCategory) && $last">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                </td>
-                <td>
-                    <textarea ng-model="ministry.description" class="form-control input-sm" ng-show="isEditable(ministryCategory)"></textarea>
-                    <span ng-show="!isEditable(ministryCategory)">{{ '{{ ministry.description }}' }}</span>
-                </td>
-                <td>
-                    <div ng-repeat="person in ministry.responsibles" class="row">
-                        <div class="col-md-10" ng-show="isEditable(ministryCategory)">
-                            <select class="form-control input-sm"
-                             ng-model="ministry.responsibles[$index]"
-                             ng-options="p as getPersonsLabel(p) for p in persons track by p.id">
-                                <option value="">- {% trans %}Person{% endtrans %} -</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2 text-right" ng-show="isEditable(ministryCategory)">
-                            <button type="button" class="btn btn-default btn-sm" ng-click="ministry.removeResponsible(person)" ng-show="isEditable(ministryCategory)">
-                                <span class="glyphicon glyphicon-minus"></span>
-                            </button>
-                        </div>
-                        <div class="col-md-12" ng-show="!isEditable(ministryCategory)">
-                            {{ '{{ getPersonsLabel(person) }}' }}
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-default btn-sm pull-right" ng-click="ministry.newResponsible()" ng-show="isEditable(ministryCategory)">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                </td>
-            </tr>
+        <tbody>
+            {% for ministryCategory in ministryCategories %}
+                <tr>
+                    <td rowspan="{{ ministryCategory.ministries | length + 1 }}">
+                        {{ ministryCategory.position }}
+                    </td>
+                    <td rowspan="{{ ministryCategory.ministries | length + 1 }}">
+                        {{ ministryCategory.name }}
+                    </td>
+                    <td colspan="3">
+                        {% trans %}Main Responsible{% endtrans %}
+                    </td>
+                    <td>
+                        {{ ministryCategory.responsible ? ministryCategory.responsible.displayNameDob : null }}
+                    </td>
+                    <td class="text-center" rowspan="{{ ministryCategory.ministries | length + 1 }}">
+                        <a href="{{ path('ecgpb.member.ministry_category.edit', {'id': ministryCategory.id}) }}"
+                           class="btn btn-outline-dark btn-sm" title="{% trans %}Edit Ministry Category{% endtrans %}">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <button type="button" class="btn btn-danger btn-sm" title="{% trans %}Delete record{% endtrans %}" delete-ministry-category="{{ ministryCategory.id }}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% for ministry in ministryCategory.ministries %}
+                    <tr>
+                        <td>{{ ministry.position }}</td>
+                        <td>{{ ministry.name }}</td>
+                        <td>{{ ministry.description }}</td>
+                        <td>
+                            {% for person in ministry.responsibles %}
+                                {{ person.displayNameDob }}<br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
         </tbody>
         <tfoot>
-            <tr ng-show="ministryCategories.length == 0">
-                <td colspan="7">
-                    {% trans %}There are no entries existing, yet.{% endtrans %}
-                </td>
-            </tr>
+            {% if ministryCategories | length == 0 %}
+                <tr>
+                    <td colspan="7">
+                        {% trans %}There are no entries existing, yet.{% endtrans %}
+                    </td>
+                </tr>
+            {% endif %}
         </tfoot>
     </table>
-{% endblock %}
 
+    <!-- Modal -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-modal-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <form class="modal-content" action="{{ path('ecgpb.member.ministry_category.delete', {'id': '_ID_'}) }}" method="post">
+                <input type="hidden" name="_method" value="delete">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete_ministry_category') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="delete-modal-title">{% trans %}Delete Record{% endtrans %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{% trans %}Close{% endtrans %}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% trans %}Do you really want to delete this entry?{% endtrans %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
+                    <button type="submit" class="btn btn-danger">{% trans %}Delete{% endtrans %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-
-    <script type="text/javascript">
-        // <![CDATA[
-        angular.module('app', ['ui.bootstrap', 'naitsirch.helpers'])
-            .constant('ministryCategories', {{ categories_json | raw }})
-            .constant('persons', {{ persons_json | raw }})
-            .constant('updateUrl', '{{ path('ecgpb.member.ministry_category.update') }}')
-            .controller('ListingController', function(
-                $scope, $http, $uibModal,
-                MinistryCategory, Ministry, ministryCategories, persons,
-                updateUrl
-            ) {
-                $scope.ministryCategories = ministryCategories.map(function(value) { return new MinistryCategory(value); });
-                $scope.persons = persons;
-                $scope.error = null;
-                $scope.editableCategory = null;
-                $scope.backupCategory = null;
-
-                $scope.addCategory = function() {
-                    var category = new MinistryCategory({position: $scope.ministryCategories.length});
-                    $scope.ministryCategories.push(category);
-                    $scope.setEditable(category);
-                };
-
-                $scope.removeCategory = function (ministryCategory) {
-                    var index = $scope.ministryCategories.indexOf(ministryCategory);
-                    $scope.ministryCategories.splice(index, 1);
-                };
-
-                $scope.setEditable = function(ministryCategory) {
-                    $scope.editableCategory = ministryCategory;
-                    $scope.backupCategory = angular.copy(ministryCategory);
-                };
-
-                $scope.isEditable = function(ministryCategory) {
-                    return $scope.editableCategory === ministryCategory;
-                };
-
-                $scope.cancelEditing = function() {
-                    var index = $scope.ministryCategories.indexOf($scope.editableCategory);
-                    $scope.editableCategory = null;
-                    $scope.ministryCategories[index] = $scope.backupCategory;
-                };
-
-                $scope.getPersonsLabel = function(person) {
-                    if (!person || !person.address) {
-                        return '';
-                    }
-                    return person.address.familyName + ', ' + person.firstname + ' (' + new Date(person.dob).getFullYear() + ')';
-                };
-
-                $scope.save = function() {
-                    $scope.editableCategory = null;
-                    var savingModal = $uibModal.open({templateUrl: 'saving-modal.html'});
-
-                    $http.post(updateUrl, $scope.ministryCategories)
-                        .success(function(data, status, headers, config) {
-                            $scope.error = null;
-                            savingModal.close('success');
-                        })
-                        .error(function(data, status, headers, config) {
-                            $scope.error = data;
-                            savingModal.close('error');
-                        })
-                    ;
-                };
-            })
-            .factory('MinistryCategory', function(Ministry) {
-                var MinistryCategory = function(properties) {
-                    this.id = properties && properties.id ? properties.id : null;
-                    this.name = properties && properties.name ? properties.name : '';
-                    this.position = properties && properties.position ? properties.position : 0;
-                    this.responsible = properties ? properties.responsible : null;
-                    this.ministries = properties && properties.ministries
-                        ? properties.ministries.map(function(value) { return new Ministry(value); })
-                        : [new Ministry()]
-                    ;
-                    this.newMinistry = function() {
-                        var newItem = new Ministry();
-                        newItem.position = this.ministries.length;
-                        this.ministries.push(newItem);
-                    };
-                    this.removeMinistry = function(ministry) {
-                        this.ministries.splice(this.ministries.indexOf(ministry), 1);
-
-                        for (var i = 0; i < this.ministries.length; i++) {
-                            if (this.ministries[i].position > ministry.position) {
-                                this.ministries[i].position--;
-                            }
-                        }
-                    };
-                };
-                return MinistryCategory;
-            })
-            .factory('Ministry', function() {
-                var Ministry = function(properties) {
-                    this.id = properties ? properties.id : null;
-                    this.name = properties ? properties.name : '';
-                    this.description = properties ? properties.description : '';
-                    this.position = properties ? properties.position : 0;
-                    this.responsibles = properties ? (properties.responsibles || []) : [];
-                    this.newResponsible = function() {
-                        var last = this.responsibles.length === 0 ? null : this.responsibles[this.responsibles.length - 1];
-                        if (!last || last.id) {
-                            this.responsibles.push({id: null});
-                        }
-                    };
-                    this.removeResponsible = function(person) {
-                        var index = this.responsibles.indexOf(person);
-                        this.responsibles.splice(index, 1);
-                    };
-                };
-                return Ministry;
-            })
-        ;
-        // ]]>
-    </script>
-
-    <script type="text/ng-template" id="saving-modal.html">
-        <div class="modal-body">
-            <p>{% trans %}Saving{% endtrans %}...</p>
-        </div>
-    </script>
+    {{ encore_entry_script_tags('ministry_categories.index') }}
 {% endblock %}

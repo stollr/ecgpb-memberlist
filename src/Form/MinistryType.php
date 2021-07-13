@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Entity\Ministry;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,57 +16,66 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class MinistryType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name')
             ->add('description')
-            ->add('position', IntegerType::class, array(
+            ->add('position', IntegerType::class, [
                 'required' => false,
-            ))
-            ->add('responsibles', CollectionType::class, array(
+            ])
+            ->add('responsibles', CollectionType::class, [
                 'entry_type' => EntityType::class,
-                'label' => false,
+                'label' => 'Responsibles',
+                'label_attr' => ['class' => 'pt-0'],
                 'prototype' => true,
                 'allow_add' => true,
                 'by_reference' => false,
-                'widget_add_btn' => array('label' => 'Add Responsible'),
                 'allow_delete' => true,
-                'horizontal_input_wrapper_class' => 'clearfix',
-                'entry_options' => array(
+                'entry_options' => [
                     'label' => false,
                     'class' => \App\Entity\Person::class,
-                )
-            ))
+                    'choice_label' => 'getLastnameFirstnameAndDob',
+                    'row_attr' => ['class' => 'd-flex'],
+                    'attr' => ['class' => 'mr-2'],
+                    'query_builder' => static function (EntityRepository $repo) {
+                        return $repo->createQueryBuilder('person')
+                            ->select('person', 'address')
+                            ->join('person.address', 'address')
+                            ->orderBy('address.familyName', 'ASC')
+                            ->addOrderBy('person.firstname', 'ASC')
+                        ;
+                    },
+                ]
+            ])
         ;
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
-            $data = $event->getData();
-            unset($data['id']);
-            if (isset($data['responsibles']) && is_array($data['responsibles'])) {
-                foreach ($data['responsibles'] as $index => $personData) {
-                    $data['responsibles'][$index] = $personData['id'];
-                }
-            }
-            $event->setData($data);
-        });
-    }
-    
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'App\Entity\Ministry'
-        ));
+//        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
+//            $data = $event->getData();
+//            unset($data['id']);
+//            if (isset($data['responsibles']) && is_array($data['responsibles'])) {
+//                foreach ($data['responsibles'] as $index => $personData) {
+//                    $data['responsibles'][$index] = $personData['id'];
+//                }
+//            }
+//            $event->setData($data);
+//        });
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
+     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Ministry::class
+        ]);
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function getBlockPrefix(): string
     {
