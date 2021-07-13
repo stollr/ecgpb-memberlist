@@ -25,9 +25,9 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('position', IntegerType::class, array(
+            ->add('position', IntegerType::class, [
                 'required' => false,
-            ))
+            ])
             ->add('name', TextType::class)
             ->add('responsible', EntityType::class, [
                 'label' => 'Person responsible',
@@ -43,19 +43,17 @@ class CategoryType extends AbstractType
                     ;
                 },
             ])
-            ->add('ministries', CollectionType::class, array(
+            ->add('ministries', CollectionType::class, [
                 'entry_type' => MinistryType::class,
                 'label' => false,
                 'prototype' => true,
                 'allow_add' => true,
                 'by_reference' => false,
-                'widget_add_btn' => array('label' => 'Add Ministry'),
                 'allow_delete' => true,
-                'horizontal_input_wrapper_class' => 'clearfix',
-                'entry_options' => array(
+                'entry_options' => [
                     'label' => false,
-                )
-            ))
+                ],
+            ])
         ;
 
 //        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {

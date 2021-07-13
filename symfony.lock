@@ -104,12 +104,6 @@
     "markbaker/matrix": {
         "version": "1.2.0"
     },
-    "mopa/bootstrap-bundle": {
-        "version": "v3.3.0"
-    },
-    "mopa/composer-bridge": {
-        "version": "v1.5.0"
-    },
     "myclabs/php-enum": {
         "version": "1.8.0"
     },
@@ -160,9 +154,6 @@
     },
     "symfony/cache-contracts": {
         "version": "v2.0.0"
-    },
-    "symfony/class-loader": {
-        "version": "v3.4.32"
     },
     "symfony/config": {
         "version": "v4.3.8"

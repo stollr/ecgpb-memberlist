@@ -24,17 +24,17 @@ class WorkingGroupType extends AbstractType
         $workingGroup = $builder->getData();
 
         $builder
-            ->add('number', IntegerType::class, array(
+            ->add('number', IntegerType::class, [
                 'label' => 'Group Number',
-            ))
-            ->add('gender', ChoiceType::class, array(
+            ])
+            ->add('gender', ChoiceType::class, [
                 'label' => 'Group of Women/Men',
-                'choices' => array(
+                'choices' => [
                     'Men' => Person::GENDER_MALE,
                     'Women' => Person::GENDER_FEMALE,
-                ),
+                ],
                 'disabled' => $workingGroup->getId() > 0,
-            ))
+            ])
         ;
         if ($workingGroup->getId()) {
             $builder
@@ -42,7 +42,7 @@ class WorkingGroupType extends AbstractType
                     'class' => 'App\Entity\Person',
                     'choice_label' => 'lastnameFirstnameAndDob',
                     'required' => false,
-                    'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
+                    'query_builder' => static function(EntityRepository $repo) use ($workingGroup) {
                         return $repo->createQueryBuilder('person')
                             ->select('person')
                             ->leftJoin('person.address', 'address')
@@ -53,17 +53,16 @@ class WorkingGroupType extends AbstractType
                         ;
                     }
                 ))
-                ->add('persons', CollectionType::class, array(
+                ->add('persons', CollectionType::class, [
                     'entry_type' => EntityType::class,
                     'label' => false,
                     'prototype' => true,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,
-                    'widget_form_group' => true,
-                    'entry_options' => array(
+                    'entry_options' => [
                         'label' => false,
-                        'class' => 'App\Entity\Person',
+                        'class' => Person::class,
                         'choice_label' => function (Person $person) {
                             return $person->getAddress()->getFamilyName() . ', ' . $person->getFirstname() . ' (' . $person->getDob()->format('d.m.Y') . ')';
                         },
@@ -82,8 +81,8 @@ class WorkingGroupType extends AbstractType
                             ;
                         },
                         'group_by' => 'optgroupLabelInWorkingGroupDropdown',
-                    )
-                ))
+                    ]
+                ])
             ;
         }
     }
@@ -93,9 +92,9 @@ class WorkingGroupType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => WorkingGroup::class,
-        ));
+        ]);
     }
 
     public function getBlockPrefix(): string

@@ -48,7 +48,7 @@ class PersonType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label' => 'Differing Last Name',
                 'required' => false,
-                'help_block' => 'Leave this field empty to use the family name of the address.',
+                'help' => 'Leave this field empty to use the family name of the address.',
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'First Name',
@@ -78,7 +78,7 @@ class PersonType extends AbstractType
             ->add('phone2Label', TextType::class, [
                 'label' => 'Second Phone Label',
                 'required' => false,
-                'help_block' => 'You can enter a label for the second phone number. Enter "\\n" for line break.',
+                'help' => 'You can enter a label for the second phone number. Enter "\\n" for line break.',
             ])
             ->add('maidenName', TextType::class, [
                 'label' => 'Maiden Name',
@@ -101,7 +101,7 @@ class PersonType extends AbstractType
             ])
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

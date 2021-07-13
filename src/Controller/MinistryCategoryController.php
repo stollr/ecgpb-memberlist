@@ -170,9 +170,7 @@ class MinistryCategoryController extends AbstractController
             'prototype' => true,
             'allow_add' => true,
             'by_reference' => false,
-            'widget_add_btn' => ['label' => 'Add Ministry'],
             'allow_delete' => true,
-            'horizontal_input_wrapper_class' => 'clearfix',
             'entry_options' => [
                 'label' => false,
             ],
