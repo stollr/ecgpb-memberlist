@@ -2,8 +2,10 @@ Able to work: Arbeitsfähig
 Account Number: Kontonummer
 Actions: Aktionen
 'Add': 'Hinzufügen'
-Add Ministry Category: Dienstbereich hinzufügen
-Add Person: Person hinzufügen
+'Add ministry': 'Dienst hinzufügen'
+'Add Ministry Category': 'Dienstbereich hinzufügen'
+'Add person': 'Person hinzufügen'
+'Add responsible': 'Verantwortlichen hinzufügen'
 Address: Adresse
 Addresses: Adressen
 Age: Alter
@@ -18,18 +20,23 @@ Average Age: Durchschnittsalter
 Back to List: Zurück zur Liste
 Bank Account: Bankverbindung
 Bank Code: Bankleitzahl
-Birthday List: Geburtstagsliste
-Category [Ministry]: Dienstbereich
-Category [Ministry] [PDF]: Dienstbereich
-City: Stadt
+'Birthday List': 'Geburtstagsliste'
+'Cancel': 'Abbrechen'
+'Category [Ministry]': 'Dienstbereich'
+'Category [Ministry] [PDF]': Dienstbereich'
+'City': 'Stadt'
 'Contact data': 'Kontaktdaten'
-Create: Erstellen
-Date of Birth: Geburtsdatum
+'Create': 'Erstellen'
+'Create Ministry Category': 'Dienstbereich erstellen'
+'Date of Birth': 'Geburtsdatum'
 'Delete': 'Löschen'
 Delete Address: Adresse löschen
 Delete Person: Person löschen
-Depending on Age (< 65): Abhängig vom Alter (< 65)
-Differing Last Name: Abweichender Nachname
+'Delete record': 'Datensatz löschen'
+'Delete Record': 'Datensatz löschen'
+'Depending on Age (< 65)': 'Abhängig vom Alter (< 65)'
+'Description': 'Beschreibung'
+'Differing Last Name': 'Abweichender Nachname'
 'Do you really want to delete this entry?': 'Möchten Sie diesen Eintrag wirklich löschen?'
 'DOB': 'Geb.'
 'E-mail': 'E-Mail'
@@ -38,7 +45,7 @@ Edit Address: Adresse bearbeiten
 Edit Ministry Category: Dienstbereich bearbeiten
 Edit Person: Person bearbeiten
 Effective: Stand
-Email Addresses: Emailadressen
+'Email Addresses': 'E-Mailadressen'
 Family Name: Familienname
 female: weiblich
 Female Group: Frauengruppe
@@ -46,6 +53,7 @@ Female Members: Weibliche Mitglieder
 First Name: Vorname
 For private use only!: Nur für den privaten Gebrauch!
 Gender: Geschlecht
+'Generate PDF': 'PDF generieren'
 Go to address: Zur Adresse gehen
 Group: Gruppe
 Group Number: Gruppennummer
@@ -85,7 +93,8 @@ Number of Members: Anzahl der Mitglieder
 Other Ministries: Andere Dienste
 Pages for personal notes: Seiten für persönliche Notizen
 Pages with member placeholders: Seiten mit Mitglieder-Platzhaltern
-PDF Settings: PDF Einstellungen
+'PDF Export Settings': 'PDF-Export Einstellungen'
+'Person responsible': 'Verantwortlicher'
 Persons: Personen
 Persons assignable to a Working Group: Personen, die zu einer Arbeitsgruppe zuweisbar sind
 Persons unable to work: Nicht-arbeitsfähige Personen
@@ -119,6 +128,7 @@ The passing on of data to third parties is not permitted for reasons of data pro
 The working group {number} of the {gender} does not have a leader, yet.: Die Arbeitsgruppe {number} der {gender}, hat noch keinen Verantwortlichen.
 There are no entries existing, yet.: Es gibt noch keine Einträge.
 This booklet must be shredded before disposal. If this is not possible, please return it.: Dieses Heft muss vor der Entsorgung geschreddert werden. Falls das nicht möglich ist, bitte zurückgeben.
+'To achieve that one can modify the number of placeholder pages with the options above.': 'Um dies zu erreichen, kann die Anzahl an Platzhalter-Seiten mit den oberen Optionen geändert werden.'
 Total Members: Gesamtanzahl
 Unable: Unfähig
 Unassigned Persons: Nicht-zugeordnete Personen
