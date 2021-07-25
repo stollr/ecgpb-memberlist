@@ -59,6 +59,19 @@
             "src/DataFixtures/AppFixtures.php"
         ]
     },
+    "doctrine/doctrine-migrations-bundle": {
+        "version": "3.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.1",
+            "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
+        },
+        "files": [
+            "config/packages/doctrine_migrations.yaml",
+            "migrations/.gitignore"
+        ]
+    },
     "doctrine/event-manager": {
         "version": "1.1.0"
     },
@@ -70,6 +83,9 @@
     },
     "doctrine/lexer": {
         "version": "1.2.0"
+    },
+    "doctrine/migrations": {
+        "version": "3.2.0"
     },
     "doctrine/orm": {
         "version": "v2.6.4"
@@ -83,6 +99,9 @@
     "ezyang/htmlpurifier": {
         "version": "v4.13.0"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.5"
+    },
     "incenteev/composer-parameter-handler": {
         "version": "v2.1.3"
     },
@@ -94,6 +113,9 @@
     },
     "knplabs/knp-paginator-bundle": {
         "version": "v2.8.0"
+    },
+    "laminas/laminas-code": {
+        "version": "4.4.2"
     },
     "maennchen/zipstream-php": {
         "version": "2.1.0"
@@ -268,6 +290,9 @@
     "symfony/options-resolver": {
         "version": "v4.3.8"
     },
+    "symfony/orm-pack": {
+        "version": "v2.1.0"
+    },
     "symfony/polyfill-ctype": {
         "version": "v1.12.0"
     },
@@ -300,6 +325,9 @@
     },
     "symfony/property-access": {
         "version": "v4.3.8"
+    },
+    "symfony/proxy-manager-bridge": {
+        "version": "v4.4.25"
     },
     "symfony/routing": {
         "version": "4.2",
