@@ -19,6 +19,7 @@
         "symfony/asset": "*",
         "symfony/console": "*",
         "symfony/doctrine-bridge": "*",
+        "symfony/dotenv": "*",
         "symfony/flex": "^1.4",
         "symfony/form": "*",
         "symfony/framework-bundle": "*",
@@ -36,7 +37,6 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
-        "symfony/dotenv": "*",
         "symfony/maker-bundle": "^1.14",
         "symfony/profiler-pack": "^1.0"
     },
