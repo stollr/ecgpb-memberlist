@@ -21,12 +21,18 @@ class PersonHelper
         $this->parameters = $parameters;
     }
 
-    public function getPersonPhotoPath()
+    /**
+     * Get the path to the directory where member photos are stored.
+     */
+    public function getPersonPhotoPath(): string
     {
         return $this->parameters['ecgpb.members.photo_path'];
     }
 
-    public function getPersonPhotoFilename(Person $person)
+    /**
+     * Get the filename (without path) to the person's photo.
+     */
+    public function getPersonPhotoFilename(Person $person): string
     {
         return $person->getAddress()->getFamilyName() . '_'
             . $person->getFirstname() . '_'
@@ -34,12 +40,12 @@ class PersonHelper
         ;
     }
 
-    public function getPersonPhotoPathOptimized()
+    public function getPersonPhotoPathOptimized(): string
     {
         return $this->parameters['ecgpb.members.photo_path_optimized'];
     }
 
-    public function getPersonIdsWithoutPhoto()
+    public function getPersonIdsWithoutPhoto(): array
     {
         static $ids = null;
 
