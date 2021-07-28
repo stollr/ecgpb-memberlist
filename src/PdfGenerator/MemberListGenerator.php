@@ -55,7 +55,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             'pages_with_member_placeholders' => 1,
             'pages_for_notes' => 2,
         ), $options);
-        
+
         // set up tcpdf
         $pdf = new MemberListTcpdf('P', 'mm', 'A5', true, 'UTF-8', false);
         $pdf->SetTitle('ECGPB Member List');
@@ -902,7 +902,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $margins = $pdf->getMargins();
         $pageWidth = $pdf->getPageWidth();
-        
+
         for ($i = 0; $i < $numberOfPages; $i++) {
             $pdf->AddPage();
 
@@ -1058,6 +1058,9 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 imagedestroy($imageOptimized);
 
                 $options->setDpi($dpi);
+
+                // file stats must be cleared, otherwise filemtime returns outdated timestamp
+                clearstatcache(true, $filenameOptimized);
             }
         };
     }

@@ -20,12 +20,19 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PersonController extends Controller
 {
+    private $personHelper;
+
+    public function __construct(PersonHelper $personHelper)
+    {
+        $this->personHelper = $personHelper;
+    }
+
     /**
      * Displays a form to edit an existing Person entity.
      *
      * @Route(name="ecgpb.member.person.edit", path="/{id}/edit")
      */
-    public function edit(Person $person, Request $request, PersonHelper $personHelper)
+    public function edit(Person $person, Request $request)
     {
         $form = $this->createPersonForm($person);
         $form->handleRequest($request);
@@ -36,8 +43,8 @@ class PersonController extends Controller
             // person photo file
             if ($file = $request->files->get('person-picture-file')) {
                 /* @var $file UploadedFile */
-                $filename = $personHelper->getPersonPhotoFilename($person);
-                $file->move($personHelper->getPersonPhotoPath(), $filename);
+                $filename = $this->personHelper->getPersonPhotoFilename($person);
+                $file->move($this->personHelper->getPersonPhotoPath(), $filename);
             }
 
             $this->addFlash('success', 'All changes have been saved.');
@@ -91,9 +98,9 @@ class PersonController extends Controller
     /**
      * Generate and return the optimized member picture.
      *
-     * @Route(name="ecgpb.member.person.optimized_member_picture", path="/{id}/optimized_member_picture", defaults={"_locale"="de"})
+     * @Route(name="ecgpb.member.person.optimized_member_picture", path="/{id}/optimized_member_picture")
      */
-    public function optimizedMemberPicture(Person $person, MemberListGenerator $generator)
+    public function optimizedMemberPicture(Request $request, Person $person, MemberListGenerator $generator)
     {
         $options = new \Tcpdf\Extension\Attribute\BackgroundFormatterOptions(
             null,
@@ -104,9 +111,13 @@ class PersonController extends Controller
         $formatter($options);
         $filename = $options->getImage();
 
-        return new BinaryFileResponse($filename, 200, array(
+        // Create cacheable response
+        $response = new BinaryFileResponse($filename, 200, [
             'Content-Type' => 'image/jpeg',
-            'Content-Length' => filesize($filename),
-        ));
+        ]);
+        $response->setAutoLastModified();
+        $response->isNotModified($request);
+
+        return $response;
     }
 }
