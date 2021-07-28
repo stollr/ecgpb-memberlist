@@ -3,7 +3,7 @@
 {% block body -%}
     <h2>{% trans %}Persons that are unable to work{% endtrans %}</h2>
 
-    <form action="{{ path('ecgpb.member.workinggroup.update_worker_status') }}" method="post">
+    <form action="{{ path('app.workinggroup.update_worker_status') }}" method="post">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -37,7 +37,7 @@
                         </select>
                     </td>
                     <td>
-                        <a class="btn btn-sm btn-outline-dark" href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
+                        <a class="btn btn-sm btn-outline-dark" href="{{ path('app.person.edit', {'id': person.id}) }}">
                             <i class="bi bi-pencil"></i>
                         </a>
                     </td>

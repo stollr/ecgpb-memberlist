@@ -29,7 +29,7 @@ class AddressController extends Controller
     /**
      * Lists all Address entities.
      *
-     * @Route("/index", name="ecgpb.member.address.index", defaults={"_locale"="de"})
+     * @Route("/index", name="app.address.index", defaults={"_locale"="de"})
      */
     public function indexAction(Request $request, PersonHelper $personHelper)
     {
@@ -62,7 +62,7 @@ class AddressController extends Controller
     /**
      * Creates a new Address entity.
      *
-     * @Route("/create", name="ecgpb.member.address.create", methods={"POST"})
+     * @Route("/create", name="app.address.create", methods={"POST"})
      */
     public function createAction(Request $request)
     {
@@ -77,7 +77,7 @@ class AddressController extends Controller
 
             $this->addFlash('success', 'The entry has been created.');
 
-            return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('app.address.edit', array('id' => $entity->getId())));
         }
 
         return $this->render('/address/form.html.twig', array(
@@ -89,7 +89,7 @@ class AddressController extends Controller
     /**
      * Displays a form to create a new Address entity.
      *
-     * @Route("/new", name="ecgpb.member.address.new", defaults={"_locale"="de"})
+     * @Route("/new", name="app.address.new", defaults={"_locale"="de"})
      */
     public function newAction()
     {
@@ -105,7 +105,7 @@ class AddressController extends Controller
     /**
      * Displays a form to edit an existing Address entity.
      *
-     * @Route("/{id}/edit", name="ecgpb.member.address.edit", methods={"GET", "PUT"})
+     * @Route("/{id}/edit", name="app.address.edit", methods={"GET", "PUT"})
      */
     public function editAction(Address $address, Request $request, PersonHelper $personHelper)
     {
@@ -138,7 +138,7 @@ class AddressController extends Controller
 
             $this->addFlash('success', 'All changes have been saved.');
 
-            return $this->redirectToRoute('ecgpb.member.address.edit', ['id' => $address->getId()]);
+            return $this->redirectToRoute('app.address.edit', ['id' => $address->getId()]);
         }
 
         return $this->render('/address/form.html.twig', [
@@ -150,7 +150,7 @@ class AddressController extends Controller
     /**
      * Edits an existing Address entity.
      *
-     * @Route("/{id}/update", name="ecgpb.member.address.update", methods={"POST", "PUT"})
+     * @Route("/{id}/update", name="app.address.update", methods={"POST", "PUT"})
      */
     public function updateAction(Request $request, $id, PersonHelper $personHelper)
     {
@@ -173,7 +173,7 @@ class AddressController extends Controller
     /**
      * Deletes a Address entity.
      *
-     * @Route("/{id}/delete", name="ecgpb.member.address.delete")
+     * @Route("/{id}/delete", name="app.address.delete")
      */
     public function deleteAction(Request $request, $id)
     {
@@ -200,7 +200,7 @@ class AddressController extends Controller
             return $this->redirect($referrer);
         }
 
-        return $this->redirect($this->generateUrl('ecgpb.member.address.index'));
+        return $this->redirect($this->generateUrl('app.address.index'));
     }
 
     /**

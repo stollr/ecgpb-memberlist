@@ -7,7 +7,7 @@
 {% block body %}
     <div class="d-flex align-items-center mb-3">
         <h2 class="mr-auto">{% trans %}Ministries{% endtrans %}</h2>
-        <a href="{{ path('ecgpb.member.ministry_category.create') }}" class="btn btn-success" title="{% trans %}Add Ministry Category{% endtrans %}">
+        <a href="{{ path('app.ministry_category.create') }}" class="btn btn-success" title="{% trans %}Add Ministry Category{% endtrans %}">
             <i class="bi bi-plus-lg"></i>
         </a>
     </div>
@@ -41,7 +41,7 @@
                         {{ ministryCategory.responsible ? ministryCategory.responsible.displayNameDob : null }}
                     </td>
                     <td class="text-center" rowspan="{{ ministryCategory.ministries | length + 1 }}">
-                        <a href="{{ path('ecgpb.member.ministry_category.edit', {'id': ministryCategory.id}) }}"
+                        <a href="{{ path('app.ministry_category.edit', {'id': ministryCategory.id}) }}"
                            class="btn btn-outline-dark btn-sm" title="{% trans %}Edit Ministry Category{% endtrans %}">
                             <i class="bi bi-pencil"></i>
                         </a>
@@ -78,7 +78,7 @@
     <!-- Modal -->
     <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-modal-title" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content" action="{{ path('ecgpb.member.ministry_category.delete', {'id': '_ID_'}) }}" method="post">
+            <form class="modal-content" action="{{ path('app.ministry_category.delete', {'id': '_ID_'}) }}" method="post">
                 <input type="hidden" name="_method" value="delete">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete_ministry_category') }}">
                 <div class="modal-header">

@@ -23,7 +23,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 class ExportController extends Controller
 {
     /**
-     * @Route(name="ecgpb.member.export.pdf_config", path="/pdf_config")
+     * @Route(name="app.export.pdf_config", path="/pdf_config")
      */
     public function pdfConfigAction()
     {
@@ -31,7 +31,7 @@ class ExportController extends Controller
     }
 
     /**
-     * @Route(name="ecgpb.member.export.pdf", path="/pdf")
+     * @Route(name="app.export.pdf", path="/pdf")
      */
     public function pdfAction(Request $request, MemberListGenerator $generator)
     {
@@ -48,7 +48,7 @@ class ExportController extends Controller
     }
 
     /**
-     * @Route(name="ecgpb.member.export.csv", path="/csv")
+     * @Route(name="app.export.csv", path="/csv")
      */
     public function csvAction()
     {
@@ -103,7 +103,7 @@ class ExportController extends Controller
     }
 
     /**
-     * @Route(name="ecgpb.member.export.birthday_excel", path="/birthday_excel")
+     * @Route(name="app.export.birthday_excel", path="/birthday_excel")
      */
     public function birthdayExcel(TranslatorInterface $translator, BirthdayExcelGenerator $generator)
     {
@@ -123,7 +123,7 @@ class ExportController extends Controller
     }
 
     /**
-     * @Route(name="ecgpb.member.export.seniors_excel", path="/seniors_excel")
+     * @Route(name="app.export.seniors_excel", path="/seniors_excel")
      */
     public function seniorsExcelAction()
     {
@@ -163,7 +163,7 @@ class ExportController extends Controller
     }
     
     /**
-     * @Route(name="ecgpb.member.export.email_addresses", path="/email_addresses")
+     * @Route(name="app.export.email_addresses", path="/email_addresses")
      */
     public function emailAddressesAction()
     {

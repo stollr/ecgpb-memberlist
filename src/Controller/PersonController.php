@@ -30,7 +30,7 @@ class PersonController extends Controller
     /**
      * Displays a form to edit an existing Person entity.
      *
-     * @Route(name="ecgpb.member.person.edit", path="/{id}/edit")
+     * @Route(name="app.person.edit", path="/{id}/edit")
      */
     public function edit(Person $person, Request $request)
     {
@@ -49,7 +49,7 @@ class PersonController extends Controller
 
             $this->addFlash('success', 'All changes have been saved.');
 
-            return $this->redirectToRoute('ecgpb.member.person.edit', ['id' => $person->getId()]);
+            return $this->redirectToRoute('app.person.edit', ['id' => $person->getId()]);
         }
 
         return $this->render('person/form.html.twig', [
@@ -77,7 +77,7 @@ class PersonController extends Controller
     /**
      * Deletes a Person entity.
      *
-     * @Route(name="ecgpb.member.person.delete", path="/{id}/delete")
+     * @Route(name="app.person.delete", path="/{id}/delete")
      */
     public function delete(Person $person)
     {
@@ -92,13 +92,13 @@ class PersonController extends Controller
 
         $this->addFlash('success', 'The entry has been deleted.');
 
-        return $this->redirectToRoute('ecgpb.member.address.index');
+        return $this->redirectToRoute('app.address.index');
     }
 
     /**
      * Generate and return the optimized member picture.
      *
-     * @Route(name="ecgpb.member.person.optimized_member_picture", path="/{id}/optimized_member_picture")
+     * @Route(name="app.person.optimized_member_picture", path="/{id}/optimized_member_picture")
      */
     public function optimizedMemberPicture(Request $request, Person $person, MemberListGenerator $generator)
     {

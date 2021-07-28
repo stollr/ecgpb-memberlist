@@ -23,7 +23,7 @@ class WorkingGroupController extends Controller
     /**
      * Lists all WorkingGroup workingGroups.
      *
-     * @Route("/", name="ecgpb.member.workinggroup.index")
+     * @Route("/", name="app.workinggroup.index")
      */
     public function indexAction()
     {
@@ -39,7 +39,7 @@ class WorkingGroupController extends Controller
     /**
      * Displays a form to create a new WorkingGroup entity.
      *
-     * @Route("/new", name="ecgpb.member.workinggroup.new")
+     * @Route("/new", name="app.workinggroup.new")
      */
     public function newAction()
     {
@@ -55,7 +55,7 @@ class WorkingGroupController extends Controller
     /**
      * Creates a new WorkingGroup entity.
      *
-     * @Route("/create", name="ecgpb.member.workinggroup.create", methods={"POST"})
+     * @Route("/create", name="app.workinggroup.create", methods={"POST"})
      */
     public function createAction(Request $request)
     {
@@ -68,7 +68,7 @@ class WorkingGroupController extends Controller
             $em->persist($workingGroup);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('ecgpb.member.workinggroup.edit', array('id' => $workingGroup->getId())));
+            return $this->redirect($this->generateUrl('app.workinggroup.edit', array('id' => $workingGroup->getId())));
         }
 
         return $this->render('/working_group/form.html.twig', array(
@@ -87,7 +87,7 @@ class WorkingGroupController extends Controller
     private function createCreateForm(WorkingGroup $workingGroup)
     {
         $form = $this->createForm(WorkingGroupType::class, $workingGroup, array(
-            'action' => $this->generateUrl('ecgpb.member.workinggroup.create'),
+            'action' => $this->generateUrl('app.workinggroup.create'),
             'method' => 'POST',
         ));
 
@@ -97,7 +97,7 @@ class WorkingGroupController extends Controller
     /**
      * Displays a form to edit an existing WorkingGroup entity.
      *
-     * @Route("/{id}/edit", name="ecgpb.member.workinggroup.edit")
+     * @Route("/{id}/edit", name="app.workinggroup.edit")
      */
     public function editAction($id)
     {
@@ -127,7 +127,7 @@ class WorkingGroupController extends Controller
     private function createEditForm(WorkingGroup $workingGroup)
     {
         $form = $this->createForm(WorkingGroupType::class, $workingGroup, array(
-            'action' => $this->generateUrl('ecgpb.member.workinggroup.update', array('id' => $workingGroup->getId())),
+            'action' => $this->generateUrl('app.workinggroup.update', array('id' => $workingGroup->getId())),
             'method' => 'PUT',
         ));
 
@@ -137,7 +137,7 @@ class WorkingGroupController extends Controller
     /**
      * Edits an existing WorkingGroup entity.
      *
-     * @Route("/{id}/update", name="ecgpb.member.workinggroup.update", methods={"POST", "PUT"})
+     * @Route("/{id}/update", name="app.workinggroup.update", methods={"POST", "PUT"})
      */
     public function updateAction(Request $request, $id)
     {
@@ -166,7 +166,7 @@ class WorkingGroupController extends Controller
 
             $this->addFlash('success', 'All changes have been saved.');
 
-            return $this->redirect($this->generateUrl('ecgpb.member.workinggroup.edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('app.workinggroup.edit', array('id' => $id)));
         }
 
         return $this->render('/working_group/form.html.twig', array(
@@ -178,7 +178,7 @@ class WorkingGroupController extends Controller
     /**
      * Deletes a WorkingGroup entity.
      *
-     * @Route("/{id}/delete", name="ecgpb.member.workinggroup.delete")
+     * @Route("/{id}/delete", name="app.workinggroup.delete")
      */
     public function deleteAction(WorkingGroup $workingGroup)
     {
@@ -188,11 +188,11 @@ class WorkingGroupController extends Controller
 
         $this->addFlash('success', 'The entry has been deleted.');
 
-        return $this->redirectToRoute('ecgpb.member.workinggroup.index');
+        return $this->redirectToRoute('app.workinggroup.index');
     }
 
     /**
-     * @Route("/assignables", name="ecgpb.member.workinggroup.assignables"))
+     * @Route("/assignables", name="app.workinggroup.assignables"))
      */
     public function assignablesAction()
     {
@@ -210,7 +210,7 @@ class WorkingGroupController extends Controller
     }
 
     /**
-     * @Route("/assign", name="ecgpb.member.workinggroup.assign", methods={"POST"})
+     * @Route("/assign", name="app.workinggroup.assign", methods={"POST"})
      */
     public function assignAction(Request $request)
     {
@@ -238,11 +238,11 @@ class WorkingGroupController extends Controller
 
         $this->addFlash('success', 'Saved assignments.');
 
-        return $this->redirect($this->generateUrl('ecgpb.member.workinggroup.assignables'));
+        return $this->redirect($this->generateUrl('app.workinggroup.assignables'));
     }
 
     /**
-     * @Route("/persons_unable_to_work", name="ecgpb.member.workinggroup.persons_unable_to_work")
+     * @Route("/persons_unable_to_work", name="app.workinggroup.persons_unable_to_work")
      */
     public function personsUnableToWorkAction()
     {
@@ -258,7 +258,7 @@ class WorkingGroupController extends Controller
     }
 
     /**
-     * @Route("/update_worker_status", name="ecgpb.member.workinggroup.update_worker_status", methods={"POST"})
+     * @Route("/update_worker_status", name="app.workinggroup.update_worker_status", methods={"POST"})
      */
     public function updateWorkerStatusAction(Request $request)
     {
@@ -286,6 +286,6 @@ class WorkingGroupController extends Controller
         $msg = 'The worker status of %number% persons has been changed.';
         $this->addFlash('success', $this->get('translator')->trans($msg, ['%number%' => $changedStatus]));
 
-        return $this->redirectToRoute('ecgpb.member.workinggroup.persons_unable_to_work');
+        return $this->redirectToRoute('app.workinggroup.persons_unable_to_work');
     }
 }

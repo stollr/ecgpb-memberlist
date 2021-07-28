@@ -19,7 +19,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item {# active #}">
-                            <a class="nav-link" href="{{ path('ecgpb.member.address.index') }}">
+                            <a class="nav-link" href="{{ path('app.address.index') }}">
                                 {% trans %}Addresses{% endtrans %}
                             </a>
                         </li>
@@ -29,19 +29,19 @@
                                 <b class="caret"></b>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ path('ecgpb.member.workinggroup.index') }}">
+                                <a class="dropdown-item" href="{{ path('app.workinggroup.index') }}">
                                     {% trans %}Working Groups{% endtrans %}
                                 </a>
-                                <a class="dropdown-item" href="{{ path('ecgpb.member.workinggroup.assignables') }}">
+                                <a class="dropdown-item" href="{{ path('app.workinggroup.assignables') }}">
                                     {% trans %}Unassigned Persons{% endtrans %}
                                 </a>
-                                <a class="dropdown-item" href="{{ path('ecgpb.member.workinggroup.persons_unable_to_work') }}">
+                                <a class="dropdown-item" href="{{ path('app.workinggroup.persons_unable_to_work') }}">
                                     {% trans %}Persons unable to work{% endtrans %}
                                 </a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('ecgpb.member.ministry_category.index') }}">
+                            <a class="nav-link" href="{{ path('app.ministry_category.index') }}">
                                 {% trans %}Ministries{% endtrans %}
                             </a>
                         </li>
@@ -51,19 +51,19 @@
                                 <b class="caret"></b>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ path('ecgpb.member.export.pdf_config') }}">
+                                <a class="dropdown-item" href="{{ path('app.export.pdf_config') }}">
                                     {% trans %}Member List{% endtrans %} (PDF)
                                 </a>
-                                <a class="dropdown-item" href="{{ path('ecgpb.member.export.csv') }}">
+                                <a class="dropdown-item" href="{{ path('app.export.csv') }}">
                                     {% trans %}Member List{% endtrans %} (CSV)
                                 </a>
-                                <a class="dropdown-item" href="{{ path('ecgpb.member.export.birthday_excel') }}">
+                                <a class="dropdown-item" href="{{ path('app.export.birthday_excel') }}">
                                     {% trans %}Birthday List{% endtrans %} (Excel)
                                 </a>
-                                <a class="dropdown-item" href="{{ path('ecgpb.member.export.seniors_excel') }}">
+                                <a class="dropdown-item" href="{{ path('app.export.seniors_excel') }}">
                                     {% trans %}Seniors List{% endtrans %} (Excel)
                                 </a>
-                                <a class="dropdown-item" href="{{ path('ecgpb.member.export.email_addresses') }}">
+                                <a class="dropdown-item" href="{{ path('app.export.email_addresses') }}">
                                     {% trans %}Email Addresses{% endtrans %}
                                 </a>
                                 <a class="dropdown-item" href="{{ path('app.stats.index') }}">

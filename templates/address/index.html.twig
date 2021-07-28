@@ -5,7 +5,7 @@
 {% block body -%}
     <div class="d-flex align-items-center mb-3">
         <h2 class="mr-auto">{% trans %}Addresses{% endtrans %}</h2>
-        <form action="{{ path('ecgpb.member.address.index') }}" method="get" role="form" class="form-inline">
+        <form action="{{ path('app.address.index') }}" method="get" role="form" class="form-inline">
             {% set filter = app.request.get('filter') %}
             <input type="text" name="filter[term]" class="form-control mr-2" value="{{ filter['term'] is defined ? filter['term'] : '' }}" placeholder="{% trans %}Search Term{% endtrans %}" />
             <div class="form-check mr-2">
@@ -25,7 +25,7 @@
             </button>
         </form>
         <div>
-            <a class="btn btn-success" href="{{ path('ecgpb.member.address.new') }}">
+            <a class="btn btn-success" href="{{ path('app.address.new') }}">
                 <i class="bi bi-plus-lg"></i>
             </a>
         </div>
@@ -61,7 +61,7 @@
                     {% if loop.index0 > 0 %}<tr>{% endif %}
                         <td>
                             {% if person.id not in person_ids_without_photo %}
-                                <img class="person-picture" src="{{ path('ecgpb.member.person.optimized_member_picture', {'id': person.id}) }}" />
+                                <img class="person-picture" src="{{ path('app.person.optimized_member_picture', {'id': person.id}) }}" />
                             {% endif %}
                         </td>
                         <td class="text-center">
@@ -82,12 +82,12 @@
                         {% if loop.index0 == 0 %}
                         <td rowspan="{{ address.persons | length }}">
                             <a class="btn btn-outline-dark"
-                             href="{{ path('ecgpb.member.address.edit', { 'id': address.id }) }}"
+                             href="{{ path('app.address.edit', { 'id': address.id }) }}"
                              title="{% trans %}Edit Address{% endtrans %}">
                                 <i class="bi bi-pencil"></i>
                             </a>
                             <a class="btn btn-danger"
-                             href="{{ path('ecgpb.member.address.delete', { 'id': address.id }) }}"
+                             href="{{ path('app.address.delete', { 'id': address.id }) }}"
                              title="{% trans %}Delete Address{% endtrans %}"
                              onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
                                 <i class="bi bi-trash"></i>
@@ -103,12 +103,12 @@
                         <td></td>
                         <td>
                             <a class="btn btn-outline-dark"
-                             href="{{ path('ecgpb.member.address.edit', { 'id': address.id }) }}"
+                             href="{{ path('app.address.edit', { 'id': address.id }) }}"
                              title="{% trans %}Edit Address{% endtrans %}">
                                 <i class="bi bi-pencil"></i>
                             </a>
                             <a class="btn btn-danger"
-                             href="{{ path('ecgpb.member.address.delete', { 'id': address.id }) }}"
+                             href="{{ path('app.address.delete', { 'id': address.id }) }}"
                              title="{% trans %}Delete Address{% endtrans %}"
                              onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
                                 <i class="bi bi-trash"></i>

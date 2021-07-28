@@ -22,7 +22,7 @@
             {% endif %}
         </h2>
         <a class="btn btn-outline-dark" title="{% trans %}Back to List{% endtrans %}"
-           href="{{ path('ecgpb.member.ministry_category.index') }}">
+           href="{{ path('app.ministry_category.index') }}">
             <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
         </a>
         <button type="submit" class="btn btn-primary ml-2">
@@ -74,7 +74,7 @@
         <!-- Modal -->
         <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-modal-title" aria-hidden="true">
             <div class="modal-dialog">
-                <form class="modal-content" action="{{ path('ecgpb.member.ministry_category.delete', {'id': category.id}) }}" method="post">
+                <form class="modal-content" action="{{ path('app.ministry_category.delete', {'id': category.id}) }}" method="post">
                     <input type="hidden" name="_method" value="delete">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete_ministry_category') }}">
                     <div class="modal-header">

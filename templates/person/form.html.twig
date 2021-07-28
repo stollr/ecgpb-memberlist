@@ -13,7 +13,7 @@
         </div>
         {% if person.address and person.address.id > 0 %}
             <a class="btn btn-outline-dark mr-2"
-             href="{{ path('ecgpb.member.address.edit', {'id': person.address.id}) }}"
+             href="{{ path('app.address.edit', {'id': person.address.id}) }}"
              title="{% trans %}Back to List{% endtrans %}">
                 <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
             </a>
@@ -23,7 +23,7 @@
         </button>
         {% if person.id > 0 %}
             <a class="btn btn-danger"
-             href="{{ path('ecgpb.member.person.delete', {'id': person.id}) }}"
+             href="{{ path('app.person.delete', {'id': person.id}) }}"
              title="{% trans %}Delete Person{% endtrans %}"
              onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
                 <i class="bi bi-trash"></i> {% trans %}Delete{% endtrans %}
@@ -40,7 +40,7 @@
                         <div class="col-lg-6">
                             <p>
                                 <img class="-person-picture img-thumbnail"
-                                 src="{{ path('ecgpb.member.person.optimized_member_picture', {'id': person.id}) }}"
+                                 src="{{ path('app.person.optimized_member_picture', {'id': person.id}) }}"
                                  alt="No Image"/>
                             </p>
                             <p>
@@ -52,7 +52,7 @@
 
                             {{ form_row(form.address, {'row_attr': {'class': 'mb-0'}}) }}
                             <p>
-                                <a href="{{ path('ecgpb.member.address.edit', {'id': person.address.id}) }}">{% trans %}Go to address{% endtrans %}</a>
+                                <a href="{{ path('app.address.edit', {'id': person.address.id}) }}">{% trans %}Go to address{% endtrans %}</a>
                             </p>
                             {{ form_row(form.firstname) }}
                             {{ form_row(form.lastname) }}

@@ -18,7 +18,7 @@
     {% endif %}
     {% if form.parent.vars['name'] == 'persons' and form.vars['data'] and form.vars['data'].id %}
         {% set person = form.vars['data'] %}
-        <a class="btn btn-outline-dark" href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
+        <a class="btn btn-outline-dark" href="{{ path('app.person.edit', {'id': person.id}) }}">
             <i class="bi bi-pencil"></i> {% trans %}Edit{% endtrans %}
         </a>
     {% endif %}
@@ -34,7 +34,7 @@
         <div class="col-md-3">
             <p>
                 <img class="-person-picture img-thumbnail"
-                 src="{{ person and person.id ? path('ecgpb.member.person.optimized_member_picture', {'id': person.id}) : '#' }}"
+                 src="{{ person and person.id ? path('app.person.optimized_member_picture', {'id': person.id}) : '#' }}"
                  alt="No Image"/>
             </p>
             <p>
@@ -54,7 +54,7 @@
         </div>
         <div class="col-md-3 text-right">
             {% if person and person.id %}
-                <a class="btn btn-sm btn-outline-dark" href="{{ path('ecgpb.member.person.edit', {'id': person.id}) }}">
+                <a class="btn btn-sm btn-outline-dark" href="{{ path('app.person.edit', {'id': person.id}) }}">
                     <i class="bi bi-pencil"></i> {% trans %}Edit{% endtrans %}
                 </a>
             {% endif %}
@@ -80,7 +80,7 @@
 
             {% if entity.id > 0 %}
                 <a class="btn btn-danger"
-                 href="{{ path('ecgpb.member.address.delete', {'id': entity.id}) }}"
+                 href="{{ path('app.address.delete', {'id': entity.id}) }}"
                  title="{% trans %}Delete Address{% endtrans %}"
                  onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
                     <i class="bi bi-trash"></i> {% trans %}Delete{% endtrans %}

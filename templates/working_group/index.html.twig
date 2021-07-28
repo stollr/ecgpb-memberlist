@@ -5,7 +5,7 @@
         <h2 class="mr-auto">
             {% trans %}Working Groups{% endtrans %}
         </h2>
-        <a class="btn btn-success" href="{{ path('ecgpb.member.workinggroup.new') }}">
+        <a class="btn btn-success" href="{{ path('app.workinggroup.new') }}">
             <i class="bi bi-plus-lg"></i>
         </a>
     </div>
@@ -54,11 +54,11 @@
                     </div>
                 </td>
                 <td>
-                    <a class="btn btn-outline-dark" href="{{ path('ecgpb.member.workinggroup.edit', { 'id': working_group.id }) }}">
+                    <a class="btn btn-outline-dark" href="{{ path('app.workinggroup.edit', { 'id': working_group.id }) }}">
                         <i class="bi bi-pencil"></i>
                     </a>
                     <a class="btn btn-danger"
-                     href="{{ path('ecgpb.member.workinggroup.delete', { 'id': working_group.id }) }}"
+                     href="{{ path('app.workinggroup.delete', { 'id': working_group.id }) }}"
                      onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
                         <i class="bi bi-trash"></i>
                     </a>

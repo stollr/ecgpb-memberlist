@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class IndexController extends Controller
 {
     /**
-     * @Route(name="ecgpb.member.index.encode_password", path="/encode_password")
+     * @Route(name="app.index.encode_password", path="/encode_password")
      */
     public function encodePassword(Request $request)
     {

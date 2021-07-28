@@ -25,7 +25,7 @@ class MinistryCategoryController extends AbstractController
     /**
      * Lists all Address entities.
      *
-     * @Route(name="ecgpb.member.ministry_category.index", path="/", methods={"GET"})
+     * @Route(name="app.ministry_category.index", path="/", methods={"GET"})
      */
     public function index(): Response
     {
@@ -40,7 +40,7 @@ class MinistryCategoryController extends AbstractController
     }
 
     /**
-     * @Route("/create", name="ecgpb.member.ministry_category.create")
+     * @Route("/create", name="app.ministry_category.create")
      */
     public function create(Request $request): Response
     {
@@ -56,7 +56,7 @@ class MinistryCategoryController extends AbstractController
 
             $this->addFlash('success', 'The entry has been created.');
 
-            return $this->redirectToRoute('ecgpb.member.ministry_category.edit', ['id' => $category->getId()]);
+            return $this->redirectToRoute('app.ministry_category.edit', ['id' => $category->getId()]);
         }
 
         return $this->render('ministry_category/form.html.twig', [
@@ -66,7 +66,7 @@ class MinistryCategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="ecgpb.member.ministry_category.edit")
+     * @Route("/{id}/edit", name="app.ministry_category.edit")
      */
     public function edit(Category $category, Request $request): Response
     {
@@ -78,7 +78,7 @@ class MinistryCategoryController extends AbstractController
 
             $this->addFlash('success', 'All changes have been saved.');
 
-            return $this->redirectToRoute('ecgpb.member.ministry_category.edit', ['id' => $category->getId()]);
+            return $this->redirectToRoute('app.ministry_category.edit', ['id' => $category->getId()]);
         }
 
         return $this->render('ministry_category/form.html.twig', [
@@ -88,7 +88,7 @@ class MinistryCategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/delete", name="ecgpb.member.ministry_category.delete", methods={"DELETE"})
+     * @Route("/{id}/delete", name="app.ministry_category.delete", methods={"DELETE"})
      */
     public function delete(Category $category, Request $request): Response
     {
@@ -102,13 +102,13 @@ class MinistryCategoryController extends AbstractController
 
         $this->addFlash('success', 'The entry has been deleted.');
 
-        return $this->redirectToRoute('ecgpb.member.ministry_category.index');
+        return $this->redirectToRoute('app.ministry_category.index');
     }
 
     /**
      * Edits an existing Address entity.
      *
-     * @Route(name="ecgpb.member.ministry_category.update", path="/", methods={"POST", "PUT"}, requirements={"_format" = "json"})
+     * @Route(name="app.ministry_category.update", path="/", methods={"POST", "PUT"}, requirements={"_format" = "json"})
      */
     public function update(Request $request, SerializerInterface $serializer): Response
     {

@@ -9,7 +9,7 @@
             {% trans %}Working Group{% endtrans %}
         </h2>
         <a class="btn btn-outline-dark"
-         href="{{ path('ecgpb.member.workinggroup.index') }}"
+         href="{{ path('app.workinggroup.index') }}"
          title="{% trans %}Back to List{% endtrans %}">
             <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
         </a>
@@ -18,7 +18,7 @@
         </button>
         {% if working_group.id > 0 %}
             <a class="btn btn-danger ml-2"
-             href="{{ path('ecgpb.member.workinggroup.delete', {'id': working_group.id}) }}"
+             href="{{ path('app.workinggroup.delete', {'id': working_group.id}) }}"
              title="{% trans %}Delete Working Group{% endtrans %}"
              onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
                 <i class="bi bi-trash"></i> {% trans %}Delete{% endtrans %}
