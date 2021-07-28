@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Helper\PersonHelper;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Address controller.
@@ -19,6 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AddressController extends Controller
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
 
     /**
      * Lists all Address entities.
@@ -68,7 +74,7 @@ class AddressController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            
+
             $this->addFlash('success', 'The entry has been created.');
 
             return $this->redirect($this->generateUrl('ecgpb.member.address.edit', array('id' => $entity->getId())));
@@ -113,18 +119,28 @@ class AddressController extends Controller
 
             // person picture file
             foreach ($request->files->get('person-picture-file', array()) as $index => $file) {
-                /* @var $file UploadedFile */
-                if ($file) {
-                    $person = $address->getPersons()->get($index);
+                /** @var UploadedFile $file */
+                $person = $address->getPersons()->get($index);
+
+                if (!$file) {
+                    continue;
+                }
+
+                if ($this->isJpegImage($file)) {
                     $file->move($personHelper->getPersonPhotoPath(), $personHelper->getPersonPhotoFilename($person));
+                } else {
+                    $this->addFlash('warning', $this->translator->trans(
+                        'The uploaded photo for "%name%" is not a valid JPEG file.',
+                        ['%name%' => $person->getFirstname()]
+                    ));
                 }
             }
-            
+
             $this->addFlash('success', 'All changes have been saved.');
 
             return $this->redirectToRoute('ecgpb.member.address.edit', ['id' => $address->getId()]);
         }
-        
+
         return $this->render('/address/form.html.twig', [
             'entity' => $address,
             'form' => $editForm->createView(),
@@ -197,5 +213,15 @@ class AddressController extends Controller
         ]);
 
         return $form;
+    }
+
+    /**
+     * Check if an uploaded file is real jpeg image.
+     */
+    private static function isJpegImage(UploadedFile $file): bool
+    {
+        $res = @imagecreatefromjpeg($file->getPathname());
+
+        return $res !== false;
     }
 }

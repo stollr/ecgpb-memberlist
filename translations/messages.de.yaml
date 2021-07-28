@@ -126,6 +126,7 @@ Tasks: Aufgaben
 The entry has been created.: Der Eintrag wurde erstellt.
 The entry has been deleted.: Der Eintrag wurde gelöscht.
 The passing on of data to third parties is not permitted for reasons of data protection!: Die Weitergabe von Daten an Drittpersonen ist aus Gründen des Datenschutzes nicht erlaubt!
+'The uploaded photo for "%name%" is not a valid JPEG file.': 'Das hochgeladene Foto für "%name%" ist keine gültige JPEG-Datei.'
 The working group {number} of the {gender} does not have a leader, yet.: Die Arbeitsgruppe {number} der {gender}, hat noch keinen Verantwortlichen.
 There are no entries existing, yet.: Es gibt noch keine Einträge.
 This booklet must be shredded before disposal. If this is not possible, please return it.: Dieses Heft muss vor der Entsorgung geschreddert werden. Falls das nicht möglich ist, bitte zurückgeben.
