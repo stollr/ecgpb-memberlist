@@ -60,7 +60,7 @@ Group Number: Gruppennummer
 Group of Men: Männergruppe
 Group of Women/Men: Frauen- oder Männergruppe
 Group of Women: Frauengruppe
-Has Email Address: Hat Emailadresse
+'Has Email Address': 'Hat E-Mailadresse'
 Invalid/Sick: Dienstunfähig/Krank
 Keep in mind that the number of pages has be devideable by four, for printing.: Es ist zu beachten, dass die Anzahl an Seiten für den Druck durch vier teilbar sein muss.
 Last Name: Nachname
@@ -100,6 +100,7 @@ Persons assignable to a Working Group: Personen, die zu einer Arbeitsgruppe zuwe
 Persons unable to work: Nicht-arbeitsfähige Personen
 Phone: Telefon
 Phone Connections of the Church: Telefonverbindungen des Gemeindehauses
+'Photo': 'Foto'
 Please report immediately all changes to %name%!: Alle Änderungen bitte unverzüglich bei %name% melden!
 Print: Drucken
 Remove: Entfernen
