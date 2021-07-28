@@ -2,5 +2,6 @@ root:
     path: /
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
+        _locale: de
         route: ecgpb.member.address.index
         permanent: false
