@@ -37,7 +37,7 @@ class Person
      * People not able to work, because of their residence.
      */
     const WORKER_STATUS_UNABLE_RESIDENCE = 4;
-    
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -75,7 +75,7 @@ class Person
      * @var \DateTime
      */
     private $dob;
-    
+
     /**
      * Gender ('m' or 'f')
      *
@@ -180,7 +180,7 @@ class Person
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -209,7 +209,7 @@ class Person
             . ($this->getAddress()->getNamePrefix() ? $this->getAddress()->getNamePrefix() . ' ' : '')
             . ($this->getLastname() ?: $this->getAddress()->getFamilyName());
     }
-    
+
     /**
      * Get the display name (firstname and lastname) with year of birth.
      */
@@ -255,7 +255,7 @@ class Person
     /**
      * Get firstname
      *
-     * @return string 
+     * @return string
      */
     public function getFirstname()
     {
@@ -278,7 +278,7 @@ class Person
     /**
      * Get the date of birth
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDob()
     {
@@ -287,7 +287,7 @@ class Person
 
     /**
      * Get the current age of the person.
-     * 
+     *
      * @return integer
      */
     public function getAge()
@@ -297,7 +297,7 @@ class Person
 
         return $diff->y;
     }
-    
+
     public function getGender()
     {
         return $this->gender;
@@ -325,7 +325,7 @@ class Person
     /**
      * Get mobile
      *
-     * @return string 
+     * @return string
      */
     public function getMobile()
     {
@@ -348,7 +348,7 @@ class Person
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -371,7 +371,7 @@ class Person
     /**
      * Get phone2
      *
-     * @return string 
+     * @return string
      */
     public function getPhone2()
     {
@@ -414,7 +414,7 @@ class Person
     /**
      * Get maidenName
      *
-     * @return string 
+     * @return string
      */
     public function getMaidenName()
     {
@@ -439,7 +439,7 @@ class Person
     /**
      * Get address
      *
-     * @return \App\Entity\Address 
+     * @return \App\Entity\Address
      */
     public function getAddress()
     {
@@ -470,7 +470,7 @@ class Person
     /**
      * Get workingGroup
      *
-     * @return \App\Entity\WorkingGroup 
+     * @return \App\Entity\WorkingGroup
      */
     public function getWorkingGroup()
     {
@@ -532,18 +532,13 @@ class Person
 
     /**
      * This method exists only for documentation.
-     * 
+     *
      * @param \App\Entity\WorkingGroup $workingGroup
      * @throws \RuntimeException
      */
     public function setLeaderOf(\App\Entity\WorkingGroup $workingGroup = null)
     {
         throw new \RuntimeException('The leading person of a working group cannot be changed within person entity.');
-    }
-
-    public function getOptgroupLabelInWorkingGroupDropdown()
-    {
-        return $this->getWorkingGroup() ? 'Assigned' : 'Not assigned';
     }
 
     /**

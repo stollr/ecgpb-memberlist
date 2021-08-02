@@ -70,14 +70,18 @@ class AddressController extends Controller
         $form = $this->createAddressForm($entity);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                $em->flush();
 
-            $this->addFlash('success', 'The entry has been created.');
+                $this->addFlash('success', 'The entry has been created.');
 
-            return $this->redirect($this->generateUrl('app.address.edit', array('id' => $entity->getId())));
+                return $this->redirect($this->generateUrl('app.address.edit', array('id' => $entity->getId())));
+            }
+
+            $this->addFlash('error', 'The submitted data is invalid. Please check your inputs.');
         }
 
         return $this->render('/address/form.html.twig', array(

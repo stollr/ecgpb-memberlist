@@ -53,36 +53,6 @@ class WorkingGroupType extends AbstractType
                         ;
                     }
                 ))
-                ->add('persons', CollectionType::class, [
-                    'entry_type' => EntityType::class,
-                    'label' => false,
-                    'prototype' => true,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'by_reference' => false,
-                    'entry_options' => [
-                        'label' => false,
-                        'class' => Person::class,
-                        'choice_label' => function (Person $person) {
-                            return $person->getAddress()->getFamilyName() . ', ' . $person->getFirstname() . ' (' . $person->getDob()->format('d.m.Y') . ')';
-                        },
-                        'placeholder' => '',
-                        'row_attr' => ['class' => 'd-flex'],
-                        'attr' => ['class' => 'mr-2'],
-                        'query_builder' => function(EntityRepository $repo) use ($workingGroup) {
-                            return $repo->createQueryBuilder('person')
-                                ->select('person')
-                                ->leftJoin('person.address', 'address')
-                                ->where('person.gender = :gender')
-                                ->orderBy('person.workingGroup')
-                                ->addOrderBy('address.familyName')
-                                ->addOrderBy('person.firstname')
-                                ->setParameter('gender', $workingGroup->getGender())
-                            ;
-                        },
-                        'group_by' => 'optgroupLabelInWorkingGroupDropdown',
-                    ]
-                ])
             ;
         }
     }

@@ -41,57 +41,30 @@ class WorkingGroupController extends Controller
      *
      * @Route("/new", name="app.workinggroup.new")
      */
-    public function newAction()
+    public function new(Request $request)
     {
         $workingGroup = new WorkingGroup();
-        $form   = $this->createCreateForm($workingGroup);
-
-        return $this->render('/working_group/form.html.twig', array(
-            'working_group' => $workingGroup,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Creates a new WorkingGroup entity.
-     *
-     * @Route("/create", name="app.workinggroup.create", methods={"POST"})
-     */
-    public function createAction(Request $request)
-    {
-        $workingGroup = new WorkingGroup();
-        $form = $this->createCreateForm($workingGroup);
+        $form = $this->createForm(WorkingGroupType::class, $workingGroup);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($workingGroup);
-            $em->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($workingGroup);
+                $em->flush();
 
-            return $this->redirect($this->generateUrl('app.workinggroup.edit', array('id' => $workingGroup->getId())));
+                $this->addFlash('success', 'The entry has been created.');
+
+                return $this->redirectToRoute('app.workinggroup.edit', ['id' => $workingGroup->getId()]);
+            }
+
+            $this->addFlash('error', 'The submitted data is invalid. Please check your inputs.');
         }
 
-        return $this->render('/working_group/form.html.twig', array(
-            'working_group' => $workingGroup,
+        return $this->render('working_group/form.html.twig', [
+            'workingGroup' => $workingGroup,
             'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-    * Creates a form to create a WorkingGroup entity.
-    *
-    * @param WorkingGroup $workingGroup The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createCreateForm(WorkingGroup $workingGroup)
-    {
-        $form = $this->createForm(WorkingGroupType::class, $workingGroup, array(
-            'action' => $this->generateUrl('app.workinggroup.create'),
-            'method' => 'POST',
-        ));
-
-        return $form;
+        ]);
     }
 
     /**
@@ -99,79 +72,29 @@ class WorkingGroupController extends Controller
      *
      * @Route("/{id}/edit", name="app.workinggroup.edit")
      */
-    public function editAction($id)
+    public function edit(WorkingGroup $workingGroup, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $workingGroup = $em->getRepository(WorkingGroup::class)->find($id);
-
-        if (!$workingGroup) {
-            throw $this->createNotFoundException('Unable to find WorkingGroup entity.');
-        }
-
-        $editForm = $this->createEditForm($workingGroup);
-
-        return $this->render('/working_group/form.html.twig', array(
-            'working_group'      => $workingGroup,
-            'form'   => $editForm->createView(),
-        ));
-    }
-
-    /**
-    * Creates a form to edit a WorkingGroup entity.
-    *
-    * @param WorkingGroup $workingGroup The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(WorkingGroup $workingGroup)
-    {
-        $form = $this->createForm(WorkingGroupType::class, $workingGroup, array(
-            'action' => $this->generateUrl('app.workinggroup.update', array('id' => $workingGroup->getId())),
+        $form = $this->createForm(WorkingGroupType::class, $workingGroup, [
             'method' => 'PUT',
-        ));
+        ]);
+        $form->handleRequest($request);
 
-        return $form;
-    }
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
 
-    /**
-     * Edits an existing WorkingGroup entity.
-     *
-     * @Route("/{id}/update", name="app.workinggroup.update", methods={"POST", "PUT"})
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
+                $this->addFlash('success', 'All changes have been saved.');
 
-        $workingGroup = $em->getRepository(WorkingGroup::class)->find($id);
-        /* @var $workingGroup WorkingGroup */
-
-        if (!$workingGroup) {
-            throw $this->createNotFoundException('Unable to find WorkingGroup entity.');
-        }
-
-        $oldPersons = $workingGroup->getPersons()->toArray();
-
-        $editForm = $this->createEditForm($workingGroup);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            foreach ($oldPersons as $oldPerson) {
-                if (!$workingGroup->getPersons()->contains($oldPerson)) {
-                    $workingGroup->removePerson($oldPerson);
-                }
+                return $this->redirectToRoute('app.workinggroup.edit', ['id' => $workingGroup->getId()]);
             }
 
-            $em->flush();
-
-            $this->addFlash('success', 'All changes have been saved.');
-
-            return $this->redirect($this->generateUrl('app.workinggroup.edit', array('id' => $id)));
+            $this->addFlash('error', 'The submitted data is invalid. Please check your inputs.');
         }
 
-        return $this->render('/working_group/form.html.twig', array(
-            'working_group'      => $workingGroup,
-            'form'   => $editForm->createView(),
+        return $this->render('working_group/form.html.twig', array(
+            'workingGroup' => $workingGroup,
+            'form' => $form->createView(),
         ));
     }
 
@@ -180,7 +103,7 @@ class WorkingGroupController extends Controller
      *
      * @Route("/{id}/delete", name="app.workinggroup.delete")
      */
-    public function deleteAction(WorkingGroup $workingGroup)
+    public function delete(WorkingGroup $workingGroup)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($workingGroup);
