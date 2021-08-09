@@ -8,6 +8,7 @@ use App\Helper\PersonHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -31,7 +32,7 @@ class AddressController extends Controller
      *
      * @Route("/index", name="app.address.index", defaults={"_locale"="de"})
      */
-    public function indexAction(Request $request, PersonHelper $personHelper)
+    public function index(Request $request, PersonHelper $personHelper): Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -59,51 +60,36 @@ class AddressController extends Controller
             //'persons_with_picture' => $personsWithPicture,
         ));
     }
+
     /**
-     * Creates a new Address entity.
+     * Displays a form to create a new Address entity.
      *
-     * @Route("/create", name="app.address.create", methods={"POST"})
+     * @Route("/new", name="app.address.new", methods={"GET", "POST"})
      */
-    public function createAction(Request $request)
+    public function new(Request $request): Response
     {
-        $entity = new Address();
-        $form = $this->createAddressForm($entity);
+        $address = new Address();
+        $form = $this->createForm(AddressType::class, $address, ['method' => 'POST']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($entity);
+                $em->persist($address);
                 $em->flush();
 
                 $this->addFlash('success', 'The entry has been created.');
 
-                return $this->redirect($this->generateUrl('app.address.edit', array('id' => $entity->getId())));
+                return $this->redirectToRoute('app.address.edit', ['id' => $address->getId()]);
             }
 
             $this->addFlash('error', 'The submitted data is invalid. Please check your inputs.');
         }
 
-        return $this->render('/address/form.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Displays a form to create a new Address entity.
-     *
-     * @Route("/new", name="app.address.new", defaults={"_locale"="de"})
-     */
-    public function newAction()
-    {
-        $entity = new Address();
-        $form   = $this->createAddressForm($entity);
-
-        return $this->render('/address/form.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+        return $this->render('address/form.html.twig', [
+            'entity' => $address,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -111,18 +97,16 @@ class AddressController extends Controller
      *
      * @Route("/{id}/edit", name="app.address.edit", methods={"GET", "PUT"})
      */
-    public function editAction(Address $address, Request $request, PersonHelper $personHelper)
+    public function edit(Address $address, Request $request, PersonHelper $personHelper): Response
     {
-        $editForm = $this->createAddressForm($address);
-
-        $form = $this->createAddressForm($address);
+        $form = $this->createForm(AddressType::class, $address, ['method' => 'PUT']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             // person picture file
-            foreach ($request->files->get('person-picture-file', array()) as $index => $file) {
+            foreach ($request->files->get('person-picture-file', []) as $index => $file) {
                 /** @var UploadedFile $file */
                 $person = $address->getPersons()->get($index);
 
@@ -145,33 +129,10 @@ class AddressController extends Controller
             return $this->redirectToRoute('app.address.edit', ['id' => $address->getId()]);
         }
 
-        return $this->render('/address/form.html.twig', [
+        return $this->render('address/form.html.twig', [
             'entity' => $address,
-            'form' => $editForm->createView(),
+            'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * Edits an existing Address entity.
-     *
-     * @Route("/{id}/update", name="app.address.update", methods={"POST", "PUT"})
-     */
-    public function updateAction(Request $request, $id, PersonHelper $personHelper)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $address = $em->getRepository(Address::class)->find($id);
-        /* @var $address Address */
-
-        if (!$address) {
-            throw $this->createNotFoundException('Unable to find Address entity.');
-        }
-
-
-        return $this->render('/address/form.html.twig', array(
-            'entity' => $address,
-            'form'   => $form->createView(),
-        ));
     }
 
     /**
@@ -179,7 +140,7 @@ class AddressController extends Controller
      *
      * @Route("/{id}/delete", name="app.address.delete")
      */
-    public function deleteAction(Request $request, $id)
+    public function delete(Request $request, $id): Response
     {
         $em = $this->getDoctrine()->getManager();
         $address = $em->getRepository(Address::class)->find($id);
@@ -204,19 +165,7 @@ class AddressController extends Controller
             return $this->redirect($referrer);
         }
 
-        return $this->redirect($this->generateUrl('app.address.index'));
-    }
-
-    /**
-     * Creates a form to create a Address entity.
-     */
-    private function createAddressForm(Address $address): \Symfony\Component\Form\Form
-    {
-        $form = $this->createForm(AddressType::class, $address, [
-            'method' => $address->getId() ? 'PUT' : 'POST',
-        ]);
-
-        return $form;
+        return $this->redirectToRoute('app.address.index');
     }
 
     /**
