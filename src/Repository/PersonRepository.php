@@ -2,17 +2,23 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use App\Entity\Person;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * App\Repository\PersonRepository
  *
  * @author naitsirch
  */
-class PersonRepository extends EntityRepository
+class PersonRepository extends ServiceEntityRepository
 {
     private static $nameCache;
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Person::class);
+    }
 
     public function isNameUnique(Person $person)
     {
@@ -112,7 +118,7 @@ class PersonRepository extends EntityRepository
                 AND person.dob > :minimum_age
                 ORDER By address.familyName, person.firstname'
         ;
-        
+
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('depending', Person::WORKER_STATUS_DEPENDING);
         $query->setParameter('minimum_age', $minimumAge->format('Y-m-d'));
@@ -144,12 +150,12 @@ class PersonRepository extends EntityRepository
 
         return $query->getResult();
     }
-    
+
     public function getAllEmailAdresses()
     {
         $dql = 'SELECT person.email FROM App\Entity\Person person WHERE person.email IS NOT NULL';
         $query = $this->getEntityManager()->createQuery($dql);
-        
+
         $emails = array();
         foreach ($query->getResult() as $row) {
             $emails[] = $row['email'];
