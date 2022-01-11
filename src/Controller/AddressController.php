@@ -126,7 +126,10 @@ class AddressController extends Controller
 
             $this->addFlash('success', 'All changes have been saved.');
 
-            return $this->redirectToRoute('app.address.edit', ['id' => $address->getId()]);
+            return $this->redirectToRoute('app.address.edit', [
+                'id' => $address->getId(),
+                'referrer' => $request->query->get('referrer'),
+            ]);
         }
 
         return $this->render('address/form.html.twig', [

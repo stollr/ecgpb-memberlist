@@ -82,7 +82,7 @@
                         {% if loop.index0 == 0 %}
                         <td rowspan="{{ address.persons | length }}">
                             <a class="btn btn-outline-dark"
-                             href="{{ path('app.address.edit', { 'id': address.id }) }}"
+                             href="{{ path('app.address.edit', {'id': address.id, 'referrer': app.request.requestUri}) }}"
                              title="{% trans %}Edit Address{% endtrans %}">
                                 <i class="bi bi-pencil"></i>
                             </a>
