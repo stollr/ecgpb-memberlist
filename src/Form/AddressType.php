@@ -25,6 +25,9 @@ class AddressType extends AbstractType
             ->add('namePrefix', TextType::class, [
                 'label' => 'Name prefix',
                 'required' => false,
+                'attr' => [
+                    'placeholder' => 'von, van, etc.',
+                ]
             ])
             ->add('familyName', TextType::class, array(
                 'label' => 'Family Name',
