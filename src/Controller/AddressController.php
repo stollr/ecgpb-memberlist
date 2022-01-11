@@ -164,7 +164,7 @@ class AddressController extends Controller
 
         $this->addFlash('success', 'The entry has been deleted.');
 
-        if ($referrer = $request->headers->get('referer')) {
+        if ($referrer = $request->query->get('referrer')) {
             return $this->redirect($referrer);
         }
 

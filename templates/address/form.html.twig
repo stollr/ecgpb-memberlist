@@ -80,7 +80,7 @@
 
             {% if entity.id > 0 %}
                 <a class="btn btn-danger"
-                 href="{{ path('app.address.delete', {'id': entity.id}) }}"
+                 href="{{ path('app.address.delete', {'id': entity.id, 'referrer': app.request.query.get('referrer')}) }}"
                  title="{% trans %}Delete Address{% endtrans %}"
                  onclick="return confirm('{% trans %}Do you really want to delete this entry?{% endtrans %}')">
                     <i class="bi bi-trash"></i> {% trans %}Delete{% endtrans %}
