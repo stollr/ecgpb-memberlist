@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    {% trans %}Working Groups{% endtrans %} - {{ parent() }}
+{% endblock %}
+
 {% block body -%}
     <div class="d-flex align-items-center mb-3">
         <h2 class="mr-auto">
