@@ -7,7 +7,7 @@ use App\PdfGenerator\MemberListGenerator;
 use App\Service\BirthdayExcelGenerator;
 use App\Service\Export\SeniorsSpreadsheetGenerator;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -20,7 +20,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @Route("/export")
  * @/Security("is_granted('ROLE_ADMIN')")
  */
-class ExportController extends Controller
+class ExportController extends AbstractController
 {
     private $translator;
 
@@ -76,7 +76,7 @@ class ExportController extends Controller
             if ($person->getWorkerStatus() == Person::WORKER_STATUS_DEPENDING
                 && $person->getAge() < 65 && $person->getWorkingGroup()
             ) {
-                $workingGroup = $person->getWorkingGroup()->getDisplayName($this->get('translator'));
+                $workingGroup = $person->getWorkingGroup()->getDisplayName($this->translator);
             }
 
             $row = array(

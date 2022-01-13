@@ -3,10 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ministry\Category;
-use App\Entity\Person;
 use App\Form\Ministry\CategoryType;
-use App\Repository\Ministry\CategoryRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

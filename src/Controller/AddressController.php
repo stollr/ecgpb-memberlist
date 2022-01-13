@@ -5,7 +5,8 @@ namespace App\Controller;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Helper\PersonHelper;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,13 +19,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * @Route("/address")
  * @/Security("has_role('ROLE_ADMIN')")
  */
-class AddressController extends Controller
+class AddressController extends AbstractController
 {
     private $translator;
+    
+    private $paginator;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, PaginatorInterface $paginator)
     {
         $this->translator = $translator;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -43,7 +47,7 @@ class AddressController extends Controller
             $filter['no-photo'] = $personHelper->getPersonIdsWithoutPhoto();
         }
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $this->paginator->paginate(
             $repo->getListFilterQb($filter),
             $request->query->get('page', 1)/*page number*/,
             15, /*limit per page*/

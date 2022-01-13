@@ -6,7 +6,7 @@ use App\Entity\Person;
 use App\Form\PersonType;
 use App\Helper\PersonHelper;
 use App\PdfGenerator\MemberListGenerator;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @/Security("is_granted('ROLE_ADMIN')")
  * @Route("/person")
  */
-class PersonController extends Controller
+class PersonController extends AbstractController
 {
     private $personHelper;
 

@@ -5,11 +5,10 @@ namespace App\Controller;
 use App\Entity\Person;
 use App\Entity\WorkingGroup;
 use App\Form\WorkingGroupType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * WorkingGroup controller.
@@ -17,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/workinggroup")
  * @/Security("has_role('ROLE_ADMIN')")
  */
-class WorkingGroupController extends Controller
+class WorkingGroupController extends AbstractController
 {
 
     /**
@@ -174,7 +173,7 @@ class WorkingGroupController extends Controller
         $personRepo = $em->getRepository(Person::class);
         $persons = $personRepo->findPersonsUnableToWork();
 
-        return $this->render('/working_group/persons_unable_to_work.html.twig', array(
+        return $this->render('working_group/persons_unable_to_work.html.twig', array(
             'persons' => $persons,
             'allWorkerStatus' => Person::getAllWorkerStatus(),
         ));
@@ -183,7 +182,7 @@ class WorkingGroupController extends Controller
     /**
      * @Route("/update_worker_status", name="app.workinggroup.update_worker_status", methods={"POST"})
      */
-    public function updateWorkerStatusAction(Request $request)
+    public function updateWorkerStatusAction(Request $request, TranslatorInterface $translator)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -207,7 +206,7 @@ class WorkingGroupController extends Controller
         $em->flush();
 
         $msg = 'The worker status of %number% persons has been changed.';
-        $this->addFlash('success', $this->get('translator')->trans($msg, ['%number%' => $changedStatus]));
+        $this->addFlash('success', $translator->trans($msg, ['%number%' => $changedStatus]));
 
         return $this->redirectToRoute('app.workinggroup.persons_unable_to_work');
     }
