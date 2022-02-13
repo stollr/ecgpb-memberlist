@@ -2,6 +2,10 @@
 
 namespace App\Entity\Ministry;
 
+use App\Entity\Ministry;
+use App\Entity\Person;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -20,20 +24,16 @@ class Category
      * @ORM\GeneratedValue
      *
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var integer
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=40)
      * @Assert\Length(max=40)
      *
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var string
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      *
@@ -41,44 +41,36 @@ class Category
      * @ORM\JoinColumn(name="responsible_person_id", nullable=true, onDelete="SET NULL")
      *
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var \App\Entity\Person
      */
-    private $responsible;
+    private ?Person $responsible = null;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
      *
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var integer
      */
-    private $position;
+    private ?int $position = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ministry", mappedBy="category", cascade={"persist"}, orphanRemoval=true)
      * @ORM\OrderBy({"position": "ASC"})
      *
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var \Doctrine\Common\Collections\Collection
      */
-    private $ministries;
+    private Collection $ministries;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->ministries = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ministries = new ArrayCollection();
     }
 
     /**
      * Get id
-     *
-     * @return integer 
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -89,7 +81,7 @@ class Category
      * @param string $name
      * @return MinistryCategory
      */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -97,43 +89,38 @@ class Category
 
     /**
      * Get name
-     *
-     * @return string 
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function getResponsible()
+    public function getResponsible(): ?Person
     {
         return $this->responsible;
     }
 
-    public function setResponsible(\App\Entity\Person $responsible)
+    public function setResponsible(?Person $responsible): self
     {
         $this->responsible = $responsible;
         return $this;
     }
 
-    public function getPosition()
+    public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    public function setPosition($position)
+    public function setPosition(?int $position): self
     {
         $this->position = $position;
         return $this;
     }
 
     /**
-     * Add ministries
-     *
-     * @param \App\Entity\Ministry $ministry
-     * @return Category
+     * Add ministry
      */
-    public function addMinistry(\App\Entity\Ministry $ministry)
+    public function addMinistry(Ministry $ministry): self
     {
         $this->ministries[] = $ministry;
         $ministry->setCategory($this);
@@ -141,21 +128,19 @@ class Category
     }
 
     /**
-     * Remove ministries
-     *
-     * @param \App\Entity\Ministry $ministries
+     * Remove ministry
      */
-    public function removeMinistry(\App\Entity\Ministry $ministries)
+    public function removeMinistry(Ministry $ministries): void
     {
         $this->ministries->removeElement($ministries);
     }
 
     /**
      * Get ministries
-     *
-     * @return \Doctrine\Common\Collections\Collection 
+     * 
+     * @return Ministry[]
      */
-    public function getMinistries()
+    public function getMinistries(): Collection
     {
         return $this->ministries;
     }
