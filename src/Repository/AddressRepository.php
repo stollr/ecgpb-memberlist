@@ -19,7 +19,7 @@ class AddressRepository extends EntityRepository
         ;
 
         if (isset($filter['term']) && '' !== trim($filter['term'])) {
-            $words = explode(' ', trim($filter['term']));
+            $words = preg_split('/\s+/', trim($filter['term']));
             $attributes = array('address.familyName', 'person.firstname', 'person.email', 'person.mobile', 'address.street');
 
             $andExpr = new \Doctrine\ORM\Query\Expr\Andx();
