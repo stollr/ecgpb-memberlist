@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Helper\PersonHelper;
+use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -25,10 +26,16 @@ class AddressController extends AbstractController
     
     private $paginator;
 
-    public function __construct(TranslatorInterface $translator, PaginatorInterface $paginator)
-    {
+    private $doctrine;
+
+    public function __construct(
+        TranslatorInterface $translator,
+        PaginatorInterface $paginator,
+        ManagerRegistry $doctrine
+    ) {
         $this->translator = $translator;
         $this->paginator = $paginator;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -38,9 +45,7 @@ class AddressController extends AbstractController
      */
     public function index(Request $request, PersonHelper $personHelper): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $repo = $em->getRepository(Address::class); /* @var $repo \App\Repository\AddressRepository */
+        $repo = $this->doctrine->getRepository(Address::class); /* @var $repo \App\Repository\AddressRepository */
 
         $filter = $request->get('filter', array());
         if (!empty($filter['no-photo'])) {
@@ -57,6 +62,12 @@ class AddressController extends AbstractController
                 'defaultSortDirection' => 'asc',
             )
         );
+
+        if ($pagination->count() === 1) {
+            return $this->redirectToRoute('app.address.edit', [
+                'id' => $pagination[0]->getId(),
+            ]);
+        }
 
         return $this->render('/address/index.html.twig', array(
             'pagination' => $pagination,
@@ -78,7 +89,7 @@ class AddressController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $em->persist($address);
                 $em->flush();
 
@@ -107,7 +118,7 @@ class AddressController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->doctrine->getManager()->flush();
 
             // person picture file
             foreach ($request->files->get('person-picture-file', []) as $index => $file) {
@@ -149,8 +160,7 @@ class AddressController extends AbstractController
      */
     public function delete(Request $request, $id): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $address = $em->getRepository(Address::class)->find($id);
+        $address = $this->doctrine->getRepository(Address::class)->find($id);
         /* @var $address Address */
 
         if (!$address) {
@@ -163,8 +173,8 @@ class AddressController extends AbstractController
             }
         }
 
-        $em->remove($address);
-        $em->flush();
+        $this->doctrine->remove($address);
+        $this->doctrine->flush();
 
         $this->addFlash('success', 'The entry has been deleted.');
 
