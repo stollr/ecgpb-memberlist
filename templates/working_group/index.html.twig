@@ -39,8 +39,10 @@
                 </td>
                 <td>
                     {% if working_group.leader %}
-                        {{ working_group.leader.firstname ~ ' ' ~ working_group.leader.address.familyName }}
-                        ({{ working_group.leader.dob.format('Y') }})
+                        <a href="{{ path('app.address.edit', {'id': working_group.leader.address.id}) }}">
+                            {{ working_group.leader.firstname ~ ' ' ~ working_group.leader.address.familyName }}
+                            ({{ working_group.leader.dob.format('Y') }})
+                        </a>
                     {% endif %}
                 </td>
                 <td>
@@ -50,7 +52,9 @@
                             {% set sortedPersons = working_group.persons | sort((a, b) => a.lastnameAndFirstname <=> b.lastnameAndFirstname) %}
                             {% for person in (sortedPersons | filter(p => working_group.leader is not same as(p))) %}
                                 <span class="text-muted">{{ loop.index }}.</span>
-                                {{ person.lastnameFirstnameAndDob }}<br/>
+                                <a href="{{ path('app.address.edit', {'id': person.address.id}) }}">
+                                    {{ person.lastnameFirstnameAndDob }}
+                                </a><br/>
 
                                 {% if loop.index == (numberOfMembers / 2) | round %}
                                     </div><div class="col-xl-6">
