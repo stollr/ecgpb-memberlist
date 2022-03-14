@@ -156,7 +156,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->useFontStyleNormal($pdf);
 
         $pdf->SetY(190);
-        $this->useFontSizeM($pdf);
+        $this->useFontSizeS($pdf);
         $this->writeText($pdf, 'Alle Änderungen bitte umgehend bei ' .
             $this->parameters['ecgpb.contact.memberlist.responsible'] .
             ' melden!'
@@ -170,15 +170,15 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     {
         $pdf->AddPage();
 
-        $this->useFontSizeXL($pdf);
+        $this->useFontSizeL($pdf);
         $this->useFontStyleBold($pdf);
         $this->writeText($pdf, 'Telefonverbindungen des Gemeindehauses');
         $this->addHeadlineMargin($pdf);
         $this->useFontStyleNormal($pdf);
-        $this->useFontSizeL($pdf);
+        $this->useFontSizeM($pdf);
         $this->addTable($pdf)
                 ->newRow()
-                    ->newCell('Haupteingang')->setWidth(70)->end()
+                    ->newCell('Haupteingang')->setWidth(60)->end()
                     ->newCell($this->parameters['ecgpb.contact.main_phone'])->setWidth(50)->end()
                 ->end()
                 ->newRow()
@@ -186,11 +186,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->newCell($this->parameters['ecgpb.contact.office_phone'])->setWidth(50)->end()
                 ->end()
                 ->newRow()
-                    ->newCell('Küche')->setWidth(70)->end()
+                    ->newCell('Küche')->setWidth(60)->end()
                     ->newCell($this->parameters['ecgpb.contact.kitchen_phone'])->setWidth(50)->end()
                 ->end()
                 ->newRow()
-                    ->newCell('Geschichten-Telefon')->setWidth(70)->end()
+                    ->newCell('Geschichten-Telefon')->setWidth(60)->end()
                     ->newCell($this->parameters['ecgpb.contact.story_phone'])->setWidth(50)->end()
                 ->end()
             ->end()
@@ -204,12 +204,12 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         // library
 
         $pdf->SetY($pdf->GetY() - 1);
-        $this->useFontSizeXL($pdf);
+        $this->useFontSizeL($pdf);
         $this->useFontStyleBold($pdf);
         $this->writeText($pdf, 'Bibliothek');
         $this->addHeadlineMargin($pdf);
         $this->useFontStyleNormal($pdf);
-        $this->useFontSizeL($pdf);
+        $this->useFontSizeM($pdf);
         $this->addTable($pdf)
                 ->newRow()
                     ->newCell('Telefon')->setWidth(35)->end()
@@ -223,7 +223,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         ;
 
         $pdf->SetY($pdf->GetY() + 5);
-        $this->useFontSizeL($pdf);
+        $this->useFontSizeM($pdf);
         $this->useFontStyleBold($pdf);
         $this->writeText($pdf, 'Öffnungszeiten');
         $this->useFontStyleNormal($pdf);
@@ -248,16 +248,31 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $this->addParagraphMargin($pdf);
 
+        // Add information about ChurchTools
+
+        $this->useFontSizeL($pdf);
+        $this->useFontStyleBold($pdf);
+        $this->writeText($pdf, 'ChurchTools');
+        $this->addHeadlineMargin($pdf);
+        $this->useFontSizeM($pdf);
+        $this->useFontStyleNormal($pdf);
+        $msg = "Auf https://ecgpb.church.tools/ ist die Mitgliederliste in digitaler Form zu\n finden. ";
+        $msg .= "Wer einen Zugang benötigt, kann sich an {$this->parameters['ecgpb.contact.churchtools_admin.name']} wenden.\n\n";
+        $msg .= "Die App für das Smartphone findet man in den jeweiligen App-Stores.";
+        $this->writeText($pdf, $msg);
+
+        $this->addParagraphMargin($pdf);
+
         // technique contact
 
-        $this->useFontSizeXL($pdf);
+        $this->useFontSizeL($pdf);
         $this->useFontStyleBold($pdf);
         $this->writeText($pdf, 'Technik und Beamerteam');
         $this->addHeadlineMargin($pdf);
         $this->useFontStyleNormal($pdf);
-        $this->useFontSizeL($pdf);
-        $msg = 'Präsentationen können der Technik bzw. dem Beamerteam über '
-             . 'folgen- de E-Mail-Adresse zugesandt werden:';
+        $this->useFontSizeM($pdf);
+        $msg = "Präsentationen können der Technik bzw. dem Beamerteam über folgende\n"
+             . 'E-Mail-Adresse zugesandt werden:';
         $this->writeText($pdf, $msg);
         $pdf->SetY($pdf->GetY() + 3);
         $this->writeText($pdf, $this->parameters['ecgpb.contact.technique.email']);
@@ -268,12 +283,12 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $statistics = $this->statisticService->getPersonStatistics();
 
-        $this->useFontSizeXL($pdf);
+        $this->useFontSizeL($pdf);
         $this->useFontStyleBold($pdf);
         $this->writeText($pdf, 'Mitgliederstand am 01.' . date('m.Y'));
         $this->addHeadlineMargin($pdf);
         $this->useFontStyleNormal($pdf);
-        $this->useFontSizeL($pdf);
+        $this->useFontSizeM($pdf);
         $this->addTable($pdf)
                 ->newRow()
                     ->newCell('Gesamtmitgliederzahl')->setWidth(60)->end()
@@ -350,7 +365,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 $pdf->AddPage();
                 $table = $this->addTable($pdf);
                 $table
-                    ->setFontSize(self::FONT_SIZE_S)
+                    ->setFontSize(self::FONT_SIZE_XS)
                     ->newRow()
                         ->newCell()
                             ->setText($this->translator->trans('Name, Address, Phone'))
@@ -392,25 +407,25 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     $displayLastname .= $address->getFamilyName();
 
                     if (strlen($displayLastname) < 21 && strlen($address->getPhone()) < 21) {
-                        $fontSize = self::FONT_SIZE_S + 0.5;
+                        $fontSize = self::FONT_SIZE_XS + 0.5;
                     } else {
-                        $fontSize = self::FONT_SIZE_S;
+                        $fontSize = self::FONT_SIZE_XS;
                     }
                     $row->newCell()
                             ->setText($displayLastname . "\n" . $address->getPhone())
                             ->setBorder('LTR')
                             ->setFontSize($fontSize)
                             ->setFontWeight('bold')
-                            ->setLineHeight($fontSize >= self::FONT_SIZE_S + 0.5 ? 1.3 : 1)
+                            ->setLineHeight($fontSize >= self::FONT_SIZE_XS + 0.5 ? 1.3 : 1)
                             ->setWidth(35.5)
                             ->setPadding(0.5, 0.75, 0, 0.75)
                         ->end()
                     ;
                 } else if (1 == $index) {
                     if (strlen($address->getStreet()) < 22 && strlen($address->getZip().' '.$address->getCity()) < 22) {
-                        $fontSize = self::FONT_SIZE_S + 0.5;
+                        $fontSize = self::FONT_SIZE_XS + 0.5;
                     } else {
-                        $fontSize = self::FONT_SIZE_S;
+                        $fontSize = self::FONT_SIZE_XS;
                     }
                     $row->newCell()
                             ->setText(
@@ -420,7 +435,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                             ->setBorder(count($persons) <= 2 ? 'LRB' : 'LR')
                             ->setFontSize($fontSize)
                             ->setFontWeight('normal')
-                            ->setLineHeight($fontSize >= self::FONT_SIZE_S + 0.5 ? 1.3 : 1)
+                            ->setLineHeight($fontSize >= self::FONT_SIZE_XS + 0.5 ? 1.3 : 1)
                             ->setWidth(35.5)
                             ->setPadding(0, 0.5, 0.75, 0.75)
                         ->end()
@@ -448,7 +463,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->newCell()
                         ->setText($person ? $person->getFirstname() : '')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S + 0.5)
+                        ->setFontSize(self::FONT_SIZE_XS + 0.5)
                         ->setFontWeight('bold')
                         ->setPadding(0.75)
                         ->setWidth(22)
@@ -457,7 +472,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setText($person ? $person->getDob()->format('d.m.Y') : '')
                         ->setAlign('C')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S)
+                        ->setFontSize(self::FONT_SIZE_XS)
                         ->setFontWeight('normal')
                         ->setPadding(0.75)
                         ->setWidth(19)
@@ -469,7 +484,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         )
                         ->setAlign('C')
                         ->setBorder(1)
-                        ->setFontSize($person && strlen($person->getEmail()) < 27 ? self::FONT_SIZE_S : self::FONT_SIZE_XS + 0.5)
+                        ->setFontSize($person && strlen($person->getEmail()) < 27 ? self::FONT_SIZE_XS : self::FONT_SIZE_XXS + 0.5)
                         ->setFontWeight('normal')
                         ->setMinHeight(self::GRID_ROW_MIN_HEIGHT)
                         ->setPadding(0.75)
@@ -580,7 +595,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     }
                     $txt = sprintf('Arbeitsgruppen (%s)', Person::GENDER_FEMALE == $gender ? 'Frauen' : 'Männer');
                     $this->useFontStyleBold($pdf);
-                    $this->useFontSizeM($pdf);
+                    $this->useFontSizeS($pdf);
                     $pdf->MultiCell(0, 0, $txt, 1, 'C');
                     $pdf->SetY($nextY = $pdf->GetY() + 3);
                 }
@@ -594,7 +609,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 // group name
                 $txt = sprintf('Gruppe %s', $group->getNumber());
                 $this->useFontStyleBold($pdf);
-                $this->useFontSizeM($pdf);
+                $this->useFontSizeS($pdf);
                 $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x, $y);
 
                 // group leader
@@ -649,7 +664,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->AddPage();
 
         $drawHeaderCallback = function(Table $table) {
-            $table->setFontSize(self::FONT_SIZE_S - 0.5)
+            $table->setFontSize(self::FONT_SIZE_XS - 0.5)
                 ->newRow()
                     ->newCell()
                         ->setText($this->translator->trans('Category [Ministry] [PDF]'))
@@ -709,7 +724,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->setAlign('C')
                     ->setVerticalAlign('middle')
                     ->setBorder(1)
-                    ->setFontSize(self::FONT_SIZE_S)
+                    ->setFontSize(self::FONT_SIZE_XS)
                     ->setPadding(0.5, 0.5, 0, 0.5)
                 ->end()
             ;
@@ -721,14 +736,14 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setVerticalAlign('middle')
                         ->setColspan(2)
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S - 0.5)
+                        ->setFontSize(self::FONT_SIZE_XS - 0.5)
                         ->setPadding(1, 1, 1, 1)
                     ->end()
                     ->newCell()
                         ->setText($name)
                         ->setAlign('C')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S - 0.5)
+                        ->setFontSize(self::FONT_SIZE_XS - 0.5)
                         ->setPadding(1, 1, 1, 1)
                     ->end()
                 ;
@@ -749,7 +764,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setAlign('C')
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S - 0.5)
+                        ->setFontSize(self::FONT_SIZE_XS - 0.5)
                         ->setPadding(0.5)
                     ->end()
                     ->newCell()
@@ -757,7 +772,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setAlign('L')
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_XS)
+                        ->setFontSize(self::FONT_SIZE_XXS)
                         ->setFontWeight('normal')
                         ->setPadding(0.5, 1, 0.5, 1)
                     ->end()
@@ -766,7 +781,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setAlign('C')
                         ->setVerticalAlign('middle')
                         ->setBorder(1)
-                        ->setFontSize(self::FONT_SIZE_S - 0.5)
+                        ->setFontSize(self::FONT_SIZE_XS - 0.5)
                         ->setFontWeight('normal')
                         ->setPadding(0.5)
                     ->end()
@@ -913,7 +928,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         $pdf->SetY(153);
 
-        $this->useFontSizeM($pdf);
+        $this->useFontSizeS($pdf);
         $this->useFontStyleBold($pdf);
         $this->writeText($pdf, 'Herausgeber:');
 
