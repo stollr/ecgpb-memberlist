@@ -23,6 +23,7 @@ parameters:
     ecgpb.contact.memberlist.responsible:   '%env(APP_CONTACT_MEMBERLIST_RESPONSIBLE)%'
     ecgpb.contact.memberlist.email:         '%env(APP_CONTACT_MEMBERLIST_EMAIL)%'
     ecgpb.contact.technique.email:          '%env(APP_CONTACT_TECHNIQUE_EMAIL)%'
+    ecgpb.contact.churchtools_admin.name:   '%env(APP_CONTACT_CHURCHTOOLS_ADMIN_NAME)%'
 
     ecgpb.members.photo_path: '%env(APP_MEMBERS_PHOTO_PATH)%'
     ecgpb.members.photo_path_optimized: '%kernel.cache_dir%/member_photos_optimized'
@@ -78,6 +79,7 @@ services:
                 ecgpb.contact.memberlist.responsible: '%ecgpb.contact.memberlist.responsible%'
                 ecgpb.contact.memberlist.email: '%ecgpb.contact.memberlist.email%'
                 ecgpb.contact.technique.email: '%ecgpb.contact.technique.email%'
+                ecgpb.contact.churchtools_admin.name: '%ecgpb.contact.churchtools_admin.name%'
 
     App\EventListener\DoctrineEventSubscriber:
         calls:
