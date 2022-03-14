@@ -100,29 +100,6 @@ class Person
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
-     *
-     * @var string
-     */
-    private $phone2;
-
-    /**
-     * The label (deutsch: Beschriftung) of the second phone number.
-     *
-     * @ORM\Column(name="phone2_label", type="string", length=40, nullable=true)
-     *
-     * @var string
-     */
-    private $phone2Label;
-
-    /**
-     * @ORM\Column(name="maiden_name", type="string", length=40, nullable=true)
-     *
-     * @var string
-     */
-    private $maidenName;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="persons", cascade={"persist"})
      * @ORM\JoinColumn(name="address_id", nullable=false)
      * @Groups({"MinistryCategoryListing"})
@@ -353,72 +330,6 @@ class Person
     public function getEmail()
     {
         return $this->email;
-    }
-
-    /**
-     * Set phone2
-     *
-     * @param string $phone2
-     * @return Person
-     */
-    public function setPhone2($phone2)
-    {
-        $this->phone2 = $phone2;
-
-        return $this;
-    }
-
-    /**
-     * Get phone2
-     *
-     * @return string
-     */
-    public function getPhone2()
-    {
-        return $this->phone2;
-    }
-
-    /**
-     * Get the label (deutsch: Beschriftung) of the second phone number.
-     * @return string
-     */
-    public function getPhone2Label()
-    {
-        return $this->phone2Label;
-    }
-
-    /**
-     * Set the label (deutsch: Beschriftung) of the second phone number.
-     * @param string $phone2Label
-     * @return \App\Entity\Person
-     */
-    public function setPhone2Label($phone2Label = null)
-    {
-        $this->phone2Label = $phone2Label;
-        return $this;
-    }
-
-    /**
-     * Set maidenName
-     *
-     * @param string $maidenName
-     * @return Person
-     */
-    public function setMaidenName($maidenName)
-    {
-        $this->maidenName = $maidenName;
-
-        return $this;
-    }
-
-    /**
-     * Get maidenName
-     *
-     * @return string
-     */
-    public function getMaidenName()
-    {
-        return $this->maidenName;
     }
 
     /**

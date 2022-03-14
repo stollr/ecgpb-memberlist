@@ -34,7 +34,6 @@ class LoadPersonData implements FixtureInterface
                     $gender = 'f';
                 } else {
                     $person->setFirstname($this->getRandomFemaleFirstName());
-                    $person->setMaidenName($this->getRandomLastName());
                     $gender = 'm';
                 }
                 $person->setMobile('0' . rand(150, 179) . '-' . rand(100000, 999999));
@@ -45,10 +44,6 @@ class LoadPersonData implements FixtureInterface
                         $person->getFirstname() . '.' . $address->getFamilyName()
                     );
                     $person->setEmail(strtolower($email) . '@example.com');
-                }
-                if (!rand(0, 5)) {
-                    $phone = explode('-', $address->getPhone());
-                    $person->setPhone2($phone[0] . '-' . rand(100000, 999999));
                 }
                 
                 $manager->persist($person);

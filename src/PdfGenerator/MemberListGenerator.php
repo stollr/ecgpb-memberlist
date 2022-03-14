@@ -327,13 +327,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             $addressRowHeight = 0;
             foreach ($address->getPersons() as $person) {
                 $personRowHeight = 0;
-                if ($person->getPhone2Label()) {
-                    $lineBreaks = substr_count($person->getPhone2Label(), "\n");
-                    $personRowHeight += $lineBreaks > 0 ? $lineBreaks * 4 : 4;
-                }
-                if ($person->getPhone2()) {
-                    $personRowHeight += 4;
-                }
                 if ($person->getMobile()) {
                     $personRowHeight += 4;
                 }
@@ -441,10 +434,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ;
                 }
 
-                $maidenName = !$person || !$person->getMaidenName() || $personRepo->isNameUnique($person)
-                    ? '' : ' (geb. ' . $person->getMaidenName() . ')'
-                ;
-                $phone2Label = $person && $person->getPhone2Label() ? str_replace('\\n', "\n", $person->getPhone2Label()) : false;
                 $email = $person && $person->getEmail() ? str_replace('@googlemail.com', '@gmail.com', $person->getEmail()) : false;
 
                 $row
@@ -457,7 +446,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setWidth(self::GRID_PICTURE_CELL_WIDTH) // 10.5 mm
                     ->end()
                     ->newCell()
-                        ->setText($person ? $person->getFirstname() . $maidenName : '')
+                        ->setText($person ? $person->getFirstname() : '')
                         ->setBorder(1)
                         ->setFontSize(self::FONT_SIZE_S + 0.5)
                         ->setFontWeight('bold')
@@ -475,9 +464,6 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->end()
                     ->newCell()
                         ->setText(
-                            ($person && $person->getPhone2Label() ? $phone2Label : '') .
-                            ($person && $person->getPhone2Label() && $phone2Label == rtrim($phone2Label) ? ' ' : '') .
-                            ($person && $person->getPhone2() ? $person->getPhone2() . "\n" : '') .
                             ($person && $person->getMobile() ? $person->getMobile() . "\n" : '') .
                             ($person && $person->getEmail() ? $email : '')
                         )
@@ -614,7 +600,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 // group leader
                 if ($group->getLeader()) {
                     $leaderId = $group->getLeader()->getId();
-                    $born = $group->getLeader()->getMaidenName() ?: $group->getLeader()->getDob()->format('Y');
+                    $born = $group->getLeader()->getDob()->format('Y');
                     $bornText = $personRepo->isNameUnique($group->getLeader()) ? '' : 'geb. ' . $born . ', ';
                     $phone = $group->getLeader()->getAddress()->getPhone() ?: $group->getLeader()->getMobile();
                     $txt = $group->getLeader()->getLastnameAndFirstname() . ' (' . $bornText . 'verantwortlich, Tel. ' . $phone . ')';
@@ -635,9 +621,9 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     if ($person->getAge() >= 65 || $person->getWorkerStatus() != Person::WORKER_STATUS_DEPENDING) {
                         continue;
                     }
-                    $born = $person->getMaidenName() ?: $person->getDob()->format('Y');
-                    $maidenName = $personRepo->isNameUnique($person) ? '' : ' (geb. ' . $born . ')';
-                    $txt = $person->getLastnameAndFirstname() . $maidenName;
+                    $born = $person->getDob()->format('Y');
+                    $nameSuffix = $personRepo->isNameUnique($person) ? '' : ' (geb. ' . $born . ')';
+                    $txt = $person->getLastnameAndFirstname() . $nameSuffix;
                     $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x);
                 }
 

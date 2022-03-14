@@ -71,19 +71,6 @@ class PersonType extends AbstractType
                 'label' => 'E-mail',
                 'required' => false,
             ])
-            ->add('phone2', TextType::class, [
-                'label' => 'Second Phone',
-                'required' => false,
-            ])
-            ->add('phone2Label', TextType::class, [
-                'label' => 'Second Phone Label',
-                'required' => false,
-                'help' => 'You can enter a label for the second phone number. Enter "\\n" for line break.',
-            ])
-            ->add('maidenName', TextType::class, [
-                'label' => 'Maiden Name',
-                'required' => false,
-            ])
             ->add('workingGroup', EntityType::class, [
                 'class' => WorkingGroup::class,
                 'choice_label' => function ($workingGroup) {
