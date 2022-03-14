@@ -85,8 +85,14 @@ abstract class Generator
         
         for ($c = 0; $c < $strlen; $c++) {
             $glyph = mb_substr($text, $c, 1, 'UTF-8');
+            $lineToLong = false;
 
-            if ($lineWidth + $charWidths[$c] > $maxLineWidth || "\n" === $glyph) {
+            while ($lineWidth + $charWidths[$c] > $maxLineWidth || "\n" === $glyph) {
+                if ($lineToLong) {
+                    // Prevent endless loop: Makes sure that at leas one character is printed per line.
+                    break;
+                }
+
                 $pdf->Text($x, $y, $lineText, false, false, true, 0, 1);
                 $x = $pdf->GetX();
                 $y = $pdf->GetY();
@@ -95,6 +101,8 @@ abstract class Generator
 
                 if ("\n" === $glyph) {
                     $c++;
+                } else {
+                    $lineToLong = true;
                 }
                 
                 // remove white spaces at the beginning of the next line
