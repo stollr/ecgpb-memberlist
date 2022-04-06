@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block form_widget_remove_btn %}
-{% spaceless %}
+{% apply spaceless %}
     {% if widget_remove_btn.wrapper_div is not same as(false) %}
         <div class="col-md-2">
     {% endif %}
@@ -25,7 +25,7 @@
     {% if widget_remove_btn.wrapper_div is not same as(false) %}
         </div>
     {% endif %}
-{% endspaceless %}
+{% endapply %}
 {% endblock %}
 
 {% block person_widget %}

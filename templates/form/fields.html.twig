@@ -1,5 +1,5 @@
 {% block form_row %}
-{% spaceless %}
+{% apply spaceless %}
     {% if 'tab' in form.vars.block_prefixes %}
         {{ block('form_tab') }}
     {% else %}
@@ -32,7 +32,7 @@
         {% endif -%}
         {{ block('widget_form_group_end') }}
     {% endif %}
-{% endspaceless %}
+{% endapply %}
 {% endblock form_row %}
 
 
@@ -78,7 +78,7 @@
 
         
 {% block form_widget_remove_btn %}
-{% spaceless %}
+{% apply spaceless %}
     {#% if widget_remove_btn.wrapper_div is not sameas(false) %}
         <div class="clearfix">
     {% endif %#}
@@ -90,15 +90,15 @@
     {#% if widget_remove_btn.wrapper_div is not sameas(false) %}
         </div>
     {% endif %#}
-{% endspaceless %}
+{% endapply %}
 {% endblock form_widget_remove_btn %}
 
 
 {% block submit_widget %}
-{% spaceless %}
+{% apply spaceless %}
     <div class="col-md-offset-3 col-md-7">
         {% set type = type|default('submit') %}
         {{ block('button_widget') }}
     </div>
-{% endspaceless %}
+{% endapply %}
 {% endblock %}
