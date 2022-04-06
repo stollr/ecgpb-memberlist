@@ -56,7 +56,6 @@ class PersonType extends AbstractType
             ->add('dob', DateType::class, [
                 'label' => 'Date of Birth',
                 'widget' => 'single_text',
-                'format' => \IntlDateFormatter::MEDIUM,
             ])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
