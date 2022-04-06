@@ -8,16 +8,20 @@
     "autoload-dev": {
         "psr-4": { "Tests\\": "tests/" }
     },
+    "repositories": [
+        {"type": "git", "url": "https://github.com/naitsirch/churchtools-php-adapter.git"}
+    ],
     "require": {
         "php": ">=7.3.0",
         "composer/package-versions-deprecated": "1.11.99.2",
-        "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/doctrine-bundle": "^2.6.1",
         "doctrine/doctrine-migrations-bundle": "^3.1",
-        "doctrine/orm": "^2.5",
-        "knplabs/knp-paginator-bundle": "~2.4",
+        "doctrine/orm": "^2.11.2",
+        "knplabs/knp-paginator-bundle": "^5.8.0",
+        "naitsirch/churchtools-api-adapter": "dev-main",
         "naitsirch/tcpdf-extension": "^1.0",
         "phpoffice/phpspreadsheet": "^1.16.0",
-        "sensio/framework-extra-bundle": "^3.0.2",
+        "sensio/framework-extra-bundle": "^6.2.6",
         "symfony/asset": "*",
         "symfony/console": "*",
         "symfony/doctrine-bridge": "*",
@@ -41,8 +45,8 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
         "symfony/maker-bundle": "^1.14",
-        "symfony/stopwatch": "^4.4",
-        "symfony/web-profiler-bundle": "^4.4"
+        "symfony/stopwatch": "*",
+        "symfony/web-profiler-bundle": "*"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -56,14 +60,14 @@
     "config": {
         "bin-dir": "bin",
         "sort-packages" : true,
-        "platform": {
-            "php": "7.3.29"
+        "allow-plugins": {
+            "symfony/flex": true
         }
     },
     "extra": {
         "symfony": {
             "allow-contrib": true,
-            "require": "^4.4"
+            "require": "^5.4"
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use App\Entity\Address;
 use App\Entity\Person;
 

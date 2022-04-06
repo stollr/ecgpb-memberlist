@@ -3,7 +3,7 @@
 namespace App\Helper;
 
 use App\Entity\Person;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * App\Helper\PersonHelper
@@ -15,7 +15,7 @@ class PersonHelper
     private $doctrine;
     private $parameters;
 
-    public function __construct(RegistryInterface $doctrine, array $parameters)
+    public function __construct(ManagerRegistry $doctrine, array $parameters)
     {
         $this->doctrine = $doctrine;
         $this->parameters = $parameters;

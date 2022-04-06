@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Person;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * App\Entity\WorkingGroup

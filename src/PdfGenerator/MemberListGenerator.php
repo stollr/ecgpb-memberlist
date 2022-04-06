@@ -10,7 +10,7 @@ use App\Helper\PersonHelper;
 use App\PdfGenerator\MemberListTcpdf;
 use App\Statistic\StatisticService;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Tcpdf\Extension\Table\Table;
 use Tcpdf\Extension\Table\Cell;
 use Tcpdf\Extension\Helper;
