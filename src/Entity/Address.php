@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\Person;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\Entity\Person;
 
 /**
  * App\Entity\Address
@@ -16,6 +17,11 @@ use App\Entity\Person;
  */
 class Address
 {
+    /**
+     * Import timestampable behavior.
+     */
+    use TimestampableEntity;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

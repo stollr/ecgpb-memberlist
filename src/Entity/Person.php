@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Ministry;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -15,6 +16,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Person
 {
+    /**
+     * Import timestampable behavior.
+     */
+    use TimestampableEntity;
+
     const GENDER_MALE = 'm';
     const GENDER_FEMALE = 'f';
 
