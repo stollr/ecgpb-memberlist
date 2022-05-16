@@ -3,9 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Person;
+use Doctrine\Persistence\ManagerRegistry;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -19,7 +19,7 @@ class BirthdayExcelGenerator
 
     private $translator;
 
-    public function __construct(RegistryInterface $doctrine, TranslatorInterface $translator)
+    public function __construct(ManagerRegistry $doctrine, TranslatorInterface $translator)
     {
         $this->doctrine = $doctrine;
         $this->translator = $translator;

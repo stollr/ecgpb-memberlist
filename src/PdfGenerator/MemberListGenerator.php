@@ -9,7 +9,7 @@ use App\Entity\WorkingGroup;
 use App\Helper\PersonHelper;
 use App\PdfGenerator\MemberListTcpdf;
 use App\Statistic\StatisticService;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Tcpdf\Extension\Table\Table;
 use Tcpdf\Extension\Table\Cell;
@@ -32,7 +32,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     private $parameters;
 
     public function __construct(
-        RegistryInterface $doctrine,
+        ManagerRegistry $doctrine,
         TranslatorInterface $translator,
         PersonHelper $personHelper,
         StatisticService $statisticService,

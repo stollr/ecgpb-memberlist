@@ -3,7 +3,7 @@
 namespace App\Statistic;
 
 use Doctrine\ORM\Query;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Person;
 use App\Statistic\PersonStatistics;
 
@@ -17,7 +17,7 @@ class StatisticService
     private $doctrine;
     private $statistics;
 
-    public function __construct(RegistryInterface $doctrine)
+    public function __construct(ManagerRegistry $doctrine)
     {
         $this->doctrine = $doctrine;
     }
