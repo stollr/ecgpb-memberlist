@@ -93,10 +93,8 @@ class Person
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
-     *
-     * @var string
      */
-    private $mobile;
+    private ?string $mobile = null;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
@@ -295,10 +293,9 @@ class Person
     /**
      * Set mobile
      *
-     * @param string $mobile
-     * @return Person
+     * @return $this
      */
-    public function setMobile($mobile)
+    public function setMobile(?string $mobile): self
     {
         $this->mobile = $mobile;
 
@@ -307,10 +304,8 @@ class Person
 
     /**
      * Get mobile
-     *
-     * @return string
      */
-    public function getMobile()
+    public function getMobile(): ?string
     {
         return $this->mobile;
     }

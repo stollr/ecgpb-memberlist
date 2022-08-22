@@ -28,6 +28,9 @@ parameters:
     ecgpb.members.photo_path: '%env(APP_MEMBERS_PHOTO_PATH)%'
     ecgpb.members.photo_path_optimized: '%kernel.cache_dir%/member_photos_optimized'
 
+    app.churchtools_api.base_url: '%env(APP_CHURCHTOOLS_API_BASE_URL)%'
+    app.churchtools_api.token: '%env(APP_CHURCHTOOLS_API_TOKEN)%'
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -86,3 +89,8 @@ services:
             - method: setPersonHelper
         tags:
             - { name: doctrine.event_subscriber }
+
+    App\Service\ChurchTools\Synchronizer:
+        arguments:
+            $apiBaseUrl: '%app.churchtools_api.base_url%'
+            $apiToken: '%app.churchtools_api.token%'

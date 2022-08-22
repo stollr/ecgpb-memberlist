@@ -39,6 +39,27 @@ class PersonRepository extends ServiceEntityRepository
         return isset(self::$nameCache[$key]) && self::$nameCache[$key] <= 1;
     }
 
+    /**
+     * Find a person by lastname, firstname and date of birth. If none is found
+     * null is returned.
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneOrNullByLastnameFirstnameAndDob(string $lastname, string $firstname, \DateTimeInterface $dob): ?Person
+    {
+        $qb = $this->createQueryBuilder('person')
+            ->join('person.address', 'address')
+            ->andWhere('person.lastname = :lastname OR address.familyName = :lastname')
+            ->andWhere('person.firstname = :firstname')
+            ->andWhere('person.dob = :dob')
+            ->setParameter('lastname', $lastname)
+            ->setParameter('firstname', $firstname)
+            ->setParameter('dob', $dob->format('Y-m-d'))
+        ;
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     public function findAllForMinistryListing()
     {
         $qb = $this->createQueryBuilder('person')
@@ -162,5 +183,14 @@ class PersonRepository extends ServiceEntityRepository
         }
 
         return $emails;
+    }
+
+    public function remove(Person $person, bool $flushImmediately = false): void
+    {
+        $this->getEntityManager()->remove($person);
+
+        if ($flushImmediately) {
+            $this->getEntityManager()->flush();
+        }
     }
 }
