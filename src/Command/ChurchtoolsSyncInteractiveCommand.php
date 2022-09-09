@@ -109,8 +109,12 @@ class ChurchtoolsSyncInteractiveCommand extends Command
                 $output->writeln('No synchronization done.');
             } elseif ($mode === 'update locally') {
                 $this->synchronizer->overrideLocalPerson($person, $ctPerson);
+
+                $output->writeln($ctPerson ? "Local person's data is going to be updated." : "Local person's data is going to be removed.");
             } elseif ($mode === 'update churchtools') {
                 $this->synchronizer->overrideChurchToolsPerson($ctPerson, $person);
+
+                $output->writeln($person ? "Update of ChurchTool's person data completed." : "Removal of ChurchTool's person data completed.");
             } else {
                 $output->writeln('Terminated interactive synchronization.');
                 break;
