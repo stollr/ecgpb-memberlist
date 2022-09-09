@@ -81,6 +81,19 @@ class ChurchtoolsSyncInteractiveCommand extends Command
                 $table->addRow(array_merge([$attr], $values));
             }
 
+            // Add last update timestamp
+            $personLastUpdate = $ctPersonLastUpdate = '';
+
+            if ($person && $person->getUpdatedAt() && $person->getUpdatedAt() > new \DateTimeImmutable('1970-01-01')) {
+                $personLastUpdate = $person->getUpdatedAt()->format('Y-m-d H:i:s');
+            }
+
+            if ($ctPerson && $ctPerson->getMeta()->getModifiedDate()) {
+                $ctPersonLastUpdate = (new \DateTimeImmutable($ctPerson->getMeta()->getModifiedDate()))->format('Y-m-d H:i:s');
+            }
+
+            $table->addRow(['Last update', $personLastUpdate, $ctPersonLastUpdate]);
+
             $table->render();
 
             $helper = $this->getHelper('question');
