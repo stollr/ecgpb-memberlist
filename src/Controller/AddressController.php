@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Helper\PersonHelper;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -26,16 +26,16 @@ class AddressController extends AbstractController
     
     private $paginator;
 
-    private $doctrine;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         TranslatorInterface $translator,
         PaginatorInterface $paginator,
-        ManagerRegistry $doctrine
+        EntityManagerInterface $entityManager
     ) {
         $this->translator = $translator;
         $this->paginator = $paginator;
-        $this->doctrine = $doctrine;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -45,7 +45,7 @@ class AddressController extends AbstractController
      */
     public function index(Request $request, PersonHelper $personHelper): Response
     {
-        $repo = $this->doctrine->getRepository(Address::class); /* @var $repo \App\Repository\AddressRepository */
+        $repo = $this->entityManager->getRepository(Address::class); /* @var $repo \App\Repository\AddressRepository */
 
         $filter = $request->get('filter', array());
         if (!empty($filter['no-photo'])) {
@@ -89,9 +89,8 @@ class AddressController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $em = $this->doctrine->getManager();
-                $em->persist($address);
-                $em->flush();
+                $this->entityManager->persist($address);
+                $this->entityManager->flush();
 
                 $this->addFlash('success', 'The entry has been created.');
 
@@ -118,7 +117,7 @@ class AddressController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->doctrine->getManager()->flush();
+            $this->entityManager->flush();
 
             // person picture file
             foreach ($request->files->get('person-picture-file', []) as $index => $file) {
@@ -160,7 +159,7 @@ class AddressController extends AbstractController
      */
     public function delete(Request $request, $id): Response
     {
-        $address = $this->doctrine->getRepository(Address::class)->find($id);
+        $address = $this->entityManager->getRepository(Address::class)->find($id);
         /* @var $address Address */
 
         if (!$address) {
@@ -173,8 +172,8 @@ class AddressController extends AbstractController
             }
         }
 
-        $this->doctrine->remove($address);
-        $this->doctrine->flush();
+        $this->entityManager->remove($address);
+        $this->entityManager->flush();
 
         $this->addFlash('success', 'The entry has been deleted.');
 
