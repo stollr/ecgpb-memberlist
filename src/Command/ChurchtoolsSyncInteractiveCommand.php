@@ -48,12 +48,28 @@ class ChurchtoolsSyncInteractiveCommand extends Command
     {
         $output->writeln('');
 
+        $comparedPersons = $issues = $namesOfCtPersonsWithoutDob = [];
+
         foreach ($this->synchronizer->iterateOverChurchtoolPersons() as $ctPerson) {
+            if (!$ctPerson->getBirthday()) {
+                $name = $ctPerson->getFirstName() . ' ' . $ctPerson->getLastName();
+                $namesOfCtPersonsWithoutDob[] = $name;
+                $issues[] = $msg = "$name is available in ChurchTools, but has no date of birth. "
+                    . "A comparison is inappropriate, because different persons may have the same name. "
+                    . "Date of birth is needed for automatic comparison. Please check manually.\n";
+                $output->writeln("$msg\n---------------------------\n");
+                continue;
+            }
+
             $person = $this->personRepo->findOneOrNullByLastnameFirstnameAndDob(
                 $ctPerson->getLastName(),
                 $ctPerson->getFirstName(),
                 new \DateTimeImmutable($ctPerson->getBirthday())
             );
+
+            if ($person) {
+                $comparedPersons[] = $person;
+            }
 
             $diff = $this->synchronizer->diff($person, $ctPerson);
 
@@ -126,6 +142,33 @@ class ChurchtoolsSyncInteractiveCommand extends Command
         $this->entityManager->flush();
 
         $output->writeln("Saved local data.\n");
+
+
+        if ($mode !== 'terminate') {
+            // Sync all persons which are new in the local database to ChurchTools
+            $persons = $this->personRepo->findAllNotIn($comparedPersons);
+
+            foreach ($persons as $person) {
+                $name = $person->getFirstnameAndLastname();
+
+                if (in_array($name, $namesOfCtPersonsWithoutDob, true)) {
+                    // We cannot be sure that the person in ChurchTools without date of birth
+                    // is not identical to $person, so we have to skip.
+                    $issues[] = "{$person->getDisplayNameDob()} *not* added to ChurchTools, because another person "
+                        . "with the same name, but without date of birth, already exists there. Please check manually.\n";
+                    continue;
+                }
+
+                $this->synchronizer->overrideChurchToolsPerson(null, $person, force: true);
+
+                $output->writeln("{$person->getDisplayNameDob()} added to ChurchTools.\n");
+                $output->writeln("---------------------------\n");
+            }
+        }
+
+        foreach ($issues as $issue) {
+            $output->writeln(sprintf('<comment>- %s</comment>', $issue));
+        }
 
         return 0;
     }
