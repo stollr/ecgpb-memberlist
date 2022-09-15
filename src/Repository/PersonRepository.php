@@ -172,6 +172,31 @@ class PersonRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /**
+     * Find all persons which are not contained in the passed array.
+     *
+     * @param Person[]|int[] $persons
+     * @return Person[]
+     */
+    public function findAllNotIn(array $persons): array
+    {
+        $ids = [];
+
+        foreach ($persons as $person) {
+            $ids[] = $person instanceof Person ? $person->getId() : $person;
+        }
+
+        $dql = 'SELECT person
+                FROM App\Entity\Person person
+                WHERE person.id NOT IN (:ids)'
+        ;
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('ids', $ids);
+
+        return $query->getResult();
+    }
+
     public function getAllEmailAdresses()
     {
         $dql = 'SELECT person.email FROM App\Entity\Person person WHERE person.email IS NOT NULL';
@@ -188,6 +213,15 @@ class PersonRepository extends ServiceEntityRepository
     public function remove(Person $person, bool $flushImmediately = false): void
     {
         $this->getEntityManager()->remove($person);
+
+        if ($flushImmediately) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function add(Person $person, bool $flushImmediately = false): void
+    {
+        $this->getEntityManager()->persist($person);
 
         if ($flushImmediately) {
             $this->getEntityManager()->flush();

@@ -2,15 +2,22 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Address;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * App\Repository\AddressRepository
  *
  * @author naitsirch
  */
-class AddressRepository extends EntityRepository
+class AddressRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Address::class);
+    }
+
     public function getListFilterQb(array $filter = array())
     {
         $qb = $this->createQueryBuilder('address')
@@ -45,5 +52,14 @@ class AddressRepository extends EntityRepository
         }
 
         return $qb;
+    }
+
+    public function add(Address $address, bool $flushImmediately = false): void
+    {
+        $this->getEntityManager()->persist($address);
+
+        if ($flushImmediately) {
+            $this->getEntityManager()->flush();
+        }
     }
 }
