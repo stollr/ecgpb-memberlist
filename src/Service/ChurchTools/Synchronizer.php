@@ -4,10 +4,12 @@ namespace App\Service\ChurchTools;
 
 use App\Entity\Address;
 use App\Entity\Person;
+use App\Helper\PersonHelper;
 use App\Repository\AddressRepository;
 use App\Repository\PersonRepository;
 use CTApi\CTConfig;
 use CTApi\Models\Person as CtPerson;
+use CTApi\Requests\FileRequest;
 use CTApi\Requests\PersonRequest;
 
 /**
@@ -29,16 +31,20 @@ class Synchronizer
 
     private AddressRepository $addressRepo;
 
+    private PersonHelper $personHelper;
+
     public function __construct(
         string $apiBaseUrl,
         string $apiToken,
         PersonRepository $personRepo,
-        AddressRepository $addressRepo
+        AddressRepository $addressRepo,
+        PersonHelper $personHelper,
     ) {
         $this->apiBaseUrl = $apiBaseUrl;
         $this->apiToken = $apiToken;
         $this->personRepo = $personRepo;
         $this->addressRepo = $addressRepo;
+        $this->personHelper = $personHelper;
 
         CTConfig::setApiUrl($apiBaseUrl);
         CTConfig::setApiKey($apiToken);
@@ -138,12 +144,40 @@ class Synchronizer
 
         if (!$ctPerson->getId()) {
             PersonRequest::create($ctPerson, force: $force);
+            $this->uploadChurchToolsPersonImage($ctPerson, $person);
             return;
         }
 
         PersonRequest::update($ctPerson, [
             'mobile', 'email', 'street', 'zip', 'city', 'phonePrivate',
         ]);
+    }
+
+
+    public function uploadChurchToolsPersonImage(CtPerson $ctPerson, Person $person): void
+    {
+        if ($ctPerson->getImageUrl()) {
+            return;
+        }
+
+        $filename = $this->personHelper->getPersonPhotoPath() . '/' . $this->personHelper->getPersonPhotoFilename($person);
+
+        if (!file_exists($filename)) {
+            return;
+        }
+
+        if (!is_readable($filename)) {
+            throw new \RuntimeException(sprintf('The photo with the filename "%s" is not readable.', $filename));
+        }
+
+        FileRequest::forAvatar($ctPerson->getId())->upload($filename);
+    }
+
+    public function hasLocalPersonPhoto(Person $person): bool
+    {
+        $filename = $this->personHelper->getPersonPhotoPath() . '/' . $this->personHelper->getPersonPhotoFilename($person);
+
+        return file_exists($filename);
     }
 
     /**

@@ -69,6 +69,8 @@ class ChurchtoolsSyncCommand extends Command
 
             if ($person) {
                 $comparedPersons[] = $person;
+
+                $this->synchronizer->uploadChurchToolsPersonImage($ctPerson, $person);
             }
 
             $diff = $this->synchronizer->diff($person, $ctPerson);
