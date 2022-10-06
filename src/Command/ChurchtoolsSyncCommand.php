@@ -48,6 +48,7 @@ class ChurchtoolsSyncCommand extends Command
     {
         $output->writeln('');
 
+        $deletedChurchToolsPerson = false;
         $comparedPersons = $issues = $namesOfCtPersonsWithoutDob = [];
 
         foreach ($this->synchronizer->iterateOverChurchtoolPersons() as $ctPerson) {
@@ -132,7 +133,12 @@ class ChurchtoolsSyncCommand extends Command
             } elseif ($mode === 'update churchtools') {
                 $this->synchronizer->overrideChurchToolsPerson($ctPerson, $person);
 
-                $output->writeln($person ? "Update of ChurchTool's person data completed." : "Removal of ChurchTool's person data completed.");
+                if ($person) {
+                    $output->writeln("Update of ChurchTool's person data completed.");
+                } else {
+                    $deletedChurchToolsPerson = true;
+                    $output->writeln("Removal of ChurchTool's person data completed.");
+                }
             } else {
                 $output->writeln('Terminated interactive synchronization.');
                 break;
@@ -150,21 +156,26 @@ class ChurchtoolsSyncCommand extends Command
             // Sync all persons which are new in the local database to ChurchTools
             $persons = $this->personRepo->findAllNotIn($comparedPersons);
 
-            foreach ($persons as $person) {
-                $name = $person->getFirstnameAndLastname();
+            if (count($persons) > 0 && $deletedChurchToolsPerson) {
+                $issues[] = 'At least one person was removed from ChurchTools, which breaks the pagination. '
+                    . 'Please run this command again to insert new persons.';
+            } else {
+                foreach ($persons as $person) {
+                    $name = $person->getFirstnameAndLastname();
 
-                if (in_array($name, $namesOfCtPersonsWithoutDob, true)) {
-                    // We cannot be sure that the person in ChurchTools without date of birth
-                    // is not identical to $person, so we have to skip.
-                    $issues[] = "{$person->getDisplayNameDob()} *not* added to ChurchTools, because another person "
-                        . "with the same name, but without date of birth, already exists there. Please check manually.\n";
-                    continue;
+                    if (in_array($name, $namesOfCtPersonsWithoutDob, true)) {
+                        // We cannot be sure that the person in ChurchTools without date of birth
+                        // is not identical to $person, so we have to skip.
+                        $issues[] = "{$person->getDisplayNameDob()} *not* added to ChurchTools, because another person "
+                            . "with the same name, but without date of birth, already exists there. Please check manually.\n";
+                        continue;
+                    }
+
+                    $this->synchronizer->overrideChurchToolsPerson(null, $person, force: true);
+
+                    $output->writeln("{$person->getDisplayNameDob()} added to ChurchTools.\n");
+                    $output->writeln("---------------------------\n");
                 }
-
-                $this->synchronizer->overrideChurchToolsPerson(null, $person, force: true);
-
-                $output->writeln("{$person->getDisplayNameDob()} added to ChurchTools.\n");
-                $output->writeln("---------------------------\n");
             }
         }
 
