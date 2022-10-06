@@ -16,7 +16,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
  *
  * @author naitsirch <naitsirch@e.mail.de>
  */
-class ChurchtoolsSyncInteractiveCommand extends Command
+class ChurchtoolsSyncCommand extends Command
 {
     private EntityManagerInterface $entityManager;
 
@@ -39,7 +39,7 @@ class ChurchtoolsSyncInteractiveCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('churchtools:sync:interactive')
+            ->setName('churchtools:sync')
             ->setDescription('Synchronize personal interactively from and to churchtools.')
         ;
     }
