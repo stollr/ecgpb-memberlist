@@ -6,6 +6,7 @@ use App\Entity\Person;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -14,7 +15,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
  * @ORM\Table(name="address")
+ * @Gedmo\Loggable
  */
+#[Gedmo\Loggable]
 class Address
 {
     /**
@@ -28,61 +31,57 @@ class Address
      * @ORM\GeneratedValue
      *
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var integer
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(name="family_name", type="string", length=50)
+     * @Gedmo\Versioned
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var string
      */
-    private $familyName;
+    #[Gedmo\Versioned]
+    private ?string $familyName = null;
 
     /**
      * @ORM\Column(name="name_prefix", type="string", length=20, nullable=true)
+     * @Gedmo\Versioned
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var ?string
      */
-    private $namePrefix;
+    #[Gedmo\Versioned]
+    private ?string $namePrefix = null;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
-     *
-     * @var string
+     * @Gedmo\Versioned
      */
-    private $phone;
+    #[Gedmo\Versioned]
+    private ?string $phone = null;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     *
-     * @var string
+     * @Gedmo\Versioned
      */
-    private $street;
+    #[Gedmo\Versioned]
+    private ?string $street = null;
 
     /**
      * @ORM\Column(type="string", length=5, nullable=true)
-     *
-     * @var string
+     * @Gedmo\Versioned
      */
-    private $zip;
+    #[Gedmo\Versioned]
+    private ?string $zip = null;
 
     /**
      * @ORM\Column(type="string", length=40, nullable=true)
-     *
-     * @var string
+     * @Gedmo\Versioned
      */
-    private $city;
+    #[Gedmo\Versioned]
+    private ?string $city = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Person", cascade={"persist", "remove"}, mappedBy="address", orphanRemoval=true)
-     *
-     * @var \Doctrine\Common\Collections\Collection
      */
-    private $persons;
+    private Collection $persons;
 
     /**
      * Constructor

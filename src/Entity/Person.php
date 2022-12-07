@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\Address;
 use App\Entity\Ministry;
-use Doctrine\ORM\Mapping as ORM;
+use App\Entity\WorkingGroup;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -13,7 +17,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
  * @ORM\Table(name="person")
+ * @Gedmo\Loggable
  */
+#[Gedmo\Loggable]
 class Person
 {
     /**
@@ -49,106 +55,102 @@ class Person
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var integer
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * Last name can be empty. In that case the last name is taken from
      * address entity (family name)
      *
      * @ORM\Column(type="string", length=30, nullable=true)
-     *
-     * @var string
+     * @Gedmo\Versioned
      */
-    private $lastname;
+    #[Gedmo\Versioned]
+    private ?string $lastname = null;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Gedmo\Versioned
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var string
      */
-    private $firstname;
+    #[Gedmo\Versioned]
+    private ?string $firstname = null;
 
     /**
      * Date of birth
      *
      * @ORM\Column(type="date")
+     * @Gedmo\Versioned
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var \DateTime
      */
-    private $dob;
+    #[Gedmo\Versioned]
+    private ?\DateTime $dob = null;
 
     /**
      * Gender ('m' or 'f')
      *
      * @ORM\Column(type="string", length=1)
-     *
-     * @var string
+     * @Gedmo\Versioned
      */
-    private $gender;
+    #[Gedmo\Versioned]
+    private ?string $gender = null;
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Gedmo\Versioned
      */
+    #[Gedmo\Versioned]
     private ?string $mobile = null;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     *
-     * @var string
+     * @Gedmo\Versioned
      */
-    private $email;
+    #[Gedmo\Versioned]
+    private ?string $email = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="persons", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Address", inversedBy="persons", cascade={"persist"})
      * @ORM\JoinColumn(name="address_id", nullable=false)
+     * @Gedmo\Versioned
      * @Groups({"MinistryCategoryListing"})
-     *
-     * @var \App\Entity\Address
      */
-    private $address;
+    #[Gedmo\Versioned]
+    private ?Address $address = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\WorkingGroup", inversedBy="persons")
+     * @ORM\ManyToOne(targetEntity="WorkingGroup", inversedBy="persons")
      * @ORM\JoinColumn(name="working_group_id", nullable=true, onDelete="SET NULL")
-     *
-     * @var \App\Entity\WorkingGroup
+     * @Gedmo\Versioned
      */
-    private $workingGroup;
+    #[Gedmo\Versioned]
+    private ?WorkingGroup $workingGroup = null;
 
     /**
      * Defines whether person is able to work or not.
      * See class constants self::WORKER_STATUS_*
      *
      * @ORM\Column(name="worker_status", type="smallint", nullable=false)
-     *
-     * @var int
+     * @Gedmo\Versioned
      */
-    private $workerStatus;
+    #[Gedmo\Versioned]
+    private int $workerStatus = self::WORKER_STATUS_DEPENDING;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * @var string|null
      */
-    private $notice;
+    private ?string $notice = null;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\WorkingGroup", mappedBy="leader")
-     *
-     * @var \App\Entity\WorkingGroup
+     * @ORM\OneToOne(targetEntity="WorkingGroup", mappedBy="leader")
      */
-    private $leaderOf;
+    private ?WorkingGroup $leaderOf = null;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Ministry", mappedBy="responsibles", cascade={"remove"})
-     *
-     * @var ArrayCollection|Ministry[]
+     * @ORM\ManyToMany(targetEntity="Ministry", mappedBy="responsibles", cascade={"remove"})
      */
-    private $ministries;
+    private Collection $ministries;
 
     /**
      * Constructor
@@ -160,20 +162,18 @@ class Person
 
     /**
      * Get id
-     *
-     * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLastname()
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
-    public function setLastname($lastname = null)
+    public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
         return $this;
@@ -201,8 +201,6 @@ class Person
 
     /**
      * Get the concated lastname, firstname and name prefix.
-     *
-     * @return string
      */
     public function getLastnameAndFirstname(): string
     {
@@ -226,7 +224,7 @@ class Person
      * @param string $firstname
      * @return Person
      */
-    public function setFirstname($firstname)
+    public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -235,10 +233,8 @@ class Person
 
     /**
      * Get firstname
-     *
-     * @return string
      */
-    public function getFirstname()
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
@@ -246,10 +242,9 @@ class Person
     /**
      * Set the date of birth
      *
-     * @param \DateTime $dob
-     * @return Person
+     * @return $this
      */
-    public function setDob($dob)
+    public function setDob(?\DateTime $dob): self
     {
         $this->dob = $dob;
 
@@ -258,33 +253,33 @@ class Person
 
     /**
      * Get the date of birth
-     *
-     * @return \DateTime
      */
-    public function getDob()
+    public function getDob(): ?\DateTime
     {
         return $this->dob;
     }
 
     /**
      * Get the current age of the person.
-     *
-     * @return integer
      */
-    public function getAge()
+    public function getAge(): ?int
     {
-        $diff = $this->getDob()->diff(new \DateTime(), true);
+        if (!$this->dob) {
+            return null;
+        }
+
+        $diff = $this->dob->diff(new \DateTime(), true);
         /* @var $diff \DateInterval */
 
         return $diff->y;
     }
 
-    public function getGender()
+    public function getGender(): ?string
     {
         return $this->gender;
     }
 
-    public function setGender($gender)
+    public function setGender(?string $gender)
     {
         $this->gender = $gender;
         return $this;
@@ -313,10 +308,9 @@ class Person
     /**
      * Set email
      *
-     * @param string $email
-     * @return Person
+     * @return $this
      */
-    public function setEmail($email)
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 
@@ -325,10 +319,8 @@ class Person
 
     /**
      * Get email
-     *
-     * @return string
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -336,10 +328,9 @@ class Person
     /**
      * Set address
      *
-     * @param \App\Entity\Address $address
-     * @return Person
+     * @return $this
      */
-    public function setAddress(\App\Entity\Address $address)
+    public function setAddress(Address $address): self
     {
         $this->address = $address;
         if (!$address->getPersons()->contains($this)) {
@@ -350,10 +341,8 @@ class Person
 
     /**
      * Get address
-     *
-     * @return \App\Entity\Address
      */
-    public function getAddress()
+    public function getAddress(): ?Address
     {
         return $this->address;
     }
@@ -361,10 +350,9 @@ class Person
     /**
      * Set workingGroup
      *
-     * @param \App\Entity\WorkingGroup $workingGroup
-     * @return Person
+     * @return $this
      */
-    public function setWorkingGroup(\App\Entity\WorkingGroup $workingGroup = null)
+    public function setWorkingGroup(WorkingGroup $workingGroup = null): self
     {
         if ($this->gender && $workingGroup && $this->gender !== $workingGroup->getGender()) {
             throw new \InvalidArgumentException('This person is not compatible to the passed working group.');
@@ -382,19 +370,19 @@ class Person
     /**
      * Get workingGroup
      *
-     * @return \App\Entity\WorkingGroup
+     * @return WorkingGroup
      */
-    public function getWorkingGroup()
+    public function getWorkingGroup(): ?WorkingGroup
     {
         return $this->workingGroup;
     }
 
-    public function getWorkerStatus()
+    public function getWorkerStatus(): int
     {
         return $this->workerStatus;
     }
 
-    public function setWorkerStatus($workerStatus)
+    public function setWorkerStatus(int $workerStatus): self
     {
         $allStatus = self::getAllWorkerStatus();
         if (!isset($allStatus[$workerStatus])) {
@@ -416,8 +404,6 @@ class Person
 
     /**
      * Set the notice
-     *
-     * @param string|null $notice
      */
     public function setNotice(?string $notice)
     {
@@ -435,9 +421,9 @@ class Person
     }
 
     /**
-     * @return WorkingGroup|null
+     * Get the working group, whose leader is this person.
      */
-    public function getLeaderOf()
+    public function getLeaderOf(): ?WorkingGroup
     {
         return $this->leaderOf;
     }
@@ -445,18 +431,17 @@ class Person
     /**
      * This method exists only for documentation.
      *
-     * @param \App\Entity\WorkingGroup $workingGroup
      * @throws \RuntimeException
      */
-    public function setLeaderOf(\App\Entity\WorkingGroup $workingGroup = null)
+    public function setLeaderOf(WorkingGroup $workingGroup = null): void
     {
         throw new \RuntimeException('The leading person of a working group cannot be changed within person entity.');
     }
 
     /**
-     * @return ArrayCollection|Ministry[]
+     * @return Ministry[]
      */
-    public function getMinistries()
+    public function getMinistries(): Collection
     {
         return $this->ministries;
     }
