@@ -95,6 +95,10 @@ class Synchronizer
             $person->setFirstname($ctPerson->getFirstName());
             $person->getAddress()->setFamilyName($ctPerson->getLastName());
 
+            if ($ctPerson->getSexId()) {
+                $person->setGender($ctPerson->getSexId() === '2' ? Person::GENDER_FEMALE : Person::GENDER_MALE);
+            }
+
             if ($ctPerson->getBirthday()) {
                 $person->setDob(new \DateTime($ctPerson->getBirthday()));
             }
