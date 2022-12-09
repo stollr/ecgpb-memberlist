@@ -128,8 +128,9 @@ class ChurchtoolsSyncCommand extends Command
                 $output->writeln('No synchronization done.');
             } elseif ($mode === 'update locally') {
                 $this->synchronizer->overrideLocalPerson($person, $ctPerson);
+                $this->entityManager->flush();
 
-                $output->writeln($ctPerson ? "Local person's data is going to be updated." : "Local person's data is going to be removed.");
+                $output->writeln($ctPerson ? "Local person's data has been updated." : "Local person's data is going to be removed.");
             } elseif ($mode === 'update churchtools') {
                 $this->synchronizer->overrideChurchToolsPerson($ctPerson, $person);
 
@@ -141,41 +142,34 @@ class ChurchtoolsSyncCommand extends Command
                 }
             } else {
                 $output->writeln('Terminated interactive synchronization.');
-                break;
+                return 0;
             }
             
             $output->writeln("---------------------------\n");
         }
 
-        $this->entityManager->flush();
+        // Sync all persons which are new in the local database to ChurchTools
+        $persons = $this->personRepo->findAllNotIn($comparedPersons);
 
-        $output->writeln("Saved local data.\n");
+        if (count($persons) > 0 && $deletedChurchToolsPerson) {
+            $issues[] = 'At least one person was removed from ChurchTools, which breaks the pagination. '
+                . 'Please run this command again to insert new persons.';
+        } else {
+            foreach ($persons as $person) {
+                $name = $person->getFirstnameAndLastname();
 
-
-        if ($mode !== 'terminate') {
-            // Sync all persons which are new in the local database to ChurchTools
-            $persons = $this->personRepo->findAllNotIn($comparedPersons);
-
-            if (count($persons) > 0 && $deletedChurchToolsPerson) {
-                $issues[] = 'At least one person was removed from ChurchTools, which breaks the pagination. '
-                    . 'Please run this command again to insert new persons.';
-            } else {
-                foreach ($persons as $person) {
-                    $name = $person->getFirstnameAndLastname();
-
-                    if (in_array($name, $namesOfCtPersonsWithoutDob, true)) {
-                        // We cannot be sure that the person in ChurchTools without date of birth
-                        // is not identical to $person, so we have to skip.
-                        $issues[] = "{$person->getDisplayNameDob()} *not* added to ChurchTools, because another person "
-                            . "with the same name, but without date of birth, already exists there. Please check manually.\n";
-                        continue;
-                    }
-
-                    $this->synchronizer->overrideChurchToolsPerson(null, $person, force: true);
-
-                    $output->writeln("{$person->getDisplayNameDob()} added to ChurchTools.\n");
-                    $output->writeln("---------------------------\n");
+                if (in_array($name, $namesOfCtPersonsWithoutDob, true)) {
+                    // We cannot be sure that the person in ChurchTools without date of birth
+                    // is not identical to $person, so we have to skip.
+                    $issues[] = "{$person->getDisplayNameDob()} *not* added to ChurchTools, because another person "
+                        . "with the same name, but without date of birth, already exists there. Please check manually.\n";
+                    continue;
                 }
+
+                $this->synchronizer->overrideChurchToolsPerson(null, $person, force: true);
+
+                $output->writeln("{$person->getDisplayNameDob()} added to ChurchTools.\n");
+                $output->writeln("---------------------------\n");
             }
         }
 
