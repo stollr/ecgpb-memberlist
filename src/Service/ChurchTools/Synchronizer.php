@@ -92,8 +92,8 @@ class Synchronizer
             $person = new Person();
             $person->setAddress(new Address());
 
-            $person->setFirstname($ctPerson->getFirstName());
-            $person->getAddress()->setFamilyName($ctPerson->getLastName());
+            $person->setFirstname(trim($ctPerson->getFirstName()));
+            $person->getAddress()->setFamilyName(trim($ctPerson->getLastName()));
 
             if ($ctPerson->getSexId()) {
                 $person->setGender($ctPerson->getSexId() === '2' ? Person::GENDER_FEMALE : Person::GENDER_MALE);
@@ -107,12 +107,12 @@ class Synchronizer
             $this->addressRepo->add($person->getAddress());
         }
 
-        $person->setMobile($ctPerson->getMobile());
-        $person->setEmail($ctPerson->getEmail());
-        $person->getAddress()->setStreet($ctPerson->getStreet());
-        $person->getAddress()->setZip($ctPerson->getZip());
-        $person->getAddress()->setCity($ctPerson->getCity());
-        $person->getAddress()->setPhone($ctPerson->getPhonePrivate());
+        $person->setMobile(trim($ctPerson->getMobile()));
+        $person->setEmail(trim($ctPerson->getEmail()));
+        $person->getAddress()->setStreet(trim($ctPerson->getStreet()));
+        $person->getAddress()->setZip(trim($ctPerson->getZip()));
+        $person->getAddress()->setCity(trim($ctPerson->getCity()));
+        $person->getAddress()->setPhone(trim($ctPerson->getPhonePrivate()));
     }
 
     public function overrideChurchToolsPerson(?CtPerson $ctPerson, ?Person $person, bool $force = false): void

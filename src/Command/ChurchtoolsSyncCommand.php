@@ -103,8 +103,12 @@ class ChurchtoolsSyncCommand extends Command
             // Add last update timestamp
             $personLastUpdate = $ctPersonLastUpdate = '';
 
-            if ($person && $person->getUpdatedAt() && $person->getUpdatedAt() > new \DateTimeImmutable('1970-01-01')) {
+            if ($person?->getUpdatedAt() && $person->getUpdatedAt() > new \DateTimeImmutable('1970-01-01')) {
                 $personLastUpdate = $person->getUpdatedAt()->format('Y-m-d H:i:s');
+            }
+
+            if ($person?->getAddress()->getUpdatedAt() && (!$personLastUpdate || $person?->getAddress()->getUpdatedAt() > $person->getUpdatedAt())) {
+                $personLastUpdate = $person->getAddress()->getUpdatedAt()->format('Y-m-d H:i:s');
             }
 
             if ($ctPerson && $ctPerson->getMeta()->getModifiedDate()) {
