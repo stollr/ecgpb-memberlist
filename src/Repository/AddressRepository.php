@@ -62,4 +62,16 @@ class AddressRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    /**
+     * Find all log entries of the address.
+     *
+     * @return \Gedmo\Loggable\Entity\LogEntry[]
+     */
+    public function findLogEntries(Address $address): array
+    {
+        return $this->getEntityManager()
+            ->getRepository(\Gedmo\Loggable\Entity\LogEntry::class)
+            ->getLogEntries($address);
+    }
 }

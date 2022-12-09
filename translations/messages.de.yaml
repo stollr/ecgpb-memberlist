@@ -1,6 +1,7 @@
-Able to work: Arbeitsfähig
-Account Number: Kontonummer
-Actions: Aktionen
+'Able to work': Arbeitsfähig
+'Account Number': Kontonummer
+'Action': 'Aktion'
+'Actions': 'Aktionen'
 'Add': 'Hinzufügen'
 'Add ministry': 'Dienst hinzufügen'
 'Add Ministry Category': 'Dienstbereich hinzufügen'
@@ -24,10 +25,12 @@ Bank Code: Bankleitzahl
 'Cancel': 'Abbrechen'
 'Category [Ministry]': 'Dienstbereich'
 'Category [Ministry] [PDF]': Dienstbereich'
+'Change history': 'Änderungshistorie'
 'City': 'Stadt'
 'Contact data': 'Kontaktdaten'
 'Create': 'Erstellen'
 'Create Ministry Category': 'Dienstbereich erstellen'
+'Data changes': 'Datenänderungen'
 'Date of Birth': 'Geburtsdatum'
 'Delete': 'Löschen'
 Delete Address: Adresse löschen
@@ -127,9 +130,10 @@ The entry has been created.: Der Eintrag wurde erstellt.
 The entry has been deleted.: Der Eintrag wurde gelöscht.
 The passing on of data to third parties is not permitted for reasons of data protection!: Die Weitergabe von Daten an Drittpersonen ist aus Gründen des Datenschutzes nicht erlaubt!
 'The uploaded photo for "%name%" is not a valid JPEG file.': 'Das hochgeladene Foto für "%name%" ist keine gültige JPEG-Datei.'
-The working group {number} of the {gender} does not have a leader, yet.: Die Arbeitsgruppe {number} der {gender}, hat noch keinen Verantwortlichen.
-There are no entries existing, yet.: Es gibt noch keine Einträge.
-This booklet must be shredded before disposal. If this is not possible, please return it.: Dieses Heft muss vor der Entsorgung geschreddert werden. Falls das nicht möglich ist, bitte zurückgeben.
+'The working group {number} of the {gender} does not have a leader, yet.': Die Arbeitsgruppe {number} der {gender}, hat noch keinen Verantwortlichen.
+'There are no entries existing, yet.': Es gibt noch keine Einträge.
+'This booklet must be shredded before disposal. If this is not possible, please return it.': Dieses Heft muss vor der Entsorgung geschreddert werden. Falls das nicht möglich ist, bitte zurückgeben.
+'Timestamp': 'Zeitpunkt'
 'To achieve that one can modify the number of placeholder pages with the options above.': 'Um dies zu erreichen, kann die Anzahl an Platzhalter-Seiten mit den oberen Optionen geändert werden.'
 Total Members: Gesamtanzahl
 Unable: Unfähig

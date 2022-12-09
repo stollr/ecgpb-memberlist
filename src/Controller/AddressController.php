@@ -146,9 +146,13 @@ class AddressController extends AbstractController
             ]);
         }
 
+        $repo = $this->entityManager->getRepository(Address::class);
+        $logs = $repo->findLogEntries($address);
+
         return $this->render('address/form.html.twig', [
             'entity' => $address,
             'form' => $form->createView(),
+            'logs' => $logs,
         ]);
     }
 
