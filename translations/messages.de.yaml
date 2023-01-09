@@ -25,7 +25,8 @@ Bank Code: Bankleitzahl
 'Cancel': 'Abbrechen'
 'Category [Ministry]': 'Dienstbereich'
 'Category [Ministry] [PDF]': Dienstbereich'
-'Change history': 'Änderungshistorie'
+'Change history of %name%': 'Änderungshistorie von %name%'
+'Change history of address': 'Änderungshistorie der Adresse'
 'City': 'Stadt'
 'Contact data': 'Kontaktdaten'
 'Create': 'Erstellen'
@@ -42,6 +43,7 @@ Delete Person: Person löschen
 'Differing Last Name': 'Abweichender Nachname'
 'Do you really want to delete this entry?': 'Möchten Sie diesen Eintrag wirklich löschen?'
 'DOB': 'Geb.'
+'Dob': 'Geburtsdatum'
 'E-mail': 'E-Mail'
 Edit: Bearbeiten
 Edit Address: Adresse bearbeiten
@@ -53,7 +55,8 @@ Family Name: Familienname
 female: weiblich
 Female Group: Frauengruppe
 Female Members: Weibliche Mitglieder
-First Name: Vorname
+'First Name': 'Vorname'
+'Firstname': 'Vorname'
 For private use only!: Nur für den privaten Gebrauch!
 Gender: Geschlecht
 'Generate PDF': 'PDF generieren'
@@ -107,6 +110,7 @@ Phone Connections of the Church: Telefonverbindungen des Gemeindehauses
 Please report immediately all changes to %name%!: Alle Änderungen bitte unverzüglich bei %name% melden!
 Print: Drucken
 Remove: Entfernen
+'removed': 'entfernt'
 Residence far away: Wohnort weit weg
 Responsibles: Verantwortliche
 Responsibles [PDF]: Verantw.

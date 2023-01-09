@@ -122,39 +122,60 @@
     </form>
 
     {% if entity.id > 0 %}
-        <div class="card">
-            <div class="card-header">{% trans %}Change history{% endtrans %}</div>
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>{% trans %}Timestamp{% endtrans %}</th>
-                        <th>{% trans %}Action{% endtrans %}</th>
-                        <th>{% trans %}Data changes{% endtrans %}</th>
-                    </tr>
-                    {% for log in (logs | default([])) %}
-                        <tr>
-                            <td>{{ log.loggedAt | format_datetime('medium', 'medium') }}</td>
-                            <td>{{ log.action }}</td>
-                            <td class="p-0">
-                                <table class="table table-borderless table-striped m-0">
-                                    {% for key, value in log.data %}
-                                        <tr>
-                                            <td class="w-25">{{ key | capitalize | trans }}</td>
-                                            <td>{{ value }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </td>
-                        </tr>
+        {% set allLogs = [{'person': null, 'logs': addressLogs}] | merge(personsLogs) %}
+        {% for personAndLogs in (allLogs | filter(t => t.logs|length > 0)) %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    {% if personAndLogs.person is null %}
+                        {% trans %}Change history of address{% endtrans %}
                     {% else %}
+                        {% trans with {'%name%': personAndLogs.person.firstnameAndLastname} %}Change history of %name%{% endtrans %}
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
                         <tr>
-                            <td colspan="3">
-                                {% trans %}There are no entries existing, yet.{% endtrans %}
-                            </td>
+                            <th>{% trans %}Timestamp{% endtrans %}</th>
+                            <th>{% trans %}Action{% endtrans %}</th>
+                            <th>{% trans %}Data changes{% endtrans %}</th>
                         </tr>
-                    {% endfor %}
-                </table>
+                        {% for log in (personAndLogs.logs | default([])) %}
+                            <tr>
+                                <td>{{ log.loggedAt | format_datetime('medium', 'medium') }}</td>
+                                <td>{{ log.action }}</td>
+                                <td class="p-0">
+                                    <table class="table table-borderless table-striped m-0">
+                                        {% for key, value in (log.data | filter(v => v is not empty or log.action == 'update')) %}
+                                            <tr>
+                                                <td class="w-25">{{ key | capitalize | trans }}</td>
+                                                <td>
+                                                    {% if value is null or value is same as ('') %}
+                                                        {% if log.action == 'update' %}
+                                                            - {% trans %}removed{% endtrans %} -
+                                                        {% endif %}
+                                                    {% elseif key == 'address' %}
+                                                        ID: {{ value.id }}
+                                                    {% elseif value.format is defined %}
+                                                        {{ value | format_date('medium') }}
+                                                    {% else %}
+                                                        {{ value }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3">
+                                    {% trans %}There are no entries existing, yet.{% endtrans %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
-        </div>
+        {% endfor %}
     {% endif %}
 {% endblock %}

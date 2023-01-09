@@ -74,4 +74,24 @@ class AddressRepository extends ServiceEntityRepository
             ->getRepository(\Gedmo\Loggable\Entity\LogEntry::class)
             ->getLogEntries($address);
     }
+
+    /**
+     * Find all log entries of the address' persons.
+     *
+     * @return array<int, \Gedmo\Loggable\Entity\LogEntry[]>
+     */
+    public function findPersonsLogEntries(Address $address): array
+    {
+        $repo = $this->getEntityManager()->getRepository(\Gedmo\Loggable\Entity\LogEntry::class);
+        $logs = [];
+
+        foreach ($address->getPersons() as $person) {
+            $logs[$person->getId()] = [
+                'person' => $person,
+                'logs' => $repo->getLogEntries($person),
+            ];
+        }
+
+        return $logs;
+    }
 }
