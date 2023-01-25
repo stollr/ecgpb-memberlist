@@ -140,7 +140,7 @@ class Synchronizer
         }
 
         $ctPerson->setMobile($person->getMobile() ?: '');
-        $ctPerson->setEmail($person->getEmail()); // empty string is not allowed for e-mails
+        $ctPerson->setEmail($person->getEmail() ?: '');
         $ctPerson->setStreet($person->getAddress()->getStreet() ?: '');
         $ctPerson->setZip($person->getAddress()->getZip() ?: '');
         $ctPerson->setCity($person->getAddress()->getCity() ?: '');
@@ -245,11 +245,9 @@ class Synchronizer
                 // normalize phone numbers for comparison
                 $a[$attr] = self::normalizePhoneNumber($a[$attr]);
                 $b[$attr] = self::normalizePhoneNumber($b[$attr]);
-            } elseif ($b[$attr] === '') {
-                $b[$attr] = null;
             }
 
-            if ($a[$attr] === $b[$attr]) {
+            if (($a[$attr] ?? '') === ($b[$attr] ?? '')) {
                 continue;
             }
 
