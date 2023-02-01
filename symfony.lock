@@ -143,9 +143,6 @@
     "myclabs/php-enum": {
         "version": "1.8.0"
     },
-    "naitsirch/churchtools-api-adapter": {
-        "version": "dev-main"
-    },
     "naitsirch/tcpdf-extension": {
         "version": "dev-master"
     },
@@ -281,12 +278,6 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
-    },
-    "symfony/http-client": {
-        "version": "v4.4.37"
-    },
-    "symfony/http-client-contracts": {
-        "version": "v2.3.1"
     },
     "symfony/http-foundation": {
         "version": "v4.3.8"
