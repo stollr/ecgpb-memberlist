@@ -131,6 +131,11 @@ class ChurchtoolsSyncCommand extends Command
             if ($mode === 'skip') {
                 $output->writeln('No synchronization done.');
             } elseif ($mode === 'update locally') {
+                if (!$person->getId()) {
+                    // Add person to the array, otherwise a copy will be added to ChurchTools
+                    $comparedPersons[] = $person;
+                }
+
                 $this->synchronizer->overrideLocalPerson($person, $ctPerson);
                 $this->entityManager->flush();
 
