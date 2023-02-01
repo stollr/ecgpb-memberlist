@@ -445,4 +445,9 @@ class Person
     {
         return $this->ministries;
     }
+
+    public function isMale(): bool
+    {
+        return $this->gender === self::GENDER_MALE;
+    }
 }

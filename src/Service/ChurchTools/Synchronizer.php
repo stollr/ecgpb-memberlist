@@ -133,6 +133,7 @@ class Synchronizer
             $ctPerson->setStatusId(3);
             $ctPerson->setFirstName($person->getFirstname());
             $ctPerson->setLastName($person->getLastname() ?: $person->getAddress()->getFamilyName());
+            $ctPerson->setSexId($person->isMale() ? '1' : '2');
 
             if ($person->getDob()) {
                 $ctPerson->setBirthday($person->getDob()->format('Y-m-d'));
