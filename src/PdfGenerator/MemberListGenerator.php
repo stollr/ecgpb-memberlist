@@ -230,7 +230,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addTable($pdf)
                 ->newRow()
                     ->newCell('Mittwoch:')->setWidth(35)->end()
-                    ->newCell('18:30 - 20:30 Uhr')->setWidth(50)->end()
+                    ->newCell('18:00 - 21:00 Uhr')->setWidth(50)->end()
                 ->end()
                 ->newRow()
                     ->newCell('Donnerstag:')->setWidth(35)->end()
