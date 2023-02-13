@@ -28,6 +28,7 @@
         "symfony/form": "*",
         "symfony/framework-bundle": "*",
         "symfony/intl": "*",
+        "symfony/monolog-bundle": "^3.8",
         "symfony/proxy-manager-bridge": "*",
         "symfony/security-csrf": "*",
         "symfony/serializer": "*",
