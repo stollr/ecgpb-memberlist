@@ -77,15 +77,21 @@ class Synchronizer
         }
     }
 
-    public function overrideLocalPerson(?Person $person, ?CtPerson $ctPerson): void
+    /**
+     * Overrides the local person from the data of Churchtools. If the local person
+     * is null (doesn't exists) it will be created.
+     *
+     * @return array{0: ?Person, 1: ?CtPerson}
+     */
+    public function overrideLocalPerson(?Person $person, ?CtPerson $ctPerson): array
     {
         if (!$person && !$ctPerson) {
-            return;
+            return [$person, $ctPerson];
         }
 
         if (!$ctPerson) {
             $this->personRepo->remove($person);
-            return;
+            return [$person, $ctPerson];
         }
 
         if (!$person) {
@@ -113,6 +119,8 @@ class Synchronizer
         $person->getAddress()->setZip(trim($ctPerson->getZip()));
         $person->getAddress()->setCity(trim($ctPerson->getCity()));
         $person->getAddress()->setPhone(trim($ctPerson->getPhonePrivate()));
+
+        return [$person, $ctPerson];
     }
 
     public function overrideChurchToolsPerson(?CtPerson $ctPerson, ?Person $person, bool $force = false): void
