@@ -31,6 +31,7 @@ class MinistryType extends AbstractType
                 'label' => 'Responsibles',
                 'label_attr' => ['class' => 'pt-0'],
                 'prototype' => true,
+                'prototype_name' => '__responsibles__',
                 'allow_add' => true,
                 'by_reference' => false,
                 'allow_delete' => true,
