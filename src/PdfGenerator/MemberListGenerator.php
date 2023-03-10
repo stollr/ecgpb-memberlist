@@ -99,19 +99,19 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         if (!$src) {
             throw new \Exception('The logo file disappeared.');
         }
-        //$pdf->Image($file, $x, $y, $w, $h, $type, $link, $align, $resize, $dpi, $palign, $ismask, $imgmask, $border, $fitbox, $hidden, $fitonpage, $alt, $altimgs);
-        $pdf->Image($src, $pdf->GetX() + 3.5, $pdf->GetY(), 30, 19, 'PNG', null, 'N', true, 300);
 
-        $pdf->SetY($pdf->GetY() + 3);
+        //$pdf->Image($file, $x, $y, $w, $h, $type, $link, $align, $resize, $dpi, $palign, $ismask, $imgmask, $border, $fitbox, $hidden, $fitonpage, $alt, $altimgs);
+        $pdf->Image($src, $pdf->GetX() + 4.25, $pdf->GetY(), 40, null, 'PNG', null, 'N', true, 300);
+
+        $pdf->SetY($pdf->GetY() + 5);
         $pdf->SetLineWidth(0.75);
         $pdf->Line($pdf->GetX(), $pdf->GetY(), $pdf->getPageWidth() - $pdf->GetX(), $pdf->GetY());
 
         $pdf->SetXY($pdf->GetX() + 3, $pdf->GetY() + 2);
-        $pdf->Text($pdf->GetX(), $pdf->GetY(), $this->parameters['ecgpb.contact.name'], false, false, true, 0, 1);
 
-        $pdf->SetFontSize(40);
-        $pdf->Text($pdf->GetX(), $pdf->GetY() + 50, "Mitgliederliste", false, false, true, 0, 1, 'C');
-        $pdf->Text($pdf->GetX(), $pdf->GetY() + 10, date('Y'), false, false, true, 0, 1, 'C');
+        $pdf->SetFontSize(35);
+        $pdf->Text($pdf->GetX(), $pdf->GetY() + 45, "Mitgliederliste", false, false, true, 0, 1, 'C');
+        $pdf->Text($pdf->GetX(), $pdf->GetY() + 2, date('Y'), false, false, true, 0, 1, 'C');
     }
 
     private function addPage1(\TCPDF $pdf)
