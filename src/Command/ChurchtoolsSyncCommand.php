@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Person;
 use App\Repository\PersonRepository;
 use App\Service\ChurchTools\Synchronizer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -140,7 +141,7 @@ class ChurchtoolsSyncCommand extends Command
                     $comparedPersons[] = $tuple[0];
                 }
 
-                $output->writeln($ctPerson ? "Local person's data has been updated." : "Local person's data is going to be removed.");
+                $output->writeln($ctPerson ? "Local person's data has been updated." : "Local person's data has been removed.");
             } elseif ($mode === 'update churchtools') {
                 $this->synchronizer->overrideChurchToolsPerson($ctPerson, $person);
 
@@ -176,9 +177,8 @@ class ChurchtoolsSyncCommand extends Command
                     continue;
                 }
 
-                $this->synchronizer->overrideChurchToolsPerson(null, $person, force: true);
+                $this->askForSyncingMissingPersonToChurchtools($person, $input, $output);
 
-                $output->writeln("{$person->getDisplayNameDob()} added to ChurchTools.\n");
                 $output->writeln("---------------------------\n");
             }
         }
@@ -190,4 +190,47 @@ class ChurchtoolsSyncCommand extends Command
         return 0;
     }
 
+    private function askForSyncingMissingPersonToChurchtools(Person $person, InputInterface $input, OutputInterface $output)
+    {
+        $output->writeln($person->getDisplayNameDob() . " is not available in Churchtools.\n");
+
+        $table = new Table($output);
+        $table->setHeaders([
+            'Attribute',
+            'Local value',
+            'ChurchTools value',
+        ]);
+        
+        foreach (Synchronizer::getFlatPersonDatas($person) as $attr => $value) {
+            if (!empty($value)) {
+                $table->addRow([$attr, $value, '']);
+            }
+        }
+
+        $table->render();
+
+        $helper = $this->getHelper('question');
+        $question = new ChoiceQuestion(
+            'How should the data be synchronized?',
+            ['skip', 'delete locally', 'submit to churchtools', 'terminate'],
+            0
+        );
+
+        $mode = $helper->ask($input, $output, $question);
+
+        if ($mode === 'skip') {
+            $output->writeln('No synchronization done.');
+        } elseif ($mode === 'delete locally') {
+            $this->synchronizer->overrideLocalPerson($person, null);
+            $this->entityManager->flush();
+
+            $output->writeln("Local person's data has been removed.");
+        } elseif ($mode === 'submit to churchtools') {
+            $this->synchronizer->overrideChurchToolsPerson(null, $person, force: true);
+
+            $output->writeln("Person has been added to ChurchTool.");
+        } else {
+            $output->writeln('Terminated interactive synchronization.');
+        }
+    }
 }

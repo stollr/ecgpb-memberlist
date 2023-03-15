@@ -63,6 +63,15 @@ class AddressRepository extends ServiceEntityRepository
         }
     }
 
+    public function remove(Address $address, bool $flushImmediately = false): void
+    {
+        $this->getEntityManager()->remove($address);
+
+        if ($flushImmediately) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     /**
      * Find all log entries of the address.
      *

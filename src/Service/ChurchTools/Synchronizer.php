@@ -90,6 +90,10 @@ class Synchronizer
         }
 
         if (!$ctPerson) {
+            if ($person->getAddress()->getPersons()->count() === 1) {
+                $this->addressRepo->remove($person->getAddress());
+            }
+
             $this->personRepo->remove($person);
             return [$person, $ctPerson];
         }
@@ -210,20 +214,7 @@ class Synchronizer
         $a = $b = [];
 
         if ($person !== null) {
-            $address = $person->getAddress();
-            $lastname = $person->getLastname() ?: $address->getFamilyName();
-
-            $a = [
-                'lastname' => $lastname,
-                'firstname' => $person->getFirstname(),
-                'dob' => $person->getDob()->format('Y-m-d'),
-                'mobile' => $person->getMobile(),
-                'email' => $person->getEmail(),
-                'street' => $address->getStreet(),
-                'zip' => $address->getZip(),
-                'city' => $address->getCity(),
-                'phone' => $address->getPhone(),
-            ];
+            $a = self::getFlatPersonDatas($person);
         }
 
         if ($ctPerson !== null) {
@@ -231,12 +222,12 @@ class Synchronizer
                 'lastname' => $ctPerson->getLastName(),
                 'firstname' => $ctPerson->getFirstName(),
                 'dob' => $ctPerson->getBirthday(),
-                'mobile' => $ctPerson->getMobile(),
+                'mobile' => self::normalizePhoneNumber($ctPerson->getMobile()),
                 'email' => $ctPerson->getEmail(),
                 'street' => $ctPerson->getStreet(),
                 'zip' => $ctPerson->getZip(),
                 'city' => $ctPerson->getCity(),
-                'phone' => $ctPerson->getPhonePrivate(),
+                'phone' => self::normalizePhoneNumber($ctPerson->getPhonePrivate()),
             ];
         }
 
@@ -250,13 +241,7 @@ class Synchronizer
                 $b[$attr] = null;
             }
 
-            if (in_array($attr, ['phone', 'mobile'])) {
-                // normalize phone numbers for comparison
-                $a[$attr] = self::normalizePhoneNumber($a[$attr]);
-                $b[$attr] = self::normalizePhoneNumber($b[$attr]);
-            }
-
-            if (($a[$attr] ?? '') === ($b[$attr] ?? '')) {
+            if (trim($a[$attr] ?? '') === trim($b[$attr] ?? '')) {
                 continue;
             }
 
@@ -275,12 +260,29 @@ class Synchronizer
             return '';
         }
         
-        $phoneNumber = trim(str_replace(['-', ' '], '', $phoneNumber));
+        $phoneNumber = trim(str_replace(['-', ' ', '/'], '', $phoneNumber));
 
-        if (substr($phoneNumber, 0, 3) === '+49') {
-            $phoneNumber = '0' . substr($phoneNumber, 3);
+        if (!empty($phoneNumber) && '0' === $phoneNumber[0]) {
+            $phoneNumber = '+49' . substr($phoneNumber, 1);
         }
 
         return $phoneNumber;
+    }
+
+    public static function getFlatPersonDatas(Person $person): array
+    {
+        $address = $person->getAddress();
+
+        return [
+            'lastname' => $person->getLastname() ?: $address->getFamilyName(),
+            'firstname' => $person->getFirstname(),
+            'dob' => $person->getDob()->format('Y-m-d'),
+            'mobile' => self::normalizePhoneNumber($person->getMobile()),
+            'email' => $person->getEmail(),
+            'street' => $address->getStreet(),
+            'zip' => $address->getZip(),
+            'city' => $address->getCity(),
+            'phone' => self::normalizePhoneNumber($address->getPhone()),
+        ];
     }
 }
