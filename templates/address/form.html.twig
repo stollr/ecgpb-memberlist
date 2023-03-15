@@ -153,7 +153,7 @@
                                                         {% if log.action == 'update' %}
                                                             - {% trans %}removed{% endtrans %} -
                                                         {% endif %}
-                                                    {% elseif key == 'address' %}
+                                                    {% elseif key in ['address', 'workingGroup'] %}
                                                         ID: {{ value.id }}
                                                     {% elseif value.format is defined %}
                                                         {{ value | format_date('medium') }}
