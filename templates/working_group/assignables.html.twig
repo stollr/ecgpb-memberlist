@@ -33,7 +33,7 @@
                     <td>
                         <select name="person-to-group[{{ person.id }}]">
                             <option value=""></option>
-                            {% for group in working_groups if group.gender == person.gender %}
+                            {% for group in (working_groups | filter(group => group.gender == person.gender)) %}
                                 <option value="{{ group.id }}">
                                     {%- if group.gender == 'f' %}
                                         {%- trans %}Group of Women{% endtrans %} {{ group.number }}
