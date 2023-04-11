@@ -6,13 +6,15 @@ use App\Entity\Address;
 use App\Entity\Person;
 use App\Entity\WorkingGroup;
 use Doctrine\ORM\EntityRepository;
+use libphonenumber\PhoneNumberFormat;
+use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -63,8 +65,10 @@ class PersonType extends AbstractType
                     'female' => Person::GENDER_FEMALE
                 ],
             ])
-            ->add('mobile', TextType::class, [
+            ->add('mobile', PhoneNumberType::class, [
                 'required' => false,
+                'default_region' => 'DE',
+                'format' => PhoneNumberFormat::NATIONAL,
             ])
             ->add('email', TextType::class, [
                 'label' => 'E-mail',

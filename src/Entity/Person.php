@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use libphonenumber\PhoneNumber;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -96,11 +97,11 @@ class Person
     private ?string $gender = null;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
+     * @ORM\Column(type="phone_number", nullable=true)
      * @Gedmo\Versioned
      */
     #[Gedmo\Versioned]
-    private ?string $mobile = null;
+    private ?PhoneNumber $mobile = null;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
@@ -290,7 +291,7 @@ class Person
      *
      * @return $this
      */
-    public function setMobile(?string $mobile): self
+    public function setMobile(?PhoneNumber $mobile): self
     {
         $this->mobile = $mobile;
 
@@ -300,7 +301,7 @@ class Person
     /**
      * Get mobile
      */
-    public function getMobile(): ?string
+    public function getMobile(): ?PhoneNumber
     {
         return $this->mobile;
     }

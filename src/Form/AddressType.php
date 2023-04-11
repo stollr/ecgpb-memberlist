@@ -2,13 +2,15 @@
 
 namespace App\Form;
 
+use App\Entity\Address;
+use App\Form\PersonType;
+use libphonenumber\PhoneNumberFormat;
+use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\PersonType;
-use App\Entity\Address;
 
 /**
  * App\Form\AddressType
@@ -32,9 +34,11 @@ class AddressType extends AbstractType
             ->add('familyName', TextType::class, array(
                 'label' => 'Family Name',
             ))
-            ->add('phone', TextType::class, array(
+            ->add('phone', PhoneNumberType::class, [
                 'required' => false,
-            ))
+                'default_region' => 'DE',
+                'format' => PhoneNumberFormat::NATIONAL,
+            ])
             ->add('street', TextType::class, array(
                 'required' => false,
             ))

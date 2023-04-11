@@ -2,10 +2,11 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Persistence\ObjectManager;
 use App\Entity\Address;
 use App\Entity\Person;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Persistence\ObjectManager;
+use libphonenumber\PhoneNumberUtil;
 
 /**
  * Description of LoadPersonData
@@ -21,6 +22,8 @@ class LoadPersonData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+        $phoneUtil = PhoneNumberUtil::getInstance();
+
         foreach ($this->getAddresses() as $address) {
             $length = rand(1, rand(1, rand(1, 5)));
             $gender = rand(0, 1) ? 'm' : 'f';
@@ -36,7 +39,7 @@ class LoadPersonData implements FixtureInterface
                     $person->setFirstname($this->getRandomFemaleFirstName());
                     $gender = 'm';
                 }
-                $person->setMobile('0' . rand(150, 179) . '-' . rand(100000, 999999));
+                $person->setMobile($phoneUtil->getExampleNumberForType('DE', \libphonenumber\PhoneNumberType::MOBILE));
                 if (rand(0, 3)) {
                     $email = str_replace(
                         array('ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü'),
@@ -55,13 +58,15 @@ class LoadPersonData implements FixtureInterface
     
     private function getAddresses()
     {
+        $phoneUtil = PhoneNumberUtil::getInstance();
+
         $addresses = array();
         foreach ($this->getLastNames() as $familyName) {
             $length = rand(1, rand(1, 3));
             for ($i = 0; $i < $length; $i++) {
                 $address = new Address();
                 $address->setFamilyName($familyName);
-                $address->setPhone('0525' . rand(1, 4) . '-' . rand(1000, 999999));
+                $address->setPhone($phoneUtil->getExampleNumberForType('DE', \libphonenumber\PhoneNumberType::FIXED_LINE));
                 $address->setStreet($this->getRandomStreetName() . ' ' . rand(1, 125));
                 $address->setZip(rand(33098, 33106));
                 $address->setCity('Paderborn');

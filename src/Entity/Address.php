@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use App\Entity\Person;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use libphonenumber\PhoneNumber;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -51,11 +52,11 @@ class Address
     private ?string $namePrefix = null;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
+     * @ORM\Column(type="phone_number", nullable=true)
      * @Gedmo\Versioned
      */
     #[Gedmo\Versioned]
-    private ?string $phone = null;
+    private ?PhoneNumber $phone = null;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -79,7 +80,7 @@ class Address
     private ?string $city = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Person", cascade={"persist", "remove"}, mappedBy="address", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Person", cascade={"persist", "remove"}, mappedBy="address", orphanRemoval=true)
      */
     private Collection $persons;
 
@@ -147,10 +148,9 @@ class Address
     /**
      * Set phone
      *
-     * @param string $phone
      * @return Address
      */
-    public function setPhone($phone)
+    public function setPhone(?PhoneNumber $phone): self
     {
         $this->phone = $phone;
 
@@ -159,10 +159,8 @@ class Address
 
     /**
      * Get phone
-     *
-     * @return string 
      */
-    public function getPhone()
+    public function getPhone(): ?PhoneNumber
     {
         return $this->phone;
     }
@@ -240,10 +238,10 @@ class Address
     /**
      * Add persons
      *
-     * @param \App\Entity\Person $person
+     * @param Person $person
      * @return Address
      */
-    public function addPerson(\App\Entity\Person $person)
+    public function addPerson(Person $person)
     {
         $this->persons[] = $person;
         $person->setAddress($this);
@@ -253,9 +251,9 @@ class Address
     /**
      * Remove persons
      *
-     * @param \App\Entity\Person $person
+     * @param Person $person
      */
-    public function removePerson(\App\Entity\Person $person)
+    public function removePerson(Person $person)
     {
         $this->persons->removeElement($person);
         return $this;

@@ -11,6 +11,9 @@ use CTApi\CTConfig;
 use CTApi\Models\Person as CtPerson;
 use CTApi\Requests\FileRequest;
 use CTApi\Requests\PersonRequest;
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 
 /**
  * Synchronizer our local data with the ChurchTools data.
@@ -33,18 +36,22 @@ class Synchronizer
 
     private PersonHelper $personHelper;
 
+    private PhoneNumberUtil $phoneUtil;
+
     public function __construct(
         string $apiBaseUrl,
         string $apiToken,
         PersonRepository $personRepo,
         AddressRepository $addressRepo,
         PersonHelper $personHelper,
+        PhoneNumberUtil $phoneUtil,
     ) {
         $this->apiBaseUrl = $apiBaseUrl;
         $this->apiToken = $apiToken;
         $this->personRepo = $personRepo;
         $this->addressRepo = $addressRepo;
         $this->personHelper = $personHelper;
+        $this->phoneUtil = $phoneUtil;
 
         CTConfig::setApiUrl($apiBaseUrl);
         CTConfig::setApiKey($apiToken);
@@ -117,12 +124,18 @@ class Synchronizer
             $this->addressRepo->add($person->getAddress());
         }
 
-        $person->setMobile(trim($ctPerson->getMobile()));
+        $mobile = trim($ctPerson->getMobile()) ?: null;
+        $mobile && ($mobile = $this->phoneUtil->parse($mobile, 'DE'));
+
+        $phone = trim($ctPerson->getPhonePrivate()) ?: null;
+        $phone && ($phone = $this->phoneUtil->parse($phone, 'DE'));
+
+        $person->setMobile($mobile);
         $person->setEmail(trim($ctPerson->getEmail()));
         $person->getAddress()->setStreet(trim($ctPerson->getStreet()));
         $person->getAddress()->setZip(trim($ctPerson->getZip()));
         $person->getAddress()->setCity(trim($ctPerson->getCity()));
-        $person->getAddress()->setPhone(trim($ctPerson->getPhonePrivate()));
+        $person->getAddress()->setPhone($phone);
 
         return [$person, $ctPerson];
     }
@@ -152,12 +165,16 @@ class Synchronizer
             }
         }
 
-        $ctPerson->setMobile($person->getMobile() ?: '');
+        $address = $person->getAddress();
+        $mobile = $person->getMobile() ? $this->phoneUtil->format($person->getMobile(), PhoneNumberFormat::E164) : '';
+        $phone = $address->getPhone() ? $this->phoneUtil->format($address->getPhone(), PhoneNumberFormat::E164) : '';
+
+        $ctPerson->setMobile($mobile);
         $ctPerson->setEmail($person->getEmail() ?: '');
-        $ctPerson->setStreet($person->getAddress()->getStreet() ?: '');
-        $ctPerson->setZip($person->getAddress()->getZip() ?: '');
-        $ctPerson->setCity($person->getAddress()->getCity() ?: '');
-        $ctPerson->setPhonePrivate($person->getAddress()->getPhone() ?: '');
+        $ctPerson->setStreet($address->getStreet() ?: '');
+        $ctPerson->setZip($address->getZip() ?: '');
+        $ctPerson->setCity($address->getCity() ?: '');
+        $ctPerson->setPhonePrivate($phone);
 
         if (!$ctPerson->getId()) {
             PersonRequest::create($ctPerson, force: $force);
@@ -254,10 +271,12 @@ class Synchronizer
         return $diffs;
     }
 
-    public static function normalizePhoneNumber(?string $phoneNumber): string
+    public static function normalizePhoneNumber(null|string|PhoneNumber $phoneNumber): string
     {
         if (null === $phoneNumber) {
             return '';
+        } elseif ($phoneNumber instanceof PhoneNumber) {
+            return $this->phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
         }
         
         $phoneNumber = trim(str_replace(['-', ' ', '/'], '', $phoneNumber));

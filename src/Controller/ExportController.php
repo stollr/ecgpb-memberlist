@@ -6,6 +6,8 @@ use App\Entity\Person;
 use App\PdfGenerator\MemberListGenerator;
 use App\Service\BirthdayExcelGenerator;
 use App\Service\Export\SeniorsSpreadsheetGenerator;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,6 +61,8 @@ class ExportController extends AbstractController
      */
     public function csvAction()
     {
+        $phoneUtil = PhoneNumberUtil::getInstance();
+
         $repo = $this->getDoctrine()->getRepository(Person::class);
         $builder = $repo->createQueryBuilder('person')
             ->select('person', 'address')
@@ -85,8 +89,8 @@ class ExportController extends AbstractController
                 $person->getDob()->format('d.m.Y'),
                 $person->getGender(),
                 $person->getEmail(),
-                $person->getMobile(),
-                $person->getAddress()->getPhone(),
+                $person->getMobile() ? $phoneUtil->format($person->getMobile(), PhoneNumberFormat::E164) : '',
+                $person->getAddress()->getPhone() ? $phoneUtil->format($person->getAddress()->getPhone(), PhoneNumberFormat::E164) : '',
                 $person->getAddress()->getStreet(),
                 $person->getAddress()->getZip(),
                 $person->getAddress()->getCity(),

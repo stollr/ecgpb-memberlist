@@ -10,10 +10,12 @@ use App\Helper\PersonHelper;
 use App\PdfGenerator\MemberListTcpdf;
 use App\Statistic\StatisticService;
 use Doctrine\Persistence\ManagerRegistry;
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberUtil;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Tcpdf\Extension\Table\Table;
-use Tcpdf\Extension\Table\Cell;
 use Tcpdf\Extension\Helper;
+use Tcpdf\Extension\Table\Cell;
+use Tcpdf\Extension\Table\Table;
 
 /**
  * App\PdfGenerator\MemberListGenerator
@@ -29,6 +31,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     private $translator;
     private $statisticService;
     private $personHelper;
+    private PhoneNumberUtil $phoneUtil;
     private $parameters;
 
     public function __construct(
@@ -36,12 +39,14 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         TranslatorInterface $translator,
         PersonHelper $personHelper,
         StatisticService $statisticService,
+        PhoneNumberUtil $phoneUtil,
         array $parameters
     ) {
         $this->doctrine = $doctrine;
         $this->translator = $translator;
         $this->personHelper = $personHelper;
         $this->statisticService = $statisticService;
+        $this->phoneUtil = $phoneUtil;
         $this->parameters = $parameters;
     }
 
@@ -405,14 +410,15 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 if (0 == $index) {
                     $displayLastname = $address->getNamePrefix() ? $address->getNamePrefix() . ' ' : '';
                     $displayLastname .= $address->getFamilyName();
+                    $phoneString = $this->formatPhoneNumber($address->getPhone());
 
-                    if (strlen($displayLastname) < 21 && strlen($address->getPhone()) < 21) {
+                    if (strlen($displayLastname) < 21 && strlen($phoneString) < 21) {
                         $fontSize = self::FONT_SIZE_XS + 0.5;
                     } else {
                         $fontSize = self::FONT_SIZE_XS;
                     }
                     $row->newCell()
-                            ->setText($displayLastname . "\n" . $address->getPhone())
+                            ->setText($displayLastname . "\n" . $phoneString)
                             ->setBorder('LTR')
                             ->setFontSize($fontSize)
                             ->setFontWeight('bold')
@@ -479,7 +485,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     ->end()
                     ->newCell()
                         ->setText(
-                            ($person && $person->getMobile() ? $person->getMobile() . "\n" : '') .
+                            ($person && $person->getMobile() ? $this->formatPhoneNumber($person->getMobile()) . "\n" : '') .
                             ($person && $person->getEmail() ? $email : '')
                         )
                         ->setAlign('C')
@@ -618,7 +624,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     $born = $group->getLeader()->getDob()->format('Y');
                     $bornText = $personRepo->isNameUnique($group->getLeader()) ? '' : 'geb. ' . $born . ', ';
                     $phone = $group->getLeader()->getAddress()->getPhone() ?: $group->getLeader()->getMobile();
-                    $txt = $group->getLeader()->getLastnameAndFirstname() . ' (' . $bornText . 'verantwortlich, Tel. ' . $phone . ')';
+                    $phoneString = $this->formatPhoneNumber($phone);
+                    $txt = $group->getLeader()->getLastnameAndFirstname() . ' (' . $bornText . 'verantwortlich, Tel. ' . $phoneString . ')';
                 } else {
                     $leaderId = 0;
                     $txt = '-';
@@ -1064,5 +1071,16 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 clearstatcache(true, $filenameOptimized);
             }
         };
+    }
+
+    private function formatPhoneNumber(null|string|PhoneNumber $phoneNumber): string
+    {
+        if ($phoneNumber === null) {
+            return '';
+        } elseif (is_string($phoneNumber)) {
+            return $phoneNumber;
+        }
+
+        return $this->phoneUtil->formatOutOfCountryCallingNumber($phoneNumber, 'DE');
     }
 }

@@ -50,7 +50,9 @@
                     <a name="address-{{ address.id }}"></a>
                     <p>
                         <strong>{{ (address.namePrefix ? address.namePrefix ~ ' ' : '') ~ address.familyName }}</strong><br/>
-                        <strong>{{ address.phone }}</strong><br/>
+                        {% if address.phone %}
+                            <strong>{{ address.phone | phone_number_format_out_of_country_calling_number('DE') }}</strong><br/>
+                        {% endif %}
                     </p>
                     <p>
                         <i>{{ address.street }}</i><br/>
@@ -74,7 +76,9 @@
                             {{ person.dob | format_date('medium') }}
                         </td>
                         <td>
-                            {% if person.mobile %}{{ person.mobile }}<br/>{% endif %}
+                            {% if person.mobile -%}
+                                {{- person.mobile | phone_number_format_out_of_country_calling_number('DE') -}}<br/>
+                            {%- endif %}
                             {% if person.email %}{{ person.email }}<br/>{% endif %}
                         </td>
                         {% if loop.index0 == 0 %}
