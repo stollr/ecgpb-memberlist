@@ -59,7 +59,11 @@ class ChurchtoolsSyncCommand extends Command
                 $issues[] = $msg = "$name is available in ChurchTools, but has no date of birth. "
                     . "A comparison is inappropriate, because different persons may have the same name. "
                     . "Date of birth is needed for automatic comparison. Please check manually.\n";
-                $output->writeln("$msg\n---------------------------\n");
+
+                if ($output->isVerbose()) {
+                    $output->writeln("$msg\n---------------------------\n");
+                }
+
                 continue;
             }
 
@@ -78,8 +82,10 @@ class ChurchtoolsSyncCommand extends Command
             $diff = $this->synchronizer->diff($person, $ctPerson);
 
             if (empty($diff)) {
-                $output->writeln("{$person->getDisplayNameDob()} is in sync.\n");
-                $output->writeln("---------------------------\n");
+                if ($output->isVerbose()) {
+                    $output->writeln("{$person->getDisplayNameDob()} is in sync.\n");
+                    $output->writeln("---------------------------\n");
+                }
                 continue;
             }
 
