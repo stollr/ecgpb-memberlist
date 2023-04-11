@@ -166,6 +166,8 @@ class ChurchtoolsSyncCommand extends Command
             $issues[] = 'At least one person was removed from ChurchTools, which breaks the pagination. '
                 . 'Please run this command again to insert new persons.';
         } else {
+            $terminate = false;
+
             foreach ($persons as $person) {
                 $name = $person->getFirstnameAndLastname();
 
@@ -177,9 +179,13 @@ class ChurchtoolsSyncCommand extends Command
                     continue;
                 }
 
-                $this->askForSyncingMissingPersonToChurchtools($person, $input, $output);
+                $this->askForSyncingMissingPersonToChurchtools($person, $input, $output, terminated: $terminate);
 
                 $output->writeln("---------------------------\n");
+
+                if ($terminate) {
+                    break;
+                }
             }
         }
 
@@ -190,7 +196,7 @@ class ChurchtoolsSyncCommand extends Command
         return 0;
     }
 
-    private function askForSyncingMissingPersonToChurchtools(Person $person, InputInterface $input, OutputInterface $output)
+    private function askForSyncingMissingPersonToChurchtools(Person $person, InputInterface $input, OutputInterface $output, bool &$terminated = false): void
     {
         $output->writeln($person->getDisplayNameDob() . " is not available in Churchtools.\n");
 
@@ -231,6 +237,8 @@ class ChurchtoolsSyncCommand extends Command
             $output->writeln("Person has been added to ChurchTool.");
         } else {
             $output->writeln('Terminated interactive synchronization.');
+
+            $terminated = true;
         }
     }
 }
