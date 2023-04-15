@@ -293,6 +293,10 @@ class Person
      */
     public function setMobile(?PhoneNumber $mobile): self
     {
+        if ($this->mobile && $mobile && $this->mobile->equals($mobile)) {
+            return $this;
+        }
+
         $this->mobile = $mobile;
 
         return $this;

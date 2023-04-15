@@ -157,6 +157,8 @@
                                                         ID: {{ value.id }}
                                                     {% elseif value.format is defined %}
                                                         {{ value | format_date('medium') }}
+                                                    {% elseif value.getRawInput is defined %}
+                                                        {{ value | phone_number_format }}
                                                     {% else %}
                                                         {{ value }}
                                                     {% endif %}

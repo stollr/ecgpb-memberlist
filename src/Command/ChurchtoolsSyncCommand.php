@@ -213,7 +213,7 @@ class ChurchtoolsSyncCommand extends Command
             'ChurchTools value',
         ]);
         
-        foreach (Synchronizer::getFlatPersonDatas($person) as $attr => $value) {
+        foreach ($this->synchronizer->getFlatPersonDatas($person) as $attr => $value) {
             if (!empty($value)) {
                 $table->addRow([$attr, $value, '']);
             }

@@ -222,7 +222,7 @@ class Synchronizer
      *               the value of the local person and the value of the ChurchTools
      *               record at position two.
      */
-    public static function diff(?Person $person, ?CtPerson $ctPerson): array
+    public function diff(?Person $person, ?CtPerson $ctPerson): array
     {
         if ($person === null && $ctPerson === null) {
             return [];
@@ -231,7 +231,7 @@ class Synchronizer
         $a = $b = [];
 
         if ($person !== null) {
-            $a = self::getFlatPersonDatas($person);
+            $a = $this->getFlatPersonDatas($person);
         }
 
         if ($ctPerson !== null) {
@@ -239,12 +239,12 @@ class Synchronizer
                 'lastname' => $ctPerson->getLastName(),
                 'firstname' => $ctPerson->getFirstName(),
                 'dob' => $ctPerson->getBirthday(),
-                'mobile' => self::normalizePhoneNumber($ctPerson->getMobile()),
+                'mobile' => $this->normalizePhoneNumber($ctPerson->getMobile()),
                 'email' => $ctPerson->getEmail(),
                 'street' => $ctPerson->getStreet(),
                 'zip' => $ctPerson->getZip(),
                 'city' => $ctPerson->getCity(),
-                'phone' => self::normalizePhoneNumber($ctPerson->getPhonePrivate()),
+                'phone' => $this->normalizePhoneNumber($ctPerson->getPhonePrivate()),
             ];
         }
 
@@ -271,7 +271,7 @@ class Synchronizer
         return $diffs;
     }
 
-    public static function normalizePhoneNumber(null|string|PhoneNumber $phoneNumber): string
+    private function normalizePhoneNumber(null|string|PhoneNumber $phoneNumber): string
     {
         if (null === $phoneNumber) {
             return '';
@@ -288,7 +288,7 @@ class Synchronizer
         return $phoneNumber;
     }
 
-    public static function getFlatPersonDatas(Person $person): array
+    public function getFlatPersonDatas(Person $person): array
     {
         $address = $person->getAddress();
 
@@ -296,12 +296,12 @@ class Synchronizer
             'lastname' => $person->getLastname() ?: $address->getFamilyName(),
             'firstname' => $person->getFirstname(),
             'dob' => $person->getDob()->format('Y-m-d'),
-            'mobile' => self::normalizePhoneNumber($person->getMobile()),
+            'mobile' => $this->normalizePhoneNumber($person->getMobile()),
             'email' => $person->getEmail(),
             'street' => $address->getStreet(),
             'zip' => $address->getZip(),
             'city' => $address->getCity(),
-            'phone' => self::normalizePhoneNumber($address->getPhone()),
+            'phone' => $this->normalizePhoneNumber($address->getPhone()),
         ];
     }
 }

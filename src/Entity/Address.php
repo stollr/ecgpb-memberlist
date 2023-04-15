@@ -148,10 +148,14 @@ class Address
     /**
      * Set phone
      *
-     * @return Address
+     * @return $this
      */
     public function setPhone(?PhoneNumber $phone): self
     {
+        if ($this->phone && $phone && $this->phone->equals($phone)) {
+            return $this;
+        }
+
         $this->phone = $phone;
 
         return $this;
