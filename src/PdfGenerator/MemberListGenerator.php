@@ -595,6 +595,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             $topY = 0;
             foreach ($groups as $index => $group) {
                 // page header
+                $this->useFontSizeS($pdf);
+
                 if ($index % 4 == 0) {
                     if ($index > 0) {
                         $pdf->AddPage();
@@ -615,8 +617,9 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 // group name
                 $txt = sprintf('Gruppe %s', $group->getNumber());
                 $this->useFontStyleBold($pdf);
-                $this->useFontSizeS($pdf);
                 $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x, $y);
+
+                $pdf->SetFontSize(static::FONT_SIZE_S - 0.5);
 
                 // group leader
                 if ($group->getLeader()) {
@@ -650,7 +653,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 }
 
                 if ($pdf->GetY() > $nextY) {
-                    $nextY = $pdf->GetY() + 7;
+                    $nextY = $pdf->GetY() + 5;
                 }
             }
             $t++;

@@ -53,6 +53,11 @@ abstract class Generator
     {
         $pdf->SetFontSize(self::FONT_SIZE_S);
     }
+
+    public function useFontSizeXS(\TCPDF $pdf)
+    {
+        $pdf->SetFontSize(self::FONT_SIZE_XS);
+    }
     
     public function useFontStyleBold(\TCPDF $pdf)
     {
