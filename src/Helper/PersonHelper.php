@@ -34,10 +34,12 @@ class PersonHelper
      */
     public function getPersonPhotoFilename(Person $person): string
     {
-        return $person->getAddress()->getFamilyName() . '_'
+        $filename = $person->getAddress()->getFamilyName() . '_'
             . $person->getFirstname() . '_'
             . $person->getDob()->format('Y-m-d') . '.jpg'
         ;
+
+        return str_replace("'", '', $filename);
     }
 
     public function getPersonPhotoPathOptimized(): string
@@ -64,6 +66,7 @@ class PersonHelper
         $ids = array();
         foreach ($personDatas as $personData) {
             $filename = $personData['familyName'] . '_' . $personData['firstname'] . '_' . $personData['dob']->format('Y-m-d') . '.jpg';
+            $filename = str_replace(["'"], '', $filename);
 
             if (!file_exists($this->getPersonPhotoPath() . '/' . $filename)) {
                 $ids[] = $personData['id'];
