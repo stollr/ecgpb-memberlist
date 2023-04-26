@@ -154,8 +154,7 @@ class PersonRepository extends ServiceEntityRepository
      */
     public function findPersonsUnableToWork()
     {
-        $minimumAge = new \DateTime();
-        $minimumAge->modify('-65 year');
+        $minimumAge = new \DateTimeImmutable('-65 year');
 
         $dql = 'SELECT person, address
                 FROM App\Entity\Person person
