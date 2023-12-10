@@ -54,7 +54,7 @@
                     <th>{% trans %}Age{% endtrans %}</th>
                     <th>{% trans %}Number of Members{% endtrans %}</th>
                 </tr>
-                {% for interval, number in statistics.getNumberPerAgeGroup(5, 15) %}
+                {% for interval, number in statistics.getNumberPerAgeGroup(5, 16) %}
                     <tr>
                         <td>{{ interval }}</td>
                         <td>{{ number }}</td>

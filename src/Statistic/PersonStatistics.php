@@ -166,8 +166,8 @@ class PersonStatistics
             if ($startAge && $age < $startAge) {
                 $key = "<$startAge";
             } else {
-                $intervalStart = floor($age / $interval) * $interval;
-                $intervalEnd = $intervalStart + $interval - 1;
+                $intervalEnd = ceil($age / $interval) * $interval;
+                $intervalStart = $intervalEnd - $interval + 1;
                 $key = "$intervalStart-$intervalEnd";
             }
 
