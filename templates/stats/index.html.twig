@@ -12,34 +12,42 @@
                 <tr>
                     <th>{% trans %}Total Members{% endtrans %}</th>
                     <td>{{ statistics.total }}</td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th>{% trans %}Male Members{% endtrans %}</th>
-                    <td>{{ statistics.maleTotal }} ({{ (statistics.maleTotal / statistics.total * 100) | format_number({fraction_digit: 1}) }} %)</td>
+                    <td>{{ statistics.maleTotal }}</td>
+                    <td>{{ (statistics.maleTotal / statistics.total * 100) | format_number({fraction_digit: 1}) }} %</td>
                 </tr>
                 <tr>
                     <th>{% trans %}Female Members{% endtrans %}</th>
-                    <td>{{ statistics.femaleTotal }} ({{ (statistics.femaleTotal / statistics.total * 100) | format_number({fraction_digit: 1}) }} %)</td>
+                    <td>{{ statistics.femaleTotal }}</td>
+                    <td>{{ (statistics.femaleTotal / statistics.total * 100) | format_number({fraction_digit: 1}) }} %</td>
                 </tr>
                 <tr>
                     <th>{% trans %}At least 65 Years old{% endtrans %}</th>
                     <td>{{ statistics.atLeast65YearsOld }}</td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th>{% trans %}At most 25 Years old{% endtrans %}</th>
                     <td>{{ statistics.atMost25YearsOld }}</td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th>{% trans %}Age of the youngest Member{% endtrans %}</th>
                     <td>{{ statistics.numberPerAge | keys | first }}</td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th>{% trans %}Age of the oldest Member{% endtrans %}</th>
                     <td>{{ statistics.numberPerAge | keys | last }}</td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th>{% trans %}Average Age{% endtrans %}</th>
                     <td>{{ statistics.averageAge | round }}</td>
+                    <td></td>
                 </tr>
             </table>
         </div>
