@@ -143,9 +143,6 @@
     "myclabs/php-enum": {
         "version": "1.8.0"
     },
-    "naitsirch/tcpdf-extension": {
-        "version": "dev-master"
-    },
     "nikic/php-parser": {
         "version": "v4.3.0"
     },
@@ -190,9 +187,6 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
-    },
-    "sensio/framework-extra-bundle": {
-        "version": "v3.0.27"
     },
     "stof/doctrine-extensions-bundle": {
         "version": "1.7",
