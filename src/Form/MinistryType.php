@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Person;
 use App\Entity\Ministry;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -37,7 +38,7 @@ class MinistryType extends AbstractType
                 'allow_delete' => true,
                 'entry_options' => [
                     'label' => false,
-                    'class' => \App\Entity\Person::class,
+                    'class' => Person::class,
                     'choice_label' => 'getLastnameFirstnameAndDob',
                     'row_attr' => ['class' => 'd-flex'],
                     'attr' => ['class' => 'mr-2'],

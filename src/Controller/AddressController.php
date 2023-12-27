@@ -16,10 +16,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Address controller.
- *
- * @Route("/address")
- * @/Security("has_role('ROLE_ADMIN')")
  */
+#[Route(path: '/address')]
 class AddressController extends AbstractController
 {
     private $translator;
@@ -40,9 +38,8 @@ class AddressController extends AbstractController
 
     /**
      * Lists all Address entities.
-     *
-     * @Route("/index", name="app.address.index", defaults={"_locale"="de"})
      */
+    #[Route(path: '/index', name: 'app.address.index', defaults: ['_locale' => 'de'])]
     public function index(Request $request, PersonHelper $personHelper): Response
     {
         $repo = $this->entityManager->getRepository(Address::class); /* @var $repo \App\Repository\AddressRepository */
@@ -78,9 +75,8 @@ class AddressController extends AbstractController
 
     /**
      * Displays a form to create a new Address entity.
-     *
-     * @Route("/new", name="app.address.new", methods={"GET", "POST"})
      */
+    #[Route(path: '/new', name: 'app.address.new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $address = new Address();
@@ -108,9 +104,8 @@ class AddressController extends AbstractController
 
     /**
      * Displays a form to edit an existing Address entity.
-     *
-     * @Route("/{id}/edit", name="app.address.edit", methods={"GET", "PUT"})
      */
+    #[Route(path: '/{id}/edit', name: 'app.address.edit', methods: ['GET', 'PUT'])]
     public function edit(Address $address, Request $request, PersonHelper $personHelper): Response
     {
         $form = $this->createForm(AddressType::class, $address, ['method' => 'PUT']);
@@ -158,9 +153,8 @@ class AddressController extends AbstractController
 
     /**
      * Deletes a Address entity.
-     *
-     * @Route("/{id}/delete", name="app.address.delete")
      */
+    #[Route(path: '/{id}/delete', name: 'app.address.delete')]
     public function delete(Request $request, $id): Response
     {
         $address = $this->entityManager->getRepository(Address::class)->find($id);

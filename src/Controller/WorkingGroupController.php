@@ -12,18 +12,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * WorkingGroup controller.
- *
- * @Route("/workinggroup")
- * @/Security("has_role('ROLE_ADMIN')")
  */
+#[Route(path: '/workinggroup')]
 class WorkingGroupController extends AbstractController
 {
 
     /**
      * Lists all WorkingGroup workingGroups.
-     *
-     * @Route("/", name="app.workinggroup.index")
      */
+    #[Route(path: '/', name: 'app.workinggroup.index')]
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -37,9 +34,8 @@ class WorkingGroupController extends AbstractController
 
     /**
      * Displays a form to create a new WorkingGroup entity.
-     *
-     * @Route("/new", name="app.workinggroup.new")
      */
+    #[Route(path: '/new', name: 'app.workinggroup.new')]
     public function new(Request $request)
     {
         $workingGroup = new WorkingGroup();
@@ -68,9 +64,8 @@ class WorkingGroupController extends AbstractController
 
     /**
      * Displays a form to edit an existing WorkingGroup entity.
-     *
-     * @Route("/{id}/edit", name="app.workinggroup.edit")
      */
+    #[Route(path: '/{id}/edit', name: 'app.workinggroup.edit')]
     public function edit(WorkingGroup $workingGroup, Request $request)
     {
         $form = $this->createForm(WorkingGroupType::class, $workingGroup, [
@@ -99,9 +94,8 @@ class WorkingGroupController extends AbstractController
 
     /**
      * Deletes a WorkingGroup entity.
-     *
-     * @Route("/{id}/delete", name="app.workinggroup.delete")
      */
+    #[Route(path: '/{id}/delete', name: 'app.workinggroup.delete')]
     public function delete(WorkingGroup $workingGroup)
     {
         $em = $this->getDoctrine()->getManager();
@@ -113,9 +107,7 @@ class WorkingGroupController extends AbstractController
         return $this->redirectToRoute('app.workinggroup.index');
     }
 
-    /**
-     * @Route("/assignables", name="app.workinggroup.assignables"))
-     */
+    #[Route(path: '/assignables', name: 'app.workinggroup.assignables')]
     public function assignablesAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -131,9 +123,7 @@ class WorkingGroupController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/assign", name="app.workinggroup.assign", methods={"POST"})
-     */
+    #[Route(path: '/assign', name: 'app.workinggroup.assign', methods: ['POST'])]
     public function assignAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -163,9 +153,7 @@ class WorkingGroupController extends AbstractController
         return $this->redirect($this->generateUrl('app.workinggroup.assignables'));
     }
 
-    /**
-     * @Route("/persons_unable_to_work", name="app.workinggroup.persons_unable_to_work")
-     */
+    #[Route(path: '/persons_unable_to_work', name: 'app.workinggroup.persons_unable_to_work')]
     public function personsUnableToWorkAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -179,9 +167,7 @@ class WorkingGroupController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/update_worker_status", name="app.workinggroup.update_worker_status", methods={"POST"})
-     */
+    #[Route(path: '/update_worker_status', name: 'app.workinggroup.update_worker_status', methods: ['POST'])]
     public function updateWorkerStatusAction(Request $request, TranslatorInterface $translator)
     {
         $em = $this->getDoctrine()->getManager();

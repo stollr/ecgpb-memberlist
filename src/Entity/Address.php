@@ -30,25 +30,24 @@ class Address
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
-     *
-     * @Groups({"MinistryCategoryListing"})
      */
+    #[Groups(['MinistryCategoryListing'])]
     private ?int $id = null;
 
     /**
      * @ORM\Column(name="family_name", type="string", length=50)
      * @Gedmo\Versioned
-     * @Groups({"MinistryCategoryListing"})
      */
     #[Gedmo\Versioned]
+    #[Groups(['MinistryCategoryListing'])]
     private ?string $familyName = null;
 
     /**
      * @ORM\Column(name="name_prefix", type="string", length=20, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"MinistryCategoryListing"})
      */
     #[Gedmo\Versioned]
+    #[Groups(['MinistryCategoryListing'])]
     private ?string $namePrefix = null;
 
     /**

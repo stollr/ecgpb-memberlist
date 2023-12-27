@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Person;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -42,7 +44,7 @@ class WorkingGroup
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Person", mappedBy="workingGroup")
      *
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
     private $persons;
 
@@ -59,7 +61,7 @@ class WorkingGroup
      */
     public function __construct()
     {
-        $this->persons = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->persons = new ArrayCollection();
     }
 
     /**
@@ -132,7 +134,7 @@ class WorkingGroup
     /**
      * Get persons
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return Collection
      */
     public function getPersons()
     {

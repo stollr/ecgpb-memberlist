@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\NonUniqueResultException;
 use App\Entity\Person;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -43,7 +44,7 @@ class PersonRepository extends ServiceEntityRepository
      * Find a person by lastname, firstname and date of birth. If none is found
      * null is returned.
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findOneOrNullByLastnameFirstnameAndDob(string $lastname, string $firstname, \DateTimeInterface $dob): ?Person
     {

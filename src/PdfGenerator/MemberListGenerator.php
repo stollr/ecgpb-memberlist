@@ -2,6 +2,7 @@
 
 namespace App\PdfGenerator;
 
+use Tcpdf\Extension\Attribute\BackgroundFormatterOptions;
 use App\Entity\Address;
 use App\Entity\Ministry\Category;
 use App\Entity\Person;
@@ -962,7 +963,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
     /**
      * Returns all addresses with the corresponding persons.
-     * @return \App\Entity\Address[]
+     * @return Address[]
      */
     private function getAddresses()
     {
@@ -983,7 +984,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
     /**
      * Returns all addresses with the corresponding persons.
-     * @return \App\Entity\Ministry\Category[]
+     * @return Category[]
      */
     private function getMinistryCategories()
     {
@@ -998,7 +999,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
     /**
      * Returns all working groups
-     * @return \App\Entity\WorkingGroup[]
+     * @return WorkingGroup[]
      */
     private function getWorkingGroups()
     {
@@ -1018,7 +1019,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $filenameOriginal = $this->personHelper->getPersonPhotoPath() . '/' . $filename;
         $photoPathOptimized = $this->personHelper->getPersonPhotoPathOptimized();
 
-        return function(\Tcpdf\Extension\Attribute\BackgroundFormatterOptions $options) use ($filename, $filenameOriginal, $photoPathOptimized) {
+        return function(BackgroundFormatterOptions $options) use ($filename, $filenameOriginal, $photoPathOptimized) {
             if (!file_exists($filenameOriginal)) {
                 $options->setImage(null);
                 return;

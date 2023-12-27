@@ -22,41 +22,37 @@ class Category
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
-     *
-     * @Groups({"MinistryCategoryListing"})
      */
+    #[Groups(['MinistryCategoryListing'])]
     private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=40)
-     * @Assert\Length(max=40)
      *
-     * @Groups({"MinistryCategoryListing"})
      */
+    #[Assert\Length(max: 40)]
+    #[Groups(['MinistryCategoryListing'])]
     private ?string $name = null;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Person")
      * @ORM\JoinColumn(name="responsible_person_id", nullable=true, onDelete="SET NULL")
-     *
-     * @Groups({"MinistryCategoryListing"})
      */
+    #[Groups(['MinistryCategoryListing'])]
     private ?Person $responsible = null;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
-     *
-     * @Groups({"MinistryCategoryListing"})
      */
+    #[Groups(['MinistryCategoryListing'])]
     private ?int $position = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ministry", mappedBy="category", cascade={"persist"}, orphanRemoval=true)
      * @ORM\OrderBy({"position": "ASC"})
-     *
-     * @Groups({"MinistryCategoryListing"})
      */
+    #[Groups(['MinistryCategoryListing'])]
     private Collection $ministries;
 
     /**

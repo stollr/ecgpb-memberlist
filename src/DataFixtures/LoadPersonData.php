@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use libphonenumber\PhoneNumberType;
 use App\Entity\Address;
 use App\Entity\Person;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -39,7 +40,7 @@ class LoadPersonData implements FixtureInterface
                     $person->setFirstname($this->getRandomFemaleFirstName());
                     $gender = 'm';
                 }
-                $person->setMobile($phoneUtil->getExampleNumberForType('DE', \libphonenumber\PhoneNumberType::MOBILE));
+                $person->setMobile($phoneUtil->getExampleNumberForType('DE', PhoneNumberType::MOBILE));
                 if (rand(0, 3)) {
                     $email = str_replace(
                         array('ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü'),
@@ -66,7 +67,7 @@ class LoadPersonData implements FixtureInterface
             for ($i = 0; $i < $length; $i++) {
                 $address = new Address();
                 $address->setFamilyName($familyName);
-                $address->setPhone($phoneUtil->getExampleNumberForType('DE', \libphonenumber\PhoneNumberType::FIXED_LINE));
+                $address->setPhone($phoneUtil->getExampleNumberForType('DE', PhoneNumberType::FIXED_LINE));
                 $address->setStreet($this->getRandomStreetName() . ' ' . rand(1, 125));
                 $address->setZip(rand(33098, 33106));
                 $address->setCity('Paderborn');

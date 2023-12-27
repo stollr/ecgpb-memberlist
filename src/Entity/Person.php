@@ -55,8 +55,8 @@ class Person
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
-     * @Groups({"MinistryCategoryListing"})
      */
+    #[Groups(['MinistryCategoryListing'])]
     private ?int $id = null;
 
     /**
@@ -72,9 +72,9 @@ class Person
     /**
      * @ORM\Column(type="string", length=30)
      * @Gedmo\Versioned
-     * @Groups({"MinistryCategoryListing"})
      */
     #[Gedmo\Versioned]
+    #[Groups(['MinistryCategoryListing'])]
     private ?string $firstname = null;
 
     /**
@@ -82,9 +82,9 @@ class Person
      *
      * @ORM\Column(type="date")
      * @Gedmo\Versioned
-     * @Groups({"MinistryCategoryListing"})
      */
     #[Gedmo\Versioned]
+    #[Groups(['MinistryCategoryListing'])]
     private ?\DateTime $dob = null;
 
     /**
@@ -114,9 +114,9 @@ class Person
      * @ORM\ManyToOne(targetEntity="Address", inversedBy="persons", cascade={"persist"})
      * @ORM\JoinColumn(name="address_id", nullable=false)
      * @Gedmo\Versioned
-     * @Groups({"MinistryCategoryListing"})
      */
     #[Gedmo\Versioned]
+    #[Groups(['MinistryCategoryListing'])]
     private ?Address $address = null;
 
     /**

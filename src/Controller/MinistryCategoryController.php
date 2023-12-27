@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Entity\Ministry\Category;
 use App\Form\Ministry\CategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,17 +14,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * App\Controller\MinistryCategoryController
- *
- * @Route("/ministry_category")
- * @/Security("has_role('ROLE_ADMIN')")
  */
+#[Route(path: '/ministry_category')]
 class MinistryCategoryController extends AbstractController
 {
     /**
      * Lists all Address entities.
-     *
-     * @Route(name="app.ministry_category.index", path="/", methods={"GET"})
      */
+    #[Route(name: 'app.ministry_category.index', path: '/', methods: ['GET'])]
     public function index(): Response
     {
         $em = $this->getDoctrine()->getManager();
@@ -36,9 +34,7 @@ class MinistryCategoryController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/create", name="app.ministry_category.create")
-     */
+    #[Route(path: '/create', name: 'app.ministry_category.create')]
     public function create(Request $request): Response
     {
         $category = new Category();
@@ -62,9 +58,7 @@ class MinistryCategoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="app.ministry_category.edit")
-     */
+    #[Route(path: '/{id}/edit', name: 'app.ministry_category.edit')]
     public function edit(Category $category, Request $request): Response
     {
         $form = $this->createForm(CategoryType::class, $category);
@@ -84,9 +78,7 @@ class MinistryCategoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/delete", name="app.ministry_category.delete", methods={"DELETE"})
-     */
+    #[Route(path: '/{id}/delete', name: 'app.ministry_category.delete', methods: ['DELETE'])]
     public function delete(Category $category, Request $request): Response
     {
         if (!$this->isCsrfTokenValid('delete_ministry_category', $request->request->get('_token'))) {
@@ -104,9 +96,8 @@ class MinistryCategoryController extends AbstractController
 
     /**
      * Edits an existing Address entity.
-     *
-     * @Route(name="app.ministry_category.update", path="/", methods={"POST", "PUT"}, requirements={"_format" = "json"})
      */
+    #[Route(name: 'app.ministry_category.update', path: '/', methods: ['POST', 'PUT'], requirements: ['_format' => 'json'])]
     public function update(Request $request, SerializerInterface $serializer): Response
     {
         if ('json' != $request->getContentType()) {
@@ -161,7 +152,7 @@ class MinistryCategoryController extends AbstractController
 
     private function createCategoriesForm(array $categories)
     {
-        $form = $this->createForm(\Symfony\Component\Form\Extension\Core\Type\CollectionType::class, $categories, [
+        $form = $this->createForm(CollectionType::class, $categories, [
             'entry_type' => CategoryType::class,
             'label' => false,
             'prototype' => true,

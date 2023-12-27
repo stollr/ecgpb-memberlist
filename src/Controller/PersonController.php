@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Symfony\Component\Form\Form;
+use Tcpdf\Extension\Attribute\BackgroundFormatterOptions;
 use App\Entity\Person;
 use App\Form\PersonType;
 use App\Helper\PersonHelper;
@@ -16,8 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
  * Person controller.
  *
  * @/Security("is_granted('ROLE_ADMIN')")
- * @Route("/person")
  */
+#[Route(path: '/person')]
 class PersonController extends AbstractController
 {
     private $personHelper;
@@ -29,9 +31,8 @@ class PersonController extends AbstractController
 
     /**
      * Displays a form to edit an existing Person entity.
-     *
-     * @Route(name="app.person.edit", path="/{id}/edit")
      */
+    #[Route(name: 'app.person.edit', path: '/{id}/edit')]
     public function edit(Person $person, Request $request)
     {
         $form = $this->createPersonForm($person);
@@ -61,7 +62,7 @@ class PersonController extends AbstractController
     /**
      * Creates a form to edit a Person person.
      */
-    private function createPersonForm(Person $person): \Symfony\Component\Form\Form
+    private function createPersonForm(Person $person): Form
     {
         $form = $this->createForm(PersonType::class, $person, [
             'method' => 'PUT',
@@ -76,9 +77,8 @@ class PersonController extends AbstractController
 
     /**
      * Deletes a Person entity.
-     *
-     * @Route(name="app.person.delete", path="/{id}/delete")
      */
+    #[Route(name: 'app.person.delete', path: '/{id}/delete')]
     public function delete(Person $person)
     {
         $em = $this->getDoctrine()->getManager();
@@ -97,12 +97,11 @@ class PersonController extends AbstractController
 
     /**
      * Generate and return the optimized member picture.
-     *
-     * @Route(name="app.person.optimized_member_picture", path="/{id}/optimized_member_picture")
      */
+    #[Route(name: 'app.person.optimized_member_picture', path: '/{id}/optimized_member_picture')]
     public function optimizedMemberPicture(Request $request, Person $person, MemberListGenerator $generator)
     {
-        $options = new \Tcpdf\Extension\Attribute\BackgroundFormatterOptions(
+        $options = new BackgroundFormatterOptions(
             null,
             MemberListGenerator::GRID_PICTURE_CELL_WIDTH,
             MemberListGenerator::GRID_ROW_MIN_HEIGHT

@@ -11,14 +11,11 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
  * Person controller.
- *
- * @Route("/index")
  */
+#[Route(path: '/index')]
 class IndexController extends AbstractController
 {
-    /**
-     * @Route(name="app.index.encode_password", path="/encode_password")
-     */
+    #[Route(name: 'app.index.encode_password', path: '/encode_password')]
     public function encodePassword(Request $request, EncoderFactoryInterface $encoderFactory)
     {
         if ($request->get('password')) {

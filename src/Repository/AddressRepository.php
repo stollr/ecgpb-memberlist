@@ -2,6 +2,9 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\Query\Expr\Andx;
+use Doctrine\ORM\Query\Expr\Orx;
+use Gedmo\Loggable\Entity\LogEntry;
 use App\Entity\Address;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -29,9 +32,9 @@ class AddressRepository extends ServiceEntityRepository
             $words = preg_split('/\s+/', trim($filter['term']));
             $attributes = array('address.familyName', 'person.firstname', 'person.email', 'person.mobile', 'address.street');
 
-            $andExpr = new \Doctrine\ORM\Query\Expr\Andx();
+            $andExpr = new Andx();
             foreach ($words as $wordIndex => $word) {
-                $orExpr = new \Doctrine\ORM\Query\Expr\Orx();
+                $orExpr = new Orx();
                 foreach ($attributes as $attribute) {
                     $orExpr->add($attribute . ' LIKE :word_' . $wordIndex);
                 }
@@ -75,23 +78,23 @@ class AddressRepository extends ServiceEntityRepository
     /**
      * Find all log entries of the address.
      *
-     * @return \Gedmo\Loggable\Entity\LogEntry[]
+     * @return LogEntry[]
      */
     public function findLogEntries(Address $address): array
     {
         return $this->getEntityManager()
-            ->getRepository(\Gedmo\Loggable\Entity\LogEntry::class)
+            ->getRepository(LogEntry::class)
             ->getLogEntries($address);
     }
 
     /**
      * Find all log entries of the address' persons.
      *
-     * @return array<int, \Gedmo\Loggable\Entity\LogEntry[]>
+     * @return array<int, LogEntry[]>
      */
     public function findPersonsLogEntries(Address $address): array
     {
-        $repo = $this->getEntityManager()->getRepository(\Gedmo\Loggable\Entity\LogEntry::class);
+        $repo = $this->getEntityManager()->getRepository(LogEntry::class);
         $logs = [];
 
         foreach ($address->getPersons() as $person) {

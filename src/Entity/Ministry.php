@@ -22,38 +22,38 @@ class Ministry
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      *
-     * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
      */
+    #[Groups(['MinistryCategoryListing'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=60)
-     * @Assert\Length(max=60)
      *
-     * @Groups({"MinistryCategoryListing"})
      *
      * @var string
      */
+    #[Assert\Length(max: 60)]
+    #[Groups(['MinistryCategoryListing'])]
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      *
-     * @Groups({"MinistryCategoryListing"})
      *
      * @var string
      */
+    #[Groups(['MinistryCategoryListing'])]
     private $description;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
      *
-     * @Groups({"MinistryCategoryListing"})
      *
      * @var integer
      */
+    #[Groups(['MinistryCategoryListing'])]
     private $position;
 
     /**
@@ -68,10 +68,10 @@ class Ministry
      * @ORM\ManyToMany(targetEntity="App\Entity\Person", inversedBy="ministries")
      * @ORM\JoinTable(name="ministry_responsible")
      *
-     * @Groups({"MinistryCategoryListing"})
      *
      * @var ArrayCollection|Person[]
      */
+    #[Groups(['MinistryCategoryListing'])]
     private $responsibles;
 
     /**

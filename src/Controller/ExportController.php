@@ -18,10 +18,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * App\Controller\ExportController
- *
- * @Route("/export")
- * @/Security("is_granted('ROLE_ADMIN')")
  */
+#[Route(path: '/export')]
 class ExportController extends AbstractController
 {
     private $translator;
@@ -31,17 +29,13 @@ class ExportController extends AbstractController
         $this->translator = $translator;
     }
 
-    /**
-     * @Route(name="app.export.pdf_config", path="/pdf_config")
-     */
+    #[Route(name: 'app.export.pdf_config', path: '/pdf_config')]
     public function pdfConfigAction()
     {
         return $this->render('/export/pdf_config.html.twig');
     }
 
-    /**
-     * @Route(name="app.export.pdf", path="/pdf")
-     */
+    #[Route(name: 'app.export.pdf', path: '/pdf')]
     public function pdfAction(Request $request, MemberListGenerator $generator)
     {
         $pdf = $generator->generate(array(
@@ -56,9 +50,7 @@ class ExportController extends AbstractController
         ));
     }
 
-    /**
-     * @Route(name="app.export.csv", path="/csv")
-     */
+    #[Route(name: 'app.export.csv', path: '/csv')]
     public function csvAction()
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
@@ -113,9 +105,7 @@ class ExportController extends AbstractController
         ));
     }
 
-    /**
-     * @Route(name="app.export.birthday_excel", path="/birthday_excel")
-     */
+    #[Route(name: 'app.export.birthday_excel', path: '/birthday_excel')]
     public function birthdayExcel(BirthdayExcelGenerator $generator)
     {
         $title = $this->translator->trans('Birthday List') . ' ' . date('Y');
@@ -133,9 +123,7 @@ class ExportController extends AbstractController
         return $response;
     }
 
-    /**
-     * @Route(name="app.export.seniors_excel", path="/seniors-excel")
-     */
+    #[Route(name: 'app.export.seniors_excel', path: '/seniors-excel')]
     public function seniorsExcel(SeniorsSpreadsheetGenerator $generator): Response
     {
         $title = $this->translator->trans('Seniors List') . ' ' . date('Y');
@@ -154,9 +142,7 @@ class ExportController extends AbstractController
         );
     }
 
-    /**
-     * @Route(name="app.export.email_addresses", path="/email_addresses")
-     */
+    #[Route(name: 'app.export.email_addresses', path: '/email_addresses')]
     public function emailAddressesAction()
     {
         $repo = $this->getDoctrine()->getManager()->getRepository(Person::class);
