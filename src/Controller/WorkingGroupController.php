@@ -68,9 +68,7 @@ class WorkingGroupController extends AbstractController
     #[Route(path: '/{id}/edit', name: 'app.workinggroup.edit')]
     public function edit(WorkingGroup $workingGroup, Request $request)
     {
-        $form = $this->createForm(WorkingGroupType::class, $workingGroup, [
-            'method' => 'PUT',
-        ]);
+        $form = $this->createForm(WorkingGroupType::class, $workingGroup);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {

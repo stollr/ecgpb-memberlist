@@ -105,10 +105,10 @@ class AddressController extends AbstractController
     /**
      * Displays a form to edit an existing Address entity.
      */
-    #[Route(path: '/{id}/edit', name: 'app.address.edit', methods: ['GET', 'PUT'])]
+    #[Route(path: '/{id}/edit', name: 'app.address.edit', methods: ['GET', 'POST'])]
     public function edit(Address $address, Request $request, PersonHelper $personHelper): Response
     {
-        $form = $this->createForm(AddressType::class, $address, ['method' => 'PUT']);
+        $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -155,14 +155,8 @@ class AddressController extends AbstractController
      * Deletes a Address entity.
      */
     #[Route(path: '/{id}/delete', name: 'app.address.delete')]
-    public function delete(Request $request, $id): Response
+    public function delete(Address $address, Request $request): Response
     {
-        $address = $this->entityManager->getRepository(Address::class)->find($id);
-        /* @var $address Address */
-
-        if (!$address) {
-            throw $this->createNotFoundException('Unable to find Address entity.');
-        }
 
         foreach ($address->getPersons() as $person) {
             if ($person->getLeaderOf()) {

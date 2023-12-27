@@ -97,7 +97,7 @@ class MinistryCategoryController extends AbstractController
     /**
      * Edits an existing Address entity.
      */
-    #[Route(name: 'app.ministry_category.update', path: '/', methods: ['POST', 'PUT'], requirements: ['_format' => 'json'])]
+    #[Route(name: 'app.ministry_category.update', path: '/', methods: ['POST'], requirements: ['_format' => 'json'])]
     public function update(Request $request, SerializerInterface $serializer): Response
     {
         if ('json' != $request->getContentType()) {
@@ -105,7 +105,7 @@ class MinistryCategoryController extends AbstractController
         }
 
         $em = $this->getDoctrine()->getManager();
-        $clientMinistryCategories = json_decode($request->getContent(), true);
+        $clientMinistryCategories = $request->toArray();
 
         $ministryNames = [];
         foreach ($clientMinistryCategories as $c) {

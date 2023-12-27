@@ -32,7 +32,7 @@ class PersonController extends AbstractController
     /**
      * Displays a form to edit an existing Person entity.
      */
-    #[Route(name: 'app.person.edit', path: '/{id}/edit')]
+    #[Route(name: 'app.person.edit', path: '/{id}/edit', methods: ['GET', 'POST'])]
     public function edit(Person $person, Request $request)
     {
         $form = $this->createPersonForm($person);
@@ -65,7 +65,6 @@ class PersonController extends AbstractController
     private function createPersonForm(Person $person): Form
     {
         $form = $this->createForm(PersonType::class, $person, [
-            'method' => 'PUT',
             'attr' => [
                 'enctype' => 'multipart/form-data',
             ],
