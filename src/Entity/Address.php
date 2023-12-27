@@ -9,15 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use libphonenumber\PhoneNumber;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * App\Entity\Address
- *
- * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
- * @ORM\Table(name="address")
- * @Gedmo\Loggable
  */
+#[ORM\Entity(repositoryClass: 'App\Repository\AddressRepository')]
+#[ORM\Table(name: 'address')]
 #[Gedmo\Loggable]
 class Address
 {
@@ -26,61 +24,39 @@ class Address
      */
     use TimestampableEntity;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    #[Groups(['MinistryCategoryListing'])]
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(name="family_name", type="string", length=50)
-     * @Gedmo\Versioned
-     */
+    #[ORM\Column(name: 'family_name', type: 'string', length: 50)]
     #[Gedmo\Versioned]
-    #[Groups(['MinistryCategoryListing'])]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?string $familyName = null;
 
-    /**
-     * @ORM\Column(name="name_prefix", type="string", length=20, nullable=true)
-     * @Gedmo\Versioned
-     */
+    #[ORM\Column(name: 'name_prefix', type: 'string', length: 20, nullable: true)]
     #[Gedmo\Versioned]
-    #[Groups(['MinistryCategoryListing'])]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?string $namePrefix = null;
 
-    /**
-     * @ORM\Column(type="phone_number", nullable=true)
-     * @Gedmo\Versioned
-     */
+    #[ORM\Column(type: 'phone_number', nullable: true)]
     #[Gedmo\Versioned]
     private ?PhoneNumber $phone = null;
 
-    /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     * @Gedmo\Versioned
-     */
+    #[ORM\Column(type: 'string', length: 50, nullable: true)]
     #[Gedmo\Versioned]
     private ?string $street = null;
 
-    /**
-     * @ORM\Column(type="string", length=5, nullable=true)
-     * @Gedmo\Versioned
-     */
+    #[ORM\Column(type: 'string', length: 5, nullable: true)]
     #[Gedmo\Versioned]
     private ?string $zip = null;
 
-    /**
-     * @ORM\Column(type="string", length=40, nullable=true)
-     * @Gedmo\Versioned
-     */
+    #[ORM\Column(type: 'string', length: 40, nullable: true)]
     #[Gedmo\Versioned]
     private ?string $city = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Person", cascade={"persist", "remove"}, mappedBy="address", orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: 'Person', cascade: ['persist', 'remove'], mappedBy: 'address', orphanRemoval: true)]
     private Collection $persons;
 
     /**
@@ -93,10 +69,8 @@ class Address
 
     /**
      * Get id
-     *
-     * @return integer 
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -104,10 +78,9 @@ class Address
     /**
      * Set familyName
      *
-     * @param string $familyName
-     * @return Address
+     * @return $this
      */
-    public function setFamilyName($familyName)
+    public function setFamilyName(string $familyName): static
     {
         $this->familyName = $familyName;
 
@@ -116,18 +89,14 @@ class Address
 
     /**
      * Get familyName
-     *
-     * @return string 
      */
-    public function getFamilyName()
+    public function getFamilyName(): ?string
     {
         return $this->familyName;
     }
 
     /**
      * Get the name prefix.
-     *
-     * @return string|null
      */
     public function getNamePrefix(): ?string
     {
@@ -136,10 +105,8 @@ class Address
 
     /**
      * Set the name prefix.
-     *
-     * @param string|null $namePrefix
      */
-    public function setNamePrefix(?string $namePrefix)
+    public function setNamePrefix(?string $namePrefix): void
     {
         $this->namePrefix = $namePrefix;
     }
@@ -149,7 +116,7 @@ class Address
      *
      * @return $this
      */
-    public function setPhone(?PhoneNumber $phone): self
+    public function setPhone(?PhoneNumber $phone): static
     {
         if ($this->phone && $phone && $this->phone->equals($phone)) {
             return $this;
@@ -171,10 +138,9 @@ class Address
     /**
      * Set street
      *
-     * @param string $street
-     * @return Address
+     * @return $this
      */
-    public function setStreet($street)
+    public function setStreet(?string $street): static
     {
         $this->street = $street;
 
@@ -183,10 +149,8 @@ class Address
 
     /**
      * Get street
-     *
-     * @return string 
      */
-    public function getStreet()
+    public function getStreet(): ?string
     {
         return $this->street;
     }
@@ -194,10 +158,9 @@ class Address
     /**
      * Set zip
      *
-     * @param string $zip
-     * @return Address
+     * @return $this
      */
-    public function setZip($zip)
+    public function setZip(?string $zip): static
     {
         $this->zip = $zip;
 
@@ -206,10 +169,8 @@ class Address
 
     /**
      * Get zip
-     *
-     * @return string 
      */
-    public function getZip()
+    public function getZip(): ?string
     {
         return $this->zip;
     }
@@ -217,10 +178,9 @@ class Address
     /**
      * Set city
      *
-     * @param string $city
-     * @return Address
+     * @return $this
      */
-    public function setCity($city)
+    public function setCity(?string $city): static
     {
         $this->city = $city;
 
@@ -229,10 +189,8 @@ class Address
 
     /**
      * Get city
-     *
-     * @return string 
      */
-    public function getCity()
+    public function getCity(): ?string
     {
         return $this->city;
     }
@@ -241,10 +199,9 @@ class Address
     /**
      * Add persons
      *
-     * @param Person $person
-     * @return Address
+     * @return $this
      */
-    public function addPerson(Person $person)
+    public function addPerson(Person $person): static
     {
         $this->persons[] = $person;
         $person->setAddress($this);
@@ -254,9 +211,9 @@ class Address
     /**
      * Remove persons
      *
-     * @param Person $person
+     * @return $this
      */
-    public function removePerson(Person $person)
+    public function removePerson(Person $person): static
     {
         $this->persons->removeElement($person);
         return $this;
@@ -265,9 +222,9 @@ class Address
     /**
      * Get persons
      *
-     * @return Collection|Person[]
+     * @return Collection<int, Person>
      */
-    public function getPersons()
+    public function getPersons(): Collection
     {
         $persons = new ArrayCollection();
         foreach ($this->persons as $person) {
@@ -291,12 +248,12 @@ class Address
         return $persons;
     }
     
-    public function getDropdownLabel()
+    public function getDropdownLabel(): string
     {
-        return implode(', ', array(
+        return implode(', ', [
             $this->getFamilyName(),
             $this->getStreet(),
             $this->getCity(),
-        ));
+        ]);
     }
 }

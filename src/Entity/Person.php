@@ -11,15 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use libphonenumber\PhoneNumber;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * App\Entity\Person
- *
- * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
- * @ORM\Table(name="person")
- * @Gedmo\Loggable
  */
+#[ORM\Entity(repositoryClass: 'App\Repository\PersonRepository')]
+#[ORM\Table(name: 'person')]
 #[Gedmo\Loggable]
 class Person
 {
@@ -51,106 +49,77 @@ class Person
      */
     const WORKER_STATUS_UNABLE_RESIDENCE = 4;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    #[Groups(['MinistryCategoryListing'])]
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?int $id = null;
 
     /**
      * Last name can be empty. In that case the last name is taken from
      * address entity (family name)
-     *
-     * @ORM\Column(type="string", length=30, nullable=true)
-     * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 30, nullable: true)]
     #[Gedmo\Versioned]
     private ?string $lastname = null;
 
-    /**
-     * @ORM\Column(type="string", length=30)
-     * @Gedmo\Versioned
-     */
+    #[ORM\Column(type: 'string', length: 30)]
     #[Gedmo\Versioned]
-    #[Groups(['MinistryCategoryListing'])]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?string $firstname = null;
 
     /**
      * Date of birth
-     *
-     * @ORM\Column(type="date")
-     * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'date')]
     #[Gedmo\Versioned]
-    #[Groups(['MinistryCategoryListing'])]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?\DateTime $dob = null;
 
     /**
      * Gender ('m' or 'f')
-     *
-     * @ORM\Column(type="string", length=1)
-     * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 1)]
     #[Gedmo\Versioned]
     private ?string $gender = null;
 
-    /**
-     * @ORM\Column(type="phone_number", nullable=true)
-     * @Gedmo\Versioned
-     */
+    #[ORM\Column(type: 'phone_number', nullable: true)]
     #[Gedmo\Versioned]
     private ?PhoneNumber $mobile = null;
 
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     * @Gedmo\Versioned
-     */
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     #[Gedmo\Versioned]
     private ?string $email = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Address", inversedBy="persons", cascade={"persist"})
-     * @ORM\JoinColumn(name="address_id", nullable=false)
-     * @Gedmo\Versioned
-     */
+    #[ORM\ManyToOne(targetEntity: 'Address', inversedBy: 'persons', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'address_id', nullable: false)]
     #[Gedmo\Versioned]
-    #[Groups(['MinistryCategoryListing'])]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?Address $address = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="WorkingGroup", inversedBy="persons")
-     * @ORM\JoinColumn(name="working_group_id", nullable=true, onDelete="SET NULL")
-     * @Gedmo\Versioned
-     */
+    #[ORM\ManyToOne(targetEntity: 'WorkingGroup', inversedBy: 'persons')]
+    #[ORM\JoinColumn(name: 'working_group_id', nullable: true, onDelete: 'SET NULL')]
     #[Gedmo\Versioned]
     private ?WorkingGroup $workingGroup = null;
 
     /**
      * Defines whether person is able to work or not.
      * See class constants self::WORKER_STATUS_*
-     *
-     * @ORM\Column(name="worker_status", type="smallint", nullable=false)
-     * @Gedmo\Versioned
      */
+    #[ORM\Column(name: 'worker_status', type: 'smallint', nullable: false)]
     #[Gedmo\Versioned]
     private int $workerStatus = self::WORKER_STATUS_DEPENDING;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
      * @var string|null
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $notice = null;
 
-    /**
-     * @ORM\OneToOne(targetEntity="WorkingGroup", mappedBy="leader")
-     */
+    #[ORM\OneToOne(targetEntity: 'WorkingGroup', mappedBy: 'leader')]
     private ?WorkingGroup $leaderOf = null;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Ministry", mappedBy="responsibles", cascade={"remove"})
-     */
+    #[ORM\ManyToMany(targetEntity: 'Ministry', mappedBy: 'responsibles', cascade: ['remove'])]
     private Collection $ministries;
 
     /**

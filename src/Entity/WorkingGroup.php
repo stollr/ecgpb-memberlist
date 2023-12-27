@@ -2,59 +2,41 @@
 
 namespace App\Entity;
 
+use App\Entity\Person;
+use App\Repository\WorkingGroupRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Entity\Person;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * App\Entity\WorkingGroup
- *
- * @ORM\Entity(repositoryClass="App\Repository\WorkingGroupRepository")
- * @ORM\Table(name="working_group", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="uniqueGenderNumber", columns={"gender", "number"})
- * })
  */
+#[ORM\Entity(repositoryClass: WorkingGroupRepository::class)]
+#[ORM\Table(name: 'working_group')]
+#[ORM\UniqueConstraint(name: 'uniqueGenderNumber', columns: ['gender', 'number'])]
 class WorkingGroup
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     *
-     * @var integer
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    private ?int $id = null;
+
+    #[ORM\Column(type: 'integer')]
+    private ?int $number = null;
+
+    #[ORM\Column(type: 'string', length: 1)]
+    private ?string $gender = null;
 
     /**
-     * @ORM\Column(type="integer")
-     *
-     * @var int
+     * @var Collection<int, Person>
      */
-    private $number;
+    #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'workingGroup')]
+    private Collection $persons;
 
-    /**
-     * @ORM\Column(type="string", length=1)
-     *
-     * @var string
-     */
-    private $gender;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Person", mappedBy="workingGroup")
-     *
-     * @var Collection
-     */
-    private $persons;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Person", inversedBy="leaderOf")
-     * @ORM\JoinColumn(name="leader_person_id", nullable=true)
-     *
-     * @var Person|null
-     */
-    private $leader;
+    #[ORM\OneToOne(targetEntity: Person::class, inversedBy: 'leaderOf')]
+    #[ORM\JoinColumn(name: 'leader_person_id', nullable: true)]
+    private ?Person $leader = null;
 
     /**
      * Constructor
@@ -66,10 +48,8 @@ class WorkingGroup
 
     /**
      * Get id
-     *
-     * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -78,9 +58,9 @@ class WorkingGroup
      * Set gender
      *
      * @param string $gender
-     * @return WorkingGroup
+     * @return $this
      */
-    public function setGender(string $gender)
+    public function setGender(string $gender): static
     {
         if ($this->getId() > 0 && $this->getGender() != $gender) {
             throw new \RuntimeException('It is not possible to change the gender of a working group.');
@@ -91,10 +71,8 @@ class WorkingGroup
 
     /**
      * Get gender
-     *
-     * @return string|null
      */
-    public function getGender()
+    public function getGender(): ?string
     {
         return $this->gender;
     }
@@ -102,10 +80,9 @@ class WorkingGroup
     /**
      * Add persons
      *
-     * @param Person $person
-     * @return WorkingGroup
+     * @return $this
      */
-    public function addPerson(Person $person)
+    public function addPerson(Person $person): static
     {
         if ($this->gender !== $person->getGender()) {
             throw new InvalidArgumentException('This working group is not compatible to the passed person.');
@@ -122,8 +99,6 @@ class WorkingGroup
 
     /**
      * Remove persons
-     *
-     * @param Person $person
      */
     public function removePerson(Person $person)
     {
@@ -134,9 +109,9 @@ class WorkingGroup
     /**
      * Get persons
      *
-     * @return Collection
+     * @return Collection<int, Person>
      */
-    public function getPersons()
+    public function getPersons(): Collection
     {
         return $this->persons;
     }
@@ -144,10 +119,9 @@ class WorkingGroup
     /**
      * Set leader
      *
-     * @param Person|null $leader
-     * @return WorkingGroup
+     * @return $this
      */
-    public function setLeader(Person $leader = null)
+    public function setLeader(?Person $leader): static
     {
         $this->leader = $leader;
 
@@ -160,10 +134,8 @@ class WorkingGroup
 
     /**
      * Get leader
-     *
-     * @return Person|null
      */
-    public function getLeader()
+    public function getLeader(): ?Person
     {
         return $this->leader;
     }
@@ -171,10 +143,9 @@ class WorkingGroup
     /**
      * Set number
      *
-     * @param int $number
-     * @return WorkingGroup
+     * @return $this
      */
-    public function setNumber(int $number)
+    public function setNumber(int $number): static
     {
         $this->number = $number;
         return $this;
@@ -182,15 +153,13 @@ class WorkingGroup
 
     /**
      * Get number
-     *
-     * @return int|null
      */
-    public function getNumber()
+    public function getNumber(): ?int
     {
         return $this->number;
     }
 
-    public function getDisplayName(TranslatorInterface $translator = null)
+    public function getDisplayName(TranslatorInterface $translator = null): string
     {
         $gender = $this->getGender() == Person::GENDER_FEMALE ? 'Female' : 'Male';
 
@@ -201,7 +170,7 @@ class WorkingGroup
         return $gender . ' Group' . ' ' . $this->getNumber();
     }
 
-    public function getAvgAge()
+    public function getAvgAge(): float
     {
         $currentYear = date('Y');
         $years = 0;
@@ -221,13 +190,13 @@ class WorkingGroup
         }
 
         if (0 === $numberOfPersons) {
-            return 0;
+            return 0.0;
         }
 
         return $years / $numberOfPersons;
     }
 
-    public function getVarianceOfAge()
+    public function getVarianceOfAge(): float
     {
         $avg = $this->getAvgAge();
         $powedSum = 0;
@@ -250,7 +219,7 @@ class WorkingGroup
         return $powedSum / $numberOfPersons;
     }
 
-    public function getStandardDeviationOfAge()
+    public function getStandardDeviationOfAge(): float
     {
         return sqrt($this->getVarianceOfAge());
     }

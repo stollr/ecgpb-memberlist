@@ -6,77 +6,47 @@ use App\Entity\Ministry\Category;
 use App\Entity\Person;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * App\Entity\Ministry
- *
- * @ORM\Entity
- * @ORM\Table(name="ministry")
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'ministry')]
 class Ministry
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     *
-     *
-     * @var integer
-     */
-    #[Groups(['MinistryCategoryListing'])]
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=60)
-     *
-     *
-     * @var string
-     */
+    #[ORM\Column(type: 'string', length: 60)]
     #[Assert\Length(max: 60)]
-    #[Groups(['MinistryCategoryListing'])]
-    private $name;
+    #[Serializer\Groups(['MinistryCategoryListing'])]
+    private ?string $name = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
+    private ?string $description = null;
+
+    #[ORM\Column(type: 'smallint', nullable: true)]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
+    private ?int $position = null;
+
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'ministries')]
+    #[ORM\JoinColumn(name: 'category_id', nullable: false, onDelete: 'CASCADE')]
+    private ?Category $category = null;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     *
-     *
-     * @var string
+     * @var Collection<int, Person>
      */
-    #[Groups(['MinistryCategoryListing'])]
-    private $description;
+    #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'ministries')]
+    #[ORM\JoinTable(name: 'ministry_responsible')]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
+    private Collection $responsibles;
 
-    /**
-     * @ORM\Column(type="smallint", nullable=true)
-     *
-     *
-     * @var integer
-     */
-    #[Groups(['MinistryCategoryListing'])]
-    private $position;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Ministry\Category", inversedBy="ministries")
-     * @ORM\JoinColumn(name="category_id", nullable=false, onDelete="CASCADE")
-     *
-     * @var Category
-     */
-    private $category;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Person", inversedBy="ministries")
-     * @ORM\JoinTable(name="ministry_responsible")
-     *
-     *
-     * @var ArrayCollection|Person[]
-     */
-    #[Groups(['MinistryCategoryListing'])]
-    private $responsibles;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->responsibles = new ArrayCollection();
@@ -84,10 +54,8 @@ class Ministry
 
     /**
      * Get id
-     *
-     * @return integer 
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -95,10 +63,9 @@ class Ministry
     /**
      * Set name
      *
-     * @param string $name
-     * @return Ministry
+     * @return $this
      */
-    public function setName($name)
+    public function setName(string $name): static
     {
         $this->name = $name;
         return $this;
@@ -106,31 +73,35 @@ class Ministry
 
     /**
      * Get name
-     *
-     * @return string 
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription($description)
+    /**
+     * @return $this
+     */
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
         return $this;
     }
 
-    public function getPosition()
+    public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    public function setPosition($position)
+    /**
+     * @return $this
+     */
+    public function setPosition(?int $position): static
     {
         $this->position = $position;
         return $this;
@@ -139,10 +110,9 @@ class Ministry
     /**
      * Set category
      *
-     * @param Category $category
-     * @return Ministry
+     * @return $this
      */
-    public function setCategory(Category $category)
+    public function setCategory(Category $category): static
     {
         $this->category = $category;
         return $this;
@@ -150,10 +120,8 @@ class Ministry
 
     /**
      * Get category
-     *
-     * @return Category 
      */
-    public function getCategory()
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
@@ -161,9 +129,9 @@ class Ministry
     /**
      * Add responsible persons
      *
-     * @param Person $person
+     * @return $this
      */
-    public function addResponsible(Person $person)
+    public function addResponsible(Person $person): static
     {
         $this->responsibles->add($person);
 
@@ -176,9 +144,9 @@ class Ministry
     /**
      * Remove responsible persons
      *
-     * @param Person $person
+     * @return $this
      */
-    public function removeResponsible(Person $person)
+    public function removeResponsible(Person $person): void
     {
         $this->responsibles->removeElement($person);
         $person->getMinistries()->removeElement($this);
@@ -187,9 +155,9 @@ class Ministry
     /**
      * Get responsible persons
      *
-     * @return ArrayCollection|Person[]
+     * @return Collection<int, Person>
      */
-    public function getResponsibles()
+    public function getResponsibles(): Collection
     {
         return $this->responsibles;
     }

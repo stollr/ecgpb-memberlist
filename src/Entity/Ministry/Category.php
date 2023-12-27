@@ -4,60 +4,46 @@ namespace App\Entity\Ministry;
 
 use App\Entity\Ministry;
 use App\Entity\Person;
+use App\Repository\Ministry\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * App\Entity\Ministry\Category
- *
- * @ORM\Entity(repositoryClass="App\Repository\Ministry\CategoryRepository")
- * @ORM\Table(name="ministry_category")
  */
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\Table(name: 'ministry_category')]
 class Category
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     */
-    #[Groups(['MinistryCategoryListing'])]
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=40)
-     *
-     */
+    
+    #[ORM\Column(type: 'string', length: 40)]
     #[Assert\Length(max: 40)]
-    #[Groups(['MinistryCategoryListing'])]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?string $name = null;
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Person")
-     * @ORM\JoinColumn(name="responsible_person_id", nullable=true, onDelete="SET NULL")
-     */
-    #[Groups(['MinistryCategoryListing'])]
+    
+    #[ORM\ManyToOne(targetEntity: Person::class)]
+    #[ORM\JoinColumn(name: 'responsible_person_id', nullable: true, onDelete: 'SET NULL')]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?Person $responsible = null;
 
-    /**
-     * @ORM\Column(type="smallint", nullable=true)
-     */
-    #[Groups(['MinistryCategoryListing'])]
+    #[ORM\Column(type: 'smallint', nullable: true)]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?int $position = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ministry", mappedBy="category", cascade={"persist"}, orphanRemoval=true)
-     * @ORM\OrderBy({"position": "ASC"})
-     */
-    #[Groups(['MinistryCategoryListing'])]
+    #[ORM\OneToMany(targetEntity: Ministry::class, mappedBy: 'category', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
+    #[Serializer\Groups(['MinistryCategoryListing'])]
     private Collection $ministries;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->ministries = new ArrayCollection();
@@ -74,8 +60,7 @@ class Category
     /**
      * Set name
      *
-     * @param string $name
-     * @return MinistryCategory
+     * @return $this
      */
     public function setName(string $name): self
     {
@@ -134,7 +119,7 @@ class Category
     /**
      * Get ministries
      * 
-     * @return Ministry[]
+     * @return Collection<int, Ministry>
      */
     public function getMinistries(): Collection
     {
