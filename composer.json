@@ -45,6 +45,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
+        "rector/rector": "^0.18.13",
         "symfony/maker-bundle": "^1.52",
         "symfony/stopwatch": "*",
         "symfony/web-profiler-bundle": "*"
