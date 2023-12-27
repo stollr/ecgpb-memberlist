@@ -1,3 +1,9 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
 root:
     path: /
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
