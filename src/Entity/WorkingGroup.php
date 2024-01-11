@@ -28,6 +28,9 @@ class WorkingGroup
     #[ORM\Column(type: 'string', length: 1)]
     private ?string $gender = null;
 
+    #[ORM\Column(type: 'integer', nullable: true, unique: true)]
+    private ?int $churchToolsId = null;
+
     /**
      * @var Collection<int, Person>
      */
@@ -75,6 +78,17 @@ class WorkingGroup
     public function getGender(): ?string
     {
         return $this->gender;
+    }
+
+    public function getChurchToolsId(): ?int
+    {
+        return $this->churchToolsId;
+    }
+
+    public function setChurchToolsId(?int $churchToolsId): static
+    {
+        $this->churchToolsId = $churchToolsId;
+        return $this;
     }
 
     /**

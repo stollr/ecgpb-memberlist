@@ -116,6 +116,9 @@ class Person
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $notice = null;
 
+    #[ORM\Column(type: 'integer', nullable: true, unique: true)]
+    private ?int $churchToolsId = null;
+
     #[ORM\OneToOne(targetEntity: 'WorkingGroup', mappedBy: 'leader')]
     private ?WorkingGroup $leaderOf = null;
 
@@ -143,7 +146,7 @@ class Person
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): self
+    public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
         return $this;
@@ -383,6 +386,22 @@ class Person
     {
         $this->notice = $notice;
     }
+
+    public function getChurchToolsId(): ?int
+    {
+        return $this->churchToolsId;
+    }
+
+    public function setChurchToolsId(int $churchToolsId): static
+    {
+        if ($this->churchToolsId && $this->churchToolsId !== $churchToolsId) {
+            throw new \LogicException('The ChurchTools ID cannot be changed.');
+        }
+
+        $this->churchToolsId = $churchToolsId;
+        return $this;
+    }
+
 
     public static function getAllWorkerStatus()
     {
