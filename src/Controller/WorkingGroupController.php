@@ -5,27 +5,33 @@ namespace App\Controller;
 use App\Entity\Person;
 use App\Entity\WorkingGroup;
 use App\Form\WorkingGroupType;
+use App\Repository\PersonRepository;
+use App\Repository\WorkingGroupRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * WorkingGroup controller.
  */
-#[Route(path: '/workinggroup')]
+#[Route(path: '/working-group')]
 class WorkingGroupController extends AbstractController
 {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    ) {
+    }
 
     /**
      * Lists all WorkingGroup workingGroups.
      */
     #[Route(path: '/', name: 'app.workinggroup.index')]
-    public function indexAction()
+    public function indexAction(WorkingGroupRepository $repo): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $workingGroups = $em->getRepository(WorkingGroup::class)->findAllForListing();
+        $workingGroups = $repo->findAllForListing();
 
         return $this->render('/working_group/index.html.twig', array(
             'working_groups' => $workingGroups,
@@ -44,9 +50,8 @@ class WorkingGroupController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($workingGroup);
-                $em->flush();
+                $this->entityManager->persist($workingGroup);
+                $this->entityManager->flush();
 
                 $this->addFlash('success', 'The entry has been created.');
 
@@ -73,8 +78,7 @@ class WorkingGroupController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->flush();
+                $this->entityManager->flush();
 
                 $this->addFlash('success', 'All changes have been saved.');
 
@@ -96,9 +100,8 @@ class WorkingGroupController extends AbstractController
     #[Route(path: '/{id}/delete', name: 'app.workinggroup.delete')]
     public function delete(WorkingGroup $workingGroup)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($workingGroup);
-        $em->flush();
+        $this->entityManager->remove($workingGroup);
+        $this->entityManager->flush();
 
         $this->addFlash('success', 'The entry has been deleted.');
 
@@ -106,14 +109,12 @@ class WorkingGroupController extends AbstractController
     }
 
     #[Route(path: '/assignables', name: 'app.workinggroup.assignables')]
-    public function assignablesAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $personRepo = $em->getRepository(Person::class);
+    public function assignablesAction(
+        PersonRepository $personRepo,
+        WorkingGroupRepository $workingGroupRepo,
+    ): Response {
         $persons = $personRepo->findPersonsToBeAssignedToWorkingGroup();
-
-        $workingGroups = $em->getRepository(WorkingGroup::class)->findAll();
+        $workingGroups = $workingGroupRepo->findAll();
 
         return $this->render('/working_group/assignables.html.twig', array(
             'persons' => $persons,
@@ -122,12 +123,11 @@ class WorkingGroupController extends AbstractController
     }
 
     #[Route(path: '/assign', name: 'app.workinggroup.assign', methods: ['POST'])]
-    public function assignAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $personRepo = $em->getRepository(Person::class);
-        $groupRepo = $em->getRepository(WorkingGroup::class);
-
+    public function assignAction(
+        Request $request,
+        PersonRepository $personRepo,
+        WorkingGroupRepository $groupRepo,
+    ): Response {
         foreach ($request->get('person-to-group', array()) as $personId => $groupId) {
             if (empty($personId) || empty($groupId)) {
                 continue;
@@ -144,19 +144,16 @@ class WorkingGroupController extends AbstractController
             }
         }
 
-        $em->flush();
+        $this->entityManager->flush();
 
         $this->addFlash('success', 'Saved assignments.');
 
-        return $this->redirect($this->generateUrl('app.workinggroup.assignables'));
+        return $this->redirectToRoute('app.workinggroup.assignables');
     }
 
     #[Route(path: '/persons_unable_to_work', name: 'app.workinggroup.persons_unable_to_work')]
-    public function personsUnableToWorkAction()
+    public function personsUnableToWorkAction(PersonRepository $personRepo): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $personRepo = $em->getRepository(Person::class);
         $persons = $personRepo->findPersonsUnableToWork();
 
         return $this->render('working_group/persons_unable_to_work.html.twig', array(
@@ -166,13 +163,13 @@ class WorkingGroupController extends AbstractController
     }
 
     #[Route(path: '/update_worker_status', name: 'app.workinggroup.update_worker_status', methods: ['POST'])]
-    public function updateWorkerStatusAction(Request $request, TranslatorInterface $translator)
-    {
-        $em = $this->getDoctrine()->getManager();
-
+    public function updateWorkerStatusAction(
+        Request $request,
+        PersonRepository $personRepo,
+        TranslatorInterface $translator
+    ): Response {
         $workerStatus = $request->get('worker_status', []);
 
-        $personRepo = $em->getRepository(Person::class);
         $persons = $personRepo->findBy(['id' => array_keys($workerStatus)]);
 
         $changedStatus = 0;
@@ -187,7 +184,7 @@ class WorkingGroupController extends AbstractController
             }
         }
 
-        $em->flush();
+        $this->entityManager->flush();
 
         $msg = 'The worker status of %number% persons has been changed.';
         $this->addFlash('success', $translator->trans($msg, ['%number%' => $changedStatus]));
