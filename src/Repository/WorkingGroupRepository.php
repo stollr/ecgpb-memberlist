@@ -2,16 +2,23 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use App\Entity\Person;
+use App\Entity\WorkingGroup;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * App\Repository\WorkingGroupRepository
  *
- * @author naitsirch
+ * @author Christian Stoller
  */
-class WorkingGroupRepository extends EntityRepository
+class WorkingGroupRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, WorkingGroup::class);
+    }
+
     public function findAllForListing()
     {
         $minimumAge = new \DateTime();

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Address;
 use App\Entity\Ministry;
 use App\Entity\WorkingGroup;
+use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,7 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 /**
  * App\Entity\Person
  */
-#[ORM\Entity(repositoryClass: 'App\Repository\PersonRepository')]
+#[ORM\Entity(repositoryClass: PersonRepository::class)]
 #[ORM\Table(name: 'person')]
 #[Gedmo\Loggable]
 class Person
@@ -35,7 +36,7 @@ class Person
     const WORKER_STATUS_DEPENDING = 1;
 
     /**
-     * People younger than 65 years, but not able to work anymore.
+     * People younger than 65 years, but not able to work.
      */
     const WORKER_STATUS_INVALID = 2;
 

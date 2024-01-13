@@ -67,7 +67,7 @@ class ChurchtoolsSyncCommand extends Command
                 continue;
             }
 
-            $person = $this->personRepo->findOneOrNullByLastnameFirstnameAndDob(
+            $person = $this->personRepo->findOneByLastnameFirstnameAndDob(
                 $ctPerson->getLastName(),
                 $ctPerson->getFirstName(),
                 new \DateTimeImmutable($ctPerson->getBirthday())

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}ChurchTools Sync{% endtrans %} - {{ parent() }}{% endblock %}
+
+{% block body -%}
+    <h2>{% trans %}ChurchTools Sync{% endtrans %}</h2>
+    
+    <div class="row">
+        <section class="col-md-6">
+            <div class="card"">
+                <div class="card-header">
+                    {% trans %}Working groups{% endtrans %}
+                </div>
+                <div class="card-body">
+                    <form action="{{ path('app.churchtools_sync.sync_working_groups') }}" method="post">
+                        <div class="form-group">
+                            <label for="group-type-id">{% trans %}Select group type{% endtrans %}</label>
+                            <select class="form-control" id="group-type-id" name="group_type_id" required>
+                                <option></option>
+                                {% for groupType in groupTypes %}
+                                    <option value="{{ groupType.id }}">{{ groupType.namePlural }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            {% trans %}Start{% endtrans %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('churchtools_sync.index') }}
+{% endblock %}

@@ -109,6 +109,7 @@ class Synchronizer
             $person = new Person();
             $person->setAddress(new Address());
 
+            $person->setChurchToolsId($ctPerson->getId());
             $person->setFirstname(trim($ctPerson->getFirstName()));
             $person->getAddress()->setFamilyName(trim($ctPerson->getLastName()));
 
@@ -178,6 +179,8 @@ class Synchronizer
 
         if (!$ctPerson->getId()) {
             PersonRequest::create($ctPerson, force: $force);
+
+            $person->setChurchToolsId($ctPerson->getId());
             $this->uploadChurchToolsPersonImage($ctPerson, $person);
             return;
         }

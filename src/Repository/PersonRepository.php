@@ -46,7 +46,7 @@ class PersonRepository extends ServiceEntityRepository
      *
      * @throws NonUniqueResultException
      */
-    public function findOneOrNullByLastnameFirstnameAndDob(string $lastname, string $firstname, \DateTimeInterface $dob): ?Person
+    public function findOneByLastnameFirstnameAndDob(string $lastname, string $firstname, \DateTimeInterface $dob): ?Person
     {
         $qb = $this->createQueryBuilder('person')
             ->join('person.address', 'address')
