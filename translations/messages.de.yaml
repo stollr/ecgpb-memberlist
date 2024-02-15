@@ -38,7 +38,6 @@ Delete Address: Adresse löschen
 Delete Person: Person löschen
 'Delete record': 'Datensatz löschen'
 'Delete Record': 'Datensatz löschen'
-'Depending on Age (< 65)': 'Abhängig vom Alter (< 65)'
 'Description': 'Beschreibung'
 'Differing Last Name': 'Abweichender Nachname'
 'Do you really want to delete this entry?': 'Möchten Sie diesen Eintrag wirklich löschen?'
@@ -143,6 +142,7 @@ Total Members: Gesamtanzahl
 Unable: Unfähig
 Unassigned Persons: Nicht-zugeordnete Personen
 Undo Changes: Änderungen rückgängig machen
+'Until age limit': 'Until age limit'
 Update: Aktualisieren
 Variance of Age: Varianz des Alters
 'von, van, etc.': 'von, van, usw.'

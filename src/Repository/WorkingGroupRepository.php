@@ -10,39 +10,45 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * App\Repository\WorkingGroupRepository
  *
- * @author Christian Stoller
+ * @extends ServiceEntityRepository<WorkingGroup>
  */
 class WorkingGroupRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly int $ageLimit,
+    ) {
         parent::__construct($registry, WorkingGroup::class);
     }
 
-    public function findAllForListing()
+    /**
+     * @return WorkingGroup[]
+     */
+    public function findAllForListing(): array
     {
-        $minimumAge = new \DateTime();
-        $minimumAge->modify('-65 year');
+        $dobOffset = new \DateTimeImmutable("-{$this->ageLimit} years");
 
-        $dql = 'SELECT workingGroup, leader, person ' .
+        $dql = 'SELECT workingGroup, leader ' .
                'FROM App\Entity\WorkingGroup workingGroup ' .
                'LEFT JOIN workingGroup.leader leader ' .
                'LEFT JOIN workingGroup.persons  person ' .
                'WHERE person.workerStatus = :depending ' .
-               'AND person.dob > :minimumAge ' .
+               'AND person.dob > :dobOffset ' .
                'ORDER BY workingGroup.gender, workingGroup.number'
         ;
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('depending', Person::WORKER_STATUS_DEPENDING);
-        $query->setParameter('minimumAge', $minimumAge->format('Y-m-d'));
+        $query->setParameter('depending', Person::WORKER_STATUS_UNTIL_AGE_LIMIT);
+        $query->setParameter('dobOffset', $dobOffset->format('Y-m-d'));
 
         return $query->getResult();
     }
 
-    public function findAllForMemberPdf()
+    /**
+     * @return WorkingGroup[]
+     */
+    public function findAllForMemberPdf(): array
     {
-        $minimumAge = new \DateTime();
-        $minimumAge->modify('-65 year');
+        $dobOffset = new \DateTimeImmutable("-{$this->ageLimit} years");
 
         $dql = 'SELECT workingGroup, person, leader ' .
                'FROM App\Entity\WorkingGroup workingGroup ' .
@@ -50,12 +56,12 @@ class WorkingGroupRepository extends ServiceEntityRepository
                'JOIN person.address address ' .
                'LEFT JOIN workingGroup.leader leader ' .
                'WHERE person.workerStatus = :depending ' .
-               'AND person.dob > :minimumAge ' .
+               'AND person.dob > :dobOffset ' .
                'ORDER BY workingGroup.gender, workingGroup.number, address.familyName, person.firstname'
         ;
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('depending', Person::WORKER_STATUS_DEPENDING);
-        $query->setParameter('minimumAge', $minimumAge->format('Y-m-d'));
+        $query->setParameter('depending', Person::WORKER_STATUS_UNTIL_AGE_LIMIT);
+        $query->setParameter('dobOffset', $dobOffset->format('Y-m-d'));
 
         return $query->getResult();
     }

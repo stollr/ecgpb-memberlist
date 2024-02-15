@@ -579,6 +579,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
     private function addWorkingGroups(\TCPDF $pdf)
     {
+        $ageLimit = $this->parameters['ecgpb.working_groups.age_limit'];
         $groupTypes = array();
         foreach ($this->getWorkingGroups() as $group) {
             $groupTypes[$group->getGender()][] = $group;
@@ -644,7 +645,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     if ($person->getId() == $leaderId) {
                         continue;
                     }
-                    if ($person->getAge() >= 65 || $person->getWorkerStatus() != Person::WORKER_STATUS_DEPENDING) {
+                    if ($person->getAge() >= $ageLimit || $person->getWorkerStatus() != Person::WORKER_STATUS_UNTIL_AGE_LIMIT) {
                         continue;
                     }
                     $born = $person->getDob()->format('Y');

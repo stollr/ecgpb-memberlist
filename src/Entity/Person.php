@@ -33,10 +33,10 @@ class Person
     /**
      * Persons whose working status depends on their age.
      */
-    const WORKER_STATUS_DEPENDING = 1;
+    const WORKER_STATUS_UNTIL_AGE_LIMIT = 1;
 
     /**
-     * People younger than 65 years, but not able to work.
+     * People younger than the age limit years, but not able to work.
      */
     const WORKER_STATUS_INVALID = 2;
 
@@ -109,7 +109,7 @@ class Person
      */
     #[ORM\Column(name: 'worker_status', type: 'smallint', nullable: false)]
     #[Gedmo\Versioned]
-    private int $workerStatus = self::WORKER_STATUS_DEPENDING;
+    private int $workerStatus = self::WORKER_STATUS_UNTIL_AGE_LIMIT;
 
     /**
      * @var string|null
@@ -403,11 +403,13 @@ class Person
         return $this;
     }
 
-
-    public static function getAllWorkerStatus()
+    /**
+     * @return array<int, string>
+     */
+    public static function getAllWorkerStatus(): array
     {
         return array(
-            self::WORKER_STATUS_DEPENDING => 'Depending on Age (< 65)',
+            self::WORKER_STATUS_UNTIL_AGE_LIMIT => 'Until age limit',
             self::WORKER_STATUS_INVALID => 'Invalid/Sick',
             self::WORKER_STATUS_OTHER_MINISTRIES => 'Other Ministries',
             self::WORKER_STATUS_UNABLE_RESIDENCE => 'Residence far away',

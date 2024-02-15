@@ -51,8 +51,9 @@ class ExportController extends AbstractController
     }
 
     #[Route(name: 'app.export.csv', path: '/csv')]
-    public function csvAction()
+    public function csvAction(): Response
     {
+        $ageLimit = $this->getParameter('ecgpb.working_groups.age_limit');
         $phoneUtil = PhoneNumberUtil::getInstance();
 
         $repo = $this->getDoctrine()->getRepository(Person::class);
@@ -69,8 +70,8 @@ class ExportController extends AbstractController
         foreach ($persons as $person) {
             /* @var $person \App\Entity\Person */
             $workingGroup = null;
-            if ($person->getWorkerStatus() == Person::WORKER_STATUS_DEPENDING
-                && $person->getAge() < 65 && $person->getWorkingGroup()
+            if ($person->getWorkerStatus() === Person::WORKER_STATUS_UNTIL_AGE_LIMIT
+                && $person->getAge() < $ageLimit && $person->getWorkingGroup()
             ) {
                 $workingGroup = $person->getWorkingGroup()->getDisplayName($this->translator);
             }

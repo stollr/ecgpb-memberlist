@@ -27,6 +27,7 @@ class WorkingGroupSynchronizer
         private readonly PersonRepository $personRepo,
         private readonly EntityManagerInterface $entityManager,
         private readonly TranslatorInterface $translator,
+        private readonly int $ageLimit,
         string $churchtoolsApiBaseUrl,
         #[\SensitiveParameter]
         string $churchtoolsApiToken,
@@ -161,7 +162,7 @@ class WorkingGroupSynchronizer
                 continue;
             }
 
-            if ($person->getAge() >= 65 || $person->getWorkerStatus() !== Person::WORKER_STATUS_DEPENDING) {
+            if ($person->getAge() >= $this->ageLimit || $person->getWorkerStatus() !== Person::WORKER_STATUS_UNTIL_AGE_LIMIT) {
                 $issues[] = $this->translator->trans('%person% is member of working group "%group%" in ChurchTools although the person is unsuitable.', [
                     '%person%' => $person->getDisplayNameDob(),
                     '%group%' => $ctGroup->getName(),

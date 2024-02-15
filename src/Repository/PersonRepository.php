@@ -16,8 +16,10 @@ class PersonRepository extends ServiceEntityRepository
 {
     private static $nameCache;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly int $ageLimit,
+    ) {
         parent::__construct($registry, Person::class);
     }
 
@@ -96,7 +98,7 @@ class PersonRepository extends ServiceEntityRepository
      * Returns all persons who are (or will become) at least 65 years old (in this year).
      * @return Person[]
      */
-    public function findSeniors()
+    public function findSeniors(): array
     {
         $maxDate = new \DateTime();
         $maxDate->setDate((int) $maxDate->format('Y'), 1, 1);
@@ -128,46 +130,45 @@ class PersonRepository extends ServiceEntityRepository
      */
     public function findPersonsToBeAssignedToWorkingGroup()
     {
-        $minimumAge = new \DateTime();
-        $minimumAge->modify('-65 year');
+        $dobOffset = new \DateTimeImmutable("-{$this->ageLimit} years");
 
         $dql = 'SELECT person, address
                 FROM App\Entity\Person person
                 JOIN person.address address
                 LEFT JOIN person.leaderOf leadingWorkingGroup
                 WHERE (person.workingGroup IS NULL AND leadingWorkingGroup.id IS NULL)
-                AND person.workerStatus = :depending
-                AND person.dob > :minimum_age
+                AND person.workerStatus = :untilAgeLimit
+                AND person.dob > :dobOffset
                 ORDER By address.familyName, person.firstname'
         ;
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('depending', Person::WORKER_STATUS_DEPENDING);
-        $query->setParameter('minimum_age', $minimumAge->format('Y-m-d'));
+        $query->setParameter('untilAgeLimit', Person::WORKER_STATUS_UNTIL_AGE_LIMIT);
+        $query->setParameter('dobOffset', $dobOffset->format('Y-m-d'));
 
         return $query->getResult();
     }
 
     /**
-     * Find persons that are under 65 years old but unable to work.
+     * Find persons that are under the age limit old but unable to work.
      *
      * @return array|Person[]
      */
     public function findPersonsUnableToWork()
     {
-        $minimumAge = new \DateTimeImmutable('-65 year');
+        $dobOffset = new \DateTimeImmutable("-{$this->ageLimit} years");
 
         $dql = 'SELECT person, address
                 FROM App\Entity\Person person
                 JOIN person.address address
-                WHERE person.workerStatus != :depending
-                AND person.dob > :minimum_age
+                WHERE person.workerStatus != :untilAgeLimit
+                AND person.dob > :dobOffset
                 ORDER By address.familyName, person.firstname'
         ;
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('depending', Person::WORKER_STATUS_DEPENDING);
-        $query->setParameter('minimum_age', $minimumAge->format('Y-m-d'));
+        $query->setParameter('untilAgeLimit', Person::WORKER_STATUS_UNTIL_AGE_LIMIT);
+        $query->setParameter('dobOffset', $dobOffset->format('Y-m-d'));
 
         return $query->getResult();
     }
