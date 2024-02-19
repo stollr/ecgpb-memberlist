@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {% trans %}Working Groups{% endtrans %} - {{ parent() }}
+    {% trans %}Working groups{% endtrans %} - {{ parent() }}
 {% endblock %}
 
 {% block body -%}
     <div class="d-flex align-items-center mb-3">
         <h2 class="mr-auto">
-            {% trans %}Working Groups{% endtrans %}
+            {% trans %}Working groups{% endtrans %}
         </h2>
         <a class="btn btn-success" href="{{ path('app.workinggroup.new') }}">
             <i class="bi bi-plus-lg"></i>
