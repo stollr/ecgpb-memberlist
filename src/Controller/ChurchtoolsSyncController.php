@@ -5,8 +5,7 @@ namespace App\Controller;
 use App\Repository\WorkingGroupRepository;
 use App\Service\ChurchTools\WorkingGroupSynchronizer;
 use CTApi\CTConfig;
-use CTApi\Models\Groups\Group\GroupRequest;
-use CTApi\Models\Groups\Group\GroupTypeRequest;
+use CTApi\Models\Groups\GroupType\GroupTypeRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +18,7 @@ class ChurchtoolsSyncController extends AbstractController
     {
         CTConfig::setApiUrl($churchtoolsApiBaseUrl);
         CTConfig::setApiKey($churchtoolsApiToken);
+        \CTApi\CTLog::enableFileLog(false);
     }
 
     #[Route('/', name: 'app.churchtools_sync.index')]
