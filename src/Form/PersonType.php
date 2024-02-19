@@ -20,11 +20,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PersonType extends AbstractType
 {
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
+    public function __construct(
+        private TranslatorInterface $translator,
+        private int $workingGroupAgeLimit,
+    ) {
     }
 
     /**
@@ -33,6 +32,17 @@ class PersonType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $workerStatusChoices = [];
+
+        foreach (Person::getAllWorkerStatus() as $status => $label) {
+            $label = $status === Person::WORKER_STATUS_UNTIL_AGE_LIMIT
+                ? $this->translator->trans('Until age limit (%ageLimit% years)', [
+                    '%ageLimit%' => $this->workingGroupAgeLimit,
+                ])
+                : $label;
+            $workerStatusChoices[$label] = $status;
+        }
+
         if ($options['add_address_field']) {
             $builder->add('address', EntityType::class, [
                 'class' => Address::class,
@@ -83,7 +93,7 @@ class PersonType extends AbstractType
                 'required' => false,
             ])
             ->add('workerStatus', ChoiceType::class, [
-                'choices' => array_flip(Person::getAllWorkerStatus()),
+                'choices' => $workerStatusChoices,
                 'label' => 'Able to work',
             ])
             ->add('notice', TextareaType::class, [

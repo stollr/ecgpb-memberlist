@@ -59,7 +59,9 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
+    App\Form\PersonType:
+        arguments:
+            $workingGroupAgeLimit: '%ecgpb.working_groups.age_limit%'
 
     App\Helper\PersonHelper:
         arguments:
