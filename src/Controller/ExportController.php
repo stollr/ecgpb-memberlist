@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Person;
 use App\PdfGenerator\MemberListGenerator;
+use App\Repository\PersonRepository;
 use App\Service\BirthdayExcelGenerator;
 use App\Service\Export\SeniorsSpreadsheetGenerator;
 use libphonenumber\PhoneNumberFormat;
@@ -51,12 +52,11 @@ class ExportController extends AbstractController
     }
 
     #[Route(name: 'app.export.csv', path: '/csv')]
-    public function csvAction(): Response
+    public function csvAction(PersonRepository $repo): Response
     {
         $ageLimit = $this->getParameter('ecgpb.working_groups.age_limit');
         $phoneUtil = PhoneNumberUtil::getInstance();
 
-        $repo = $this->getDoctrine()->getRepository(Person::class);
         $builder = $repo->createQueryBuilder('person')
             ->select('person', 'address')
             ->join('person.address', 'address')
@@ -144,9 +144,8 @@ class ExportController extends AbstractController
     }
 
     #[Route(name: 'app.export.email_addresses', path: '/email_addresses')]
-    public function emailAddressesAction()
+    public function emailAddressesAction(PersonRepository $repo)
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository(Person::class);
         $emails = $repo->getAllEmailAdresses();
 
         $content = "Comma separated:\r\n\r\n" .

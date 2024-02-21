@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Entity\Ministry\Category;
 use App\Form\Ministry\CategoryType;
+use App\Repository\Ministry\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,12 +23,9 @@ class MinistryCategoryController extends AbstractController
     /**
      * Lists all Address entities.
      */
-    #[Route(name: 'app.ministry_category.index', path: '/', methods: ['GET'])]
-    public function index(): Response
+    #[Route('/', name: 'app.ministry_category.index', methods: ['GET'])]
+    public function index(CategoryRepository $repo): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $repo = $em->getRepository(Category::class); /* @var $repo \App\Repository\Ministry\CategoryRepository */
         $ministryCategories = $repo->findBy([], ['position' => 'asc']);
 
         return $this->render('/ministry_category/index.html.twig', array(
@@ -34,8 +33,8 @@ class MinistryCategoryController extends AbstractController
         ));
     }
 
-    #[Route(path: '/create', name: 'app.ministry_category.create')]
-    public function create(Request $request): Response
+    #[Route('/create', name: 'app.ministry_category.create')]
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
         $category = new Category();
 
@@ -43,7 +42,6 @@ class MinistryCategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
 
@@ -59,13 +57,13 @@ class MinistryCategoryController extends AbstractController
     }
 
     #[Route(path: '/{id}/edit', name: 'app.ministry_category.edit')]
-    public function edit(Category $category, Request $request): Response
+    public function edit(Category $category, Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em->flush();
 
             $this->addFlash('success', 'All changes have been saved.');
 
@@ -79,13 +77,12 @@ class MinistryCategoryController extends AbstractController
     }
 
     #[Route(path: '/{id}/delete', name: 'app.ministry_category.delete', methods: ['DELETE'])]
-    public function delete(Category $category, Request $request): Response
+    public function delete(Category $category, Request $request, EntityManagerInterface $em): Response
     {
         if (!$this->isCsrfTokenValid('delete_ministry_category', $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Invalid token.');
         }
 
-        $em = $this->getDoctrine()->getManager();
         $em->remove($category);
         $em->flush();
 
@@ -97,14 +94,17 @@ class MinistryCategoryController extends AbstractController
     /**
      * Edits an existing Address entity.
      */
-    #[Route(name: 'app.ministry_category.update', path: '/', methods: ['POST'], requirements: ['_format' => 'json'])]
-    public function update(Request $request, SerializerInterface $serializer): Response
-    {
+    #[Route('/', name: 'app.ministry_category.update', methods: ['POST'], requirements: ['_format' => 'json'])]
+    public function update(
+        Request $request,
+        SerializerInterface $serializer,
+        EntityManagerInterface $em,
+        CategoryRepository $repo,
+    ): Response {
         if ('json' != $request->getContentType()) {
             throw new \InvalidArgumentException('Wrong content type provided. JSON is expected.');
         }
 
-        $em = $this->getDoctrine()->getManager();
         $clientMinistryCategories = $request->toArray();
 
         $ministryNames = [];
@@ -117,8 +117,7 @@ class MinistryCategoryController extends AbstractController
             }
         }
 
-        $categories = $em->getRepository(Category::class)->findAll();
-        /* @var $categories Category[] */
+        $categories = $repo->findAll();
 
         $form = $this->createCategoriesForm($categories);
         $form->submit($clientMinistryCategories);

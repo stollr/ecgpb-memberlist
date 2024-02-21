@@ -10,7 +10,12 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * App\Repository\PersonRepository
  *
- * @author naitsirch
+ * @extends ServiceEntityRepository<Person>
+ *
+ * @method Person|null find(mixed $id)
+ * @method Person|null findOneBy(array $criteria, ?array $orderBy = null)
+ * @method Person[] findAll()
+ * @method Person[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
  */
 class PersonRepository extends ServiceEntityRepository
 {

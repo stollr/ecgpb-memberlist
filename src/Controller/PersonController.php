@@ -2,17 +2,19 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Form\Form;
-use Tcpdf\Extension\Attribute\BackgroundFormatterOptions;
 use App\Entity\Person;
 use App\Form\PersonType;
 use App\Helper\PersonHelper;
 use App\PdfGenerator\MemberListGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
+use Tcpdf\Extension\Attribute\BackgroundFormatterOptions;
 
 /**
  * Person controller.
@@ -33,13 +35,13 @@ class PersonController extends AbstractController
      * Displays a form to edit an existing Person entity.
      */
     #[Route(name: 'app.person.edit', path: '/{id}/edit', methods: ['GET', 'POST'])]
-    public function edit(Person $person, Request $request)
+    public function edit(Person $person, Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createPersonForm($person);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em->flush();
 
             // person photo file
             if ($file = $request->files->get('person-picture-file')) {
@@ -78,10 +80,8 @@ class PersonController extends AbstractController
      * Deletes a Person entity.
      */
     #[Route(name: 'app.person.delete', path: '/{id}/delete')]
-    public function delete(Person $person)
+    public function delete(Person $person, EntityManagerInterface $em): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
         if ($person->getLeaderOf()) {
             $person->getLeaderOf()->setLeader(null);
         }

@@ -2,16 +2,25 @@
 
 namespace App\Repository\Ministry;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Ministry\Category;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * App\Repository\Ministry\CategoryRepository
  *
- * @author naitsirch
+ * @extends ServiceEntityRepository<Category>
+ *
+ * @method Category|null find(mixed $id)
+ * @method Category|null findOneBy(array $criteria, ?array $orderBy = null)
+ * @method Category[] findAll()
+ * @method Category[] findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends EntityRepository
+class CategoryRepository extends ServiceEntityRepository
 {
-    public function findAllForListing()
+    /**
+     * @return Category[]
+     */
+    public function findAllForListing(): array
     {
         return $this->createQueryBuilder('category')
             ->select(
