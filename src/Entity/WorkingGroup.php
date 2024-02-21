@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Entity\Person;
 use App\Repository\WorkingGroupRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
