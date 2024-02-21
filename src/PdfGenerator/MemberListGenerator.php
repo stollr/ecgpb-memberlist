@@ -809,7 +809,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $table->end();
     }
 
-    private function addBuildingUsageCosts(\TCPDF $pdf)
+    private function addBuildingUsageCosts(\TCPDF $pdf): void
     {
         $pdf->AddPage();
 
@@ -820,9 +820,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addHeadlineMargin($pdf);
 
         // description text
-        $this->useFontSizeL($pdf);
+        $this->useFontSizeM($pdf);
         $this->useFontStyleNormal($pdf);
         $pdf->Write(4, "Die Räumlichkeiten unseres Gemeindehauses können auch für private Veranstaltungen gegen einen entsprechenden Kostenbeitrag genutzt werden.");
+        $this->addParagraphMargin($pdf);
         $this->addParagraphMargin($pdf);
 
         // private parties
@@ -834,12 +835,12 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $table = $this->addTable($pdf);
         $table
             ->newRow()
-                ->newCell('Für Gemeindeglieder:')->setWidth(50)->end()
-                ->newCell('1,50 EUR/Pers.')->setWidth(50)->end()
+                ->newCell('Für Gemeindeglieder:')->setWidth(60)->end()
+                ->newCell('2,50 EUR/Pers.')->setWidth(40)->end()
             ->end()
             ->newRow()
                 ->newCell('Für Auswärtige:')->end()
-                ->newCell('3,00 EUR/Pers.')->end()
+                ->newCell('4,50 EUR/Pers.')->end()
             ->end()
             ->newRow()
                 ->newCell("\nNur Trauung\n\n")->setColspan(2)->end()
@@ -851,6 +852,9 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             ->newRow()
                 ->newCell('Für Auswärtige:')->end()
                 ->newCell('100,00 EUR pauschal')->end()
+            ->end()
+            ->newRow()
+                ->newCell(sprintf("\nKontaktperson ist %s\n\n", $this->parameters['ecgpb.contact.private_parties.name']))->setColspan(2)->end()
             ->end()
         ;
         $table->end();
@@ -866,22 +870,26 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $table = $this->addTable($pdf);
         $table
             ->newRow()
-                ->newCell('Für Gemeindeglieder:')->setWidth(50)->end()
-                ->newCell('1,00 EUR/Pers.')->setWidth(50)->end()
+                ->newCell('Für Gemeindeglieder:')->setWidth(60)->end()
+                ->newCell('2,50 EUR/Pers.')->setWidth(40)->end()
             ->end()
             ->newRow()
                 ->newCell("")->setColspan(2)->end()
             ->end()
             ->newRow()
-                ->newCell('Für Auswärtige bis 150 Personen:')->end()
-                ->newCell('3,00 EUR/Pers.')->setVerticalAlign(Cell::VERTICAL_ALIGN_BOTTOM)->end()
+                ->newCell('Für Auswärtige bis 30 Personen:')->end()
+                ->newCell('150,00 EUR pauschal')->setVerticalAlign(Cell::VERTICAL_ALIGN_BOTTOM)->end()
             ->end()
             ->newRow()
-                ->newCell("")->setColspan(2)->end()
+                ->newCell('Von 31 bis 149 Personen:')->end()
+                ->newCell('4,50 EUR/Pers.')->setVerticalAlign(Cell::VERTICAL_ALIGN_BOTTOM)->end()
             ->end()
             ->newRow()
                 ->newCell('Ab 150 Personen:')->end()
-                ->newCell('500,00 EUR pauschal')->end()
+                ->newCell('600,00 EUR pauschal')->end()
+            ->end()
+            ->newRow()
+                ->newCell(sprintf("\nKontaktperson ist %s\n\n", $this->parameters['ecgpb.contact.funerals.name']))->setColspan(2)->end()
             ->end()
         ;
         $table->end();
@@ -897,8 +905,8 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $table = $this->addTable($pdf);
         $table
             ->newRow()
-                ->newCell('Pauschal:')->setWidth(50)->end()
-                ->newCell('300,00 EUR')->setWidth(50)->end()
+                ->newCell('Pauschal:')->setWidth(60)->end()
+                ->newCell('300,00 EUR')->setWidth(40)->end()
             ->end()
             ->newRow()
                 ->newCell("\nFür den Transport des Essens sorgt der Veranstalter der Feier")->setColspan(2)->end()
