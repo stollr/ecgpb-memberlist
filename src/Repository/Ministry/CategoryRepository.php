@@ -4,6 +4,7 @@ namespace App\Repository\Ministry;
 
 use App\Entity\Ministry\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * App\Repository\Ministry\CategoryRepository
@@ -17,6 +18,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Category::class);
+    }
+
     /**
      * @return Category[]
      */
