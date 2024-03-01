@@ -30,7 +30,7 @@ class PersonType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $workerStatusChoices = [];
 
@@ -68,6 +68,7 @@ class PersonType extends AbstractType
             ->add('dob', DateType::class, [
                 'label' => 'Date of Birth',
                 'widget' => 'single_text',
+                'required' => $builder->getData()?->getDob() !== null,
             ])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
@@ -105,7 +106,7 @@ class PersonType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Person::class,
@@ -116,7 +117,7 @@ class PersonType extends AbstractType
     /**
      * @return string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'person';
     }
