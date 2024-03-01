@@ -282,7 +282,7 @@ class Synchronizer
             return $this->phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
         }
         
-        $phoneNumber = trim(str_replace(['-', ' ', '/'], '', $phoneNumber));
+        $phoneNumber = trim(str_replace(['-', ' ', '/', "\u{00A0}"], '', $phoneNumber));
 
         if (!empty($phoneNumber) && '0' === $phoneNumber[0]) {
             $phoneNumber = '+49' . substr($phoneNumber, 1);
