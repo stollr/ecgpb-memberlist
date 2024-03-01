@@ -39,7 +39,7 @@ class ImportCsvCommand extends ContainerAwareCommand
         // load existing members
         $existingPersons = array();
         foreach ($em->getRepository(Person::class)->findAll() as $person) {
-            $index = $person->getLastnameAndFirstname() . ', ' . $person->getDob()->format('d.m.Y');
+            $index = $person->getLastnameAndFirstname() . ', ' . $person->getDob()?->format('d.m.Y');
             $existingPersons[$index] = $person;
         }
 

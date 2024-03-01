@@ -67,6 +67,25 @@ class PersonRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+    
+    /**
+     * @return Person[]
+     */
+    public function findByLastnameAndFirstnameWithoutChurchToolsId(string $lastname, string $firstname): array
+    {
+        $query = $this->getEntityManager()->createQuery(<<<DQL
+            SELECT person, address
+            FROM App\Entity\Person person
+            JOIN person.address address
+            WHERE person.firstname = :firstname
+            AND (person.lastname = :lastname OR address.familyName = :lastname)
+            AND person.churchToolsId IS NULL
+            DQL);
+        $query->setParameter('lastname', $lastname);
+        $query->setParameter('firstname', $firstname);
+
+        return $query->getResult();
+    }
 
     public function findAllForMinistryListing()
     {
@@ -79,11 +98,15 @@ class PersonRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findAllForBirthdayList()
+    /**
+     * @return Person[]
+     */
+    public function findAllForBirthdayList(): array
     {
         $qb = $this->createQueryBuilder('person')
             ->select('person', 'address')
             ->join('person.address', 'address')
+            ->where('person.dob IS NOT NULL')
             ->orderBy('person.dob')
         ;
 
@@ -101,6 +124,7 @@ class PersonRepository extends ServiceEntityRepository
 
     /**
      * Returns all persons who are (or will become) at least 65 years old (in this year).
+     *
      * @return Person[]
      */
     public function findSeniors(): array

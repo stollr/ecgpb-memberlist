@@ -72,7 +72,7 @@ class Person
     /**
      * Date of birth
      */
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'date', nullable: true)]
     #[Gedmo\Versioned]
     #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?\DateTime $dob = null;
@@ -170,7 +170,8 @@ class Person
      */
     public function getDisplayNameDob(): string
     {
-        return $this->getFirstnameAndLastname() . ' (' . $this->getDob()->format('Y') . ')';
+        $year = $this->getDob() ? $this->getDob()->format('Y') : '0000';
+        return $this->getFirstnameAndLastname() . ' (' . $year . ')';
     }
 
     /**
@@ -189,7 +190,8 @@ class Person
      */
     public function getLastnameFirstnameAndDob(): string
     {
-        return $this->getLastnameAndFirstname() . ' (' . $this->getDob()->format('Y') . ')';
+        $year = $this->getDob() ? $this->getDob()->format('Y') : '0000';
+        return $this->getLastnameAndFirstname() . ' (' . $year . ')';
     }
 
     /**

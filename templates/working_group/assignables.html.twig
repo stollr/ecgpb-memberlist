@@ -25,7 +25,7 @@
                         {{ person.firstname }}
                     </td>
                     <td>
-                        {{ person.dob | format_date('medium') }}
+                        {{ person.dob ? person.dob | format_date('medium') : '' }}
                     </td>
                     <td>
                         {% trans %}Yes{% endtrans %}

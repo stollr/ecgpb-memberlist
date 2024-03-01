@@ -70,7 +70,7 @@
                                     <tr>
                                         <td>{{ person.address.familyName }}</td>
                                         <td>{{ person.firstname }}</td>
-                                        <td>{{ person.dob | format_date('medium') }}</td>
+                                        <td>{{ person.dob ? person.dob | format_date('medium') : '' }}</td>
                                     </tr>
                                     {% else %}
                                         <tr>

@@ -5,12 +5,14 @@ namespace App\Command;
 use App\Entity\Person;
 use App\Repository\PersonRepository;
 use App\Service\ChurchTools\Synchronizer;
+use CTApi\Models\Groups\Person\Person as CtPerson;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Command to synchronize personal data upstream to churchtools.
@@ -19,22 +21,13 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
  */
 class ChurchtoolsSyncCommand extends Command
 {
-    private EntityManagerInterface $entityManager;
-
-    private Synchronizer $synchronizer;
-
-    private PersonRepository $personRepo;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        Synchronizer $synchronizer,
-        PersonRepository $personRepo,
+        private EntityManagerInterface $entityManager,
+        private Synchronizer $synchronizer,
+        private PersonRepository $personRepo,
+        private TranslatorInterface $translator,
     ) {
         parent::__construct(null);
-
-        $this->entityManager = $entityManager;
-        $this->synchronizer = $synchronizer;
-        $this->personRepo = $personRepo;
     }
 
     protected function configure()
@@ -53,25 +46,31 @@ class ChurchtoolsSyncCommand extends Command
         $comparedPersons = $issues = $namesOfCtPersonsWithoutDob = [];
 
         foreach ($this->synchronizer->iterateOverChurchtoolPersons() as $ctPerson) {
-            if (!$ctPerson->getBirthday()) {
-                $name = $ctPerson->getFirstName() . ' ' . $ctPerson->getLastName();
-                $namesOfCtPersonsWithoutDob[] = $name;
-                $issues[] = $msg = "$name is available in ChurchTools, but has no date of birth. "
-                    . "A comparison is inappropriate, because different persons may have the same name. "
-                    . "Date of birth is needed for automatic comparison. Please check manually.\n";
+            $person = $this->personRepo->findOneBy(['churchToolsId' => $ctPerson->getId()]);
 
-                if ($output->isVerbose()) {
-                    $output->writeln("$msg\n---------------------------\n");
-                }
-
-                continue;
+            if (!$person && $ctPerson->getBirthday()) {
+                $person = $this->personRepo->findOneByLastnameFirstnameAndDob(
+                    $ctPerson->getLastName(),
+                    $ctPerson->getFirstName(),
+                    $ctPerson->getBirthdayAsDateTime()
+                );
             }
 
-            $person = $this->personRepo->findOneByLastnameFirstnameAndDob(
-                $ctPerson->getLastName(),
-                $ctPerson->getFirstName(),
-                new \DateTimeImmutable($ctPerson->getBirthday())
-            );
+            if (!$person) {
+                $personChoices = $this->personRepo->findByLastnameAndFirstnameWithoutChurchToolsId(
+                    $ctPerson->getLastName(),
+                    $ctPerson->getFirstName()
+                );
+
+                if (count($personChoices) > 0) {
+                    $person = $this->askForCorrectPerson($ctPerson, $personChoices, $input, $output);
+                }
+            }
+
+            if ($person && !$person->getChurchToolsId()) {
+                $person->setChurchToolsId($ctPerson->getId());
+                $this->entityManager->flush();
+            }
 
             if ($person) {
                 $comparedPersons[] = $person;
@@ -104,7 +103,7 @@ class ChurchtoolsSyncCommand extends Command
             ]);
 
             foreach ($diff as $attr => $values) {
-                $table->addRow(array_merge([$attr], $values));
+                $table->addRow([$attr, ...$values]);
             }
 
             // Add last update timestamp
@@ -129,15 +128,20 @@ class ChurchtoolsSyncCommand extends Command
             $helper = $this->getHelper('question');
             $question = new ChoiceQuestion(
                 'How should the data be synchronized?',
-                ['skip', 'update locally', 'update churchtools', 'terminate'],
-                0
+                [
+                    'skip',
+                    $person ? 'update locally' : 'add locally',
+                    $ctPerson ? 'update churchtools' : 'add to churchtools',
+                    'terminate',
+                ],
+                'skip'
             );
 
             $mode = $helper->ask($input, $output, $question);
 
             if ($mode === 'skip') {
                 $output->writeln('No synchronization done.');
-            } elseif ($mode === 'update locally') {
+            } elseif (in_array($mode, ['update locally', 'add locally'])) {
                 $tuple = $this->synchronizer->overrideLocalPerson($person, $ctPerson);
                 $this->entityManager->flush();
 
@@ -148,7 +152,7 @@ class ChurchtoolsSyncCommand extends Command
                 }
 
                 $output->writeln($ctPerson ? "Local person's data has been updated." : "Local person's data has been removed.");
-            } elseif ($mode === 'update churchtools') {
+            } elseif (in_array($mode, ['update churchtools', 'add to churchtools'])) {
                 $this->synchronizer->overrideChurchToolsPerson($ctPerson, $person);
 
                 if ($person) {
@@ -200,6 +204,42 @@ class ChurchtoolsSyncCommand extends Command
         }
 
         return 0;
+    }
+
+    private function askForCorrectPerson(CtPerson $ctPerson, array $personChoices, InputInterface $input, OutputInterface $output): ?Person
+    {
+        $properties = implode(', ', array_filter([
+            $ctPerson->getEmail(),
+            $ctPerson->getStreet(),
+            $ctPerson->getZip().' '.$ctPerson->getCity(),
+        ]));
+
+        $questionString = $this->translator->trans(
+            '%firstName% %lastName% (%properties%) from ChurchTools does not have a day of birth. Does one of the following persons match?',
+            [
+                '%firstName%' => $ctPerson->getFirstName(),
+                '%lastName%' => $ctPerson->getLastName(),
+                '%properties%' => $properties,
+            ]
+        );
+
+        $choices = array_map(function ($p) {
+            return implode(', ', array_filter([
+                $p->getFirstname().' '.($p->getLastname() ?: $p->getAddress()->getFamilyName()),
+                $p->getDob()?->format('d.m.Y'),
+                $p->getEmail(),
+                $p->getAddress()->getStreet(),
+                $p->getAddress()->getZip().' '.$p->getAddress()->getCity(),
+            ]));
+        }, $personChoices);
+
+        $helper = $this->getHelper('question');
+        $question = new ChoiceQuestion($questionString, $choices);
+
+        $selection = $helper->ask($input, $output, $question);
+        $selection = array_search($selection, $choices);
+
+        return $personChoices[$selection] ?? null;
     }
 
     private function askForSyncingMissingPersonToChurchtools(Person $person, InputInterface $input, OutputInterface $output, bool &$terminated = false): void

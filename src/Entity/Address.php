@@ -233,8 +233,10 @@ class Address
             if (count($persons) == 1
                 && $persons->get(0)->getGender() == Person::GENDER_FEMALE
                 && $person->getGender() == Person::GENDER_MALE
+                && $persons->get(0)->getDob() !== null
+                && $person->getDob() !== null
             ) {
-                $dobDiff = $persons->get(0)->getDob()->diff($person->getDob()); /* @var $dobDiff \DateInterval */
+                $dobDiff = $persons->get(0)->getDob()->diff($person->getDob());
                 if ($dobDiff->y <= 15) {
                     $wife = $persons->get(0);
                     $persons = new ArrayCollection();

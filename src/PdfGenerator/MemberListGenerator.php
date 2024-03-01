@@ -476,7 +476,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                         ->setWidth(22)
                     ->end()
                     ->newCell()
-                        ->setText($person ? $person->getDob()->format('d.m.Y') : '')
+                        ->setText($person && $person->getDob() ? $person->getDob()->format('d.m.Y') : '')
                         ->setAlign('C')
                         ->setBorder(1)
                         ->setFontSize(self::FONT_SIZE_XS)
@@ -626,8 +626,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 // group leader
                 if ($group->getLeader()) {
                     $leaderId = $group->getLeader()->getId();
-                    $born = $group->getLeader()->getDob()->format('Y');
-                    $bornText = $personRepo->isNameUnique($group->getLeader()) ? '' : 'geb. ' . $born . ', ';
+                    $bornText = '';
+                    if ($group->getLeader()->getDob() && !$personRepo->isNameUnique($group->getLeader())) {
+                        $born = $group->getLeader()->getDob()->format('Y');
+                        $bornText = 'geb. ' . $born . ', ';
+                    }
                     $phone = $group->getLeader()->getAddress()->getPhone() ?: $group->getLeader()->getMobile();
                     $phoneString = $this->formatPhoneNumber($phone);
                     $txt = $group->getLeader()->getLastnameAndFirstname() . ' (' . $bornText . 'verantwortlich, Tel. ' . $phoneString . ')';
@@ -648,8 +651,13 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                     if ($person->getAge() >= $ageLimit || $person->getWorkerStatus() != Person::WORKER_STATUS_UNTIL_AGE_LIMIT) {
                         continue;
                     }
-                    $born = $person->getDob()->format('Y');
-                    $nameSuffix = $personRepo->isNameUnique($person) ? '' : ' (geb. ' . $born . ')';
+
+                    $nameSuffix = '';
+                    if ($person->getDob() && !$personRepo->isNameUnique($person)) {
+                        $born = $person->getDob()->format('Y');
+                        $nameSuffix = $personRepo->isNameUnique($person) ? '' : ' (geb. ' . $born . ')';
+                    }
+
                     $txt = $person->getLastnameAndFirstname() . $nameSuffix;
                     $pdf->MultiCell($halfWidth, 0, $txt, 0, 'L', false, 1, $x);
                 }
@@ -831,9 +839,13 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->Write(4, "1. Privatfeiern, wie z.B. Weihnachtsfeiern, Geburtstagsfeiern oder Hochzeiten (Küche und Trauung)");
         $this->useFontStyleNormal($pdf);
         $this->addParagraphMargin($pdf);
-        $pdf->SetX($pdf->GetX() + 10);
+        $pdf->SetX($pdf->GetX() + 5);
         $table = $this->addTable($pdf);
         $table
+            ->setWidth(110)
+            ->newRow()
+                ->newCell("Die Angaben gelten für alle Räume, auch für den Jugendraum.\n\n")->setColspan(2)->end()
+            ->end()
             ->newRow()
                 ->newCell('Für Gemeindeglieder:')->setWidth(60)->end()
                 ->newCell('2,50 EUR/Pers.')->setWidth(40)->end()

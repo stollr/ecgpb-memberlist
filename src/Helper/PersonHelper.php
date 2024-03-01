@@ -8,7 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * App\Helper\PersonHelper
  *
- * @author naitsirch
+ * @author stollr
  */
 class PersonHelper
 {
@@ -34,9 +34,11 @@ class PersonHelper
      */
     public function getPersonPhotoFilename(Person $person): string
     {
+        $formattedDob = $person->getDob() ? $person->getDob()->format('Y-m-d') : '0000-00-00';
+
         $filename = $person->getAddress()->getFamilyName() . '_'
             . $person->getFirstname() . '_'
-            . $person->getDob()->format('Y-m-d') . '.jpg'
+            . $formattedDob . '.jpg'
         ;
 
         return str_replace("'", '', $filename);
@@ -65,7 +67,8 @@ class PersonHelper
 
         $ids = array();
         foreach ($personDatas as $personData) {
-            $filename = $personData['familyName'] . '_' . $personData['firstname'] . '_' . $personData['dob']->format('Y-m-d') . '.jpg';
+            $dob = $personData['dob'] ? $personData['dob']->format('Y-m-d') : '0000-00-00';
+            $filename = $personData['familyName'] . '_' . $personData['firstname'] . '_' . $dob . '.jpg';
             $filename = str_replace(["'"], '', $filename);
 
             if (!file_exists($this->getPersonPhotoPath() . '/' . $filename)) {

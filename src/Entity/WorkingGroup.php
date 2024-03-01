@@ -190,14 +190,14 @@ class WorkingGroup
         $years = 0;
         $numberOfPersons = 0;
 
-        if ($this->getLeader()) {
+        if ($this->getLeader() && $this->getLeader()->getDob()) {
             $years += $currentYear - $this->getLeader()->getDob()->format('Y');
             $numberOfPersons++;
         }
 
         foreach ($this->getPersons() as $person) {
-            if (!$this->getLeader() || $person->getId() != $this->getLeader()->getId()) {
-                // The leader should not be counted again
+            // The leader should not be counted again
+            if ($person->getDob() && $person !== $this->getLeader()) {
                 $years += $currentYear - $person->getDob()->format('Y');
                 $numberOfPersons++;
             }
@@ -216,15 +216,15 @@ class WorkingGroup
         $powedSum = 0;
         $numberOfPersons = 0;
 
-        if ($this->getLeader()) {
+        if ($this->getLeader() && $this->getLeader()->getDob()) {
             $year = date('Y') - $this->getLeader()->getDob()->format('Y');
             $powedSum += pow($year - $avg, 2);
             $numberOfPersons++;
         }
 
         foreach ($this->getPersons() as $person) {
-            if (!$this->getLeader() || $person->getId() != $this->getLeader()->getId()) {
-                // The leader should not be counted again
+            // The leader should not be counted again
+            if ($person->getDob() && $person !== $this->getLeader()) {
                 $year = date('Y') - $person->getDob()->format('Y');
                 $powedSum += pow($year - $avg, 2);
                 $numberOfPersons++;

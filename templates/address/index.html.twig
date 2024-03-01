@@ -73,7 +73,7 @@
                             <strong>{{ person.firstname }}</strong>
                         </td>
                         <td class="text-center">
-                            {{ person.dob | format_date('medium') }}
+                            {{ person.dob ? person.dob | format_date('medium') : '' }}
                         </td>
                         <td>
                             {% if person.mobile -%}

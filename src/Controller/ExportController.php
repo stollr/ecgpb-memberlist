@@ -79,7 +79,7 @@ class ExportController extends AbstractController
             $row = array(
                 $person->getAddress()->getFamilyName(),
                 $person->getFirstname(),
-                $person->getDob()->format('d.m.Y'),
+                $person->getDob() ? $person->getDob()->format('d.m.Y') : '00.00.0000',
                 $person->getGender(),
                 $person->getEmail(),
                 $person->getMobile() ? $phoneUtil->format($person->getMobile(), PhoneNumberFormat::E164) : '',

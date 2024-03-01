@@ -41,7 +41,9 @@
                     {% if working_group.leader %}
                         <a href="{{ path('app.address.edit', {'id': working_group.leader.address.id}) }}">
                             {{ working_group.leader.firstname ~ ' ' ~ working_group.leader.address.familyName }}
-                            ({{ working_group.leader.dob.format('Y') }})
+                            {% if working_group.leader.dob %}
+                                ({{ working_group.leader.dob.format('Y') }})
+                            {% endif %}
                         </a>
                     {% endif %}
                 </td>

@@ -160,10 +160,10 @@ class Synchronizer
             $ctPerson->setFirstName($person->getFirstname());
             $ctPerson->setLastName($person->getLastname() ?: $person->getAddress()->getFamilyName());
             $ctPerson->setSexId($person->isMale() ? '1' : '2');
+        }
 
-            if ($person->getDob()) {
-                $ctPerson->setBirthday($person->getDob()->format('Y-m-d'));
-            }
+        if ($person->getDob()) {
+            $ctPerson->setBirthday($person->getDob()->format('Y-m-d'));
         }
 
         $address = $person->getAddress();
@@ -243,7 +243,7 @@ class Synchronizer
                 'firstname' => $ctPerson->getFirstName(),
                 'dob' => $ctPerson->getBirthday(),
                 'mobile' => $this->normalizePhoneNumber($ctPerson->getMobile()),
-                'email' => $ctPerson->getEmail(),
+                'email' => strtolower($ctPerson->getEmail()),
                 'street' => $ctPerson->getStreet(),
                 'zip' => $ctPerson->getZip(),
                 'city' => $ctPerson->getCity(),
@@ -298,9 +298,9 @@ class Synchronizer
         return [
             'lastname' => $person->getLastname() ?: $address->getFamilyName(),
             'firstname' => $person->getFirstname(),
-            'dob' => $person->getDob()->format('Y-m-d'),
+            'dob' => $person->getDob()?->format('Y-m-d'),
             'mobile' => $this->normalizePhoneNumber($person->getMobile()),
-            'email' => $person->getEmail(),
+            'email' => strtolower($person->getEmail()),
             'street' => $address->getStreet(),
             'zip' => $address->getZip(),
             'city' => $address->getCity(),

@@ -51,9 +51,11 @@ class DoctrineEventSubscriber implements EventSubscriber
             $changeSet = $args->getEntityChangeSet();
             if (isset($changeSet['familyName'])) {
                 foreach ($entity->getPersons() as $person) {
+                    $formattedDob = $person->getDob() ? $person->getDob()->format('Y-m-d') : '0000-00-00';
+
                     $oldFotoFilename = $args->getOldValue('familyName') . '_'
                         . $person->getFirstname() . '_'
-                        . $person->getDob()->format('Y-m-d') . '.jpg';
+                        . $formattedDob . '.jpg';
 
                     $newFotoFilename = $this->personHelper->getPersonPhotoFilename($person);
 
@@ -74,11 +76,12 @@ class DoctrineEventSubscriber implements EventSubscriber
                 if (isset($changeSet['firstname'])) {
                     $firstname = $args->getOldValue('firstname');
                 }
-                if (isset($changeSet['dob'])) {
+                if (array_key_exists('dob', $changeSet)) {
                     $dob = $args->getOldValue('dob');
                 }
 
-                $oldFotoFilename = $familyName . '_' . $firstname . '_' . $dob->format('Y-m-d') . '.jpg';
+                $formattedDob = $dob ? $dob->format('Y-m-d') : '0000-00-00';
+                $oldFotoFilename = $familyName . '_' . $firstname . '_' . $formattedDob . '.jpg';
                 $newFotoFilename = $this->personHelper->getPersonPhotoFilename($entity);
 
                 $this->schedulePersonPhotoFilenameChange($oldFotoFilename, $newFotoFilename);
