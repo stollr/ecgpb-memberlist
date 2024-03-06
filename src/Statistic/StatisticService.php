@@ -36,6 +36,7 @@ class StatisticService
             $now = new \DateTime();
             $ageSum = 0;
             $total = 0;
+            $totalWithDob = 0;
             $femaleTotal = 0;
             $atLeast65YearsOld = 0;
             $atMost25YearsOld = 0;
@@ -43,12 +44,20 @@ class StatisticService
             $numberPerAge = [];
 
             foreach ($qb->getQuery()->iterate(null, Query::HYDRATE_ARRAY) as $person) {
-                $age = $person[0]['dob']->diff($now); /* @var $age \DateInterval */
-                $ageSum += $age->y + ($age->m / 12);
                 $total++;
+
                 if (Person::GENDER_FEMALE === $person[0]['gender']) {
                     $femaleTotal++;
                 }
+
+                if (!isset($person[0]['dob'])) {
+                    continue;
+                }
+
+                $totalWithDob++;
+                $age = $person[0]['dob']->diff($now); /* @var $age \DateInterval */
+                $ageSum += $age->y + ($age->m / 12);
+
                 if ($age->y >= 65) {
                     $atLeast65YearsOld++;
                 } else if ($age->y < 26) {
@@ -58,7 +67,7 @@ class StatisticService
                 $numberPerAge[$age->y] = 1 + (isset($numberPerAge[$age->y]) ? $numberPerAge[$age->y] : 0);
 
                 $yearOfBirth = $person[0]['dob']->format('Y');
-                $numberPerYearOfBirth[$yearOfBirth] = 1 + (isset($numberPerYearOfBirth[$yearOfBirth]) ? $numberPerYearOfBirth[$yearOfBirth] : 0);
+                $numberPerYearOfBirth[$yearOfBirth] = 1 + ($numberPerYearOfBirth[$yearOfBirth] ?? 0);
             }
 
             ksort($numberPerYearOfBirth, SORT_NUMERIC);
@@ -69,7 +78,7 @@ class StatisticService
                 $femaleTotal,       // number of female members
                 $atLeast65YearsOld,
                 $atMost25YearsOld,
-                $ageSum / $total,    // average age
+                $ageSum / $totalWithDob,    // average age
                 $numberPerYearOfBirth,
                 $numberPerAge
             );
