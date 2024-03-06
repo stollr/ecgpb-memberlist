@@ -878,26 +878,27 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->Write(4, '2. Beerdigung');
         $this->useFontStyleNormal($pdf);
         $this->addParagraphMargin($pdf);
-        $pdf->SetX($pdf->GetX() + 10);
+        $pdf->SetX($pdf->GetX() + 5);
         $table = $this->addTable($pdf);
         $table
+            ->setWidth(110)
             ->newRow()
                 ->newCell('Für Gemeindeglieder:')->setWidth(60)->end()
                 ->newCell('2,50 EUR/Pers.')->setWidth(40)->end()
             ->end()
             ->newRow()
-                ->newCell("")->setColspan(2)->end()
+                ->newCell("\nFür Auswärtige:")->setColspan(2)->end()
             ->end()
             ->newRow()
-                ->newCell('Für Auswärtige bis 30 Personen:')->end()
+                ->newCell('bis 30 Personen')->setPadding(left: 5)->end()
                 ->newCell('150,00 EUR pauschal')->setVerticalAlign(Cell::VERTICAL_ALIGN_BOTTOM)->end()
             ->end()
             ->newRow()
-                ->newCell('Von 31 bis 130 Personen:')->end()
+                ->newCell('von 31 bis 130 Personen')->setPadding(left: 5)->end()
                 ->newCell('4,50 EUR/Pers.')->setVerticalAlign(Cell::VERTICAL_ALIGN_BOTTOM)->end()
             ->end()
             ->newRow()
-                ->newCell('Ab 131 Personen:')->end()
+                ->newCell('ab 131 Personen')->setPadding(left: 5)->end()
                 ->newCell('600,00 EUR pauschal')->end()
             ->end()
             ->newRow()
@@ -913,9 +914,10 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $pdf->Write(4, '3. Nutzung der Küche mit auswärtiger Feier (nur Gemeindeglieder)');
         $this->useFontStyleNormal($pdf);
         $this->addParagraphMargin($pdf);
-        $pdf->SetX($pdf->GetX() + 10);
+        $pdf->SetX($pdf->GetX() + 5);
         $table = $this->addTable($pdf);
         $table
+            ->setWidth(110)
             ->newRow()
                 ->newCell('Pauschal:')->setWidth(60)->end()
                 ->newCell('300,00 EUR')->setWidth(40)->end()
