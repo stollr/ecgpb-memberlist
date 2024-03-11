@@ -63,7 +63,15 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         ), $options);
 
         // set up tcpdf
-        $pdf = new MemberListTcpdf('P', 'mm', 'A5', true, 'UTF-8', false);
+        $pdf = new MemberListTcpdf(
+            orientation: 'P',
+            unit: 'mm',
+            format: 'A5',
+            unicode: true,
+            encoding: 'UTF-8',
+            diskcache: false,
+            pdfa: 1 // PDF-A is usually required by printing companies
+        );
         $pdf->SetTitle('ECGPB Member List');
         $pdf->SetMargins(9, 9, 9);
         $pdf->SetPrintHeader(false);
