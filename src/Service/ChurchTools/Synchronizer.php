@@ -117,12 +117,12 @@ class Synchronizer
                 $person->setGender($ctPerson->getSexId() === '2' ? Person::GENDER_FEMALE : Person::GENDER_MALE);
             }
 
-            if ($ctPerson->getBirthday()) {
-                $person->setDob(new \DateTime($ctPerson->getBirthday()));
-            }
-
             $this->personRepo->add($person);
             $this->addressRepo->add($person->getAddress());
+        }
+
+        if ($ctPerson->getBirthday()) {
+            $person->setDob(new \DateTime($ctPerson->getBirthday()));
         }
 
         $mobile = trim($ctPerson->getMobile()) ?: null;
@@ -186,7 +186,7 @@ class Synchronizer
         }
 
         PersonRequest::update($ctPerson, [
-            'mobile', 'email', 'street', 'zip', 'city', 'phonePrivate',
+            'mobile', 'email', 'street', 'zip', 'city', 'phonePrivate', 'birthday'
         ]);
     }
 
