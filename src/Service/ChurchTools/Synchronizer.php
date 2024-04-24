@@ -164,8 +164,16 @@ class Synchronizer
         }
 
         if (!$ctPerson->getId() || $person->getChurchToolsId() === (int) $ctPerson->getId()) {
+            $lastName = $person->getLastname() ?: $person->getAddress()->getFamilyName();
+
+            if ($person->getAddress()->getNamePrefix()) {
+                // Churchtools does not support a name prefix, so we append it to the lastname
+                // to ensure correct sorting
+                $lastName .= ', ' . $person->getAddress()->getNamePrefix();
+            }
+
+            $ctPerson->setLastName($lastName);
             $ctPerson->setFirstName($person->getFirstname());
-            $ctPerson->setLastName($person->getLastname() ?: $person->getAddress()->getFamilyName());
         }
 
         if ($person->getDob()) {
@@ -244,8 +252,19 @@ class Synchronizer
         }
 
         if ($ctPerson !== null) {
+            $splittedLastName = explode(',', $ctPerson->getLastName());
+            
+            if (count($splittedLastName) > 1) {
+                $namePrefix = trim(array_pop($splittedLastName));
+                $lastName = trim(implode(',', $splittedLastName));
+            } else {
+                $namePrefix = null;
+                $lastName = $ctPerson->getLastName();
+            }
+
             $b = [
-                'lastname' => $ctPerson->getLastName(),
+                'lastname' => $lastName,
+                'namePrefix' => $namePrefix,
                 'firstname' => $ctPerson->getFirstName(),
                 'dob' => $ctPerson->getBirthday(),
                 'mobile' => $this->normalizePhoneNumber($ctPerson->getMobile()),
@@ -303,6 +322,7 @@ class Synchronizer
 
         return [
             'lastname' => $person->getLastname() ?: $address->getFamilyName(),
+            'namePrefix' => $address->getNamePrefix(),
             'firstname' => $person->getFirstname(),
             'dob' => $person->getDob()?->format('Y-m-d'),
             'mobile' => $this->normalizePhoneNumber($person->getMobile()),
