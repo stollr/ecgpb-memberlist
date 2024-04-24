@@ -141,7 +141,7 @@ class ChurchtoolsSyncCommand extends Command
 
             if ($mode === 'skip') {
                 $output->writeln('No synchronization done.');
-            } elseif (in_array($mode, ['update locally', 'add locally'])) {
+            } elseif (in_array($mode, ['update locally', 'add locally', 'delete locally'])) {
                 $tuple = $this->synchronizer->overrideLocalPerson($person, $ctPerson);
                 $this->entityManager->flush();
 
@@ -152,7 +152,7 @@ class ChurchtoolsSyncCommand extends Command
                 }
 
                 $output->writeln($ctPerson ? "Local person's data has been updated." : "Local person's data has been removed.");
-            } elseif (in_array($mode, ['update churchtools', 'add to churchtools'])) {
+            } elseif (in_array($mode, ['update churchtools', 'add to churchtools', 'delete from churchtools'])) {
                 $this->synchronizer->overrideChurchToolsPerson($ctPerson, $person);
 
                 if ($person) {
@@ -264,7 +264,7 @@ class ChurchtoolsSyncCommand extends Command
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion(
             'How should the data be synchronized?',
-            ['skip', 'delete locally', 'submit to churchtools', 'terminate'],
+            ['skip', 'delete locally', 'add to churchtools', 'terminate'],
             0
         );
 
@@ -277,7 +277,7 @@ class ChurchtoolsSyncCommand extends Command
             $this->entityManager->flush();
 
             $output->writeln("Local person's data has been removed.");
-        } elseif ($mode === 'submit to churchtools') {
+        } elseif ($mode === 'add to churchtools') {
             $this->synchronizer->overrideChurchToolsPerson(null, $person, force: true);
 
             $output->writeln("Person has been added to ChurchTool.");
