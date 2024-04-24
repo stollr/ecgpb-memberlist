@@ -79,7 +79,7 @@ class PersonType extends AbstractType
             ->add('mobile', PhoneNumberType::class, [
                 'required' => false,
                 'default_region' => 'DE',
-                'format' => PhoneNumberFormat::NATIONAL,
+                'format' => PhoneNumberFormat::INTERNATIONAL,
             ])
             ->add('email', TextType::class, [
                 'label' => 'E-mail',
