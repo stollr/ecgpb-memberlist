@@ -130,8 +130,8 @@ class ChurchtoolsSyncCommand extends Command
                 'How should the data be synchronized?',
                 [
                     'skip',
-                    $person ? 'update locally' : 'add locally',
-                    $ctPerson ? 'update churchtools' : 'add to churchtools',
+                    $person ? ($ctPerson ? 'update locally' : 'delete locally') : 'add locally',
+                    $ctPerson ? ($person ? 'update churchtools' : 'delete from churchtools') : 'add to churchtools',
                     'terminate',
                 ],
                 'skip'
