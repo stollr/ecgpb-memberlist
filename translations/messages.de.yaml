@@ -67,6 +67,7 @@ Group of Men: Männergruppe
 Group of Women/Men: Frauen- oder Männergruppe
 Group of Women: Frauengruppe
 'Has Email Address': 'Hat E-Mailadresse'
+'In printing, bleed is printing that goes beyond the edge of where the sheet will be trimmed. In other words, the bleed is the area to be trimmed off.': 'Beim Druck ist der Anschnitt der Druckbereich, der über den Rand hinausgeht, an dem der Bogen beschnitten wird. Mit anderen Worten, der Anschnitt ist der Bereich, der abgeschnitten wird.'
 Invalid/Sick: Dienstunfähig/Krank
 Keep in mind that the number of pages has be devideable by four, for printing.: Es ist zu beachten, dass die Anzahl an Seiten für den Druck durch vier teilbar sein muss.
 Last Name: Nachname
@@ -124,6 +125,7 @@ Second Phone: Zweites Telefon
 Second Phone Label: Beschriftung zweites Telefon
 'Select group type': 'Gruppentyp auswählen'
 Seniors List: Seniorenliste
+'Size of bleed on each edge': 'Maß des Anschnitts an jeder Kante'
 Standard Deviation of Age: Standardabweichung des Alters
 Statistics: Statistiken
 Still able: Noch immer fähig

@@ -25,6 +25,20 @@
                             <input type="number" class="form-control" name="pages_for_notes" id="pages_for_notes" value="1" />
                         </div>
                         <div class="form-group">
+                            <label for="bleed_in_mm">
+                                {% trans %}Size of bleed on each edge{% endtrans %}
+                            </label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="bleed_in_mm" id="bleed_in_mm" value="0">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">mm</span>
+                                </div>
+                            </div>
+                            <p class="text-black-50 small">
+                                {% trans %}In printing, bleed is printing that goes beyond the edge of where the sheet will be trimmed. In other words, the bleed is the area to be trimmed off.{% endtrans %}
+                            </p>
+                        </div>
+                        <div class="form-group">
                             <p>
                                 <strong class="text-danger">{% trans %}Keep in mind that the number of pages has be devideable by four, for printing.{% endtrans %}</strong>
                                 {% trans %}To achieve that one can modify the number of placeholder pages with the options above.{% endtrans %}

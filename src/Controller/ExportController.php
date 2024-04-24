@@ -42,6 +42,7 @@ class ExportController extends AbstractController
         $pdf = $generator->generate(array(
             'pages_with_member_placeholders' => $request->get('pages_with_member_placeholders', 1),
             'pages_for_notes' => $request->get('pages_for_notes', 3),
+            'bleed_in_mm' => $request->get('bleed_in_mm', 0),
         ));
 
         return new Response($pdf, 200, array(

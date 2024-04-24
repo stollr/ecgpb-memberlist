@@ -52,31 +52,47 @@ class MemberListGenerator extends Generator implements GeneratorInterface
     }
 
     /**
-     * @return string
+     * Generates the member list as printable PDF.
+     *
+     * @param array $options <ul>
+     *      <li><i>pages_with_member_placeholders</i>: Number of pages with empty grid to fill with new member data</li>
+     *      <li><i>pages_for_notes</i>: Number of pages for notes</li>
+     *      <li><i>bleed_in_mm</i>: Additional margin on each edge which will be cut off during printing process in mm. Default: 0 mm</li>
+     * </ul>
+     *
+     * @return string The PDF content as string
      */
-    public function generate(array $options = array())
+    public function generate(array $options = array()): string
     {
         // default options
-        $options = array_replace(array(
+        $options = array_replace([
             'pages_with_member_placeholders' => 1,
             'pages_for_notes' => 2,
-        ), $options);
+            'bleed_in_mm' => 0,
+        ], $options);
 
         // set up tcpdf
         $pdf = new MemberListTcpdf(
             orientation: 'P',
             unit: 'mm',
-            format: 'A5',
+            format: [ // A5 = 148 x 210 mm
+                148 + ($options['bleed_in_mm'] * 2),
+                210 + ($options['bleed_in_mm'] * 2),
+            ],
             unicode: true,
             encoding: 'UTF-8',
             diskcache: false,
             pdfa: 1 // PDF-A is usually required by printing companies
         );
         $pdf->SetTitle('ECGPB Member List');
-        $pdf->SetMargins(9, 9, 9);
+        $pdf->SetMargins(
+            left: 9 + $options['bleed_in_mm'],
+            top: 9 + $options['bleed_in_mm'],
+            right: 9 + $options['bleed_in_mm']
+        );
         $pdf->SetPrintHeader(false);
         $pdf->SetPrintFooter(true);
-        $pdf->setFooterMargin(10);
+        $pdf->setFooterMargin(10 + $options['bleed_in_mm']);
         $pdf->setFooterFont(['dejavusans', '', 7]);
         $pdf->SetAutoPageBreak(true, 9);
 
