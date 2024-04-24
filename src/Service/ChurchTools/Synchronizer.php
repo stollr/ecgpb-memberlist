@@ -110,8 +110,6 @@ class Synchronizer
             $person->setAddress(new Address());
 
             $person->setChurchToolsId($ctPerson->getId());
-            $person->setFirstname(trim($ctPerson->getFirstName()));
-            $person->getAddress()->setFamilyName(trim($ctPerson->getLastName()));
 
             if ($ctPerson->getSexId()) {
                 $person->setGender($ctPerson->getSexId() === '2' ? Person::GENDER_FEMALE : Person::GENDER_MALE);
@@ -119,6 +117,11 @@ class Synchronizer
 
             $this->personRepo->add($person);
             $this->addressRepo->add($person->getAddress());
+        }
+
+        if ($person->getChurchToolsId() === (int) $ctPerson->getId()) {
+            $person->setFirstname(trim($ctPerson->getFirstName()));
+            $person->getAddress()->setFamilyName(trim($ctPerson->getLastName()));
         }
 
         if ($ctPerson->getBirthday()) {
@@ -157,9 +160,12 @@ class Synchronizer
             $ctPerson->addDepartmentId(1);
             $ctPerson->setCampusId(0);
             $ctPerson->setStatusId(3);
+            $ctPerson->setSexId($person->isMale() ? '1' : '2');
+        }
+
+        if (!$ctPerson->getId() || $person->getChurchToolsId() === (int) $ctPerson->getId()) {
             $ctPerson->setFirstName($person->getFirstname());
             $ctPerson->setLastName($person->getLastname() ?: $person->getAddress()->getFamilyName());
-            $ctPerson->setSexId($person->isMale() ? '1' : '2');
         }
 
         if ($person->getDob()) {
