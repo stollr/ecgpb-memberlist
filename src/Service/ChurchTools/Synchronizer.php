@@ -192,7 +192,7 @@ class Synchronizer
         }
 
         PersonRequest::update($ctPerson, [
-            'mobile', 'email', 'street', 'zip', 'city', 'phonePrivate', 'birthday'
+            'firstName', 'lastName', 'mobile', 'email', 'street', 'zip', 'city', 'phonePrivate', 'birthday'
         ]);
     }
 
