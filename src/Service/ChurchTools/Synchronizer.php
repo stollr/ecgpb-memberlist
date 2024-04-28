@@ -69,7 +69,7 @@ class Synchronizer
             $page++;
 
             /** @var CtPerson[] $ctPersons */
-            $ctPersons = PersonRequest::where('status_ids', [3]) // id 3 = member // we only compare members
+            $ctPersons = PersonRequest::where('status_ids', [3, 8]) // id 3 = member, 8 = guest member // we only compare members
                 ->where('page', $page)
                 ->where('limit', $limit)
                 ->get();
