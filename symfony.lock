@@ -102,9 +102,6 @@
     "ezyang/htmlpurifier": {
         "version": "v4.13.0"
     },
-    "friendsofphp/proxy-manager-lts": {
-        "version": "v1.0.5"
-    },
     "gedmo/doctrine-extensions": {
         "version": "v3.6.0"
     },
@@ -122,9 +119,6 @@
     },
     "knplabs/knp-paginator-bundle": {
         "version": "v2.8.0"
-    },
-    "laminas/laminas-code": {
-        "version": "4.4.2"
     },
     "maennchen/zipstream-php": {
         "version": "2.1.0"
@@ -364,9 +358,6 @@
     "symfony/property-info": {
         "version": "v5.4.7"
     },
-    "symfony/proxy-manager-bridge": {
-        "version": "v4.4.25"
-    },
     "symfony/routing": {
         "version": "7.0",
         "recipe": {
@@ -397,9 +388,6 @@
     },
     "symfony/string": {
         "version": "v5.4.3"
-    },
-    "symfony/templating": {
-        "version": "v4.3.8"
     },
     "symfony/translation": {
         "version": "7.0",
