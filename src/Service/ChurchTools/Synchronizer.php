@@ -185,7 +185,7 @@ class Synchronizer
         $phone = $address->getPhone() ? $this->phoneUtil->format($address->getPhone(), PhoneNumberFormat::E164) : '';
 
         $ctPerson->setMobile($mobile);
-        $ctPerson->setEmail($person->getEmail());
+        $ctPerson->setEmail($person->getEmail() ?: '');
         $ctPerson->setStreet($address->getStreet() ?: '');
         $ctPerson->setZip($address->getZip() ?: '');
         $ctPerson->setCity($address->getCity() ?: '');
