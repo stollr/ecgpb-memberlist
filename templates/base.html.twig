@@ -3,10 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}ECGPB{% endblock %}</title>
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
     </head>
     {% block body_start%}<body>{% endblock %}
         <header>
