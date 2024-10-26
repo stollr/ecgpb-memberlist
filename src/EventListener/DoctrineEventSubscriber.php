@@ -2,48 +2,26 @@
 
 namespace App\EventListener;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 use App\Entity\Address;
 use App\Entity\Person;
 use App\Helper\PersonHelper;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Event\PostFlushEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
 
-/**
- * App\EventListener\DoctrineEventSubscriber
- *
- * @author naitsirch
- */
-class DoctrineEventSubscriber implements EventSubscriber
+#[AsDoctrineListener(Events::preUpdate)]
+#[AsDoctrineListener(Events::postFlush)]
+class DoctrineEventSubscriber
 {
-    /**
-     * @var PersonHelper
-     */
-    private $personHelper;
+    private array $fileRenames = [];
 
-    private $fileRenames = [];
-
-    public function getSubscribedEvents()
-    {
-        return array(
-            'preUpdate',
-            'postFlush',
-        );
+    public function __construct(
+        private readonly PersonHelper $personHelper,
+    ) {
     }
 
-    /**
-     * Set the person helper.
-     * Called from service container.
-     *
-     * @param PersonHelper $personHelper
-     * @return $this
-     */
-    public function setPersonHelper(PersonHelper $personHelper)
-    {
-        $this->personHelper = $personHelper;
-        return $this;
-    }
-
-    public function preUpdate(PreUpdateEventArgs $args)
+    public function preUpdate(PreUpdateEventArgs $args): void
     {
         $entity = $args->getEntity();
 
@@ -89,7 +67,7 @@ class DoctrineEventSubscriber implements EventSubscriber
         }
     }
     
-    public function postFlush($args)
+    public function postFlush(PostFlushEventArgs $args): void
     {
         foreach ($this->fileRenames as $rename) {
             if (file_exists($rename[0])) {
@@ -100,7 +78,7 @@ class DoctrineEventSubscriber implements EventSubscriber
         $this->fileRenames = [];
     }
 
-    private function schedulePersonPhotoFilenameChange($oldFotoFilename, $newFotoFilename)
+    private function schedulePersonPhotoFilenameChange($oldFotoFilename, $newFotoFilename): void
     {
         $personHelper = $this->personHelper;
 

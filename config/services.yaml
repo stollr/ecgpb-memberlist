@@ -96,12 +96,6 @@ services:
                 ecgpb.contact.funerals.name: '%ecgpb.contact.funerals.name%'
                 ecgpb.working_groups.age_limit: '%ecgpb.working_groups.age_limit%'
 
-    App\EventListener\DoctrineEventSubscriber:
-        calls:
-            - method: setPersonHelper
-        tags:
-            - { name: doctrine.event_subscriber }
-
     App\Repository\PersonRepository:
         arguments:
             $ageLimit: '%ecgpb.working_groups.age_limit%'
