@@ -7,6 +7,7 @@ use App\Repository\PersonRepository;
 use App\Service\ChurchTools\Synchronizer;
 use CTApi\Models\Groups\Person\Person as CtPerson;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,9 +17,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Command to synchronize personal data upstream to churchtools.
- *
- * @author naitsirch <naitsirch@e.mail.de>
  */
+#[AsCommand('churchtools:sync', description: 'Synchronize personal interactively from and to churchtools.')]
 class ChurchtoolsSyncCommand extends Command
 {
     public function __construct(
@@ -30,12 +30,8 @@ class ChurchtoolsSyncCommand extends Command
         parent::__construct(null);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
-        $this
-            ->setName('churchtools:sync')
-            ->setDescription('Synchronize personal interactively from and to churchtools.')
-        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
