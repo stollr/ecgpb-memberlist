@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Person;
+use App\Repository\AddressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,11 +11,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Serializer\Attribute as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * App\Entity\Address
  */
-#[ORM\Entity(repositoryClass: 'App\Repository\AddressRepository')]
+#[ORM\Entity(repositoryClass: AddressRepository::class)]
 #[ORM\Table(name: 'address')]
 #[Gedmo\Loggable]
 class Address
@@ -31,11 +33,14 @@ class Address
     private ?int $id = null;
 
     #[ORM\Column(name: 'family_name', type: 'string', length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 50)]
     #[Gedmo\Versioned]
     #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?string $familyName = null;
 
     #[ORM\Column(name: 'name_prefix', type: 'string', length: 20, nullable: true)]
+    #[Assert\Length(max: 20)]
     #[Gedmo\Versioned]
     #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?string $namePrefix = null;
@@ -45,18 +50,22 @@ class Address
     private ?PhoneNumber $phone = null;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    #[Assert\Length(max: 50)]
     #[Gedmo\Versioned]
     private ?string $street = null;
 
     #[ORM\Column(type: 'string', length: 5, nullable: true)]
+    #[Assert\Length(max: 5)]
     #[Gedmo\Versioned]
     private ?string $zip = null;
 
     #[ORM\Column(type: 'string', length: 40, nullable: true)]
+    #[Assert\Length(max: 40)]
     #[Gedmo\Versioned]
     private ?string $city = null;
 
     #[ORM\OneToMany(targetEntity: 'Person', cascade: ['persist', 'remove'], mappedBy: 'address', orphanRemoval: true)]
+    #[Assert\Valid]
     private Collection $persons;
 
     /**

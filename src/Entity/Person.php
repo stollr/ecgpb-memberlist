@@ -13,6 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Serializer\Attribute as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * App\Entity\Person
@@ -61,10 +62,12 @@ class Person
      * address entity (family name)
      */
     #[ORM\Column(type: 'string', length: 30, nullable: true)]
+    #[Assert\Length(max: 30)]
     #[Gedmo\Versioned]
     private ?string $lastname = null;
 
     #[ORM\Column(type: 'string', length: 30)]
+    #[Assert\Length(max: 30)]
     #[Gedmo\Versioned]
     #[Serializer\Groups(['MinistryCategoryListing'])]
     private ?string $firstname = null;
@@ -89,6 +92,8 @@ class Person
     private ?PhoneNumber $mobile = null;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Assert\Email]
+    #[Assert\Length(max: 100)]
     #[Gedmo\Versioned]
     private ?string $email = null;
 
