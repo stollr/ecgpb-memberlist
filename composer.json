@@ -30,6 +30,7 @@
         "symfony/framework-bundle": "^7.1.4",
         "symfony/intl": "^7.1.1",
         "symfony/monolog-bundle": "^3.10",
+        "symfony/runtime": "7.1.*",
         "symfony/security-csrf": "^7.1.1",
         "symfony/serializer": "^7.1.4",
         "symfony/translation": "^7.1.3",
@@ -59,7 +60,8 @@
         "bin-dir": "bin",
         "sort-packages" : true,
         "allow-plugins": {
-            "symfony/flex": true
+            "symfony/flex": true,
+            "symfony/runtime": true
         }
     },
     "extra": {
