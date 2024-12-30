@@ -51,6 +51,18 @@
         </div>
         <div class="col-md-3">
             {{ block('form_widget') }}
+            {% if person %}
+                <div class="form-group">
+                    <label for="address_persons_{{ person.id }}_churchToolsId">
+                        {% trans %}ChurchTools ID{% endtrans %}
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="address_persons_{{ person.id }}_churchToolsId"
+                           value="{{ person.churchToolsId }}"
+                           disabled>
+                </div>
+            {% endif %}
         </div>
         <div class="col-md-3 text-right">
             {% if person and person.id %}
