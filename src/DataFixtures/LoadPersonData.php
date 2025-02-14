@@ -21,7 +21,7 @@ class LoadPersonData implements FixtureInterface
     /**
      * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
 
