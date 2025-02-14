@@ -69,6 +69,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
             'pages_with_member_placeholders' => 1,
             'pages_for_notes' => 2,
             'bleed_in_mm' => 0,
+            'print_working_groups' => true,
         ], $options);
 
         // set up tcpdf
@@ -106,7 +107,11 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addPage2($pdf);
         $this->addAddressPages($pdf);
         $this->addAddressPlaceholders($pdf, $options['pages_with_member_placeholders']);
-        $this->addWorkingGroups($pdf);
+        
+        if ($options['print_working_groups']) {
+            $this->addWorkingGroups($pdf);
+        }
+
         $this->addMinistryCategories($pdf);
         $this->addBuildingUsageCosts($pdf);
         $this->addPersonalNotes($pdf, $options['pages_for_notes']);

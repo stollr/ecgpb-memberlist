@@ -24,27 +24,48 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route(path: '/export')]
 class ExportController extends AbstractController
 {
-    private $translator;
+    /** key to default values */
+    private const PDF_OPTION_KEYS = [
+        'pages_with_member_placeholders' => 1,
+        'pages_for_notes' => 3,
+        'bleed_in_mm' => 0,
+        'print_working_groups' => true,
+    ];
 
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     #[Route(name: 'app.export.pdf_config', path: '/pdf_config')]
-    public function pdfConfigAction()
+    public function pdfConfigAction(SettingRepository $settings)
     {
-        return $this->render('/export/pdf_config.html.twig');
+        $options = [];
+
+        foreach (self::PDF_OPTION_KEYS as $key => $default) {
+            $options[$key] = $settings->getValue("pdf_export.$key") ?? $default;
+        }
+
+        return $this->render('/export/pdf_config.html.twig', [
+            'options' => $options,
+        ]);
     }
 
     #[Route(name: 'app.export.pdf', path: '/pdf')]
-    public function pdfAction(Request $request, MemberListGenerator $generator)
+    public function pdfAction(Request $request, MemberListGenerator $generator, SettingRepository $settings)
     {
-        $pdf = $generator->generate(array(
-            'pages_with_member_placeholders' => $request->get('pages_with_member_placeholders', 1),
-            'pages_for_notes' => $request->get('pages_for_notes', 3),
-            'bleed_in_mm' => $request->get('bleed_in_mm', 0),
-        ));
+        $options = [
+            'pages_with_member_placeholders' => $request->query->getInt('pages_with_member_placeholders', 1),
+            'pages_for_notes' => $request->query->getInt('pages_for_notes', 3),
+            'bleed_in_mm' => $request->query->getInt('bleed_in_mm', 0),
+            'print_working_groups' => $request->query->getBoolean('print_working_groups', false),
+        ];
+
+        foreach ($options as $key => $value) {
+            $settings->setValue("pdf_export.$key", $value);
+        }
+
+        $pdf = $generator->generate($options);
 
         return new Response($pdf, 200, array(
             'Content-Type' => 'application/pdf',
