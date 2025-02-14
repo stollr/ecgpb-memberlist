@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Person;
 use App\PdfGenerator\MemberListGenerator;
 use App\Repository\PersonRepository;
+use App\Repository\SettingRepository;
 use App\Service\BirthdayExcelGenerator;
 use App\Service\Export\SeniorsSpreadsheetGenerator;
 use libphonenumber\PhoneNumberFormat;
