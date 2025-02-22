@@ -42,6 +42,10 @@ class ChurchtoolsSyncCommand extends Command
         $comparedPersons = $issues = $namesOfCtPersonsWithoutDob = [];
 
         foreach ($this->synchronizer->iterateOverChurchtoolPersons() as $ctPerson) {
+            if (in_array('dummy', [$ctPerson->getLastName(), $ctPerson->getFirstName()])) {
+                continue;
+            }
+
             $person = $this->personRepo->findOneBy(['churchToolsId' => $ctPerson->getId()]);
 
             if (!$person && $ctPerson->getBirthday()) {
