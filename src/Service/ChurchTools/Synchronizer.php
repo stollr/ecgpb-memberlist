@@ -121,7 +121,18 @@ class Synchronizer
 
         if ($person->getChurchToolsId() === (int) $ctPerson->getId()) {
             $person->setFirstname(trim($ctPerson->getFirstName()));
-            $person->getAddress()->setFamilyName(trim($ctPerson->getLastName()));
+
+            $lastName = trim($ctPerson->getLastName());
+            $namePrefix = null;
+            $splittedLastName = explode(',', $lastName);
+
+            if (count($splittedLastName) > 1) {
+                $namePrefix = trim(array_pop($splittedLastName));
+                $lastName = trim(implode(',', $splittedLastName));
+            }
+
+            $person->getAddress()->setFamilyName($lastName);
+            $person->getAddress()->setNamePrefix($namePrefix);
         }
 
         if ($ctPerson->getBirthday()) {

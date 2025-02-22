@@ -97,7 +97,7 @@ class Person
     #[Gedmo\Versioned]
     private ?string $email = null;
 
-    #[ORM\ManyToOne(targetEntity: 'Address', inversedBy: 'persons', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Address::class, inversedBy: 'persons', cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'address_id', nullable: false)]
     #[Gedmo\Versioned]
     #[Serializer\Groups(['MinistryCategoryListing'])]
@@ -134,8 +134,9 @@ class Person
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(?Address $address = null)
     {
+        $address && $this->setAddress($address);
         $this->ministries = new ArrayCollection();
     }
 
