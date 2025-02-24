@@ -119,10 +119,11 @@ class Synchronizer
             $this->addressRepo->add($person->getAddress());
         }
 
+        // Change of the name is only possible if the churchtools ID matches.
         if ($person->getChurchToolsId() === (int) $ctPerson->getId()) {
-            $person->setFirstname(trim($ctPerson->getFirstName()));
+            $person->setFirstname(trim($ctPerson->getFirstName() ?: ''));
 
-            $lastName = trim($ctPerson->getLastName());
+            $lastName = trim($ctPerson->getLastName() ?: '');
             $namePrefix = null;
             $splittedLastName = explode(',', $lastName);
 
@@ -139,17 +140,17 @@ class Synchronizer
             $person->setDob(new \DateTime($ctPerson->getBirthday()));
         }
 
-        $mobile = trim($ctPerson->getMobile()) ?: null;
+        $mobile = trim($ctPerson->getMobile() ?: '') ?: null;
         $mobile && ($mobile = $this->phoneUtil->parse($mobile, 'DE'));
 
-        $phone = trim($ctPerson->getPhonePrivate()) ?: null;
+        $phone = trim($ctPerson->getPhonePrivate() ?: '') ?: null;
         $phone && ($phone = $this->phoneUtil->parse($phone, 'DE'));
 
         $person->setMobile($mobile);
-        $person->setEmail(trim($ctPerson->getEmail()));
-        $person->getAddress()->setStreet(trim($ctPerson->getStreet()));
-        $person->getAddress()->setZip(trim($ctPerson->getZip()));
-        $person->getAddress()->setCity(trim($ctPerson->getCity()));
+        $person->setEmail(trim($ctPerson->getEmail() ?: '') ?: null);
+        $person->getAddress()->setStreet(trim($ctPerson->getStreet() ?: '') ?: null);
+        $person->getAddress()->setZip(trim($ctPerson->getZip() ?: '') ?: null);
+        $person->getAddress()->setCity(trim($ctPerson->getCity() ?: '') ?: null);
         $person->getAddress()->setPhone($phone);
 
         return [$person, $ctPerson];
