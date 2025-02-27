@@ -865,7 +865,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
 
         // private parties
         $this->useFontStyleBold($pdf);
-        $pdf->Write(4, "1. Privatfeiern, wie z.B. Weihnachtsfeiern, Geburtstagsfeiern oder Hochzeiten (Küche und Trauung)");
+        $pdf->Write(4, "1. Privatfeiern, wie z.B. Weihnachtsfeiern, Geburtstagsfeiern oder Hochzeiten");
         $this->useFontStyleNormal($pdf);
         $this->addParagraphMargin($pdf);
         $pdf->SetX($pdf->GetX() + 5);
@@ -916,19 +916,22 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 ->newCell('kostenlos')->setWidth(40)->end()
             ->end()
             ->newRow()
-                ->newCell("\nFür Auswärtige:")->setColspan(2)->end()
+                ->newCell("\nFür Auswärtige")->setColspan(2)->end()
             ->end()
             ->newRow()
-                ->newCell('bis 35 Personen')->setPadding(top: 2, left: 5)->end()
+                ->newCell('bis 35 Personen:')->setPadding(top: 2, left: 5)->end()
                 ->newCell('200,00 € pauschal')->setVerticalAlign(Cell::VERTICAL_ALIGN_BOTTOM)->end()
             ->end()
             ->newRow()
-                ->newCell('von 36 bis max. 200 Personen')->setPadding(top: 2, left: 5)->end()
+                ->newCell('von 36 bis max. 200 Personen:')->setPadding(top: 2, left: 5)->end()
                 ->newCell('6,00 €/Pers.')->setVerticalAlign(Cell::VERTICAL_ALIGN_BOTTOM)->end()
             ->end()
             ->newRow()
-                ->newCell('bei Verstorbenen, die mit einem Gemeindemitglied bis zum 2. Grad verwandt sind')->setPadding(top: 2, left: 5)->end()
+                ->newCell('bei Verstorbenen, die mit einem Gemeindemitglied bis zum 2. Grad verwandt sind:')->setPadding(top: 2, left: 5)->end()
                 ->newCell('50 % Ermäßigung')->setVerticalAlign(Cell::VERTICAL_ALIGN_BOTTOM)->end()
+            ->end()
+            ->newRow()
+                ->newCell("\nBeerdigungen mit mehr als 200 Gästen sind nicht möglich.\n")->setColspan(2)->end()
             ->end()
             ->newRow()
                 ->newCell(sprintf("\nKontaktperson ist %s\n\n", $this->parameters['ecgpb.contact.funerals.name']))->setColspan(2)->end()
