@@ -355,7 +355,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 ->end()
                 ->newRow()
                     ->newCell('Altersdurchschnitt:')->end()
-                    ->newCell(round($statistics->getAverageAge()))->end()
+                    ->newCell(number_format(round($statistics->getAverageAge(), 1), 1, ',', ''))->end()
                 ->end()
             ->end()
         ;
