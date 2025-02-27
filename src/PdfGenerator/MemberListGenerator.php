@@ -955,7 +955,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
                 ->newCell('300,00 € pauschal')->setWidth(40)->end()
             ->end()
             ->newRow()
-                ->newCell("\nFür den Transport des Essens sorgt der Veranstalter der Feier.")->setColspan(2)->end()
+                ->newCell("\nNur für eingewiesene Gemeindemitglieder.\nFür den Transport des Essens sorgt der Veranstalter der Feier.")->setColspan(2)->end()
             ->end()
         ;
         $table->end();
