@@ -4,6 +4,7 @@ namespace App\Helper;
 
 use App\Entity\Person;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * App\Helper\PersonHelper
@@ -12,13 +13,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PersonHelper
 {
-    private $doctrine;
-    private $parameters;
-
-    public function __construct(ManagerRegistry $doctrine, array $parameters)
-    {
-        $this->doctrine = $doctrine;
-        $this->parameters = $parameters;
+    public function __construct(
+        private readonly ManagerRegistry $doctrine,
+        private readonly Filesystem $filesystem,
+        private readonly array $parameters
+    ) {
     }
 
     /**
@@ -77,5 +76,14 @@ class PersonHelper
         }
 
         return $ids;
+    }
+
+    public function removePersonPhoto(Person $person): void
+    {
+        $filename = $this->getPersonPhotoFilename($person);
+
+        if ($this->filesystem->exists($filename)) {
+            $this->filesystem->remove($filename);
+        }
     }
 }

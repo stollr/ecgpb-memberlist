@@ -7,11 +7,13 @@ use App\Entity\Person;
 use App\Helper\PersonHelper;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\PostFlushEventArgs;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 
 #[AsDoctrineListener(Events::preUpdate)]
 #[AsDoctrineListener(Events::postFlush)]
+#[AsDoctrineListener(Events::postRemove)]
 class DoctrineEventSubscriber
 {
     private array $fileRenames = [];
@@ -76,6 +78,13 @@ class DoctrineEventSubscriber
         }
 
         $this->fileRenames = [];
+    }
+
+    public function postRemove(PostRemoveEventArgs $args): void
+    {
+        if ($args->getObject() instanceof Person) {
+            $this->personHelper->removePersonPhoto($args->getObject());
+        }
     }
 
     private function schedulePersonPhotoFilenameChange($oldFotoFilename, $newFotoFilename): void
