@@ -338,7 +338,7 @@ class Person
      *
      * @return $this
      */
-    public function setWorkingGroup(WorkingGroup $workingGroup = null): self
+    public function setWorkingGroup(?WorkingGroup $workingGroup): self
     {
         if ($this->gender && $workingGroup && $this->gender !== $workingGroup->getGender()) {
             throw new \InvalidArgumentException('This person is not compatible to the passed working group.');
@@ -437,7 +437,7 @@ class Person
      *
      * @throws \RuntimeException
      */
-    public function setLeaderOf(WorkingGroup $workingGroup = null): void
+    public function setLeaderOf(?WorkingGroup $workingGroup): void
     {
         throw new \RuntimeException('The leading person of a working group cannot be changed within person entity.');
     }
