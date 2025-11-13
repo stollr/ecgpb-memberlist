@@ -44,14 +44,14 @@ class AddressRepository extends ServiceEntityRepository
             $qb->andWhere($andExpr);
         }
 
-        if (!empty($filter['has-email'])) {
+        if (!empty($filter['hasEmail'])) {
             $qb->andWhere('person.email IS NOT NULL');
             $qb->andWhere("person.email != ''");
         }
 
-        if (isset($filter['no-photo']) && is_array($filter['no-photo']) && count($filter['no-photo']) > 0) {
+        if (isset($filter['noPhoto']) && is_array($filter['noPhoto']) && count($filter['noPhoto']) > 0) {
             $qb->andWhere('person.id IN (:person_ids_without_photo)');
-            $qb->setParameter('person_ids_without_photo', $filter['no-photo']);
+            $qb->setParameter('person_ids_without_photo', $filter['noPhoto']);
         }
 
         return $qb;

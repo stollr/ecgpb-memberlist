@@ -8,6 +8,11 @@ use App\Helper\PersonHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,20 +25,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route(path: '/address')]
 class AddressController extends AbstractController
 {
-    private $translator;
-    
-    private $paginator;
-
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        TranslatorInterface $translator,
-        PaginatorInterface $paginator,
-        EntityManagerInterface $entityManager
+        private readonly TranslatorInterface $translator,
+        private readonly PaginatorInterface $paginator,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly FormFactoryInterface $formFactory
     ) {
-        $this->translator = $translator;
-        $this->paginator = $paginator;
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -43,21 +40,25 @@ class AddressController extends AbstractController
     public function index(Request $request, PersonHelper $personHelper): Response
     {
         $repo = $this->entityManager->getRepository(Address::class); /* @var $repo \App\Repository\AddressRepository */
+        $filterForm = $this->createFilterForm([
+            'sort' => 'address.familyName',
+        ]);
+        $filterForm->handleRequest($request);
 
-        $filter = $request->get('filter', array());
-        if (!empty($filter['no-photo'])) {
-            $filter['no-photo'] = $personHelper->getPersonIdsWithoutPhoto();
+        $filter = $filterForm->getData();//$request->query->all('filter', []);
+        if (!empty($filter['noPhoto'])) {
+            $filter['noPhoto'] = $personHelper->getPersonIdsWithoutPhoto();
         }
 
         $pagination = $this->paginator->paginate(
             $repo->getListFilterQb($filter),
             $request->query->get('page', 1)/*page number*/,
             15, /*limit per page*/
-            array(
+            [
                 'wrap-queries' => true,
-                'defaultSortFieldName' => array('address.familyName', 'person.dob'),
-                'defaultSortDirection' => 'asc',
-            )
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => [$filter['sort'], 'person.dob'],
+                PaginatorInterface::DEFAULT_SORT_DIRECTION => 'asc',
+            ]
         );
 
         if ($pagination->count() === 1) {
@@ -70,6 +71,7 @@ class AddressController extends AbstractController
             'pagination' => $pagination,
             'person_ids_without_photo' => $personHelper->getPersonIdsWithoutPhoto(),
             //'persons_with_picture' => $personsWithPicture,
+            'filterForm' => $filterForm,
         ));
     }
 
@@ -184,5 +186,53 @@ class AddressController extends AbstractController
         $res = @imagecreatefromjpeg($file->getPathname());
 
         return $res !== false;
+    }
+
+    private function createFilterForm(array $data): FormInterface
+    {
+        $data['sortBy'] ??= 'address.familyName';
+
+        $builder = $this->formFactory->createNamedBuilder(
+            name: '',
+            data: $data,
+            options: [
+                'block_prefix' => 'filter',
+                'method' => 'get',
+                'csrf_protection' => false,
+            ]
+        );
+
+        $builder->add('term', TextType::class, [
+            'required' => false,
+            'attr' => [
+                'placeholder' => 'Search Term',
+            ],
+        ]);
+
+        $builder->add('hasEmail', CheckboxType::class, [
+            'required' => false,
+            'label' => 'Has Email Address',
+        ]);
+
+        $builder->add('noPhoto', CheckboxType::class, [
+            'required' => false,
+            'label' => 'Without Photo'
+        ]);
+
+        $builder->add('sort', ChoiceType::class, [
+            'choices' => [
+                'Name' => 'address.familyName',
+                'Creation date' => 'person.createdAt',
+            ],
+        ]);
+
+        $builder->add('direction', ChoiceType::class, [
+            'choices' => [
+                'ascending' => 'asc',
+                'descending' => 'desc',
+            ],
+        ]);
+
+        return $builder->getForm();
     }
 }

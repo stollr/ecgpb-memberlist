@@ -13,6 +13,8 @@ Age: Alter
 Age of the youngest Member: Alter des jüngsten Mitglieds
 Age of the oldest Member: Alter des ältesten Mitglieds
 All changes have been saved.: Alle Änderungen wurden gespeichert.
+'ascending': 'aufsteigend'
+'descending': 'absteigend'
 Assigned: Zugeordnet
 At least 65 Years old: Mindestens 65 Jahre alt
 At most 25 Years old: Höchstens 25 Jahre alt
@@ -33,6 +35,7 @@ Bank Code: Bankleitzahl
 'Contact data': 'Kontaktdaten'
 'Create': 'Erstellen'
 'Create Ministry Category': 'Dienstbereich erstellen'
+'Creation date': 'Erstellungsdatum'
 'Data changes': 'Datenänderungen'
 'Date of Birth': 'Geburtsdatum'
 'Delete': 'Löschen'
@@ -98,6 +101,7 @@ Not assigned: Nicht zugeordnet
 Notice: Notiz
 Number: Nummer
 Number of Members: Anzahl der Mitglieder
+'Order by': 'Sortieren nach'
 Other Ministries: Andere Dienste
 Pages for personal notes: Seiten für persönliche Notizen
 Pages with member placeholders: Seiten mit Mitglieder-Platzhaltern
