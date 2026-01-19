@@ -80,7 +80,7 @@ class PersonHelper
 
     public function removePersonPhoto(Person $person): void
     {
-        $filename = $this->getPersonPhotoFilename($person);
+        $filename = $this->getPersonPhotoPath() . '/' . $this->getPersonPhotoFilename($person);
 
         if ($this->filesystem->exists($filename)) {
             $this->filesystem->remove($filename);
