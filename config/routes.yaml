@@ -1,16 +1,14 @@
-controllers:
-    prefix: /{_locale}
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
-    exclude: '../src/Controller/Api/'
-    type: attribute
+# yaml-language-server: $schema=../vendor/symfony/routing/Loader/schema/routing.schema.json
 
-#api_controllers: # API routes do not need the locale prefix
-#    resource:
-#        path: ../src/Controller/Api
-#        namespace: App\Controller\Api
-#    type: attribute
+# This file is the entry point to configure the routes of your app.
+# Methods with the #[Route] attribute are automatically imported.
+# See also https://symfony.com/doc/current/routing.html
+
+# To list all registered routes, run the following command:
+#   bin/console debug:router
+
+controllers:
+    resource: routing.controllers
 
 root:
     path: /
