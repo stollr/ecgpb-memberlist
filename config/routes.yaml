@@ -8,7 +8,12 @@
 #   bin/console debug:router
 
 controllers:
-    resource: routing.controllers
+    prefix: /{_locale}
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    exclude: '../src/Controller/Api/'
+    type: attribute
 
 root:
     path: /

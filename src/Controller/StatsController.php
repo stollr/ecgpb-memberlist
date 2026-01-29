@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Statistic\StatisticService;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
