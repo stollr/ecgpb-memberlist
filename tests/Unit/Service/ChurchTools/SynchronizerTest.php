@@ -28,10 +28,10 @@ class SynchronizerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->addressRepository = $this->createMock(AddressRepository::class);
-        $this->personRepository = $this->createMock(PersonRepository::class);
-        $this->personHelper = $this->createMock(PersonHelper::class);
-        $this->phoneNumberUtil = $this->createMock(PhoneNumberUtil::class);
+        $this->addressRepository = $this->createStub(AddressRepository::class);
+        $this->personRepository = $this->createStub(PersonRepository::class);
+        $this->personHelper = $this->createStub(PersonHelper::class);
+        $this->phoneNumberUtil = $this->createStub(PhoneNumberUtil::class);
         
         $this->synchronizer = new Synchronizer(
             'https://example.church.tools/api',
