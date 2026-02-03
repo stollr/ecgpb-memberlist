@@ -6,7 +6,7 @@
     <div class="d-flex mb-3">
         <h2 class="mr-auto">{% trans %}Addresses{% endtrans %}</h2>
         <form action="{{ path('app.address.index') }}" method="get" role="form" class="form-inline align-items-start">
-            {% set filter = app.request.get('filter') %}
+            {% set filter = app.request.query.get('filter') %}
             <div class="d-flex flex-column">
                 <div class="d-flex align-items-center mb-1">
                     {{ form_widget(filterForm.term, {attr: {class: 'mr-2'}}) }}
@@ -135,6 +135,6 @@
     </table>
 
     <div class="navigation">
-        {{ knp_pagination_render(pagination, null, {'filter': app.request.get('filter')}) }}
+        {{ knp_pagination_render(pagination, null, {'filter': app.request.query.get('filter')}) }}
     </div>
 {% endblock %}
