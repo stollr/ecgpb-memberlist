@@ -25,7 +25,7 @@ class DoctrineEventSubscriber
 
     public function preUpdate(PreUpdateEventArgs $args): void
     {
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
 
         if ($entity instanceof Address) {
             $changeSet = $args->getEntityChangeSet();
@@ -42,7 +42,7 @@ class DoctrineEventSubscriber
                     $this->schedulePersonPhotoFilenameChange($oldFotoFilename, $newFotoFilename);
                 }
             }
-        } else if ($entity instanceof Person) {
+        } elseif ($entity instanceof Person) {
             $changeSet = $args->getEntityChangeSet();
 
             if (isset($changeSet['address']) || isset($changeSet['firstname']) || isset($changeSet['dob'])) {
