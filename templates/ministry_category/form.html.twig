@@ -22,7 +22,7 @@
             {% endif %}
         </h2>
         <a class="btn btn-outline-dark" title="{% trans %}Back to List{% endtrans %}"
-           href="{{ path('app.ministry_category.index') }}">
+           href="{{ path('app.ministry_category.index') }}#{{ category.name | slug }}">
             <i class="bi bi-chevron-left"></i> {% trans %}Back{% endtrans %}
         </a>
         <button type="submit" class="btn btn-primary ml-2">

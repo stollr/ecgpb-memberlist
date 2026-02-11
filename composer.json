@@ -11,8 +11,8 @@
     },
     "require": {
         "php": ">=8.3",
-        "ext-intl": "*",
         "ext-gd": "*",
+        "ext-intl": "*",
         "5pm-hdh/churchtools-api": "^2.1.0",
         "doctrine/doctrine-bundle": "^3.2.2",
         "doctrine/doctrine-migrations-bundle": "^4.0.0",
@@ -41,7 +41,8 @@
         "symfony/yaml": "^7.4",
         "tecnickcom/tcpdf": "^6.7.5",
         "twig/extra-bundle": "^3.13.0",
-        "twig/intl-extra": "^3.13.0"
+        "twig/intl-extra": "^3.13.0",
+        "twig/string-extra": "^3.23"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": ">=3.6.1",

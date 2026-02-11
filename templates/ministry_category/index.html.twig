@@ -27,7 +27,7 @@
         </thead>
         <tbody>
             {% for ministryCategory in ministryCategories %}
-                <tr>
+                <tr id="{{ ministryCategory.name | slug }}">
                     <td rowspan="{{ ministryCategory.ministries | length + 1 }}">
                         {{ ministryCategory.position }}
                     </td>
