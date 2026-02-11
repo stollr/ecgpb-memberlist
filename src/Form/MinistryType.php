@@ -40,6 +40,7 @@ class MinistryType extends AbstractType
                     'label' => false,
                     'class' => Person::class,
                     'choice_label' => 'getLastnameFirstnameAndDob',
+                    'placeholder' => '',
                     'row_attr' => ['class' => 'd-flex'],
                     'attr' => ['class' => 'mr-2'],
                     'query_builder' => static function (EntityRepository $repo) {
