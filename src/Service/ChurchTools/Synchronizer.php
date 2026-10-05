@@ -140,10 +140,10 @@ class Synchronizer
             $person->setDob(new \DateTime($ctPerson->getBirthday()));
         }
 
-        $mobile = trim($ctPerson->getMobile() ?: '') ?: null;
+        $mobile = $this->normalizePhoneNumber($ctPerson->getMobile()) ?: null;
         $mobile && ($mobile = $this->phoneUtil->parse($mobile, 'DE'));
 
-        $phone = trim($ctPerson->getPhonePrivate() ?: '') ?: null;
+        $phone = $this->normalizePhoneNumber($ctPerson->getPhonePrivate()) ?: null;
         $phone && ($phone = $this->phoneUtil->parse($phone, 'DE'));
 
         $person->setMobile($mobile);
@@ -318,8 +318,8 @@ class Synchronizer
         } elseif ($phoneNumber instanceof PhoneNumber) {
             return $this->phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
         }
-        
-        $phoneNumber = trim(str_replace(['-', ' ', '/', "\u{00A0}"], '', $phoneNumber));
+
+        $phoneNumber = preg_replace('/[^+\d]/', '', $phoneNumber);
 
         if (!empty($phoneNumber) && '0' === $phoneNumber[0]) {
             $phoneNumber = '+49' . substr($phoneNumber, 1);
