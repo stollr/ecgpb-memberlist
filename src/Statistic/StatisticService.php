@@ -30,8 +30,6 @@ class StatisticService
     {
         if (!$this->statistics) {
             $repo = $this->doctrine->getRepository(Person::class);
-            $qb = $repo->createQueryBuilder('person'); /* @var $qb \Doctrine\ORM\QueryBuilder */
-            $qb->select('person');
 
             $now = new \DateTime();
             $ageSum = 0;
@@ -43,19 +41,20 @@ class StatisticService
             $numberPerYearOfBirth = [];
             $numberPerAge = [];
 
-            foreach ($qb->getQuery()->iterate(null, Query::HYDRATE_ARRAY) as $person) {
+            foreach ($repo->findAll() as $person) {
+                /** @var Person $person */
                 $total++;
 
-                if (Person::GENDER_FEMALE === $person[0]['gender']) {
+                if (Person::GENDER_FEMALE === $person->getGender()) {
                     $femaleTotal++;
                 }
 
-                if (!isset($person[0]['dob'])) {
+                if (!$person->getDob()) {
                     continue;
                 }
 
                 $totalWithDob++;
-                $age = $person[0]['dob']->diff($now); /* @var $age \DateInterval */
+                $age = $person->getDob()->diff($now); /* @var $age \DateInterval */
                 $ageSum += $age->y + ($age->m / 12);
 
                 if ($age->y >= 65) {
@@ -66,7 +65,7 @@ class StatisticService
 
                 $numberPerAge[$age->y] = 1 + (isset($numberPerAge[$age->y]) ? $numberPerAge[$age->y] : 0);
 
-                $yearOfBirth = $person[0]['dob']->format('Y');
+                $yearOfBirth = $person->getDob()->format('Y');
                 $numberPerYearOfBirth[$yearOfBirth] = 1 + ($numberPerYearOfBirth[$yearOfBirth] ?? 0);
             }
 
