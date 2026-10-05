@@ -187,7 +187,7 @@ class MemberListGenerator extends Generator implements GeneratorInterface
         $this->addParagraphMargin($pdf);
         $this->useFontSizeXL($pdf);
         $this->useFontStyleBold($pdf);
-        $this->writeText($pdf, 'Stand: 01.' . date('m.Y'));
+        $this->writeText($pdf, 'Stand: ' . date('d.m.Y'));
         $this->useFontStyleNormal($pdf);
 
         $pdf->SetY(190);
