@@ -46,7 +46,15 @@ class PersonType extends AbstractType
         if ($options['add_address_field']) {
             $builder->add('address', EntityType::class, [
                 'class' => Address::class,
-                'choice_label' => 'dropdownLabel',
+                'choice_label' => static function (Address $address) {
+                    $personFirstNames = array_map(fn (Person $p) => $p->getFirstname(), $address->getPersons()->toArray());
+
+                    return implode(', ', [
+                        $address->getFamilyName(),
+                        $address->getStreet(),
+                        $address->getCity(),
+                    ]) . ' (' . implode(', ', $personFirstNames) . ')';
+                },
                 'query_builder' => function (EntityRepository $repo) {
                     return $repo->createQueryBuilder('address')
                         ->select('address')

@@ -258,13 +258,4 @@ class Address
         }
         return $persons;
     }
-    
-    public function getDropdownLabel(): string
-    {
-        return implode(', ', [
-            $this->getFamilyName(),
-            $this->getStreet(),
-            $this->getCity(),
-        ]);
-    }
 }
