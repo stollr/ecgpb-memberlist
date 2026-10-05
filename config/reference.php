@@ -1247,6 +1247,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type MisdPhoneNumberConfig = array{
  *     twig?: array{
  *         enabled?: scalar|Param|null, // Default: true
+ *         default_region?: scalar|Param|null, // Default: "ZZ"
+ *         format?: \libphonenumber\PhoneNumberFormat::E164|\libphonenumber\PhoneNumberFormat::INTERNATIONAL|\libphonenumber\PhoneNumberFormat::NATIONAL|\libphonenumber\PhoneNumberFormat::RFC3966|Param, // Default: 0
  *     },
  *     form?: array{
  *         enabled?: scalar|Param|null, // Default: true
@@ -1254,12 +1256,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     serializer?: array{
  *         enabled?: scalar|Param|null, // Default: true
  *         default_region?: scalar|Param|null, // Default: "ZZ"
- *         format?: scalar|Param|null, // Default: 0
+ *         format?: \libphonenumber\PhoneNumberFormat::E164|\libphonenumber\PhoneNumberFormat::INTERNATIONAL|\libphonenumber\PhoneNumberFormat::NATIONAL|\libphonenumber\PhoneNumberFormat::RFC3966|Param, // Default: 0
  *     },
  *     validator?: array{
  *         enabled?: scalar|Param|null, // Default: true
  *         default_region?: scalar|Param|null, // Default: "ZZ"
- *         format?: scalar|Param|null, // Default: 1
+ *         format?: \libphonenumber\PhoneNumberFormat::E164|\libphonenumber\PhoneNumberFormat::INTERNATIONAL|\libphonenumber\PhoneNumberFormat::NATIONAL|\libphonenumber\PhoneNumberFormat::RFC3966|Param, // Default: 1
  *     },
  * }
  * @psalm-type ConfigType = array{
