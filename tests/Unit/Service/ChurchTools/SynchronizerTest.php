@@ -9,6 +9,7 @@ use App\Repository\AddressRepository;
 use App\Repository\PersonRepository;
 use App\Service\ChurchTools\Synchronizer;
 use libphonenumber\PhoneNumberUtil;
+use Symfony\Component\Filesystem\Filesystem;
 use CTApi\Models\Groups\Person\Person as CtPerson;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -26,12 +27,15 @@ class SynchronizerTest extends TestCase
     /** @var PhoneNumberUtil|MockObject|null */
     private ?PhoneNumberUtil $phoneNumberUtil = null;
 
+    private ?Filesystem $filesystem = null;
+
     protected function setUp(): void
     {
         $this->addressRepository = $this->createStub(AddressRepository::class);
         $this->personRepository = $this->createStub(PersonRepository::class);
         $this->personHelper = $this->createStub(PersonHelper::class);
         $this->phoneNumberUtil = $this->createStub(PhoneNumberUtil::class);
+        $this->filesystem = $this->createStub(Filesystem::class);
         
         $this->synchronizer = new Synchronizer(
             'https://example.church.tools/api',
@@ -40,6 +44,8 @@ class SynchronizerTest extends TestCase
             $this->addressRepository,
             $this->personHelper,
             $this->phoneNumberUtil,
+            $this->filesystem,
+            '/tmp/diff_ignore_storage.json',
         );
     }
 

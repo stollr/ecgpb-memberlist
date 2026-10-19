@@ -14,6 +14,7 @@ use CTApi\Models\Groups\Person\PersonRequest;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Synchronizer our local data with the ChurchTools data.
@@ -26,33 +27,16 @@ class Synchronizer
     const SYNC_DOWNSTREAM = 1;
     const SYNC_UPSTREAM = 2;
 
-    private string $apiBaseUrl;
-
-    private string $apiToken;
-
-    private PersonRepository $personRepo;
-
-    private AddressRepository $addressRepo;
-
-    private PersonHelper $personHelper;
-
-    private PhoneNumberUtil $phoneUtil;
-
     public function __construct(
         string $apiBaseUrl,
         string $apiToken,
-        PersonRepository $personRepo,
-        AddressRepository $addressRepo,
-        PersonHelper $personHelper,
-        PhoneNumberUtil $phoneUtil,
+        private readonly PersonRepository $personRepo,
+        private readonly AddressRepository $addressRepo,
+        private readonly PersonHelper $personHelper,
+        private readonly PhoneNumberUtil $phoneUtil,
+        private readonly Filesystem $filesystem,
+        private readonly string $diffIgnoreStorageFilename
     ) {
-        $this->apiBaseUrl = $apiBaseUrl;
-        $this->apiToken = $apiToken;
-        $this->personRepo = $personRepo;
-        $this->addressRepo = $addressRepo;
-        $this->personHelper = $personHelper;
-        $this->phoneUtil = $phoneUtil;
-
         CTConfig::setApiUrl($apiBaseUrl);
         CTConfig::setApiKey($apiToken);
     }
@@ -308,7 +292,46 @@ class Synchronizer
             ];
         }
 
+        if ($person && $this->isIgnoredDiff($person, $diffs)) {
+            return [];
+        }
+
         return $diffs;
+    }
+
+    public function isIgnoredDiff(Person $person, array $diff): bool
+    {
+        if (!file_exists($this->diffIgnoreStorageFilename)) {
+            return false;
+        }
+
+        $storage = json_decode(file_get_contents($this->diffIgnoreStorageFilename), associative: true);
+
+        if (!isset($storage[$person->getId()])) {
+            return false;
+        }
+
+        return $storage[$person->getId()] === $diff;
+    }
+
+    public function ignoreDiff(Person $person, array $diff): void
+    {
+        $fs = $this->filesystem;
+
+        $dir = dirname($this->diffIgnoreStorageFilename);
+        if (!$fs->exists($dir)) {
+            $fs->mkdir($dir, 0770);
+        }
+
+        if ($fs->exists($this->diffIgnoreStorageFilename)) {
+            $storage = json_decode($fs->readFile($this->diffIgnoreStorageFilename), associative: true);
+        } else {
+            $storage = [];
+        }
+
+        $storage[$person->getId()] = $diff;
+
+        $fs->dumpFile($this->diffIgnoreStorageFilename, json_encode($storage));
     }
 
     private function normalizePhoneNumber(null|string|PhoneNumber $phoneNumber): string

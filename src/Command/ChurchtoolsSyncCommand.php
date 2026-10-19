@@ -128,12 +128,13 @@ class ChurchtoolsSyncCommand extends Command
             $helper = $this->getHelper('question');
             $question = new ChoiceQuestion(
                 'How should the data be synchronized?',
-                [
+                array_filter([
                     'skip',
                     $person ? ($ctPerson ? 'update locally' : 'delete locally') : 'add locally',
                     $ctPerson ? ($person ? 'update churchtools' : 'delete from churchtools') : 'add to churchtools',
+                    $person ? 'ignore this difference' : false,
                     'terminate',
-                ],
+                ]),
                 'skip'
             );
 
@@ -161,6 +162,8 @@ class ChurchtoolsSyncCommand extends Command
                     $deletedChurchToolsPerson = true;
                     $output->writeln("Removal of ChurchTool's person data completed.");
                 }
+            } elseif ($mode === 'ignore this difference') {
+                $this->synchronizer->ignoreDiff($person, $diff);
             } else {
                 $output->writeln('Terminated interactive synchronization.');
                 return 0;
